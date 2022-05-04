@@ -21,7 +21,7 @@ a {
 
 @layer components{
    .topHeaderItem{
-     @apply flex justify-center items-center pl-4 cursor-pointer hover:text-[#ffba00]
+     @apply flex justify-center items-center pl-4 cursor-pointer 
    }
    .topHeaderText{
      @apply text-white text-sm ml-2
