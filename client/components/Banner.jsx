@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Banner = () => {
   return (
-    <div className="px-12  w-full pt-4">
+    <div className="px-10  w-full pt-4">
       <div className="grid gap-2 grid-cols-4 grid-rows-2">
         <div className="col-span-3 row-span-2 relative shadow-xl">
           <Link href="">

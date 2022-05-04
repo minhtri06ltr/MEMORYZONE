@@ -13,7 +13,7 @@ import logo from "../assets/img/logo.webp";
 
 const Header = () => {
   return (
-    <div className="w-screen">
+    <div className="w-full">
       {/* Small banner */}
       <section>
         <div className="w-full">
@@ -31,7 +31,7 @@ const Header = () => {
       </section>
       {/* Top header */}
       <section>
-        <div className="w-full bg-primary px-12 border-b flex justify-between border-[#339f69] py-1.5">
+        <div className="w-full bg-primary px-10 border-b flex justify-between border-[#339f69] py-1.5">
           <div>
             <Link href="">
               <a className="text-sm text-white">
@@ -58,7 +58,7 @@ const Header = () => {
       </section>
       {/*Mid header */}
       <section>
-        <div className="bg-primary py-6 px-12 flex items-center justify-between">
+        <div className="bg-primary py-6 px-10 flex items-center justify-between">
           <div className="mr-16">
             <Link href="">
               <a>
@@ -66,25 +66,25 @@ const Header = () => {
               </a>
             </Link>
           </div>
-          <div className=" px-8 flex-1">
-            <div className="p-0.5 bg-white rounded-md  flex items-center">
+          <div className=" px-6 flex-1">
+            <div className="p-1 bg-white rounded-md  flex items-center">
               <input
                 placeholder="Product you want to find..."
                 type="text"
                 className="  w-full text-sm outline-none border-none px-4"
                 name="search"
               />
-              <button className="bg-secondary px-6 py-3 rounded-md">
+              <button className="bg-secondary px-6 py-2 rounded-md">
                 <SearchIcon width={18} color="white" />
               </button>
             </div>
           </div>
-          <div className="flex">
+          <div className="flex ml-2">
             <div className="flex mr-2 items-center">
               <div className=" p-3 mr-2.5 rounded-full border-2 border-white">
                 <PhoneIcon color="white" width={16} />
               </div>
-              <div className="flex font-bold text-white flex-col text-sm">
+              <div className="flex font-bold text-white flex-col text-xs">
                 <a>(028) 7301 3878 (10 line)</a>
                 <span className="text-[#ffdada] font-normal">
                   Phone:<b className="text-secondary"> 0909 305 350</b>
@@ -95,7 +95,7 @@ const Header = () => {
               <div className=" p-2.5 mr-2.5 rounded-full border-2 border-white">
                 <ShoppingBagIcon color="white" width={20} />
               </div>
-              <div className="flex text-white flex-col text-sm">
+              <div className="flex text-white flex-col text-xs">
                 <span className="font-bold">(0) Product</span>
                 <span className="text-[#ffdada]">Cart</span>
               </div>
@@ -105,14 +105,14 @@ const Header = () => {
       </section>
       {/*Bottom header */}
       <section>
-        <div className="bg-[#393a44] px-12 items-center  flex">
-          <div className="flex justify-center items-center  py-4 px-4  bg-secondary text-white">
+        <div className="bg-[#393a44] px-10 items-center  flex">
+          <div className="flex justify-center items-center shrink-0 py-4 px-4  bg-secondary text-white">
             <ViewListIcon width={24} className="mr-2 mt-1" />
             <span className="font-extrabold text-xl pr-8">
-              Product category
+              Product Category
             </span>
           </div>
-          <ul className="flex flex-1 text-white items-center text-lg ">
+          <ul className="px-6 flex flex-1 text-white items-center text-sm ">
             <li className="bottomHeaderItem">HOME</li>
             <li className="bottomHeaderItem">PAYMENT</li>
             <li className="bottomHeaderItem">INSTALLMENT</li>
