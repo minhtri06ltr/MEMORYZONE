@@ -7,6 +7,7 @@ import {
   SearchIcon,
   PhoneIcon,
   ShoppingBagIcon,
+  ViewListIcon,
 } from "@heroicons/react/solid";
 import logo from "../assets/img/logo.webp";
 
@@ -34,7 +35,7 @@ const Header = () => {
           <div>
             <Link href="">
               <a className="text-sm text-white">
-                Mở cửa: 9h đến 20h từ Thứ 2 đến Chủ Nhật
+                Open: 9am to 8pm from Monday to Sunday
               </a>
             </Link>
           </div>
@@ -57,23 +58,23 @@ const Header = () => {
       </section>
       {/*Mid header */}
       <section>
-        <div className="bg-primary py-6 px-8 flex items-center justify-between">
-          <div>
+        <div className="bg-primary py-6 px-12 flex items-center justify-between">
+          <div className="mr-16">
             <Link href="">
               <a>
                 <Image src={logo} width={178} height={45} />
               </a>
             </Link>
           </div>
-          <div className="bg-white rounded-sm ">
-            <div className="p-0.5 flex items-center">
+          <div className=" px-8 flex-1">
+            <div className="p-0.5 bg-white rounded-md  flex items-center">
               <input
                 placeholder="Product you want to find..."
                 type="text"
                 className="  w-full text-sm outline-none border-none px-4"
                 name="search"
               />
-              <button className="bg-secondary px-7 py-3 rounded-sm">
+              <button className="bg-secondary px-6 py-3 rounded-md">
                 <SearchIcon width={18} color="white" />
               </button>
             </div>
@@ -91,8 +92,8 @@ const Header = () => {
               </div>
             </div>
             <div className="flex items-center">
-              <div className=" p-3 mr-2.5 rounded-full border-2 border-white">
-                <ShoppingBagIcon color="white" width={16} />
+              <div className=" p-2.5 mr-2.5 rounded-full border-2 border-white">
+                <ShoppingBagIcon color="white" width={20} />
               </div>
               <div className="flex text-white flex-col text-sm">
                 <span className="font-bold">(0) Product</span>
@@ -100,6 +101,25 @@ const Header = () => {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+      {/*Bottom header */}
+      <section>
+        <div className="bg-[#393a44] px-12 items-center  flex">
+          <div className="flex justify-center items-center  py-4 px-4  bg-secondary text-white">
+            <ViewListIcon width={24} className="mr-2 mt-1" />
+            <span className="font-extrabold text-xl pr-8">
+              Product category
+            </span>
+          </div>
+          <ul className="flex flex-1 text-white items-center text-lg ">
+            <li className="bottomHeaderItem">HOME</li>
+            <li className="bottomHeaderItem">PAYMENT</li>
+            <li className="bottomHeaderItem">INSTALLMENT</li>
+            <li className="bottomHeaderItem">DELIVERY POLICY</li>
+            <li className="bottomHeaderItem">CONTACT</li>
+            <li className="bottomHeaderItem">LIBRARY</li>
+          </ul>
         </div>
       </section>
     </div>

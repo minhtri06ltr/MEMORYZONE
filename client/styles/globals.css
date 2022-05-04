@@ -19,11 +19,14 @@ a {
   box-sizing: border-box;
 }
 
-@layer components{
-   .topHeaderItem{
-     @apply flex justify-center items-center pl-4 cursor-pointer 
-   }
-   .topHeaderText{
-     @apply text-white text-sm ml-2
-   }
+@layer components {
+  .topHeaderItem {
+    @apply flex justify-center items-center pl-4 cursor-pointer;
+  }
+  .topHeaderText {
+    @apply text-white text-sm ml-2;
+  }
+  .bottomHeaderItem {
+    @apply pl-12 cursor-pointer hover:text-primary;
+  }
 }
