@@ -29,4 +29,14 @@ a {
   .bottomHeaderItem {
     @apply pl-12 cursor-pointer hover:text-primary;
   }
+  .bannerSlideItem {
+    @apply limit-2-line border-t-4 border-transparent font-light cursor-pointer text-base px-2 text-center   flex-1;
+  }
+}
+.limit-2-line {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
 }
