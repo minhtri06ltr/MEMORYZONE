@@ -27,7 +27,7 @@ a {
     @apply text-white text-sm ml-2;
   }
   .bottomHeaderItem {
-    @apply px-4 cursor-pointer truncate hover:text-primary;
+    @apply px-3.5 cursor-pointer truncate hover:text-primary;
   }
   .bannerSlideItem {
     @apply limit-2-line border-t-4 text-text border-transparent font-light cursor-pointer text-base px-2 text-center   flex-1;

@@ -84,9 +84,9 @@ const Header = () => {
               <div className=" p-3 mr-2.5 rounded-full border-2 border-white">
                 <PhoneIcon color="white" width={16} />
               </div>
-              <div className="flex font-bold text-white flex-col text-xs">
-                <a>(028) 7301 3878 (10 line)</a>
-                <span className="text-[#ffdada] font-normal">
+              <div className="flex font-bold  flex-col">
+                <a className="text-white  text-sm">(028) 7301 3878 (10 line)</a>
+                <span className="text-[#ffdada] font-normal text-xs">
                   Phone:<b className="text-secondary"> 0909 305 350</b>
                 </span>
               </div>
@@ -95,9 +95,11 @@ const Header = () => {
               <div className=" p-2.5 mr-2.5 rounded-full border-2 border-white">
                 <ShoppingBagIcon color="white" width={20} />
               </div>
-              <div className="flex text-white flex-col text-xs">
-                <span className="font-bold">(0) Product</span>
-                <span className="text-[#ffdada]">Cart</span>
+              <div className="flex  flex-col ">
+                <span className="font-bold text-white text-sm">
+                  (0) Product
+                </span>
+                <span className="text-[#ffdada] text-xs">Cart</span>
               </div>
             </div>
           </div>
@@ -107,12 +109,12 @@ const Header = () => {
       <section>
         <div className="bg-[#393a44] px-10 items-center  flex">
           <div className="flex justify-center items-center shrink-0 py-4 px-4  bg-secondary text-white">
-            <ViewListIcon width={24} className="mr-2 mt-1" />
-            <span className="font-extrabold text-xl pr-8">
+            <ViewListIcon width={24} className="mr-2 " />
+            <span className="font-extrabold text-lg pr-8">
               Product Category
             </span>
           </div>
-          <ul className="px-6 flex flex-1 text-white items-center text-sm ">
+          <ul className="px-6 flex flex-1 text-white items-center text-base ">
             <li className="bottomHeaderItem">HOME</li>
             <li className="bottomHeaderItem">PAYMENT</li>
             <li className="bottomHeaderItem">INSTALLMENT</li>
