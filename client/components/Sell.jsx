@@ -32,8 +32,10 @@ const Sell = () => {
       </section>
       {/*Main sell */}
       <section>
-        <div className="flex items-start justify-start mt-10">
-          <div className="w-3/4 h-10 grid gap-x-8 gap-y-12 grid-cols-3">
+        <div className="flex mt-10">
+          <div className="w-3/4 grid gap-x-6 h-auto gap-y-12 grid-cols-4">
+            <ProductCard />
+            <ProductCard />
             <ProductCard />
             <ProductCard />
             <ProductCard />
@@ -41,28 +43,18 @@ const Sell = () => {
             <ProductCard />
             <ProductCard />
           </div>
-          <div className="flex-1 ml-6 ">
-            <div className="relative mb-6">
+          <div className="flex-1 ml-8 ">
+            <div className="mb-8">
               <Link href="">
                 <a>
-                  <Image
-                    src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_1_fashion.png?1651552159868"
-                    layout="responsive"
-                    width="100%"
-                    height={84}
-                  />
+                  <img src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_1_fashion.png?1651552159868" />
                 </a>
               </Link>
             </div>
-            <div className="relative">
+            <div className=" ">
               <Link href="">
                 <a>
-                  <Image
-                    src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_2_fashion.png?1651552159868"
-                    layout="responsive"
-                    width="100%"
-                    height={110}
-                  />
+                  <img src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_2_fashion.png?1651552159868" />
                 </a>
               </Link>
             </div>
