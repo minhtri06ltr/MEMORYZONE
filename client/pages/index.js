@@ -1,7 +1,6 @@
+import { Header, Sell, Banner } from "../components/index";
 import Head from "next/head";
-import Banner from "../components/Banner";
-import Header from "../components/Header";
-import Sell from "../components/Sell";
+import { client } from "../lib/client";
 
 const Home = () => {
   return (
@@ -20,3 +19,11 @@ const Home = () => {
 };
 
 export default Home;
+
+export const getServerSideProps = async () => {
+  const queryAllProduct = '*[_type=="product"]';
+  const products = await client.canShare.fetch(queryAllProduct);
+  return {
+    props: products,
+  };
+};

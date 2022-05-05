@@ -17,7 +17,7 @@ const Header = () => {
       {/* Small banner */}
       <section>
         <div className="w-full">
-          <Link href="">
+          <Link href="#">
             <a>
               <Image
                 src="https://app2.jeoway.net/35/images/header/banner10_des.webp"
@@ -33,7 +33,7 @@ const Header = () => {
       <section>
         <div className="w-full bg-primary px-10 border-b flex justify-between border-[#339f69] py-1.5">
           <div>
-            <Link href="">
+            <Link href="#">
               <a className="text-sm text-white">
                 Open: 9am to 8pm from Monday to Sunday
               </a>
@@ -60,7 +60,7 @@ const Header = () => {
       <section>
         <div className="bg-primary py-6 px-10 flex items-center justify-between">
           <div className="mr-16">
-            <Link href="">
+            <Link href="#">
               <a>
                 <Image src={logo} width={178} height={45} />
               </a>

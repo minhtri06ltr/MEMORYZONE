@@ -1,9 +1,9 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
-import Image from "next/image";
 import Link from "next/link";
-import ProductCard from "./ProductCard";
+import { ProductCard } from "./index";
 
-const Sell = () => {
+const Sell = ({data}) => {
+  console.log(data)
   return (
     <div className="p-10 w-full">
       {/*Sell header*/}

@@ -6,7 +6,7 @@ const Banner = () => {
     <div className="px-10  w-full pt-4">
       <div className="grid gap-2 grid-cols-4 grid-rows-2">
         <div className="col-span-3 row-span-2 relative shadow-xl">
-          <Link href="">
+          <Link href="#">
             <a>
               <Image
                 src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/slider1_1.jpg?1651552159868"
@@ -30,7 +30,7 @@ const Banner = () => {
           </div>
         </div>
         <div className="">
-          <Link href="">
+          <Link href="#">
             <a>
               <Image
                 src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_slider_1.jpg?1651552159868"
@@ -43,7 +43,7 @@ const Banner = () => {
           </Link>
         </div>
         <div className="">
-          <Link href="">
+          <Link href="#">
             <a>
               <Image
                 src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_slider_2.jpg?1651552159868"
