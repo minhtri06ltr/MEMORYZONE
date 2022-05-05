@@ -13,6 +13,7 @@ const Banner = () => {
                 width="100%"
                 height={61}
                 layout="responsive"
+                quality={100}
               />
             </a>
           </Link>
@@ -36,6 +37,7 @@ const Banner = () => {
                 width="100%"
                 height="100%"
                 layout="responsive"
+                quality={100}
               />
             </a>
           </Link>
@@ -48,6 +50,7 @@ const Banner = () => {
                 width="100%"
                 height="100%"
                 layout="responsive"
+                quality={100}
               />
             </a>
           </Link>
