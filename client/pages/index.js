@@ -2,7 +2,7 @@ import { Header, Sell, Banner } from "../components/index";
 import Head from "next/head";
 import { client } from "../lib/client";
 
-const Home = () => {
+const Home = ({ products }) => {
   return (
     <>
       <Head>
@@ -12,7 +12,7 @@ const Home = () => {
       </Head>
       <Header />
       <Banner />
-      <Sell />
+      <Sell products={products} />
       <div className=" w-full pb-96 h-70"></div>
     </>
   );
@@ -22,8 +22,9 @@ export default Home;
 
 export const getServerSideProps = async () => {
   const queryAllProduct = '*[_type=="product"]';
-  const products = await client.canShare.fetch(queryAllProduct);
+  const products = await client.fetch(queryAllProduct);
+
   return {
-    props: products,
+    props: { products },
   };
 };

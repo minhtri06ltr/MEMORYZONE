@@ -2,8 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { ProductCard } from "./index";
 
-const Sell = ({data}) => {
-  console.log(data)
+const Sell = ({ products }) => {
   return (
     <div className="p-10 w-full">
       {/*Sell header*/}
@@ -34,25 +33,26 @@ const Sell = ({data}) => {
       <section>
         <div className="flex mt-10">
           <div className="w-3/4 grid gap-x-6 h-auto gap-y-12 grid-cols-4">
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {products?.map((product) => (
+              <ProductCard
+                key={product._id}
+                name={product.name}
+                details={product.details}
+                price={product.price}
+                img={product.image[0]}
+              />
+            ))}
           </div>
           <div className="flex-1 ml-8 ">
             <div className="mb-8">
-              <Link href="">
+              <Link href="#">
                 <a>
                   <img src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_1_fashion.png?1651552159868" />
                 </a>
               </Link>
             </div>
             <div className=" ">
-              <Link href="">
+              <Link href="#">
                 <a>
                   <img src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_2_fashion.png?1651552159868" />
                 </a>
