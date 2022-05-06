@@ -71,7 +71,7 @@ const Header = () => {
               <input
                 placeholder="Product you want to find..."
                 type="text"
-                className="  w-full text-sm outline-none border-none px-4"
+                className=" text-black w-full text-sm outline-none border-none px-4"
                 name="search"
               />
               <button className="bg-secondary px-6 py-2 rounded-md">

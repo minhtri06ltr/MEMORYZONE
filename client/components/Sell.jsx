@@ -1,5 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import Link from "next/link";
+import Image from "next/image";
 import { ProductCard } from "./index";
 
 const Sell = ({ products }) => {
@@ -40,22 +41,19 @@ const Sell = ({ products }) => {
                 details={product.details}
                 price={product.price}
                 img={product.image[0]}
+                slug={product.slug}
               />
             ))}
           </div>
           <div className="flex-1 ml-8 ">
-            <div className="mb-8">
+            <div className="mb-8 ">
               <Link href="#">
-                <a>
-                  <img src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_1_fashion.png?1651552159868" />
-                </a>
+                <img src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_1_fashion.png?1651552159868" />
               </Link>
             </div>
-            <div className=" ">
+            <div className="relative">
               <Link href="#">
-                <a>
-                  <img src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_2_fashion.png?1651552159868" />
-                </a>
+                <img src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_2_fashion.png?1651552159868" />
               </Link>
             </div>
           </div>

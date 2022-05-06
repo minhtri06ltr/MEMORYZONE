@@ -3,11 +3,11 @@ import Image from "next/image";
 import { numberWithCommas } from "../utils/format";
 import { urlFor } from "../lib/client";
 
-const ProductCard = ({ name, price, img }) => {
+const ProductCard = ({ name, price, img, slug }) => {
   return (
-    <div className="">
-      <div className="relative aspect-square">
-        <Link href="#">
+    <div className="hover:scale-110 transition ease-out duration-500 ">
+      <div className="relative aspect-square ">
+        <Link href={`/product/${slug.current}`}>
           <a>
             <Image
               src={urlFor(img).url()}
@@ -19,7 +19,7 @@ const ProductCard = ({ name, price, img }) => {
         </Link>
       </div>
       <Link href="#">
-        <a className="text-text leading-none hover:text-primary limit-3-line my-2">
+        <a className="text-text cursor-pointer font-light leading-none hover:text-primary limit-3-line my-2">
           {name}
         </a>
       </Link>
