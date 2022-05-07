@@ -27,7 +27,7 @@ const ProductCard = ({ name, price, img, slug }) => {
         <span className="text-primary text-lg font-bold mr-2">
           {numberWithCommas(price)}$
         </span>
-        <span className="text-[#888888] line-through text-sm ">2.359$</span>
+        <span className="text-gray line-through text-sm ">2.359$</span>
       </div>
     </div>
   );
