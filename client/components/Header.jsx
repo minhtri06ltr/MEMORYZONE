@@ -58,9 +58,9 @@ const Header = () => {
       </section>
       {/*Mid header */}
       <section>
-        <div className="bg-primary py-6 px-10 flex items-center justify-between">
+        <div className="bg-primary py-4 px-10 flex items-center justify-between">
           <div className="mr-16">
-            <Link href="#">
+            <Link href="/">
               <a>
                 <Image src={logo} width={178} height={45} />
               </a>
@@ -108,7 +108,7 @@ const Header = () => {
       {/*Bottom header */}
       <section>
         <div className="bg-[#393a44] px-10 items-center  flex">
-          <div className="flex justify-center items-center shrink-0 py-4 px-4  bg-secondary text-white">
+          <div className="flex justify-center items-center shrink-0 py-3.5 px-4  bg-secondary text-white">
             <ViewListIcon width={24} className="mr-2 " />
             <span className="font-extrabold text-lg pr-8">
               Product Category

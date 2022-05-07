@@ -45,6 +45,7 @@ const Sell = ({ products }) => {
               />
             ))}
           </div>
+          {/*sell banner */}
           <div className="flex-1 ml-8 ">
             <div className="mb-8 ">
               <Link href="#">

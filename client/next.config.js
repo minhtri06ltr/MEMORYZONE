@@ -2,7 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["app2.jeoway.net", "bizweb.sapocdn.net", "cdn.sanity.io"],
+    domains: [
+      "app2.jeoway.net",
+      "bizweb.sapocdn.net",
+      "cdn.sanity.io",
+      "bizweb.dktcdn.net",
+    ],
   },
 };
 
