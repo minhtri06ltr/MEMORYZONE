@@ -2,8 +2,10 @@ import Image from "next/image";
 import { client, urlFor } from "../../lib/client";
 import { StarIcon, CheckCircleIcon } from "@heroicons/react/solid";
 import { numberWithCommas } from "../../utils/format";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 
 const ProductDetails = ({ products, productBySlug }) => {
+  console.log(productBySlug);
   return (
     <div className="">
       {/*Product details header */}
@@ -20,12 +22,38 @@ const ProductDetails = ({ products, productBySlug }) => {
       <div className="flex px-10 items-start py-12">
         {/*left */}
         <div className="flex items-start justify-start   w-9/12">
-          <div className="flex-1 ">
+          <div className="flex-1  ">
             <div className="relative aspect-square">
               <Image
                 layout="fill"
                 quality={100}
-                src={urlFor(productBySlug.image[0]).url()}
+                src={urlFor(productBySlug.image[1]).url()}
+              />
+            </div>
+            <div className="flex mt-4 items-center  justify-center ">
+              <ChevronLeftIcon
+                width={35}
+                height={35}
+                className="cursor-pointer"
+              />
+              <div className="flex items-center  ">
+                {productBySlug.image.map(
+                  (img, index) =>
+                    index > 0 &&
+                    index < 4 && (
+                      <div
+                        key={index}
+                        className="relative aspect-square mx-1 cursor-pointer hover:border-primary h-20 w-20 border border-[#ccc]"
+                      >
+                        <Image src={urlFor(img).url()} layout="fill" />
+                      </div>
+                    )
+                )}
+              </div>
+              <ChevronRightIcon
+                width={35}
+                height={35}
+                className="cursor-pointer"
               />
             </div>
           </div>
@@ -75,11 +103,8 @@ const ProductDetails = ({ products, productBySlug }) => {
                   `Screen: 15.6'' IPS FHD`,
                   `Warranty for 1 year.`,
                 ].map((item, index) => (
-                  <>
-                    <li
-                      className="text-gray text-base flex items-center"
-                      key={index}
-                    >
+                  <div key={index}>
+                    <li className="text-gray text-base flex items-center">
                       <CheckCircleIcon
                         className="mr-2 text-primary"
                         height={22}
@@ -87,7 +112,7 @@ const ProductDetails = ({ products, productBySlug }) => {
                       />
                       {item}
                     </li>
-                  </>
+                  </div>
                 ))}
                 <li className="text-gray flex items-center">
                   <CheckCircleIcon
@@ -96,7 +121,9 @@ const ProductDetails = ({ products, productBySlug }) => {
                     width={22}
                   />
                   Status:
-                  <span className="text-primary">&nbsp;Ready stock</span>
+                  <span className="text-primary font-semibold">
+                    &nbsp;IN STOCK
+                  </span>
                 </li>
               </ul>
             </div>
@@ -111,7 +138,7 @@ const ProductDetails = ({ products, productBySlug }) => {
                     e.preventDefault();
                   }
                 }}
-                Defaultvalue={1}
+                defaultValue={1}
                 type="text"
                 className="w-16 text-center outline-none border-none px-4"
               />
@@ -149,13 +176,15 @@ const ProductDetails = ({ products, productBySlug }) => {
               <div className=" space-y-2">
                 <div className="flex space-x-2 ">
                   <button className="flex-1 bg-primary rounded-sm py-2">
-                    <span className="block text-white font-bold">BUY NOW</span>
+                    <span className="block text-white font-bold leading-5">
+                      BUY NOW
+                    </span>
                     <span className="block text-white text-sm">
                       Free local delivery
                     </span>
                   </button>
                   <button className="flex-1 bg-[#c80606] rounded-sm py-2">
-                    <span className="block text-white font-bold">
+                    <span className="block text-white font-bold leading-5">
                       INSTALLMENT
                     </span>
                     <span className="block text-white text-sm">

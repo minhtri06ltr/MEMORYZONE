@@ -1,6 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import Link from "next/link";
-import Image from "next/image";
 import { ProductCard } from "./index";
 
 const Sell = ({ products }) => {
