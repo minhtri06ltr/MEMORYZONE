@@ -2,59 +2,103 @@ import Image from "next/image";
 import { client, urlFor } from "../../lib/client";
 import { StarIcon, CheckCircleIcon } from "@heroicons/react/solid";
 import { numberWithCommas } from "../../utils/format";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import { useRef, useState } from "react";
 
-const ProductDetails = ({ products, productBySlug }) => {
-  console.log(productBySlug);
+const ProductDetails = ({ productBySlug }) => {
+  const [pixel, setPixel] = useState(0);
+  const [slideNumber, setSlideNumber] = useState(0);
+  const [index, setIndex] = useState(1);
+  console.log(slideNumber);
+
+  const listRef = useRef();
+  const handleSlide = (direction) => {
+    if (direction === "right" && slideNumber < productBySlug.image.length - 4) {
+      console.log("right");
+      listRef.current.style.transform = `translateX(-${pixel + 92}px)`;
+      setPixel(pixel + 92);
+      setSlideNumber(slideNumber + 1);
+    }
+    if (direction === "left" && slideNumber > 0) {
+      console.log("left");
+      listRef.current.style.transform = `translateX(-${pixel - 92}px)`;
+      setPixel(pixel - 92);
+      setSlideNumber(slideNumber - 1);
+    }
+  };
   return (
     <div className="">
       {/*Product details header */}
-      <seciton>
+      <section>
         <div className="border-b border-[#e5e5e5]">
           <span className="px-10 text-primary text-base py-4 limit-1-line block">
             Laptop Gaming Asus ROG Strix G15 G513RW-HQ223W (Ryzen 7 6800H, RTX
             3070 Ti 8GB, Ram 16GB DDR5, SSD 1TB, 15.6 Inch IPS 165Hz WQHD)
           </span>
         </div>
-      </seciton>
+      </section>
       {/*main product details */}
 
       <div className="flex px-10 items-start py-12">
         {/*left */}
         <div className="flex items-start justify-start   w-9/12">
-          <div className="flex-1  ">
-            <div className="relative aspect-square">
+          <div className="flex-1 overflow-hidden ">
+            <div className="relative aspect-square cursor-zoom-in">
               <Image
                 layout="fill"
                 quality={100}
-                src={urlFor(productBySlug.image[1]).url()}
+                src={urlFor(
+                  productBySlug.image && productBySlug.image[index]
+                ).url()}
               />
             </div>
-            <div className="flex mt-4 items-center  justify-center ">
-              <ChevronLeftIcon
-                width={35}
-                height={35}
-                className="cursor-pointer"
-              />
-              <div className="flex items-center  ">
-                {productBySlug.image.map(
-                  (img, index) =>
-                    index > 0 &&
-                    index < 4 && (
-                      <div
-                        key={index}
-                        className="relative aspect-square mx-1 cursor-pointer hover:border-primary h-20 w-20 border border-[#ccc]"
-                      >
-                        <Image src={urlFor(img).url()} layout="fill" />
-                      </div>
-                    )
-                )}
+            <div className="flex mt-4 items-center relative justify-center ">
+              {productBySlug.image.length > 4 && (
+                <ChevronLeftIcon
+                  width={24}
+                  height={24}
+                  color={slideNumber < 1 && "#ccc"}
+                  onClick={() => {
+                    handleSlide("left");
+                  }}
+                  className="cursor-pointer z-10 top-1/2 left-0 -translate-y-1/2 translate-x-1/2 absolute"
+                />
+              )}
+              <div className="overflow-hidden w-[74%]">
+                <div
+                  ref={listRef}
+                  className={`flex items-center w-max transition ease-out duration-300  
+                  `}
+                >
+                  {productBySlug.image.map(
+                    (img, i) =>
+                      i > 0 && (
+                        <div
+                          onMouseDown={() => setIndex(i)}
+                          key={i}
+                          className={`relative duration-700 ease-in-out  aspect-square mx-1.5  cursor-pointer hover:border-primary h-20 w-20 border ${
+                            i === index ? "border-primary" : "border-[#ccc]"
+                          } `}
+                        >
+                          <Image src={urlFor(img).url()} layout="fill" />
+                        </div>
+                      )
+                  )}
+                </div>
               </div>
-              <ChevronRightIcon
-                width={35}
-                height={35}
-                className="cursor-pointer"
-              />
+              {productBySlug.image.length > 4 && (
+                <ChevronRightIcon
+                  width={24}
+                  height={24}
+                  color={
+                    slideNumber >= productBySlug.image.length - 4 && "#ccc"
+                  }
+                  onClick={() => {
+                    handleSlide("right");
+                  }}
+                  className="cursor-pointer top-1/2 z-10 -translate-y-1/2 -translate-x-1/2 right-0  absolute"
+                />
+              )}
             </div>
           </div>
           <div className="w-[58%] pl-8">
