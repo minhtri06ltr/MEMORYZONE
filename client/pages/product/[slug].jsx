@@ -4,6 +4,7 @@ import { StarIcon, CheckCircleIcon } from "@heroicons/react/solid";
 import { numberWithCommas } from "../../utils/format";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useRef, useState } from "react";
+import ReactImageMagnify from "react-image-magnify";
 
 const ProductDetails = ({ productBySlug }) => {
   const [pixel, setPixel] = useState(0);
@@ -26,6 +27,7 @@ const ProductDetails = ({ productBySlug }) => {
       setSlideNumber(slideNumber - 1);
     }
   };
+
   return (
     <div className="">
       {/*Product details header */}
@@ -42,8 +44,8 @@ const ProductDetails = ({ productBySlug }) => {
       <div className="flex px-10 items-start py-12">
         {/*left */}
         <div className="flex items-start justify-start   w-9/12">
-          <div className="flex-1 overflow-hidden ">
-            <div className="relative aspect-square cursor-zoom-in">
+          <div className="flex-1  overflow-hidden ">
+            <div className="relative aspect-square">
               <Image
                 layout="fill"
                 quality={100}
@@ -57,7 +59,7 @@ const ProductDetails = ({ productBySlug }) => {
                 <ChevronLeftIcon
                   width={24}
                   height={24}
-                  color={slideNumber < 1 && "#ccc"}
+                  color={slideNumber < 1 ? "#ccc" : undefined}
                   onClick={() => {
                     handleSlide("left");
                   }}
@@ -91,7 +93,9 @@ const ProductDetails = ({ productBySlug }) => {
                   width={24}
                   height={24}
                   color={
-                    slideNumber >= productBySlug.image.length - 4 && "#ccc"
+                    slideNumber >= productBySlug.image.length - 4
+                      ? "#ccc"
+                      : undefined
                   }
                   onClick={() => {
                     handleSlide("right");
