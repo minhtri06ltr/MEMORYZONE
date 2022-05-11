@@ -4,7 +4,6 @@ import { StarIcon, CheckCircleIcon } from "@heroicons/react/solid";
 import { numberWithCommas } from "../../utils/format";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useRef, useState } from "react";
-import ReactImageMagnify from "react-image-magnify";
 
 const ProductDetails = ({ productBySlug }) => {
   const [pixel, setPixel] = useState(0);
