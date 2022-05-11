@@ -1,13 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 a {
@@ -24,7 +23,7 @@ a {
     @apply flex justify-center items-center pl-4 cursor-pointer;
   }
   .topHeaderText {
-    @apply text-white text-sm ml-2;
+    @apply text-white text-xs ml-1.5 mt-1;
   }
   .bottomHeaderItem {
     @apply px-3.5 cursor-pointer truncate hover:text-primary;
@@ -34,6 +33,12 @@ a {
   }
   .sellItem {
     @apply text-base font-light px-2 cursor-pointer hover:text-primary text-text;
+  }
+  .cartRow {
+    @apply border border-[#ebebeb] text-base overflow-hidden break-normal p-4 align-middle text-center text-[#363636];
+  }
+  .cartPrice {
+    @apply text-primary font-semibold;
   }
 }
 @layer utilities {
@@ -60,13 +65,5 @@ a {
   }
   .rating:hover ~ svg {
     color: gold;
-  }
-  .img-zoom-lens {
-    position: absolute;
-    border: 1px solid black;
-    /*set the size of the lens:*/
-    width: 40px;
-    height: 40px;
-    z-index: 10;
   }
 }

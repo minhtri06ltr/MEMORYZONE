@@ -18,7 +18,7 @@ const ProductCard = ({ name, price, img, slug }) => {
           </a>
         </Link>
       </div>
-      <Link href="#">
+      <Link href={`/product/${slug.current}`}>
         <a className="text-text cursor-pointer font-light leading-none hover:text-primary limit-3-line my-2">
           {name}
         </a>

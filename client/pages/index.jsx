@@ -1,13 +1,13 @@
-import { Sell, Banner } from "../components/index";
 import { client } from "../lib/client";
+import { Layout, Sell, Banner } from "../components";
 
 const Home = ({ products }) => {
   return (
-    <>
+    <Layout title="Home | Memoryzone" description="Memoryzone homepage">
       <Banner />
       <Sell products={products} />
       <div className=" w-full pb-96 h-70"></div>
-    </>
+    </Layout>
   );
 };
 

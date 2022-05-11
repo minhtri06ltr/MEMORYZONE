@@ -1,12 +1,12 @@
 import Head from "next/head";
 import Header from "./Header";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, title, description }) => {
   return (
     <>
       <Head>
-        <title>MEMORYZONE</title>
-        <meta name="description" content="MEMORYZONE" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header>
