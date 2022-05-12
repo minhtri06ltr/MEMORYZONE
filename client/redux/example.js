@@ -14,6 +14,9 @@ export const testSlice = createSlice({
     loading: false,
     error: false,
   },
+  reducers: {
+    createPhoto(state, action) {},
+  },
   extraReducers: {
     //waiting api response
     [getPhotos.pending]: (state) => {

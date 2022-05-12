@@ -5,12 +5,17 @@ import { numberWithCommas } from "../../utils/format";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useRef, useState } from "react";
 import { Layout, Path } from "../../components";
+import { addToCart } from "../../redux/cart";
+import { useDispatch } from "react-redux";
+import { isNumber } from "../../utils/validate";
 
 const ProductDetails = ({ productBySlug }) => {
+  const dispatch = useDispatch();
   const [pixel, setPixel] = useState(0);
   const [slideNumber, setSlideNumber] = useState(0);
   const [index, setIndex] = useState(1);
-
+  const [quantity, setQuantity] = useState(1);
+  console.log(quantity, typeof quantity);
   const listRef = useRef();
   const handleSlide = (direction) => {
     if (direction === "right" && slideNumber < productBySlug.image.length - 4) {
@@ -24,7 +29,9 @@ const ProductDetails = ({ productBySlug }) => {
       setSlideNumber(slideNumber - 1);
     }
   };
-
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
   return (
     <Layout title={productBySlug.name} description={productBySlug.name}>
       <div className="">
@@ -167,20 +174,34 @@ const ProductDetails = ({ productBySlug }) => {
               </div>
               <span className="text-base block text-gray my-2">Quantity:</span>
               <div className="border my-4 flex items-center border-[#ccc] rounded-sm w-fit">
-                <button className="border-r border-[#ccc] font-medium text-2xl px-4 py-1">
+                <button
+                  onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+                  className="border-r border-[#ccc] font-medium text-2xl px-4 py-1"
+                >
                   -
                 </button>
                 <input
-                  onKeyPress={(e) => {
-                    if (!/[0-9]/.test(e.key)) {
-                      e.preventDefault();
+                  value={quantity}
+                  onChange={(e) => {
+                    const re = /^[0-9\b]+$/;
+
+                    // if value is not blank, then test the regex
+
+                    if (e.target.value === "" || re.test(e.target.value)) {
+                      if (isNumber(parseInt(e.target.value))) {
+                        setQuantity(parseInt(e.target.value));
+                      } else {
+                        setQuantity(1);
+                      }
                     }
                   }}
-                  defaultValue={1}
                   type="text"
-                  className="w-16 text-center outline-none border-none px-4"
+                  className="w-16  text-center outline-none border-none px-4"
                 />
-                <button className="border-l border-[#ccc] font-medium text-2xl px-4 py-1">
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="border-l border-[#ccc] font-medium text-2xl px-4 py-1"
+                >
                   +
                 </button>
               </div>
@@ -213,7 +234,10 @@ const ProductDetails = ({ productBySlug }) => {
                 </div>
                 <div className=" space-y-2">
                   <div className="flex space-x-2 ">
-                    <button className="flex-1 bg-primary rounded-sm py-2">
+                    <button
+                      className="flex-1 bg-primary rounded-sm py-2"
+                      onClick={() => handleAddToCart(productBySlug)}
+                    >
                       <span className="block text-white font-bold leading-5">
                         BUY NOW
                       </span>

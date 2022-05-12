@@ -10,6 +10,15 @@ const cartSlice = createSlice({
     total: 0,
     error: false,
   },
+  reducers: {
+    addToCart(state, action) {
+      console.log("call function");
+      console.log(state, action);
+      state.quantity += 1;
+      state.products.push(action.payload);
+    },
+  },
   extraReducers: {},
 });
 export default cartSlice.reducer;
+export const { addToCart } = cartSlice.actions;
