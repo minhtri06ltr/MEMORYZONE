@@ -12,13 +12,47 @@ const cartSlice = createSlice({
   },
   reducers: {
     addToCart(state, action) {
-      console.log("call function");
-      console.log(state, action);
-      state.quantity += 1;
-      state.products.push(action.payload);
+      let newProduct = true;
+      state.total += action.payload.quantity * action.payload.price;
+      state.products.map((item) => {
+        if (item.id === action.payload.id) {
+          item.quantity += action.payload.quantity;
+          newProduct = false;
+        }
+      });
+      if (newProduct) {
+        state.quantity += 1;
+        state.products.push(action.payload);
+      }
+    },
+    increaseProduct(state, action) {
+      let price = 0;
+      state.products.map((item) => {
+        if (item.id === action.payload) {
+          item.quantity += 1;
+          price = item.price;
+        }
+      });
+      state.total += price;
+    },
+    decreaseProduct(state, action) {
+      let price = 0;
+      state.products.map((item) => {
+        if (item.id === action.payload) {
+          item.quantity -= 1;
+          price = item.price;
+        }
+      });
+      state.total -= price;
+    },
+    deleteProduct(state, action) {
+      state.products = state.products.filter((item) => {
+        return item.id !== action.payload;
+      });
     },
   },
   extraReducers: {},
 });
 export default cartSlice.reducer;
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, decreaseProduct, deleteProduct, increaseProduct } =
+  cartSlice.actions;
