@@ -8,14 +8,16 @@ import { Layout, Path } from "../../components";
 import { addToCart } from "../../redux/cart";
 import { useDispatch } from "react-redux";
 import { isNumber } from "../../utils/validate";
+import { useRouter } from "next/router";
 
 const ProductDetails = ({ productBySlug }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [pixel, setPixel] = useState(0);
   const [slideNumber, setSlideNumber] = useState(0);
   const [index, setIndex] = useState(1);
   const [quantity, setQuantity] = useState(1);
-  console.log(quantity, typeof quantity);
+
   const listRef = useRef();
   const handleSlide = (direction) => {
     if (direction === "right" && slideNumber < productBySlug.image.length - 4) {
@@ -30,7 +32,17 @@ const ProductDetails = ({ productBySlug }) => {
     }
   };
   const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
+    dispatch(
+      addToCart({
+        name: product.name,
+        id: product._id,
+        img: product.image[0],
+        price: product.price,
+        quantity: quantity,
+        slug: product.slug.current,
+      })
+    );
+    router.push("/cart");
   };
   return (
     <Layout title={productBySlug.name} description={productBySlug.name}>
