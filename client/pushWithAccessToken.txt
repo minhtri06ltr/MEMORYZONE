@@ -1,1 +1,1 @@
-git push https://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@github.com/minhtri06ltr/MEMORYZONE.git
+git push https://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@github.com/minhtri06ltr/MEMORYZONE.git

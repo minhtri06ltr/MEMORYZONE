@@ -1,4 +1,4 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { ProductCard } from "./index";
 
@@ -19,10 +19,10 @@ const Sell = ({ products }) => {
             <li className="sellItem">Laptop Dell</li>
             <li className="sellItem">See All</li>
             <div className="text-[#d5d5d5] ml-2 relative flex items-center">
-              <ChevronLeftIcon width={35} className="mr-4" />
+              <ChevronLeftIcon width={30} className="cursor-pointer mr-6" />
               <ChevronRightIcon
-                width={35}
-                className="absolute -right-1.5"
+                width={30}
+                className="cursor-pointer absolute right-0"
                 color="#c4c4c4"
               />
             </div>
@@ -32,7 +32,7 @@ const Sell = ({ products }) => {
       {/*Main sell */}
       <section>
         <div className="flex mt-10">
-          <div className="w-3/4 grid gap-x-6 h-auto gap-y-12 grid-cols-4">
+          <div className="w-3/4 grid gap-x-4 h-auto gap-y-6 grid-cols-4">
             {products?.map((product) => (
               <ProductCard
                 key={product._id}

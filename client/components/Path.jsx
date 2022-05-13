@@ -15,7 +15,7 @@ const Path = ({ path }) => {
                       index === path.length - 1
                         ? "text-primary  cursor-default pointer-events-none"
                         : "text-[#333333] cursor-pointer"
-                    }  text-base   `}
+                    }  text-sm   `}
                   >
                     {item}
                   </span>
@@ -25,7 +25,7 @@ const Path = ({ path }) => {
                 )}
               </>
             ) : (
-              <span className=" text-primary  text-base  limit-1-line block">
+              <span className=" text-primary  text-sm  limit-1-line block">
                 {item}
               </span>
             )}

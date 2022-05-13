@@ -5,7 +5,13 @@ import { numberWithCommas } from "../utils/format";
 import { useDispatch, useSelector } from "react-redux";
 import { urlFor } from "../lib/client";
 import Link from "next/link";
-import { decreaseProduct, increaseProduct, deleteProduct } from "../redux/cart";
+import {
+  decreaseProduct,
+  increaseProduct,
+  deleteProduct,
+  onChangeQuantity,
+} from "../redux/cart";
+import { isNumber } from "../utils/validate";
 
 const cart = () => {
   const dispatch = useDispatch();
@@ -15,11 +21,11 @@ const cart = () => {
     <Layout title="Cart | Memoryzone" description="Memoryzone personal cart">
       <Path path={["Home", "Cart"]} />
       <div className="px-10">
-        <span className="block text-[#323c3f] text-4xl my-12 font-semibold">
+        <span className="block text-[#323c3f] text-3xl mt-12 mb-4 font-semibold">
           Cart
         </span>
-        <div className="">
-          {cartItems.products.length > 0 && (
+        {cartItems.products.length > 0 ? (
+          <div className="my-8">
             <table className="border m-x-auto m-y-0 border-[#ebebeb] border-collapse w-full">
               <thead>
                 <tr>
@@ -42,12 +48,14 @@ const cart = () => {
                   <tr key={index}>
                     <td className=" cartRow ">
                       <Link href={`/product/${item.slug}`}>
-                        <Image
-                          className="cursor-pointer"
-                          src={urlFor(item.img).url()}
-                          width={98}
-                          height={98}
-                        />
+                        <a>
+                          <Image
+                            className="cursor-pointer"
+                            src={urlFor(item.img).url()}
+                            width={98}
+                            height={98}
+                          />
+                        </a>
                       </Link>
                     </td>
                     <td className=" cartRow">{item.name}</td>
@@ -66,9 +74,24 @@ const cart = () => {
                           -
                         </button>
                         <input
-                          onKeyPress={(e) => {
-                            if (!/[0-9]/.test(e.key)) {
-                              e.preventDefault();
+                          onChange={(e) => {
+                            const re = /^[0-9\b]+$/;
+                            if (
+                              e.target.value === "" ||
+                              re.test(e.target.value)
+                            ) {
+                              if (isNumber(parseInt(e.target.value))) {
+                                dispatch(
+                                  onChangeQuantity({
+                                    quantity: parseInt(e.target.value),
+                                    id: item.id,
+                                  })
+                                );
+                              } else {
+                                dispatch(
+                                  onChangeQuantity({ quantity: 1, id: item.id })
+                                );
+                              }
                             }
                           }}
                           value={item.quantity}
@@ -88,10 +111,7 @@ const cart = () => {
                     </td>
                     <td className=" cartRow">
                       <XIcon
-                        onClick={() => {
-                          dispatch(deleteProduct(item.id));
-                          console.log("delete");
-                        }}
+                        onClick={() => dispatch(deleteProduct(item.id))}
                         className="inline-block cursor-pointer"
                         width={15}
                         height={15}
@@ -109,16 +129,28 @@ const cart = () => {
                 </tr>
               </tbody>
             </table>
-          )}
-        </div>
-        <div className="flex items-center justify-end my-6">
-          <button className="text-sm font-semibold bg-[#3d4356] text-white rounded-sm px-10 py-2 mr-3">
-            KEEP SHOPPING
-          </button>
-          <button className="text-sm font-semibold bg-primary border border-primary hover:text-primary hover:bg-white text-white rounded-sm px-10 py-2">
-            MAKE PAYMENTS
-          </button>
-        </div>
+
+            <div className="flex items-center justify-end my-6">
+              <button className="text-sm font-semibold bg-[#3d4356] text-white rounded-sm px-10 py-2 mr-3">
+                KEEP SHOPPING
+              </button>
+              <button className="text-sm font-semibold bg-primary border border-primary hover:text-primary hover:bg-white text-white rounded-sm px-10 py-2">
+                MAKE PAYMENTS
+              </button>
+            </div>
+          </div>
+        ) : (
+          <span className="block text-text text-sm">
+            There are no products in the shopping cart. Return to{" "}
+            <Link href="/">
+              <span className="hover:text-primary cursor-pointer">
+                the store
+              </span>
+            </Link>{" "}
+            to continue shopping.
+          </span>
+        )}
+        <div className="h-[2000px]"></div>
       </div>
     </Layout>
   );
