@@ -131,19 +131,19 @@ const ProductDetails = ({ productBySlug }) => {
                     />
                   ))}
                 </div>
-                <span className="text-[#055eff] ml-2">
+                <span className="text-[#055eff] text-sm ml-2">
                   Be the first to review
                 </span>
               </div>
               <div>
-                <span className="text-text">Trademake: </span>
-                <span className="text-primary ">Gigabyte</span>
+                <span className="text-text text-sm">Trademake: </span>
+                <span className="text-primary  text-sm">Gigabyte</span>
                 <div className="w-[1px] h-3.5 -mb-0.5 mx-2 inline-block bg-text"></div>
-                <span className="text-text  ">Status: </span>
-                <span className="text-primary">Out of stock</span>
+                <span className="text-text text-sm ">Status: </span>
+                <span className="text-primary text-sm">Out of stock</span>
               </div>
               <div className="my-1.5">
-                <span className="text-primary text-4xl font-bold ">
+                <span className="text-primary text-3xl font-bold ">
                   {numberWithCommas(productBySlug.price)}$
                 </span>
                 <span className="ml-4 text-lg line-through text-gray">
@@ -161,11 +161,11 @@ const ProductDetails = ({ productBySlug }) => {
                     `Warranty for 1 year.`,
                   ].map((item, index) => (
                     <div key={index}>
-                      <li className="text-gray text-base flex items-center">
+                      <li className="text-gray text-sm flex items-center">
                         <CheckCircleIcon
                           className="mr-2 text-primary"
-                          height={22}
-                          width={22}
+                          height={20}
+                          width={20}
                         />
                         {item}
                       </li>
@@ -178,17 +178,17 @@ const ProductDetails = ({ productBySlug }) => {
                       width={22}
                     />
                     Status:
-                    <span className="text-primary font-semibold">
+                    <span className="text-primary text-sm font-semibold">
                       &nbsp;IN STOCK
                     </span>
                   </li>
                 </ul>
               </div>
-              <span className="text-base block text-gray my-2">Quantity:</span>
+              <span className="text-sm block text-gray my-2">Quantity:</span>
               <div className="border my-4 flex items-center border-[#ccc] rounded-sm w-fit">
                 <button
                   onClick={() => quantity > 1 && setQuantity(quantity - 1)}
-                  className="border-r border-[#ccc] font-medium text-2xl px-4 py-1"
+                  className="border-r border-[#ccc] font-medium text-3xl px-4 py-1"
                 >
                   -
                 </button>
@@ -196,9 +196,6 @@ const ProductDetails = ({ productBySlug }) => {
                   value={quantity}
                   onChange={(e) => {
                     const re = /^[0-9\b]+$/;
-
-                    // if value is not blank, then test the regex
-
                     if (e.target.value === "" || re.test(e.target.value)) {
                       if (isNumber(parseInt(e.target.value))) {
                         setQuantity(parseInt(e.target.value));
@@ -208,11 +205,11 @@ const ProductDetails = ({ productBySlug }) => {
                     }
                   }}
                   type="text"
-                  className="w-16  text-center outline-none border-none px-4"
+                  className="w-16  text-center text-base outline-none border-none px-4"
                 />
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className="border-l border-[#ccc] font-medium text-2xl px-4 py-1"
+                  className="border-l border-[#ccc] font-medium text-xl px-4 py-1"
                 >
                   +
                 </button>
@@ -226,7 +223,7 @@ const ProductDetails = ({ productBySlug }) => {
                       width={37}
                     />
                   </div>
-                  <span className="text-[#393a44] w-[90%] pl-4 font-bold">
+                  <span className="text-[#393a44] text-base w-[90%] pl-4 font-bold">
                     Preferential conversion fee for VISA and Master installments
                     from only 1.8% for a 6-month term.
                   </span>
@@ -239,7 +236,7 @@ const ProductDetails = ({ productBySlug }) => {
                       width={37}
                     />
                   </div>
-                  <span className="text-[#393a44] w-[90%] pl-4 font-bold">
+                  <span className="text-[#393a44] text-base w-[90%] pl-4 font-bold">
                     Free payment via Visa, Master, JCB, Union Pay, Amex (No
                     hidden fees).
                   </span>
