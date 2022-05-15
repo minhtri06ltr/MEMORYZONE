@@ -39,16 +39,19 @@ const Header = () => {
           </div>
 
           <div className="flex justify-evenly items-center">
+            <Link href="/account/login">
+              <div className="topHeaderItem">
+                <UserIcon width={18} className="text-inherit" />
+                <span className="topHeaderText">Account</span>
+              </div>
+            </Link>
             <div className="topHeaderItem">
-              <UserIcon width={18} color="white" />
-              <span className="topHeaderText">Account</span>
-            </div>
-            <div className="topHeaderItem">
-              <StarIcon width={18} className="mt-0.5" color="white" />
+              <StarIcon width={18} className="mt-0.5 text-inherit" />
               <span className="topHeaderText">Hot Promotion</span>
             </div>
+
             <div className="topHeaderItem">
-              <LocationMarkerIcon width={18} color="white" />
+              <LocationMarkerIcon width={18} className="text-inherit" />
               <span className="topHeaderText">Shop System</span>
             </div>
           </div>
@@ -83,7 +86,9 @@ const Header = () => {
                 <PhoneIcon color="white" width={16} />
               </div>
               <div className="flex font-bold  flex-col">
-                <a className="text-white  text-sm">(028) 7301 3878 (10 line)</a>
+                <a className="text-white hover:text-secondary cursor-pointer  text-sm">
+                  (028) 7301 3878 (10 line)
+                </a>
                 <span className="text-[#ffdada] font-normal text-xs">
                   Phone:<b className="text-secondary"> 0909 305 350</b>
                 </span>
