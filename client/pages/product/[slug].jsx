@@ -56,6 +56,7 @@ const ProductDetails = ({ productBySlug }) => {
             <div className="flex-1  overflow-hidden ">
               <div className="relative aspect-square">
                 <Image
+                  alt={productBySlug.name && productBySlug?.name[index]}
                   layout="fill"
                   quality={100}
                   src={urlFor(
@@ -91,7 +92,11 @@ const ProductDetails = ({ productBySlug }) => {
                               i === index ? "border-primary" : "border-[#ccc]"
                             } `}
                           >
-                            <Image src={urlFor(img).url()} layout="fill" />
+                            <Image
+                              src={urlFor(img).url()}
+                              alt={productBySlug.name}
+                              layout="fill"
+                            />
                           </div>
                         )
                     )}
@@ -221,6 +226,8 @@ const ProductDetails = ({ productBySlug }) => {
                       src="https://bizweb.dktcdn.net/100/329/122/files/03icon-tragop-0.png?v=1639481630773"
                       height={24}
                       width={37}
+                      layout="responsive"
+                      alt="Memoryzone installment with 0% interest"
                     />
                   </div>
                   <span className="text-[#393a44] text-base w-[90%] pl-4 font-bold">
@@ -234,6 +241,8 @@ const ProductDetails = ({ productBySlug }) => {
                       src="https://bizweb.dktcdn.net/100/329/122/files/04icon-visamaster.png?v=1639481634747"
                       height={24}
                       width={37}
+                      layout="responsive"
+                      alt="Memoryzone free payment via Visa, Master, JCB, Union Pay, Amext"
                     />
                   </div>
                   <span className="text-[#393a44] text-base w-[90%] pl-4 font-bold">
@@ -283,6 +292,8 @@ const ProductDetails = ({ productBySlug }) => {
                     src="https://bizweb.dktcdn.net/100/329/122/themes/835213/assets/shiper.png?1651651839140"
                     width={35}
                     height={30}
+                    layout="responsive"
+                    alt="Memoryzone free delivery nationwide"
                   />
                 </div>
                 <span className="text-gray leading-4 text-base font-bold w-[80%] ml-3.5">
@@ -295,6 +306,8 @@ const ProductDetails = ({ productBySlug }) => {
                     src="https://bizweb.dktcdn.net/100/329/122/themes/835213/assets/change.png?1651651839140"
                     width={35}
                     height={35}
+                    layout="responsive"
+                    alt="Memoryzone receive goods from 24 to 72 hours after ordering in TP HCM city"
                   />
                 </div>
                 <div className="w-[80%] ml-3.5">
@@ -312,6 +325,8 @@ const ProductDetails = ({ productBySlug }) => {
                     src="https://bizweb.dktcdn.net/100/329/122/themes/835213/assets/pay.png?1651651839140"
                     width={35}
                     height={35}
+                    layout="responsive"
+                    alt="Memoryzone receive goods from 24 to 48 hours after ordering in Ha Noi city"
                   />
                 </div>
                 <div className="w-[80%] ml-3.5">
@@ -329,6 +344,8 @@ const ProductDetails = ({ productBySlug }) => {
                     src="https://bizweb.dktcdn.net/100/329/122/themes/835213/assets/phone.png?1651651839140"
                     width={35}
                     height={35}
+                    layout="responsive"
+                    alt="Memoryzone receive goods from 24 to 96 hours after ordering in other province"
                   />
                 </div>
                 <div className="w-[80%] ml-3.5">

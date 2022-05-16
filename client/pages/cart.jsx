@@ -50,10 +50,12 @@ const cart = () => {
                       <Link href={`/product/${item.slug}`}>
                         <a>
                           <Image
+                            alt={item.name}
                             className="cursor-pointer"
                             src={urlFor(item.img).url()}
                             width={98}
                             height={98}
+                            layout="responsive"
                           />
                         </a>
                       </Link>

@@ -24,7 +24,7 @@ export default {
       type: "slug",
       options: {
         source: "name", //auto generate unique slug base on product's name
-        maxLength: 90,
+        maxLength: 96,
       },
     },
     {
@@ -36,6 +36,21 @@ export default {
       name: "details",
       title: "Details",
       type: "string",
+    },
+    {
+      name: "brand",
+      title: "Brand",
+      type: "string",
+    },
+    {
+      name: "category",
+      title: "Category",
+      type: "string",
+    },
+    {
+      name: "countInStock",
+      title: "Count InStock",
+      type: "number",
     },
   ],
 };

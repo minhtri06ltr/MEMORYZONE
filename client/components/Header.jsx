@@ -21,6 +21,8 @@ const Header = () => {
         <Link href="#">
           <div className="relative w-full h-9">
             <Image
+              priority
+              alt="Memoryzone small banner on top"
               src="https://app2.jeoway.net/35/images/header/banner10_des.webp"
               layout="fill"
             />
@@ -63,7 +65,12 @@ const Header = () => {
           <div className="mr-16">
             <Link href="/">
               <a>
-                <Image src={logo} width={178} height={45} />
+                <Image
+                  src={logo}
+                  alt="Memoryzone logo"
+                  width={178}
+                  height={45}
+                />
               </a>
             </Link>
           </div>

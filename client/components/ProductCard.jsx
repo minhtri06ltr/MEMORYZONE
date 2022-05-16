@@ -6,10 +6,12 @@ import { urlFor } from "../lib/client";
 const ProductCard = ({ name, price, img, slug }) => {
   return (
     <div className="hover:scale-110 transition ease-out duration-500 ">
-      <div className="relative aspect-square ">
+      <div>
         <Link href={`/product/${slug.current}`}>
-          <a>
+          <a className="relative aspect-square block ">
             <Image
+              alt={name}
+              priority
               src={urlFor(img).url()}
               layout="fill"
               objectFit="contain"

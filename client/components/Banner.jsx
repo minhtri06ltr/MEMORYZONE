@@ -9,11 +9,13 @@ const Banner = () => {
           <Link href="#">
             <a>
               <Image
+                priority
                 src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/slider1_1.jpg?1651552159868"
                 width="100%"
                 height={61}
                 layout="responsive"
                 quality={100}
+                alt="Memoryzone first main slider banner"
               />
             </a>
           </Link>
@@ -33,11 +35,13 @@ const Banner = () => {
           <Link href="#">
             <a>
               <Image
+                alt="Memoryzone secondary banner"
                 src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_slider_1.jpg?1651552159868"
                 width="100%"
                 height="100%"
                 layout="responsive"
                 quality={100}
+                priority
               />
             </a>
           </Link>
@@ -51,6 +55,7 @@ const Banner = () => {
                 height="100%"
                 layout="responsive"
                 quality={100}
+                alt="Memoryzone third banner"
               />
             </a>
           </Link>

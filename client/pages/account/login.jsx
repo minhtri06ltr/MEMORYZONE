@@ -1,7 +1,15 @@
 import Link from "next/link";
 import { Layout, Path } from "../../components";
+import axios from "axios";
 
 const login = () => {
+  const loginHandler = () => {
+    const res = axios.post("/api/account/login", {
+      email: "laptopdienthoai1@gmail.com",
+      password: "alwayssmile1Q",
+    });
+    console.log(res);
+  };
   return (
     <Layout
       title="Login | Memoryzone"
@@ -15,7 +23,13 @@ const login = () => {
             <span className="text-text text-sm  block">
               If you already have an account, log in here.
             </span>
-            <form className="my-8">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                loginHandler();
+              }}
+              className="my-8"
+            >
               <div className="mb-6">
                 <label
                   htmlFor="email"
@@ -28,6 +42,7 @@ const login = () => {
                   className="w-full border rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                   placeholder="Email"
                   id="email"
+                  required={true}
                 />
               </div>
               <div className="mb-6">
@@ -42,6 +57,8 @@ const login = () => {
                   className="w-full border rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                   placeholder="Password"
                   id="password"
+                  minLength={6}
+                  required={true}
                 />
               </div>
               <div className="flex mt-10 space-x-6 items-center">
@@ -73,6 +90,7 @@ const login = () => {
                   Email *
                 </label>
                 <input
+                  required={true}
                   type="email"
                   className="w-full border rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                   placeholder="Email"
