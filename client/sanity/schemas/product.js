@@ -2,6 +2,11 @@ export default {
   name: "product",
   title: "Product",
   type: "document",
+  initialValue: {
+    price: 0,
+    countInStock: 0,
+    numberReview: 0,
+  },
   fields: [
     {
       name: "image",
@@ -51,6 +56,21 @@ export default {
       name: "countInStock",
       title: "Count InStock",
       type: "number",
+    },
+    {
+      name: "numberReview",
+      title: "Number Review",
+      type: "number",
+    },
+    {
+      name: "reivews",
+      title: "Reviews",
+      type: "array",
+      of: [
+        {
+          type: "review",
+        },
+      ],
     },
   ],
 };

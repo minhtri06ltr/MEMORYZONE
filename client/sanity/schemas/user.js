@@ -2,6 +2,9 @@ export default {
   name: "user",
   title: "User",
   type: "document",
+  initialValue: {
+    isAdmin: false,
+  },
   fields: [
     {
       name: "firstName",
@@ -16,7 +19,7 @@ export default {
     {
       name: "email",
       title: "Email",
-      type: "string",
+      type: "slug",
     },
     {
       name: "password",
