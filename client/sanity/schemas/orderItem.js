@@ -28,6 +28,7 @@ export default {
       name: "product",
       title: "Product",
       type: "reference",
+      weak: true,
       to: [{ type: "product" }],
     },
   ],

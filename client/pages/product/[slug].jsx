@@ -5,7 +5,7 @@ import { numberWithCommas } from "../../utils/format";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useRef, useState } from "react";
 import { Layout, Path } from "../../components";
-import { addToCart } from "../../redux/cart";
+import { addToCart } from "../../redux/cartSlice";
 import { useDispatch } from "react-redux";
 import { isNumber } from "../../utils/validate";
 import { useRouter } from "next/router";
@@ -44,10 +44,18 @@ const ProductDetails = ({ productBySlug }) => {
     );
     router.push("/cart");
   };
+  if (!productBySlug) return <h1>Not Found</h1>;
   return (
-    <Layout title={productBySlug.name} description={productBySlug.name}>
+    <Layout
+      title={productBySlug.name ? productBySlug.name : "Product not found"}
+      description={
+        productBySlug.name ? productBySlug.name : "Product not found"
+      }
+    >
       <div className="">
-        <Path path={[productBySlug.name]} />
+        <Path
+          path={[productBySlug.name ? productBySlug.name : "Product not found"]}
+        />
         {/*main product details */}
 
         <div className="flex px-10 items-start mt-12 ">
@@ -86,7 +94,7 @@ const ProductDetails = ({ productBySlug }) => {
                       (img, i) =>
                         i > 0 && (
                           <div
-                            onMouseDown={() => setIndex(i)}
+                            on={() => setIndex(i)}
                             key={i}
                             className={`relative duration-700 ease-in-out  aspect-square mx-1.5  cursor-pointer hover:border-primary h-20 w-20 border ${
                               i === index ? "border-primary" : "border-[#ccc]"
@@ -391,11 +399,14 @@ export const getStaticProps = async ({ params: { slug } }) => {
   //get product data by slug param
   const queryproductBySlug = `*[_type=="product" && slug.current == '${slug}'][0]`;
   // get similar product
-  const similarProducts = '*[_type=="product"]';
-  const productBySlug = await client.fetch(queryproductBySlug);
-  const products = await client.fetch(similarProducts);
-
-  return {
-    props: { products, productBySlug },
-  };
+  try {
+    const productBySlug = await client.fetch(queryproductBySlug);
+    return {
+      props: { productBySlug },
+    };
+  } catch (error) {
+    return {
+      productBySlug: null,
+    };
+  }
 };

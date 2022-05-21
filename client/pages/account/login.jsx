@@ -1,14 +1,26 @@
 import Link from "next/link";
 import { Layout, Path } from "../../components";
 import axios from "axios";
+import { useState } from "react";
 
 const login = () => {
-  const loginHandler = () => {
-    const res = axios.post("/api/account/login", {
+  const loginHandler = async () => {
+    const res = await axios.post("/api/account/login", {
       email: "laptopdienthoai1@gmail.com",
       password: "alwayssmile1Q",
     });
-    console.log(res);
+    console.log(res.data);
+  };
+  const [loginForm, setLoginForm] = useState({
+    email: "",
+    password: "",
+  });
+  const [forgotEmail, setForgotEmail] = useState("");
+  const loginFormHandler = (e) => {
+    setLoginForm({
+      ...loginForm,
+      [e.target.name]: e.target.value,
+    });
   };
   return (
     <Layout
@@ -39,10 +51,15 @@ const login = () => {
                 </label>
                 <input
                   type="email"
-                  className="w-full border rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
+                  className="w-full border outline-none rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                   placeholder="Email"
-                  id="email"
-                  required={true}
+                  name="email"
+                  value={loginForm.email}
+                  onChange={(e) => loginFormHandler(e)}
+                  rules={{
+                    required: true,
+                    pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                  }}
                 />
               </div>
               <div className="mb-6">
@@ -54,11 +71,13 @@ const login = () => {
                 </label>
                 <input
                   type="password"
-                  className="w-full border rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
+                  className="w-full border outline-none rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                   placeholder="Password"
-                  id="password"
+                  name="password"
+                  value={loginForm.password}
                   minLength={6}
                   required={true}
+                  onChange={(e) => loginFormHandler(e)}
                 />
               </div>
               <div className="flex mt-10 space-x-6 items-center">
@@ -90,11 +109,16 @@ const login = () => {
                   Email *
                 </label>
                 <input
-                  required={true}
+                  rules={{
+                    required: true,
+                    pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                  }}
                   type="email"
-                  className="w-full border rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
+                  className="w-full border outline-none rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                   placeholder="Email"
-                  id="forgotEmail"
+                  name="forgotEmail"
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
                 />
               </div>
               <label

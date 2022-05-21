@@ -14,7 +14,8 @@ const Home = ({ products }) => {
 export default Home;
 
 export const getServerSideProps = async () => {
-  const queryAllProduct = '*[_type=="product"]';
+  const queryAllProduct =
+    '*[_type=="product" &&  !(_id in path("drafts.**")) ]';
   const products = await client.fetch(queryAllProduct);
 
   return {

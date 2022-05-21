@@ -7,7 +7,7 @@ const ProductCard = ({ name, price, img, slug }) => {
   return (
     <div className="hover:scale-110 transition ease-out duration-500 ">
       <div>
-        <Link href={`/product/${slug.current}`}>
+        <Link href={`/product/${slug}`}>
           <a className="relative aspect-square block ">
             <Image
               alt={name}
@@ -20,7 +20,7 @@ const ProductCard = ({ name, price, img, slug }) => {
           </a>
         </Link>
       </div>
-      <Link href={`/product/${slug.current}`}>
+      <Link href={`/product/${slug}`}>
         <a className="text-text text-sm cursor-pointer font-light leading-none hover:text-primary limit-3-line my-2">
           {name}
         </a>

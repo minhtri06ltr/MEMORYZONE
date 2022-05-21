@@ -19,7 +19,7 @@ export default {
     {
       name: "email",
       title: "Email",
-      type: "slug",
+      type: "string",
     },
     {
       name: "password",

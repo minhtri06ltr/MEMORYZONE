@@ -40,7 +40,7 @@ const Sell = ({ products }) => {
                 details={product.details}
                 price={product.price}
                 img={product.image[0]}
-                slug={product.slug}
+                slug={product.slug.current}
               />
             ))}
           </div>

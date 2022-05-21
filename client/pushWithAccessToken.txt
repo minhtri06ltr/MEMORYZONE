@@ -1,1 +1,4 @@
-git push https://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@github.com/minhtri06ltr/MEMORYZONE.git
+git push https://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@github.com/minhtri06ltr/MEMORYZONE.git
+
+
+git remote set-url origin https://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@github.com/minhtri06ltr/MEMORYZONE.git

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Layout, Path } from "../../components";
 import { useState } from "react";
+import axios from "axios";
 
 const register = () => {
   const [registerForm, setRegisterForm] = useState({
@@ -8,6 +9,7 @@ const register = () => {
     lastName: "",
     email: "",
     password: "",
+    isAdmin: false,
   });
   console.log(registerForm);
   const registerFormHandler = (e) => {
@@ -15,6 +17,12 @@ const register = () => {
       ...registerForm,
       [e.target.name]: e.target.value,
     });
+  };
+  const registerHandler = async () => {
+    const res = await axios.post("/api/account/register", {
+      registerForm,
+    });
+    console.log(res);
   };
   return (
     <Layout
@@ -51,9 +59,10 @@ const register = () => {
                     onChange={registerFormHandler}
                     required={true}
                     type="text"
-                    className="w-full border rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
+                    className="w-full border outline-none rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                     placeholder="First name"
-                    id="firstName"
+                    name="firstName"
+                    value={registerForm.firstName}
                   />
                 </div>
                 <div className="mb-6">
@@ -65,11 +74,15 @@ const register = () => {
                   </label>
                   <input
                     onChange={registerFormHandler}
-                    required={true}
+                    rules={{
+                      required: true,
+                      pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                    }}
                     type="email"
                     className="w-full border rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                     placeholder="Email"
-                    id="email"
+                    name="email"
+                    value={registerForm.email}
                   />
                 </div>
                 <div className="flex mt-10 space-x-6 items-center">
@@ -101,9 +114,10 @@ const register = () => {
                     onChange={registerFormHandler}
                     required={true}
                     type="text"
-                    className="w-full border rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
+                    className="w-full border outline-none rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                     placeholder="Last name"
-                    id="lastName"
+                    name="lastName"
+                    value={registerForm.lastName}
                   />
                 </div>
                 <div className="mb-6">
@@ -117,9 +131,10 @@ const register = () => {
                     onChange={registerFormHandler}
                     required={true}
                     type="password"
-                    className="w-full border rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
+                    className="w-full border outline-none rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                     placeholder="Password"
-                    id="password"
+                    name="password"
+                    value={registerForm.password}
                     minLength={6}
                   />
                 </div>
