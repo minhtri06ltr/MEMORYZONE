@@ -19,9 +19,7 @@ const register = () => {
     });
   };
   const registerHandler = async () => {
-    const res = await axios.post("/api/account/register", {
-      registerForm,
-    });
+    const res = await axios.post("/api/account/register", registerForm);
     console.log(res);
   };
   return (
@@ -79,7 +77,7 @@ const register = () => {
                       pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                     }}
                     type="email"
-                    className="w-full border rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
+                    className="w-full border rounded-sm outline-none border-[#e5e5e5] text-sm px-6 py-2 "
                     placeholder="Email"
                     name="email"
                     value={registerForm.email}

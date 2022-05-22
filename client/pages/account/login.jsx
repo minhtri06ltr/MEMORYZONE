@@ -5,10 +5,7 @@ import { useState } from "react";
 
 const login = () => {
   const loginHandler = async () => {
-    const res = await axios.post("/api/account/login", {
-      email: "laptopdienthoai1@gmail.com",
-      password: "alwayssmile1Q",
-    });
+    const res = await axios.post("/api/account/login", loginForm);
     console.log(res.data);
   };
   const [loginForm, setLoginForm] = useState({
