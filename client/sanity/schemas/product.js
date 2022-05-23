@@ -63,6 +63,11 @@ export default {
       type: "number",
     },
     {
+      name: "rating",
+      title: "Rating",
+      type: "number",
+    },
+    {
       name: "reivews",
       title: "Reviews",
       type: "array",

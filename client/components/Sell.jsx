@@ -1,8 +1,12 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
-import { ProductCard } from "./index";
+import { Error, ProductCard } from "./index";
 
 const Sell = ({ products }) => {
+  if (!products)
+    return (
+      <Error message="Product not found or Internal server error, please contact with owner" />
+    );
   return (
     <div className="p-10 w-full">
       {/*Sell header*/}

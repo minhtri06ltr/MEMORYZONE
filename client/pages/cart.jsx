@@ -10,7 +10,7 @@ import {
   increaseProduct,
   deleteProduct,
   onChangeQuantity,
-} from "../redux/cart";
+} from "../redux/cartSlice";
 import { isNumber } from "../utils/validate";
 
 const cart = () => {
@@ -18,7 +18,7 @@ const cart = () => {
   const cartItems = useSelector((state) => state.cart);
 
   return (
-    <Layout title="Cart | Memoryzone" description="Memoryzone personal cart">
+    <Layout title="Memoryzone | Cart" description="Memoryzone personal cart">
       <Path path={["Home", "Cart"]} />
       <div className="px-10">
         <span className="block text-[#323c3f] text-3xl mt-12 mb-4 font-semibold">
@@ -133,9 +133,11 @@ const cart = () => {
             </table>
 
             <div className="flex items-center justify-end my-6">
-              <button className="text-sm font-semibold bg-[#3d4356] text-white rounded-sm px-10 py-2 mr-3">
-                KEEP SHOPPING
-              </button>
+              <Link href="/">
+                <button className="text-sm font-semibold bg-[#3d4356] text-white rounded-sm px-10 py-2 mr-3">
+                  KEEP SHOPPING
+                </button>
+              </Link>
               <button className="text-sm font-semibold bg-primary border border-primary hover:text-primary hover:bg-white text-white rounded-sm px-10 py-2">
                 MAKE PAYMENTS
               </button>

@@ -21,7 +21,7 @@ const login = () => {
   };
   return (
     <Layout
-      title="Login | Memoryzone"
+      title="Memoryzone | Login"
       description="Memoryzone login to account"
     >
       <Path path={["Home", "Log in to account"]} />

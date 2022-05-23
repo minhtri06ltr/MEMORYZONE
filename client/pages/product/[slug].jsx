@@ -4,7 +4,7 @@ import { StarIcon, CheckCircleIcon } from "@heroicons/react/solid";
 import { numberWithCommas } from "../../utils/format";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useRef, useState } from "react";
-import { Layout, Path } from "../../components";
+import { NotFound, Layout, Path } from "../../components";
 import { addToCart } from "../../redux/cartSlice";
 import { useDispatch } from "react-redux";
 import { isNumber } from "../../utils/validate";
@@ -44,14 +44,20 @@ const ProductDetails = ({ productBySlug }) => {
     );
     router.push("/cart");
   };
-  if (!productBySlug) return <h1>Not Found</h1>;
+
+  if (!productBySlug)
+    return (
+      <Layout
+        title={"Memoryzone | Product not found"}
+        description={"Memoryzone Product not found"}
+        removeLayout={true}
+      >
+        <NotFound message={"Oops Look like product don't exist in our shop"} />
+      </Layout>
+    );
+
   return (
-    <Layout
-      title={productBySlug.name ? productBySlug.name : "Product not found"}
-      description={
-        productBySlug.name ? productBySlug.name : "Product not found"
-      }
-    >
+    <Layout title={productBySlug.name} description={productBySlug.name}>
       <div className="">
         <Path
           path={[productBySlug.name ? productBySlug.name : "Product not found"]}
@@ -94,7 +100,7 @@ const ProductDetails = ({ productBySlug }) => {
                       (img, i) =>
                         i > 0 && (
                           <div
-                            on={() => setIndex(i)}
+                            onMouseDownCapture={() => setIndex(i)}
                             key={i}
                             className={`relative duration-700 ease-in-out  aspect-square mx-1.5  cursor-pointer hover:border-primary h-20 w-20 border ${
                               i === index ? "border-primary" : "border-[#ccc]"
@@ -405,6 +411,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
       props: { productBySlug },
     };
   } catch (error) {
+    console.log(error);
     return {
       productBySlug: null,
     };

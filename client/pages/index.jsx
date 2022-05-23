@@ -3,7 +3,7 @@ import { Layout, Sell, Banner } from "../components";
 
 const Home = ({ products }) => {
   return (
-    <Layout title="Home | Memoryzone" description="Memoryzone homepage">
+    <Layout title="Memoryzone | Home" description="Memoryzone homepage">
       <Banner />
       <Sell products={products} />
       <div className=" w-full pb-96 h-70"></div>
@@ -14,11 +14,18 @@ const Home = ({ products }) => {
 export default Home;
 
 export const getServerSideProps = async () => {
-  const queryAllProduct =
-    '*[_type=="product" &&  !(_id in path("drafts.**")) ]';
-  const products = await client.fetch(queryAllProduct);
+  try {
+    const queryAllProduct =
+      '*[_type=="product" &&  !(_id in path("drafts.**")) ]';
+    const products = await client.fetch(queryAllProduct);
 
-  return {
-    props: { products },
-  };
+    return {
+      props: { products },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      products: null,
+    };
+  }
 };

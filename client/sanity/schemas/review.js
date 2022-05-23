@@ -30,10 +30,34 @@ export default {
       type: "string",
     },
     {
-      name: "user",
-      title: "User",
-      type: "reference",
-      to: [{ type: "user" }],
+      name: "fullName",
+      title: "Full Name",
+      type: "string",
+    },
+    {
+      name: "phoneNumber",
+      title: "Phone Number",
+      type: "string",
+    },
+    {
+      name: "reply",
+      title: "Reply",
+      type: "array",
+      of: [
+        {
+          type: "reply",
+        },
+      ],
+    },
+    {
+      name: "image",
+      title: "Image",
+      //array of image
+      type: "array",
+      of: [{ type: "image" }],
+      options: {
+        hotspot: true,
+      },
     },
   ],
 };

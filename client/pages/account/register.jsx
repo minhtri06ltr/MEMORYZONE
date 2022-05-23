@@ -24,7 +24,7 @@ const register = () => {
   };
   return (
     <Layout
-      title="Register | Memoryzone"
+      title="Memoryzone | Register"
       description="Memoryzone register an account"
     >
       <Path path={["Home", "Register an account"]} />
