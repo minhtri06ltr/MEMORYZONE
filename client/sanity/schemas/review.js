@@ -59,5 +59,10 @@ export default {
         hotspot: true,
       },
     },
+    {
+      name: "createTime",
+      title: "Create Time",
+      type: "datetime",
+    },
   ],
 };

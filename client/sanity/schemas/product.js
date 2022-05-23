@@ -68,7 +68,7 @@ export default {
       type: "number",
     },
     {
-      name: "reivews",
+      name: "reviews",
       title: "Reviews",
       type: "array",
       of: [

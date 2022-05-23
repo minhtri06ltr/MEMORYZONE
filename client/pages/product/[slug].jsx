@@ -4,14 +4,13 @@ import { StarIcon, CheckCircleIcon } from "@heroicons/react/solid";
 import { numberWithCommas } from "../../utils/format";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useRef, useState } from "react";
-import { NotFound, Layout, Path, Review } from "../../components";
+import { NotFound, Layout, Path, Review, StarList } from "../../components";
 import { addToCart } from "../../redux/cartSlice";
 import { useDispatch } from "react-redux";
 import { isNumber } from "../../utils/validate";
 import { useRouter } from "next/router";
 
 const ProductDetails = ({ productBySlug }) => {
-  console.log(productBySlug);
   const router = useRouter();
   const dispatch = useDispatch();
   const [pixel, setPixel] = useState(0);
@@ -141,28 +140,27 @@ const ProductDetails = ({ productBySlug }) => {
                   {productBySlug.name}
                 </span>
                 <div className="flex py-3 items-center ">
-                  <div className="flex-row-reverse flex">
-                    {[5, 4, 3, 2, 1].map((star) => (
-                      <StarIcon
-                        color="#cccccc"
-                        width={30}
-                        height={30}
-                        key={star}
-                        className="cursor-pointer rating duration-300 hover:text-[gold] hover:scale-125 transition ease-linear"
-                        onClick={() => console.log(star)}
-                      />
-                    ))}
+                  <div className="flex ">
+                    <StarList
+                      quantity={productBySlug.rating}
+                      width={30}
+                      height={30}
+                    />
                   </div>
-                  <span className="text-[#055eff] text-sm ml-2">
+                  <a href="#review" className="text-[#055eff]  text-sm ml-2">
                     Be the first to review
-                  </span>
+                  </a>
                 </div>
                 <div>
                   <span className="text-text text-sm">Trademake: </span>
                   <span className="text-primary  text-sm">Gigabyte</span>
                   <div className="w-[1px] h-3.5 -mb-0.5 mx-2 inline-block bg-text"></div>
                   <span className="text-text text-sm ">Status: </span>
-                  <span className="text-primary text-sm">Out of stock</span>
+                  <span className="text-primary text-sm">
+                    {productBySlug.countInStock > 0
+                      ? "In stock"
+                      : "Out of stock"}
+                  </span>
                 </div>
                 <div className="my-1.5">
                   <span className="text-primary text-3xl font-bold ">
@@ -220,7 +218,9 @@ const ProductDetails = ({ productBySlug }) => {
                       const re = /^[0-9\b]+$/;
                       if (e.target.value === "" || re.test(e.target.value)) {
                         if (isNumber(parseInt(e.target.value))) {
-                          setQuantity(parseInt(e.target.value));
+                          if (e.target.value > productBySlug.countInStock) {
+                            setQuantity(productBySlug.countInStock);
+                          } else setQuantity(parseInt(e.target.value));
                         } else {
                           setQuantity(1);
                         }
@@ -230,7 +230,10 @@ const ProductDetails = ({ productBySlug }) => {
                     className="w-16  text-center text-base outline-none border-none px-4"
                   />
                   <button
-                    onClick={() => setQuantity(quantity + 1)}
+                    onClick={() =>
+                      quantity < productBySlug.countInStock &&
+                      setQuantity(quantity + 1)
+                    }
                     className="border-l border-[#ccc] font-medium text-xl px-4 py-1"
                   >
                     +
@@ -300,7 +303,7 @@ const ProductDetails = ({ productBySlug }) => {
                 </div>
               </div>
             </div>
-            <Review />
+            {productBySlug.reviews && <Review data={productBySlug.reviews} />}
           </div>
 
           {/*right */}
@@ -410,7 +413,7 @@ export async function getStaticPaths() {
 export const getStaticProps = async ({ params: { slug } }) => {
   //get product data by slug param
   const queryproductBySlug = `*[_type=="product" && slug.current == '${slug}'][0]`;
-  // get similar product
+
   try {
     const productBySlug = await client.fetch(queryproductBySlug);
     return {

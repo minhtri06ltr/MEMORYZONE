@@ -24,5 +24,10 @@ export default {
       title: "Phone Number",
       type: "string",
     },
+    {
+      name: "createTime",
+      title: "Create Time",
+      type: "datetime",
+    },
   ],
 };

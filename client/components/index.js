@@ -7,3 +7,4 @@ export { default as Path } from "./Path";
 export { default as NotFound } from "./NotFound";
 export { default as Error } from "./Error";
 export { default as Review } from "./Review";
+export { default as StarList } from "./StarList";

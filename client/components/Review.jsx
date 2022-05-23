@@ -1,42 +1,42 @@
 import Image from "next/image";
-import { StarIcon } from "@heroicons/react/solid";
 
-const StarList = ({ quantity }) => (
-  <div className="flex w-min">
-    {[1, 2, 3, 4, 5].map((number) =>
-      number < quantity ? (
-        <StarIcon key={number} className="text-[gold]" width={22} height={22} />
-      ) : (
-        <StarIcon key={number} color="#cccccc" width={22} height={22} />
-      )
-    )}
-  </div>
-);
-const Reply = () => (
-  <div className=" pt-4 pb-6 border-[#dddddd]">
-    <div className="flex items-center  justify-start">
-      <div className="">
-        <Image
-          src={`https://ui-avatars.com/api/?rounded=true&size=32&name=Q&font-size=0.42&color=ffffff&background=666&bold=true`}
-          width={32}
-          height={32}
-        />
+import { formatDateTime } from "../utils/format";
+import StarList from "./StarList";
+
+const Reply = ({ data }) => (
+  <>
+    {data.map((item, index) => (
+      <div key={index} className=" pt-3 pb-6 border-[#dddddd]">
+        <div className="flex items-center  justify-start">
+          <div className="">
+            <Image
+              src={`https://ui-avatars.com/api/?rounded=true&size=32&name=${item.fullName.replace(
+                " ",
+                "+"
+              )}&font-size=0.42&color=ffffff&background=666&bold=true`}
+              width={32}
+              height={32}
+            />
+          </div>
+          <span className="font-semibold text-base ml-3 text-[#505050]">
+            {item.fullName}
+          </span>
+        </div>
+        <span className="text-sm block py-2 text-[#505050]">
+          {item.comment}
+        </span>
+        <div className="mb-3">
+          <span className="text-xs  cursor-pointer text-[#007bff]">Answer</span>
+          <span className="text-[#666666] text-xs italic">
+            {" "}
+            • 09/04/2022 12:54
+          </span>
+        </div>
       </div>
-      <span className="font-semibold text-base ml-3 text-[#505050]">Tri</span>
-    </div>
-    <span className="text-sm block text-[#505050]">
-      1. Wifi chập chờn hay tự ngắt kết nối rất khó chịu, bảo hành về cũng bị
-      tương tự 2. Tốc độ cpu tối đa được 4.3Gh không phải là 4.7Gh 1. Wifi chập
-      chờn hay tự ngắt kết nối rất khó chịu, bảo hành về cũng bị tương tự 2. Tốc
-      độ cpu tối đa được 4.3Gh không phải là 4.7Gh
-    </span>
-    <div className="mb-3">
-      <span className="text-xs  cursor-pointer text-[#007bff]">Answer</span>
-      <span className="text-[#666666] text-xs italic"> • 09/04/2022 12:54</span>
-    </div>
-  </div>
+    ))}
+  </>
 );
-const Review = () => {
+const Review = ({ data }) => {
   return (
     <div className="mt-6  w-full min-h-10 border-t-[1px] border-[#f7f7f7]">
       <span className="text-sm text-text my-3 block">
@@ -67,109 +67,43 @@ const Review = () => {
       </div>
 
       <div className="divide-y  ">
-        <div className=" py-3  border-[#dddddd] w-full">
-          <div className="flex items-center  justify-start">
-            <div className="">
-              <Image
-                src={`https://ui-avatars.com/api/?rounded=true&size=32&name=Q&font-size=0.42&color=ffffff&background=666&bold=true`}
-                width={32}
-                height={32}
-              />
+        {data.map((item, index) => (
+          <div className=" py-3 border-[#dddddd] w-full" key={index}>
+            <div className="flex items-center  justify-start">
+              <div className="">
+                <Image
+                  src={`https://ui-avatars.com/api/?rounded=true&size=32&name=${item.fullName.replace(
+                    " ",
+                    "+"
+                  )}&font-size=0.42&color=ffffff&background=666&bold=true`}
+                  width={32}
+                  height={32}
+                />
+              </div>
+              <span className="font-semibold text-base ml-3 text-[#505050]">
+                {item.fullName}
+              </span>
             </div>
-            <span className="font-semibold text-base ml-3 text-[#505050]">
-              Tri
-            </span>
-          </div>
-          <div>
-            <StarList quantity={3} />
-            <span className="text-sm text-[#505050]">
-              1. Wifi chập chờn hay tự ngắt kết nối rất khó chịu, bảo hành về
-              cũng bị tương tự 2. Tốc độ cpu tối đa được 4.3Gh không phải là
-              4.7Gh 1. Wifi chập chờn hay tự ngắt kết nối rất khó chịu, bảo hành
-              về cũng bị tương tự 2. Tốc độ cpu tối đa được 4.3Gh không phải là
-              4.7Gh
-            </span>
-          </div>
-          <div className="mb-3">
-            <span className="text-xs  cursor-pointer text-[#007bff]">
-              Answer
-            </span>
-            <span className="text-[#666666] text-xs italic">
-              {" "}
-              • 09/04/2022 12:54
-            </span>
-          </div>
-          <div className="border border-[#e5e5e5] divide-y  rounded-sm  mb-6 px-3  bg-[#f5f5f5]">
-            <Reply />
-            <Reply />
-          </div>
-        </div>
-        <div className=" py-3  border-[#dddddd] w-full">
-          <div className="flex items-center  justify-start">
-            <div className="">
-              <Image
-                src={`https://ui-avatars.com/api/?rounded=true&size=32&name=Q&font-size=0.42&color=ffffff&background=666&bold=true`}
-                width={32}
-                height={32}
-              />
+            <div>
+              <StarList quantity={item.rating} width={22} height={22} />
+              <span className="text-sm py-2 text-[#505050]">
+                {item.comment}
+              </span>
             </div>
-            <span className="font-semibold text-base ml-3 text-[#505050]">
-              Tri
-            </span>
-          </div>
-          <div>
-            <StarList quantity={3} />
-            <span className="text-sm text-[#505050]">
-              1. Wifi chập chờn hay tự ngắt kết nối rất khó chịu, bảo hành về
-              cũng bị tương tự 2. Tốc độ cpu tối đa được 4.3Gh không phải là
-              4.7Gh 1. Wifi chập chờn hay tự ngắt kết nối rất khó chịu, bảo hành
-              về cũng bị tương tự 2. Tốc độ cpu tối đa được 4.3Gh không phải là
-              4.7Gh
-            </span>
-          </div>
-          <div className="mb-3">
-            <span className="text-xs  cursor-pointer text-[#007bff]">
-              Answer
-            </span>
-            <span className="text-[#666666] text-xs italic">
-              {" "}
-              • 09/04/2022 12:54
-            </span>
-          </div>
-        </div>
-        <div className=" py-3  border-[#dddddd] w-full">
-          <div className="flex items-center  justify-start">
-            <div className="">
-              <Image
-                src={`https://ui-avatars.com/api/?rounded=true&size=32&name=Q&font-size=0.42&color=ffffff&background=666&bold=true`}
-                width={32}
-                height={32}
-              />
+            <div className="mb-3">
+              <span className="text-xs  cursor-pointer text-[#007bff]">
+                Answer
+              </span>
+              <span className="text-[#666666] text-xs italic">
+                {" "}
+                • {formatDateTime(new Date())}
+              </span>
             </div>
-            <span className="font-semibold text-base ml-3 text-[#505050]">
-              Tri
-            </span>
+            <div className="border border-[#e5e5e5] divide-y  rounded-sm  mb-6 px-3  bg-[#f5f5f5]">
+              {item.reply && <Reply data={item.reply} />}
+            </div>
           </div>
-          <div>
-            <StarList quantity={3} />
-            <span className="text-sm text-[#505050]">
-              1. Wifi chập chờn hay tự ngắt kết nối rất khó chịu, bảo hành về
-              cũng bị tương tự 2. Tốc độ cpu tối đa được 4.3Gh không phải là
-              4.7Gh 1. Wifi chập chờn hay tự ngắt kết nối rất khó chịu, bảo hành
-              về cũng bị tương tự 2. Tốc độ cpu tối đa được 4.3Gh không phải là
-              4.7Gh
-            </span>
-          </div>
-          <div className="mb-3">
-            <span className="text-xs  cursor-pointer text-[#007bff]">
-              Answer
-            </span>
-            <span className="text-[#666666] text-xs italic">
-              {" "}
-              • 09/04/2022 12:54
-            </span>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
