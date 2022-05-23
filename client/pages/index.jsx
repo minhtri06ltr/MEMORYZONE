@@ -13,7 +13,7 @@ const Home = ({ products }) => {
 
 export default Home;
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   try {
     const queryAllProduct =
       '*[_type=="product" &&  !(_id in path("drafts.**")) ]';
@@ -21,6 +21,7 @@ export const getServerSideProps = async () => {
 
     return {
       props: { products },
+      revalidate: 60,
     };
   } catch (error) {
     console.log(error);

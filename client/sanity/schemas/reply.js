@@ -2,16 +2,12 @@ export default {
   name: "reply",
   title: "Reply",
   type: "object",
+
   fields: [
     {
       name: "name",
       title: "Name",
       type: "string",
-    },
-    {
-      name: "avatar",
-      title: "Avatar",
-      type: "image",
     },
     {
       name: "comment",

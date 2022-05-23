@@ -60,6 +60,7 @@ const register = () => {
                     className="w-full border outline-none rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                     placeholder="First name"
                     name="firstName"
+                    id="firstName"
                     value={registerForm.firstName}
                   />
                 </div>
@@ -76,10 +77,11 @@ const register = () => {
                       required: true,
                       pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                     }}
+                    name="email"
                     type="email"
                     className="w-full border rounded-sm outline-none border-[#e5e5e5] text-sm px-6 py-2 "
                     placeholder="Email"
-                    name="email"
+                    id="email"
                     value={registerForm.email}
                   />
                 </div>
@@ -109,6 +111,7 @@ const register = () => {
                     Last name *
                   </label>
                   <input
+                    id="lastName"
                     onChange={registerFormHandler}
                     required={true}
                     type="text"
@@ -126,6 +129,7 @@ const register = () => {
                     Password *
                   </label>
                   <input
+                    id="password"
                     onChange={registerFormHandler}
                     required={true}
                     type="password"

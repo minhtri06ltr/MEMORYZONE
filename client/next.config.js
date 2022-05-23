@@ -7,6 +7,7 @@ const nextConfig = {
       "bizweb.sapocdn.net",
       "cdn.sanity.io",
       "bizweb.dktcdn.net",
+      "ui-avatars.com",
     ],
   },
 };
