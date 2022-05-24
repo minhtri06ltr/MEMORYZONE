@@ -1,0 +1,18 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const accountSlice = createSlice({
+  name: "account",
+  initialState: {
+    accessToken: "",
+    user: {},
+  },
+  reducers: {
+    loginSuccess(state, action) {
+      (state.accessToken = action.payload.accessToken),
+        (state.user = action.payload.user);
+    },
+  },
+  extraReducers: {},
+});
+export default accountSlice.reducer;
+export const { loginSuccess } = accountSlice.actions;

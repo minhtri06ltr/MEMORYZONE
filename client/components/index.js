@@ -10,3 +10,4 @@ export { default as Review } from "./Review";
 export { default as StarList } from "./StarList";
 export { default as Loading } from "./Loading";
 export { default as Notify } from "./Notify";
+export { default as Wrapper } from "./Wrapper";

@@ -149,8 +149,10 @@ const ProductDetails = ({ productBySlug }) => {
                       height={30}
                     />
                   </div>
-                  <Link href="#review" className="text-[#055eff]  text-sm ml-2">
-                    Be the first to review
+                  <Link href="#review">
+                    <span className="text-[#055eff] cursor-pointer text-sm ml-2">
+                      Be the first to review
+                    </span>
                   </Link>
                 </div>
                 <div>

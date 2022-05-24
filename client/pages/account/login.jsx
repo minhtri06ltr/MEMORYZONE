@@ -1,12 +1,33 @@
 import Link from "next/link";
 import { Layout, Path } from "../../components";
-
+import { postData, getData } from "../../utils/requestMethod";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loadingNotify } from "../../redux/notifySlice";
+import Cookies from "js-cookie";
+import { loginSuccess } from "../../redux/accountSlice";
 
 const login = () => {
-  const loginHandler = async () => {
-    // const res = await axios.post("/api/account/login", loginForm);
-    // console.log(res.data);
+  const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState("");
+  const loginHandler = async (e) => {
+    e.preventDefault();
+    dispatch(loadingNotify(true));
+    const res = await postData("account/login", loginForm);
+    if (!res.success) {
+      dispatch(loadingNotify(false));
+      setErrorMessage(res.error);
+    } else {
+      console.log(res.refreshToken);
+      Cookies.set("refreshToken", res.refreshToken, {
+        expires: 7,
+        path: "/api/account/accessToken",
+      });
+
+      dispatch(loginSuccess({ accessToken: res.accessToken, user: res.user }));
+      localStorage.setItem("isLogin", true);
+      dispatch(loadingNotify(false));
+    }
   };
   const [loginForm, setLoginForm] = useState({
     email: "",
@@ -29,16 +50,13 @@ const login = () => {
         <span className="text-text font- text-lg block">LOG IN TO ACCOUNT</span>
         <div className="my-1 flex space-x-8">
           <div className="w-1/2">
-            <span className="text-text text-sm  block">
+            <span className="text-text text-sm pb-4 block">
               If you already have an account, log in here.
             </span>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                loginHandler();
-              }}
-              className="my-8"
-            >
+            {errorMessage && (
+              <span className="text-text block text-sm">{errorMessage}</span>
+            )}
+            <form onSubmit={loginHandler} className="my-4">
               <div className="mb-6">
                 <label
                   htmlFor="email"
@@ -129,6 +147,12 @@ const login = () => {
               </label>
               <div className="">
                 <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    getData("account/accessToken").then((res) =>
+                      console.log(res)
+                    );
+                  }}
                   type="submit"
                   className="text-sm  transition ease-out border border-primary bg-primary text-white hover:bg-white hover:text-primary rounded-sm px-6 py-2"
                 >
