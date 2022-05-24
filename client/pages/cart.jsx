@@ -83,12 +83,21 @@ const cart = () => {
                               re.test(e.target.value)
                             ) {
                               if (isNumber(parseInt(e.target.value))) {
-                                dispatch(
-                                  onChangeQuantity({
-                                    quantity: parseInt(e.target.value),
-                                    id: item.id,
-                                  })
-                                );
+                                if (e.target.value > item.countInStock) {
+                                  dispatch(
+                                    onChangeQuantity({
+                                      quantity: item.countInStock,
+                                      id: item.id,
+                                    })
+                                  );
+                                } else {
+                                  dispatch(
+                                    onChangeQuantity({
+                                      quantity: parseInt(e.target.value),
+                                      id: item.id,
+                                    })
+                                  );
+                                }
                               } else {
                                 dispatch(
                                   onChangeQuantity({ quantity: 1, id: item.id })
@@ -101,7 +110,10 @@ const cart = () => {
                           className="w-12 text-center outline-none border-none"
                         />
                         <button
-                          onClick={() => dispatch(increaseProduct(item.id))}
+                          onClick={() =>
+                            item.quantity < item.countInStock &&
+                            dispatch(increaseProduct(item.id))
+                          }
                           className="border-l border-[#ccc] font-light text-base px-3"
                         >
                           +

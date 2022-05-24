@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { formatDateTime } from "../utils/format";
-import StarList from "./StarList";
+import { StarList } from ".";
 
 const Reply = ({ data }) => (
   <>

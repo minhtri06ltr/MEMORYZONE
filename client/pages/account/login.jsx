@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { Layout, Path } from "../../components";
-import axios from "axios";
+
 import { useState } from "react";
 
 const login = () => {
   const loginHandler = async () => {
-    const res = await axios.post("/api/account/login", loginForm);
-    console.log(res.data);
+    // const res = await axios.post("/api/account/login", loginForm);
+    // console.log(res.data);
   };
   const [loginForm, setLoginForm] = useState({
     email: "",

@@ -1,5 +1,6 @@
 import Head from "next/head";
-import Header from "./Header";
+
+import { Header, Notify } from ".";
 
 const Layout = ({ children, title, description, removeLayout = false }) => {
   return (
@@ -9,6 +10,7 @@ const Layout = ({ children, title, description, removeLayout = false }) => {
         <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Notify />
       <header>{!removeLayout && <Header />}</header>
       <main>{children}</main>
       <footer></footer>

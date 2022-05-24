@@ -1,9 +1,14 @@
 import Link from "next/link";
 import { Layout, Path } from "../../components";
 import { useState } from "react";
-import axios from "axios";
+import { validRegister } from "../../utils/validate";
+import { useDispatch } from "react-redux";
+import { loadingNotify } from "../../redux/notifySlice";
+import { postData } from "../../utils/requestMethod";
 
 const register = () => {
+  const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState("");
   const [registerForm, setRegisterForm] = useState({
     firstName: "",
     lastName: "",
@@ -11,16 +16,31 @@ const register = () => {
     password: "",
     isAdmin: false,
   });
-  console.log(registerForm);
+
   const registerFormHandler = (e) => {
     setRegisterForm({
       ...registerForm,
       [e.target.name]: e.target.value,
     });
   };
-  const registerHandler = async () => {
-    const res = await axios.post("/api/account/register", registerForm);
-    console.log(res);
+  const registerHandler = async (e) => {
+    e.preventDefault();
+    const errorMessage = validRegister(
+      registerForm.firstName,
+      registerForm.lastName,
+      registerForm.email,
+      registerForm.password
+    );
+    if (errorMessage) {
+      alert(`${errorMessage}`);
+      return;
+    }
+    dispatch(loadingNotify(true));
+    const res = await postData("account/register", registerForm);
+    if (!res.success) {
+      setErrorMessage(res.error);
+      dispatch(loadingNotify(false));
+    } else dispatch(loadingNotify(false));
   };
   return (
     <Layout
@@ -28,24 +48,21 @@ const register = () => {
       description="Memoryzone register an account"
     >
       <Path path={["Home", "Register an account"]} />
+
       <div className="m-10">
         <span className="text-text font- text-lg block">
           REGISTER AN ACCOUNT
         </span>
         <div className="">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              registerHandler();
-            }}
-            className="my-1 flex space-x-8"
-          >
+          <form onSubmit={registerHandler} className="my-1 flex space-x-8">
             <div className="w-1/2">
-              <span className="text-text text-sm  block">
+              <span className="text-text text-sm pb-4  block">
                 If you don't have an account, please register here
               </span>
-
-              <div className="my-8">
+              {errorMessage && (
+                <span className="text-text text-sm block ">{errorMessage}</span>
+              )}
+              <div className="my-4">
                 <div className="mb-6">
                   <label
                     htmlFor="firstName"

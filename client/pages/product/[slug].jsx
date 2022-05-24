@@ -9,6 +9,7 @@ import { addToCart } from "../../redux/cartSlice";
 import { useDispatch } from "react-redux";
 import { isNumber } from "../../utils/validate";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const ProductDetails = ({ productBySlug }) => {
   const router = useRouter();
@@ -40,6 +41,7 @@ const ProductDetails = ({ productBySlug }) => {
         price: product.price,
         quantity: quantity,
         slug: product.slug.current,
+        countInStock: product.countInStock,
       })
     );
     router.push("/cart");
@@ -147,9 +149,9 @@ const ProductDetails = ({ productBySlug }) => {
                       height={30}
                     />
                   </div>
-                  <a href="#review" className="text-[#055eff]  text-sm ml-2">
+                  <Link href="#review" className="text-[#055eff]  text-sm ml-2">
                     Be the first to review
-                  </a>
+                  </Link>
                 </div>
                 <div>
                   <span className="text-text text-sm">Trademake: </span>

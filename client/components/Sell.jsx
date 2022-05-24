@@ -1,6 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
-import { Error, ProductCard } from "./index";
+import { Error, ProductCard } from ".";
 
 const Sell = ({ products }) => {
   if (!products)
