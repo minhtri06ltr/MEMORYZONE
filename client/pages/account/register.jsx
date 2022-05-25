@@ -2,12 +2,15 @@ import Link from "next/link";
 import { Layout, Path } from "../../components";
 import { useState } from "react";
 import { validRegister } from "../../utils/validate";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loadingNotify } from "../../redux/notifySlice";
 import { postData } from "../../utils/requestMethod";
+import { useRouter } from "next/router";
 
 const register = () => {
   const dispatch = useDispatch();
+  const account = useSelector((state) => state.account);
+  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
   const [registerForm, setRegisterForm] = useState({
     firstName: "",
@@ -42,6 +45,14 @@ const register = () => {
       dispatch(loadingNotify(false));
     } else dispatch(loadingNotify(false));
   };
+  useEffect(() => {
+    if (
+      Object.keys(account.user).length !== 0 &&
+      localStorage.getItem("isLogin")
+    ) {
+      router.push("/cart");
+    }
+  }, [account]);
   return (
     <Layout
       title="Memoryzone | Register"

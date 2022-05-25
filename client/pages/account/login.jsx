@@ -1,15 +1,19 @@
 import Link from "next/link";
 import { Layout, Path } from "../../components";
 import { postData, getData } from "../../utils/requestMethod";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { loadingNotify } from "../../redux/notifySlice";
 import Cookies from "js-cookie";
 import { loginSuccess } from "../../redux/accountSlice";
+import { useRouter } from "next/router";
 
 const login = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
+  const account = useSelector((state) => state.account);
+
   const loginHandler = async (e) => {
     e.preventDefault();
     dispatch(loadingNotify(true));
@@ -18,7 +22,6 @@ const login = () => {
       dispatch(loadingNotify(false));
       setErrorMessage(res.error);
     } else {
-      console.log(res.refreshToken);
       Cookies.set("refreshToken", res.refreshToken, {
         expires: 7,
         path: "/api/account/accessToken",
@@ -26,6 +29,8 @@ const login = () => {
 
       dispatch(loginSuccess({ accessToken: res.accessToken, user: res.user }));
       localStorage.setItem("isLogin", true);
+
+      router.push("/");
       dispatch(loadingNotify(false));
     }
   };
@@ -40,6 +45,14 @@ const login = () => {
       [e.target.name]: e.target.value,
     });
   };
+  useEffect(() => {
+    if (
+      Object.keys(account.user).length !== 0 &&
+      localStorage.getItem("isLogin")
+    ) {
+      router.push("/cart");
+    }
+  }, [account]);
   return (
     <Layout
       title="Memoryzone | Login"
@@ -147,12 +160,6 @@ const login = () => {
               </label>
               <div className="">
                 <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    getData("account/accessToken").then((res) =>
-                      console.log(res)
-                    );
-                  }}
                   type="submit"
                   className="text-sm  transition ease-out border border-primary bg-primary text-white hover:bg-white hover:text-primary rounded-sm px-6 py-2"
                 >

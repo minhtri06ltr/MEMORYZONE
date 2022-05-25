@@ -3,7 +3,7 @@ import { Loading } from ".";
 
 const Notify = () => {
   const notify = useSelector((state) => state.notify);
-  console.log();
+
   return notify.loading && <Loading />;
 };
 

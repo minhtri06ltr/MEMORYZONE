@@ -8,11 +8,15 @@ const accountSlice = createSlice({
   },
   reducers: {
     loginSuccess(state, action) {
-      (state.accessToken = action.payload.accessToken),
-        (state.user = action.payload.user);
+      state.accessToken = action.payload.accessToken;
+      state.user = action.payload.user;
+    },
+    logout(state, action) {
+      state.accessToken = "";
+      state.user = {};
     },
   },
   extraReducers: {},
 });
 export default accountSlice.reducer;
-export const { loginSuccess } = accountSlice.actions;
+export const { loginSuccess, logout } = accountSlice.actions;

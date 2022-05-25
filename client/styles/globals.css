@@ -25,7 +25,7 @@ a {
     @apply flex justify-center items-center pl-4 cursor-pointer hover:text-secondary text-white;
   }
   .topHeaderText {
-    @apply text-white text-xs ml-1.5 mt-1 text-inherit;
+    @apply text-white text-xs ml-1 mt-1 text-inherit;
   }
   .bottomHeaderItem {
     @apply px-3.5 cursor-pointer truncate hover:text-primary;

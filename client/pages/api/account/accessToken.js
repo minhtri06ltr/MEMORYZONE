@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 export default async (req, res) => {
   try {
     const rfToken = req.cookies.refreshToken;
-    console.log(req.cookies);
 
     if (!rfToken)
       return res.status(400).json({

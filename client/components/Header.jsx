@@ -10,10 +10,25 @@ import {
   ViewListIcon,
 } from "@heroicons/react/solid";
 import logo from "../assets/img/logo.webp";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import { loadingNotify } from "../redux/notifySlice";
+import { logout } from "../redux/accountSlice";
 
 const Header = () => {
+  const account = useSelector((state) => state.account);
+
+  const dispatch = useDispatch();
   const productQuantity = useSelector((state) => state.cart.quantity);
+  const handleLogout = () => {
+    dispatch(loadingNotify(true));
+    dispatch(logout());
+    Cookies.remove("refreshToken", {
+      path: "/api/account/accessToken",
+    });
+    localStorage.removeItem("isLogin");
+    dispatch(loadingNotify(false));
+  };
   return (
     <div className="w-full">
       {/* Small banner */}
@@ -44,7 +59,14 @@ const Header = () => {
             <Link href="/account/login">
               <div className="topHeaderItem">
                 <UserIcon width={18} className="text-inherit" />
-                <span className="topHeaderText">Account</span>
+
+                {Object.keys(account.user).length !== 0 ? (
+                  <span className="topHeaderText">
+                    Hi! {account.user.firstName} {account.user.lastName}
+                  </span>
+                ) : (
+                  <span className="topHeaderText">Account</span>
+                )}
               </div>
             </Link>
             <div className="topHeaderItem">
@@ -131,6 +153,9 @@ const Header = () => {
             <li className="bottomHeaderItem">DELIVERY POLICY</li>
             <li className="bottomHeaderItem">CONTACT</li>
             <li className="bottomHeaderItem">LIBRARY</li>
+            <li onClick={handleLogout} className="cursor-pointer">
+              Logout
+            </li>
           </ul>
         </div>
       </section>
