@@ -6,11 +6,14 @@ const cartSlice = createSlice({
   initialState: {
     products: [],
     quantity: 0,
-    loading: false,
     total: 0,
-    error: false,
   },
   reducers: {
+    getCartItemsFromLocalStorage(state, action) {
+      state.products = action.payload.products;
+      state.total = action.payload.total;
+      state.quantity = action.payload.quantity;
+    },
     addToCart(state, action) {
       let newProduct = true;
       state.total += action.payload.quantity * action.payload.price;
@@ -47,8 +50,12 @@ const cartSlice = createSlice({
     },
     deleteProduct(state, action) {
       state.products = state.products.filter((item) => {
+        if (item.id === action.payload) {
+          state.total -= item.price * item.quantity;
+        }
         return item.id !== action.payload;
       });
+      state.quantity -= 1;
     },
     onChangeQuantity(state, action) {
       let price = 0;
@@ -70,4 +77,5 @@ export const {
   deleteProduct,
   increaseProduct,
   onChangeQuantity,
+  getCartItemsFromLocalStorage,
 } = cartSlice.actions;

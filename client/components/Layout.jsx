@@ -2,15 +2,26 @@ import Head from "next/head";
 
 import { Header, Notify } from ".";
 
-const Layout = ({ children, title, description, removeLayout = false }) => {
+const Layout = ({
+  children,
+  title = "Memoryzone",
+  description,
+  keywords = "",
+  removeLayout = false,
+}) => {
   return (
     <>
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
-        <link rel="icon" href="/favicon.ico" />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link
+          rel="icon"
+          href="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/favicon.png?1653451447357"
+        />
       </Head>
-      <Notify />
+      {/* <Notify /> */}
       <header>{!removeLayout && <Header />}</header>
       <main>{children}</main>
       <footer></footer>

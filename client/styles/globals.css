@@ -42,6 +42,15 @@ a {
   .cartPrice {
     @apply text-primary font-semibold;
   }
+  .checkoutInput {
+    @apply outline-none text-sm p-3 rounded-sm focus:border-primary focus:border-2 border border-[#d9d9d9];
+  }
+  .checkoutSelect {
+    @apply w-full h-full place-items-end  outline-none;
+  }
+  .checkoutSelectWrapper {
+    @apply focus-within:border-primary focus-within:border-2  relative px-3 pb-1 flex flex-col justify-center items-start h-[44px] bg-white;
+  }
 }
 @layer utilities {
   .limit-1-line {

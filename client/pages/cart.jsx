@@ -12,6 +12,7 @@ import {
   onChangeQuantity,
 } from "../redux/cartSlice";
 import { isNumber } from "../utils/validate";
+import { loadingNotify } from "../redux/notifySlice";
 
 const cart = () => {
   const dispatch = useDispatch();
@@ -55,6 +56,7 @@ const cart = () => {
                             src={urlFor(item.img).url()}
                             width={98}
                             height={98}
+                            priority
                             layout="responsive"
                           />
                         </a>
@@ -76,6 +78,7 @@ const cart = () => {
                           -
                         </button>
                         <input
+                          disabled={item.countInStock === item.quantity && true}
                           onChange={(e) => {
                             const re = /^[0-9\b]+$/;
                             if (
@@ -83,6 +86,15 @@ const cart = () => {
                               re.test(e.target.value)
                             ) {
                               if (isNumber(parseInt(e.target.value))) {
+                                if (parseInt(e.target.value) === 0) {
+                                  dispatch(
+                                    onChangeQuantity({
+                                      quantity: 1,
+                                      id: item.id,
+                                    })
+                                  );
+                                  return;
+                                }
                                 if (e.target.value > item.countInStock) {
                                   dispatch(
                                     onChangeQuantity({
@@ -107,13 +119,22 @@ const cart = () => {
                           }}
                           value={item.quantity}
                           type="text"
-                          className="w-12 text-center outline-none border-none"
+                          className={`w-12 text-center outline-none border-none ${
+                            item.quantity === item.countInStock &&
+                            "cursor-not-allowed"
+                          }`}
                         />
                         <button
-                          onClick={() =>
+                          onClick={() => {
+                            if (item.quantity === item.countInStock) {
+                              alert(
+                                `We only have ${item.countInStock} of these left in the store`
+                              );
+                              return;
+                            }
                             item.quantity < item.countInStock &&
-                            dispatch(increaseProduct(item.id))
-                          }
+                              dispatch(increaseProduct(item.id));
+                          }}
                           className="border-l border-[#ccc] font-light text-base px-3"
                         >
                           +
@@ -125,8 +146,12 @@ const cart = () => {
                     </td>
                     <td className=" cartRow">
                       <XIcon
-                        onClick={() => dispatch(deleteProduct(item.id))}
-                        className="inline-block cursor-pointer"
+                        onClick={() => {
+                          dispatch(loadingNotify(true));
+                          dispatch(deleteProduct(item.id));
+                          dispatch(loadingNotify(false));
+                        }}
+                        className="inline-block hover:text-[#c92b26] cursor-pointer"
                         width={15}
                         height={15}
                       />
@@ -150,9 +175,11 @@ const cart = () => {
                   KEEP SHOPPING
                 </button>
               </Link>
-              <button className="text-sm font-semibold bg-primary border border-primary hover:text-primary hover:bg-white text-white rounded-sm px-10 py-2">
-                MAKE PAYMENTS
-              </button>
+              <Link href="/checkout">
+                <button className="text-sm font-semibold bg-primary border border-primary hover:text-primary hover:bg-white text-white rounded-sm px-10 py-2">
+                  MAKE PAYMENTS
+                </button>
+              </Link>
             </div>
           </div>
         ) : (

@@ -1,10 +1,13 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../redux/accountSlice";
+import { getCartItemsFromLocalStorage } from "../redux/cartSlice";
 import { getData } from "../utils/requestMethod";
 
 const Wrapper = ({ children }) => {
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+
   useEffect(() => {
     const firstLogin = localStorage.getItem("isLogin");
     if (firstLogin) {
@@ -19,6 +22,17 @@ const Wrapper = ({ children }) => {
       });
     }
   }, []);
+  useEffect(() => {
+    const __memoryzone__cart = JSON.parse(
+      localStorage.getItem("__memoryzone__cart")
+    );
+    __memoryzone__cart &&
+      __memoryzone__cart.quantity > 0 &&
+      dispatch(getCartItemsFromLocalStorage(__memoryzone__cart));
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("__memoryzone__cart", JSON.stringify(cart));
+  }, [cart]);
   return <>{children}</>;
 };
 

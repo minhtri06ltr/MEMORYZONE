@@ -10,14 +10,27 @@ import { useDispatch } from "react-redux";
 import { isNumber } from "../../utils/validate";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { loadingNotify } from "../../redux/notifySlice";
 
 const ProductDetails = ({ productBySlug }) => {
+  if (!productBySlug)
+    return (
+      <Layout
+        title={"Memoryzone | Product not found"}
+        description={"Memoryzone Product not found"}
+        removeLayout={true}
+      >
+        <NotFound message={"Oops Look like product don't exist in our shop"} />
+      </Layout>
+    );
   const router = useRouter();
   const dispatch = useDispatch();
   const [pixel, setPixel] = useState(0);
   const [slideNumber, setSlideNumber] = useState(0);
   const [index, setIndex] = useState(1);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(
+    productBySlug.countInStock === 0 ? 0 : 1
+  );
 
   const listRef = useRef();
   const handleSlide = (direction) => {
@@ -33,6 +46,11 @@ const ProductDetails = ({ productBySlug }) => {
     }
   };
   const handleAddToCart = (product) => {
+    if (product.countInStock === 0) {
+      alert("This product is out of stock.");
+      return;
+    }
+    dispatch(loadingNotify(true));
     dispatch(
       addToCart({
         name: product.name,
@@ -45,25 +63,13 @@ const ProductDetails = ({ productBySlug }) => {
       })
     );
     router.push("/cart");
+    dispatch(loadingNotify(false));
   };
-
-  if (!productBySlug)
-    return (
-      <Layout
-        title={"Memoryzone | Product not found"}
-        description={"Memoryzone Product not found"}
-        removeLayout={true}
-      >
-        <NotFound message={"Oops Look like product don't exist in our shop"} />
-      </Layout>
-    );
 
   return (
     <Layout title={productBySlug.name} description={productBySlug.name}>
       <div className="">
-        <Path
-          path={[productBySlug.name ? productBySlug.name : "Product not found"]}
-        />
+        <Path path={[productBySlug.name]} />
         {/*main product details */}
 
         <div className="flex px-10 items-start mt-12 ">
@@ -77,6 +83,7 @@ const ProductDetails = ({ productBySlug }) => {
                     layout="fill"
                     quality={100}
                     priority
+                    objectFit="cover"
                     src={urlFor(
                       productBySlug.image && productBySlug?.image[index]
                     ).url()}
@@ -97,7 +104,7 @@ const ProductDetails = ({ productBySlug }) => {
                   <div className="overflow-hidden w-[74%]">
                     <div
                       ref={listRef}
-                      className={`flex items-center w-max transition ease-out duration-300  
+                      className={`flex items-center w-max transition ease-out duration-300
                   `}
                     >
                       {productBySlug.image.map(
@@ -114,6 +121,7 @@ const ProductDetails = ({ productBySlug }) => {
                                 src={urlFor(img).url()}
                                 alt={productBySlug.name}
                                 layout="fill"
+                                objectFit="cover"
                               />
                             </div>
                           )
@@ -217,11 +225,17 @@ const ProductDetails = ({ productBySlug }) => {
                     -
                   </button>
                   <input
+                    disabled={productBySlug.countInStock === 0 && true}
                     value={quantity}
                     onChange={(e) => {
                       const re = /^[0-9\b]+$/;
+
                       if (e.target.value === "" || re.test(e.target.value)) {
                         if (isNumber(parseInt(e.target.value))) {
+                          if (parseInt(e.target.value) === 0) {
+                            setQuantity(1);
+                            return;
+                          }
                           if (e.target.value > productBySlug.countInStock) {
                             setQuantity(productBySlug.countInStock);
                           } else setQuantity(parseInt(e.target.value));
@@ -231,13 +245,19 @@ const ProductDetails = ({ productBySlug }) => {
                       }
                     }}
                     type="text"
-                    className="w-16  text-center text-base outline-none border-none px-4"
+                    className={`w-16 ${
+                      productBySlug.countInStock === 0 && "cursor-not-allowed"
+                    } text-center text-base outline-none border-none px-4`}
                   />
                   <button
-                    onClick={() =>
+                    onClick={() => {
+                      if (productBySlug.countInStock === 0) {
+                        alert("This product is out of stock.");
+                        return;
+                      }
                       quantity < productBySlug.countInStock &&
-                      setQuantity(quantity + 1)
-                    }
+                        setQuantity(quantity + 1);
+                    }}
                     className="border-l border-[#ccc] font-medium text-xl px-4 py-1"
                   >
                     +
@@ -403,7 +423,7 @@ export async function getStaticPaths() {
       }
   }`;
   const productSlugs = await client.fetch(queryAllProductSlug);
-  const paths = productSlugs?.map((product) => ({
+  const paths = productSlugs.map((product) => ({
     params: {
       slug: product.slug.current,
     },
