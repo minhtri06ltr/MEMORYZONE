@@ -28,9 +28,7 @@ const ProductDetails = ({ productBySlug }) => {
   const [pixel, setPixel] = useState(0);
   const [slideNumber, setSlideNumber] = useState(0);
   const [index, setIndex] = useState(1);
-  const [quantity, setQuantity] = useState(
-    productBySlug.countInStock === 0 ? 0 : 1
-  );
+  const [quantity, setQuantity] = useState(1);
 
   const listRef = useRef();
   const handleSlide = (direction) => {
@@ -216,53 +214,61 @@ const ProductDetails = ({ productBySlug }) => {
                     </li>
                   </ul>
                 </div>
-                <span className="text-sm block text-gray my-2">Quantity:</span>
-                <div className="border my-4 flex items-center border-[#ccc] rounded-sm w-fit">
-                  <button
-                    onClick={() => quantity > 1 && setQuantity(quantity - 1)}
-                    className="border-r border-[#ccc] font-medium text-3xl px-4 py-1"
-                  >
-                    -
-                  </button>
-                  <input
-                    disabled={productBySlug.countInStock === 0 && true}
-                    value={quantity}
-                    onChange={(e) => {
-                      const re = /^[0-9\b]+$/;
+                {productBySlug.countInStock > 0 && (
+                  <>
+                    <span className="text-sm block text-gray my-2">
+                      Quantity:
+                    </span>
+                    <div className="border my-4 flex items-center border-[#ccc] rounded-sm w-fit">
+                      <button
+                        onClick={() =>
+                          quantity > 1 && setQuantity(quantity - 1)
+                        }
+                        className="border-r border-[#ccc] font-medium text-3xl px-4 py-1"
+                      >
+                        -
+                      </button>
+                      <input
+                        disabled={productBySlug.countInStock === 0 && true}
+                        value={quantity}
+                        onChange={(e) => {
+                          const re = /^[0-9\b]+$/;
 
-                      if (e.target.value === "" || re.test(e.target.value)) {
-                        if (isNumber(parseInt(e.target.value))) {
-                          if (parseInt(e.target.value) === 0) {
-                            setQuantity(1);
+                          if (
+                            e.target.value === "" ||
+                            re.test(e.target.value)
+                          ) {
+                            if (isNumber(parseInt(e.target.value))) {
+                              if (e.target.value > productBySlug.countInStock) {
+                                setQuantity(productBySlug.countInStock);
+                              } else setQuantity(parseInt(e.target.value));
+                            } else {
+                              setQuantity(1);
+                            }
+                          }
+                        }}
+                        type="text"
+                        className={`w-16 ${
+                          productBySlug.countInStock === 0 &&
+                          "cursor-not-allowed"
+                        } text-center text-base outline-none border-none px-4`}
+                      />
+                      <button
+                        onClick={() => {
+                          if (productBySlug.countInStock === 0) {
+                            alert("This product is out of stock.");
                             return;
                           }
-                          if (e.target.value > productBySlug.countInStock) {
-                            setQuantity(productBySlug.countInStock);
-                          } else setQuantity(parseInt(e.target.value));
-                        } else {
-                          setQuantity(1);
-                        }
-                      }
-                    }}
-                    type="text"
-                    className={`w-16 ${
-                      productBySlug.countInStock === 0 && "cursor-not-allowed"
-                    } text-center text-base outline-none border-none px-4`}
-                  />
-                  <button
-                    onClick={() => {
-                      if (productBySlug.countInStock === 0) {
-                        alert("This product is out of stock.");
-                        return;
-                      }
-                      quantity < productBySlug.countInStock &&
-                        setQuantity(quantity + 1);
-                    }}
-                    className="border-l border-[#ccc] font-medium text-xl px-4 py-1"
-                  >
-                    +
-                  </button>
-                </div>
+                          quantity < productBySlug.countInStock &&
+                            setQuantity(quantity + 1);
+                        }}
+                        className="border-l border-[#ccc] font-medium text-xl px-4 py-1"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </>
+                )}
                 <div className="space-y-4 pt-1">
                   <div className="flex border-[#e7e7e7] items-center  px-4 py-2 shadow-sm border rounded-md">
                     <div className="flex-1">
@@ -327,7 +333,10 @@ const ProductDetails = ({ productBySlug }) => {
                 </div>
               </div>
             </div>
-            {productBySlug.reviews && <Review data={productBySlug.reviews} />}
+            <Review
+              data={productBySlug.reviews}
+              productName={productBySlug.name}
+            />
           </div>
 
           {/*right */}

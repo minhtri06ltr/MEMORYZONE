@@ -1,7 +1,8 @@
 import Image from "next/image";
-
+import { StarIcon } from "@heroicons/react/solid";
 import { formatDateTime } from "../utils/format";
 import { StarList } from ".";
+import { useState } from "react";
 
 const Reply = ({ data }) => (
   <>
@@ -36,16 +37,80 @@ const Reply = ({ data }) => (
     ))}
   </>
 );
-const Review = ({ data }) => {
+
+const Rating = ({ index, active }) => {
+  const ratingLevel = [
+    `Don't like`,
+    "Acceptance",
+    "Normal",
+    "Very good",
+    "Amazing",
+  ];
+
+  if (index === 0 && active === 0) return;
   return (
-    <div className="mt-6  w-full min-h-10 border-t-[1px] border-[#f7f7f7]">
+    <div className="bg-[#37a953] rounded-md flex items-center justify-center ml-2 py-1 px-2">
+      <span className="text-white text-xs">
+        {index === 0 && active !== 0
+          ? ratingLevel[active - 1]
+          : ratingLevel[index - 1]}
+      </span>
+    </div>
+  );
+};
+const Review = ({ data, productName }) => {
+  const [rating, setRating] = useState(0);
+  const [star, setStar] = useState(0);
+
+  const [openReviewForm, setOpenReviewForm] = useState(true);
+  return (
+    <div className="mt-6 w-full min-h-10 border-t-[1px] border-[#f7f7f7]">
+      {openReviewForm && (
+        <div className="py-6 space-y-5">
+          <span className="block text-2xl text-[#323c3f]">
+            Rate and comment on <b>"{productName}"</b>
+          </span>
+          <div>
+            <span className="block text-sm text-[#323c3f]">
+              Step 1. Choose your rating
+            </span>
+            <div className="flex-row-reverse  items-center justify-end my-1 flex">
+              <Rating index={rating} active={star} />
+              {[5, 4, 3, 2, 1].map((index) => (
+                <StarIcon
+                  color={`${
+                    star === 0
+                      ? "#cccccc"
+                      : index <= star
+                      ? "#ffd700"
+                      : "#cccccc"
+                  }`}
+                  width={30}
+                  height={30}
+                  className={`cursor-pointer rating mx-1 hover:text-[gold] `}
+                  onMouseEnter={() => {
+                    setRating(index);
+                    setStar(0);
+                  }}
+                  onMouseLeave={() => {
+                    setRating(0);
+                  }}
+                  onClick={() => {
+                    setStar(index);
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       <span className="text-sm text-text my-3 block">
         Choose to see a review
       </span>
-      <div className="space-x-2 border-b-[1px] pb-3 border-[#f7f7f7]">
+      <div className="space-x-2 border-b border-[#f7f7f7] pb-3 ">
         <select
           name="selectReview"
-          className="outline-none border cursor-pointer border-[#f1efef] text-base text-text px-2 py-1 w-[150px]"
+          className="outline-none border cursor-pointer border-[#f1efef] text-sm text-text p-2 w-[150px]"
           id="selectReview"
         >
           <option value={0}>All</option>
@@ -54,7 +119,7 @@ const Review = ({ data }) => {
         </select>
         <select
           name="selectStar"
-          className="outline-none  cursor-pointer border border-[#f1efef] text-base text-text px-2 py-1 w-[150px]"
+          className="outline-none  cursor-pointer border border-[#f1efef] text-sm text-text p-2 w-[150px]"
           id="selectStar"
         >
           <option value={0}>All ★</option>
@@ -66,45 +131,56 @@ const Review = ({ data }) => {
         </select>
       </div>
 
-      <div className="divide-y  ">
-        {data.map((item, index) => (
-          <div className=" py-3 border-[#dddddd] w-full" key={index}>
-            <div className="flex items-center  justify-start">
-              <div className="">
-                <Image
-                  src={`https://ui-avatars.com/api/?rounded=true&size=32&name=${item.fullName.replace(
-                    " ",
-                    "+"
-                  )}&font-size=0.42&color=ffffff&background=666&bold=true`}
-                  width={32}
-                  height={32}
-                />
+      {data ? (
+        <div className="divide-y  ">
+          {data.map((item, index) => (
+            <div className=" py-3 border-[#dddddd] w-full" key={index}>
+              <div className="flex items-center  justify-start">
+                <div className="">
+                  <Image
+                    src={`https://ui-avatars.com/api/?rounded=true&size=32&name=${item.fullName.replace(
+                      " ",
+                      "+"
+                    )}&font-size=0.42&color=ffffff&background=666&bold=true`}
+                    width={32}
+                    height={32}
+                  />
+                </div>
+                <span className="font-semibold text-base ml-3 text-[#505050]">
+                  {item.fullName}
+                </span>
               </div>
-              <span className="font-semibold text-base ml-3 text-[#505050]">
-                {item.fullName}
-              </span>
+              <div>
+                <StarList quantity={item.rating} width={22} height={22} />
+                <span className="text-sm py-2 text-[#505050]">
+                  {item.comment}
+                </span>
+              </div>
+              <div className="mb-3">
+                <span className="text-xs  cursor-pointer text-[#007bff]">
+                  Answer
+                </span>
+                <span className="text-[#666666] text-xs italic">
+                  {" "}
+                  • {formatDateTime(new Date())}
+                </span>
+              </div>
+              <div className="border border-[#e5e5e5] divide-y  rounded-sm  mb-6 px-3  bg-[#f5f5f5]">
+                {item.reply && <Reply data={item.reply} />}
+              </div>
             </div>
-            <div>
-              <StarList quantity={item.rating} width={22} height={22} />
-              <span className="text-sm py-2 text-[#505050]">
-                {item.comment}
-              </span>
-            </div>
-            <div className="mb-3">
-              <span className="text-xs  cursor-pointer text-[#007bff]">
-                Answer
-              </span>
-              <span className="text-[#666666] text-xs italic">
-                {" "}
-                • {formatDateTime(new Date())}
-              </span>
-            </div>
-            <div className="border border-[#e5e5e5] divide-y  rounded-sm  mb-6 px-3  bg-[#f5f5f5]">
-              {item.reply && <Reply data={item.reply} />}
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-3 bg-[#fff3cd] rounded-md px-6 py-3">
+          <span className="text-sm text-[#856404]">
+            There are no reviews yet
+          </span>
+          <button onClick={() => setOpenReviewForm(!openReviewForm)}>
+            Write your review
+          </button>
+        </div>
+      )}
     </div>
   );
 };
