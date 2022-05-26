@@ -175,7 +175,7 @@ const cart = () => {
                   KEEP SHOPPING
                 </button>
               </Link>
-              <Link href="/checkout">
+              <Link href="/test/ui">
                 <button className="text-sm font-semibold bg-primary border border-primary hover:text-primary hover:bg-white text-white rounded-sm px-10 py-2">
                   MAKE PAYMENTS
                 </button>
