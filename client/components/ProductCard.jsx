@@ -5,7 +5,7 @@ import { urlFor } from "../lib/client";
 
 const ProductCard = ({ name, price, img, slug }) => {
   return (
-    <div className="">
+    <div>
       <div>
         <Link href={`/product/${slug}`}>
           <a className="relative aspect-square block ">

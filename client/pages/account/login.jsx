@@ -158,7 +158,7 @@ const login = () => {
               >
                 *
               </label>
-              <div className="">
+              <div>
                 <button
                   type="submit"
                   className="text-sm  transition ease-out border border-primary bg-primary text-white hover:bg-white hover:text-primary rounded-sm px-6 py-2"

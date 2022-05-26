@@ -22,6 +22,7 @@ const Test = () => {
               <Link href="/">
                 <a>
                   <Image
+                    quanlity={100}
                     src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/checkout_logo.png?1653463685615"
                     layout="fill"
                   />
@@ -212,14 +213,16 @@ const Test = () => {
                 <tbody>
                   {cart.products.map((item, index) => (
                     <tr key={index} className="flex items-center">
-                      <td className="">
-                        <div className="rounded-xl bg-white relative border w-[50px] h-[50px] border-[#e5e5e5]">
-                          <Image
-                            src={urlFor(item.img).url()}
-                            layout="fill"
-                            quality={100}
-                          />
-                          <span className="bg-primary  z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
+                      <td>
+                        <div className="relative">
+                          <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md bg-white border border-[#e5e5e5]">
+                            <Image
+                              src={urlFor(item.img).url()}
+                              layout="fill"
+                              quality={100}
+                            />
+                          </div>
+                          <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
                             {item.quantity}
                           </span>
                         </div>

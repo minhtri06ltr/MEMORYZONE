@@ -64,7 +64,7 @@ const register = () => {
         <span className="text-text font- text-lg block">
           REGISTER AN ACCOUNT
         </span>
-        <div className="">
+        <div>
           <form onSubmit={registerHandler} className="my-1 flex space-x-8">
             <div className="w-1/2">
               <span className="text-text text-sm pb-4  block">

@@ -31,7 +31,7 @@ const Banner = () => {
             </ul>
           </div>
         </div>
-        <div className="">
+        <div>
           <Link href="#">
             <a>
               <Image
@@ -46,7 +46,7 @@ const Banner = () => {
             </a>
           </Link>
         </div>
-        <div className="">
+        <div>
           <Link href="#">
             <a>
               <Image

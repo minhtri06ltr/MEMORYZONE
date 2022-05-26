@@ -151,7 +151,7 @@ const cart = () => {
                           dispatch(deleteProduct(item.id));
                           dispatch(loadingNotify(false));
                         }}
-                        className="inline-block hover:text-[#c92b26] cursor-pointer"
+                        className="inline-block hover:text-[#c92b26] mb-1 cursor-pointer"
                         width={15}
                         height={15}
                       />

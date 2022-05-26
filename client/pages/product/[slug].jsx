@@ -66,7 +66,7 @@ const ProductDetails = ({ productBySlug }) => {
 
   return (
     <Layout title={productBySlug.name} description={productBySlug.name}>
-      <div className="">
+      <div>
         <Path path={[productBySlug.name]} />
         {/*main product details */}
 
