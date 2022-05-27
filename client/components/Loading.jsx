@@ -1,6 +1,6 @@
 const Loading = () => {
   return (
-    <div className="fixed bg-[#0008] w-full h-full  top-0 left-0 z-10 text-white flex items-center justify-center loading">
+    <div className="fixed bg-[#0008] w-full h-full  top-0 left-0 z-50 text-white flex items-center justify-center loading">
       <svg width="205" height="250" viewBox="0 0 40 50">
         <polygon
           className="polygon"

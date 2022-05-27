@@ -22,6 +22,7 @@ const Test = () => {
               <Link href="/">
                 <a>
                   <Image
+                    alt="Memoryzone checkout page logo"
                     quanlity={100}
                     src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/checkout_logo.png?1653463685615"
                     layout="fill"
@@ -127,6 +128,7 @@ const Test = () => {
                         </span>
                       </div>
                       <Image
+                        atl="Memoryzone Bank Transfer (VietQR) (Free of charge)"
                         src="https://bizweb.dktcdn.net/100/329/122/files/01icon-vietqr.png?v=1639481626593"
                         width={48}
                         height={32}
@@ -140,6 +142,7 @@ const Test = () => {
                         </span>
                       </div>
                       <Image
+                        atl="Memoryzone  Payment on Delivery (COD)"
                         src="https://bizweb.dktcdn.net/100/329/122/files/02icon-cod.png?v=1639559673947"
                         width={48}
                         height={32}
@@ -154,6 +157,8 @@ const Test = () => {
                         </span>
                       </div>
                       <Image
+                        atl="Memoryzone  0% interest installment payment via Visa, Master, JCB
+                      cards (Order from 150 $)"
                         src="https://bizweb.dktcdn.net/100/329/122/files/03icon-tragop-0.png?v=1639481630773"
                         width={48}
                         height={32}
@@ -168,6 +173,8 @@ const Test = () => {
                         </span>
                       </div>
                       <Image
+                        alt="Memoryzone    Online payment via Visa, Master, JCB cards (Free
+                        payment)"
                         src="https://bizweb.dktcdn.net/100/329/122/files/04icon-visamaster.png?v=1639481634747"
                         width={48}
                         height={32}
@@ -220,6 +227,7 @@ const Test = () => {
                               src={urlFor(item.img).url()}
                               layout="fill"
                               quality={100}
+                              atl={`Memoryzone checkout products: ${item.name}`}
                             />
                           </div>
                           <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">

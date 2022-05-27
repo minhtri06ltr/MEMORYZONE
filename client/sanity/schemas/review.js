@@ -2,13 +2,10 @@ export default {
   name: "review",
   title: "Review",
   type: "object",
-
+  initialValue: {
+    isApprove: false,
+  },
   fields: [
-    {
-      name: "name",
-      title: "Name",
-      type: "string",
-    },
     {
       name: "rating",
       title: "Rating",
@@ -38,6 +35,11 @@ export default {
       name: "phoneNumber",
       title: "Phone Number",
       type: "string",
+    },
+    {
+      name: "isApprove",
+      title: "Approve",
+      type: "boolean",
     },
     {
       name: "reply",

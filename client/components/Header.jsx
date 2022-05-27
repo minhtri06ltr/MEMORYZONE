@@ -89,7 +89,7 @@ const Header = () => {
               <a>
                 <Image
                   src={logo}
-                  alt="Memoryzone logo"
+                  alt="Memoryzone homepage logo"
                   width={178}
                   height={45}
                 />

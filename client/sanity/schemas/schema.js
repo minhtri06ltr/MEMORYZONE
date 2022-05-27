@@ -23,6 +23,7 @@ export default createSchema({
     product,
     review,
     user,
+
     order,
     orderItem,
     shippingAddress,

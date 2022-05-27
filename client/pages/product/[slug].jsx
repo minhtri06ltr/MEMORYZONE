@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { client, urlFor } from "../../lib/client";
-import { StarIcon, CheckCircleIcon } from "@heroicons/react/solid";
+import { CheckCircleIcon } from "@heroicons/react/solid";
 import { numberWithCommas } from "../../utils/format";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useRef, useState } from "react";
@@ -13,6 +13,9 @@ import Link from "next/link";
 import { loadingNotify } from "../../redux/notifySlice";
 
 const ProductDetails = ({ productBySlug }) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   if (!productBySlug)
     return (
       <Layout
@@ -23,8 +26,7 @@ const ProductDetails = ({ productBySlug }) => {
         <NotFound message={"Oops Look like product don't exist in our shop"} />
       </Layout>
     );
-  const router = useRouter();
-  const dispatch = useDispatch();
+
   const [pixel, setPixel] = useState(0);
   const [slideNumber, setSlideNumber] = useState(0);
   const [index, setIndex] = useState(1);
@@ -77,7 +79,9 @@ const ProductDetails = ({ productBySlug }) => {
               <div className="flex-1  overflow-hidden ">
                 <div className="relative aspect-square">
                   <Image
-                    alt={productBySlug.name && productBySlug?.name[index]}
+                    alt={`Memoryzone product slider: ${
+                      productBySlug.name && productBySlug?.name[index]
+                    }`}
                     layout="fill"
                     quality={100}
                     priority
@@ -117,7 +121,7 @@ const ProductDetails = ({ productBySlug }) => {
                             >
                               <Image
                                 src={urlFor(img).url()}
-                                alt={productBySlug.name}
+                                alt={`Memoryzone other products image: ${productBySlug.name}`}
                                 layout="fill"
                                 objectFit="cover"
                               />
@@ -334,8 +338,9 @@ const ProductDetails = ({ productBySlug }) => {
               </div>
             </div>
             <Review
-              data={productBySlug.reviews}
+              data={productBySlug.reviews.filter((item) => item.isApprove)}
               productName={productBySlug.name}
+              productId={productBySlug._id}
             />
           </div>
 
@@ -432,13 +437,14 @@ export async function getStaticPaths() {
       }
   }`;
   const productSlugs = await client.fetch(queryAllProductSlug);
-  const paths = productSlugs.map((product) => ({
-    params: {
-      slug: product.slug.current,
-    },
-  }));
+
   return {
-    paths: paths,
+    paths:
+      productSlugs?.map((product) => ({
+        params: {
+          slug: product.slug.current,
+        },
+      })) || [],
     fallback: true,
   };
 }
@@ -454,7 +460,6 @@ export const getStaticProps = async ({ params: { slug } }) => {
       revalidate: 60,
     };
   } catch (error) {
-    console.log(error);
     return {
       productBySlug: null,
     };

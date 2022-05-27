@@ -51,7 +51,7 @@ const cart = () => {
                       <Link href={`/product/${item.slug}`}>
                         <a>
                           <Image
-                            alt={item.name}
+                            alt={`Memoryzone products in cart: ${item.name}`}
                             className="cursor-pointer"
                             src={urlFor(item.img).url()}
                             width={98}
