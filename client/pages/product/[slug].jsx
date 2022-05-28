@@ -15,7 +15,7 @@ import { loadingNotify } from "../../redux/notifySlice";
 const ProductDetails = ({ productBySlug }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  console.log(productBySlug);
+
   if (!productBySlug)
     return (
       <Layout
@@ -65,7 +65,7 @@ const ProductDetails = ({ productBySlug }) => {
     router.push("/cart");
     dispatch(loadingNotify(false));
   };
-
+  console.log(productBySlug);
   return (
     <Layout title={productBySlug.name} description={productBySlug.name}>
       <div>
@@ -161,7 +161,13 @@ const ProductDetails = ({ productBySlug }) => {
                   </div>
                   <Link href="#review">
                     <span className="text-[#055eff] cursor-pointer text-sm ml-2">
-                      Be the first to review
+                      {!productBySlug.reviews
+                        ? "Be the first to review"
+                        : `See ${productBySlug.numberReview} ${
+                            productBySlug.numberReview > 1
+                              ? "reviews"
+                              : "review"
+                          }`}
                     </span>
                   </Link>
                 </div>
@@ -180,7 +186,7 @@ const ProductDetails = ({ productBySlug }) => {
                   <span className="text-primary text-3xl font-bold ">
                     {numberWithCommas(productBySlug.price)}$
                   </span>
-                  <span className="ml-4 text-lg line-through text-gray">
+                  <span className="ml-4 text-base line-through text-gray">
                     {numberWithCommas(7423)}$
                   </span>
                 </div>
@@ -337,9 +343,11 @@ const ProductDetails = ({ productBySlug }) => {
                 </div>
               </div>
             </div>
+
             <Review
-              data={productBySlug.reviews.filter((item) => item.isApprove)}
+              data={productBySlug.reviews?.filter((item) => item.isApprove)}
               productName={productBySlug.name}
+              productRate={productBySlug.rating}
               productId={productBySlug._id}
             />
           </div>

@@ -1,3 +1,5 @@
+import Webcam from "part:sanity-plugin-asset-source-webcam/image-asset-source";
+
 export default {
   name: "product",
   title: "Product",
@@ -6,6 +8,7 @@ export default {
     price: 0,
     countInStock: 0,
     numberReview: 0,
+    rating: 0,
   },
   fields: [
     {
@@ -16,6 +19,7 @@ export default {
       of: [{ type: "image" }],
       options: {
         hotspot: true,
+        sources: [Webcam],
       },
     },
     {
@@ -66,6 +70,16 @@ export default {
       name: "rating",
       title: "Rating",
       type: "number",
+      options: {
+        list: [
+          { title: "5 Star", value: 5 },
+          { title: "4 Star", value: 4 },
+          { title: "3 Star", value: 3 },
+          { title: "2 Star", value: 2 },
+          { title: "1 Star", value: 1 },
+        ],
+        layout: "radio",
+      },
     },
     {
       name: "reviews",

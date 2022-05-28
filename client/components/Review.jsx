@@ -8,7 +8,7 @@ import { client, urlFor } from "../lib/client";
 import { useDispatch } from "react-redux";
 import { loadingNotify } from "../redux/notifySlice";
 
-const Reply = ({ data }) => (
+const ReplyItem = ({ data }) => (
   <>
     {data.map((item, index) => (
       <div key={index} className=" pt-3 pb-6 border-[#dddddd]">
@@ -32,7 +32,15 @@ const Reply = ({ data }) => (
           {item.comment}
         </span>
         <div className="mb-3">
-          <span className="text-xs  cursor-pointer text-[#007bff]">Answer</span>
+          <span
+            onClick={() => {
+              setOpenReplyForm(false);
+              setOpenReplyForm(true);
+            }}
+            className="text-xs  cursor-pointer text-[#007bff]"
+          >
+            Answer
+          </span>
           <span className="text-[#666666] text-xs italic">
             {" "}
             • 09/04/2022 12:54
@@ -49,6 +57,7 @@ const EmptyReview = () => {
     </div>
   );
 };
+
 const Rating = ({ index, active }) => {
   const ratingLevel = [
     `Don't like`,
@@ -66,20 +75,26 @@ const Rating = ({ index, active }) => {
     </div>
   );
 };
-const Review = ({ data, productName, productId }) => {
-  const [rating, setRating] = useState(0);
 
+const Review = ({ data, productName, productRate, productId }) => {
+  const [rating, setRating] = useState(0);
+  const [replyForm, setReplyForm] = useState({
+    comment: "",
+    fullName: "",
+    phoneNumber: "",
+  });
+  const [openReplyForm, setOpenReplyForm] = useState(false);
+  console.log(openReplyForm);
   const imgRef = useRef("");
   const [reviewForm, setReviewForm] = useState({
     star: 0,
     comment: "",
     fullName: "",
     phoneNumber: "",
-    productId: productId,
+
     images: [],
   });
 
-  console.log(reviewForm);
   const dispatch = useDispatch();
   const { images } = reviewForm;
   const [openReviewForm, setOpenReviewForm] = useState(true);
@@ -90,15 +105,12 @@ const Review = ({ data, productName, productId }) => {
         return;
       }
       if (
-        e.target.files[0].type !== "image/jpeg" &&
-        e.target.files[0].type !== "image/png" &&
-        e.target.files[0].type !== "image/svg" &&
-        e.target.files[0].type !== "image/tiff" &&
-        e.target.files[0].type !== "image/gif"
+        e.target.files[0].type === "image/png" ||
+        e.target.files[0].type === "image/svg+xml" ||
+        e.target.files[0].type === "image/jpeg" ||
+        e.target.files[0].type === "image/gif" ||
+        e.target.files[0].type === "image/tiff"
       ) {
-        alert("Image format is incorrect");
-        return;
-      } else {
         dispatch(loadingNotify(true));
         await client.assets
           .upload("image", e.target.files[0], {
@@ -116,8 +128,13 @@ const Review = ({ data, productName, productId }) => {
             dispatch(loadingNotify(false));
             alert(error.message);
           });
+      } else {
+        alert("Image format is incorrect");
+        return;
       }
-    } else
+    }
+    // not onchange image input
+    else
       setReviewForm({
         ...reviewForm,
         [e.target.name]: e.target.value,
@@ -158,7 +175,15 @@ const Review = ({ data, productName, productId }) => {
         autoGenerateArrayKeys: true,
       })
       .then((res) => {
-        // data.push(res.reviews[res.reviews.length - 1]); -- render review imediately
+        client
+          .patch(productId)
+          .inc({
+            numberReview: 1,
+          })
+          .set({
+            rating: Math.round((reviewForm.star + productRate) / 2),
+          })
+          .commit();
         dispatch(loadingNotify(false));
         alert(
           "Thanks for your review, please wait for an admin to approve this review"
@@ -171,7 +196,21 @@ const Review = ({ data, productName, productId }) => {
 
     setOpenReviewForm(false);
   };
-  console.log(toAsset(reviewForm.images));
+  const replyHandle = () => {
+    if (replyForm.fullName === "" || replyForm.comment === "") {
+      alert("Please add required fields");
+      return;
+    } else {
+    }
+  };
+  const replyFormHandle = (e) => {
+    setReplyForm({
+      ...replyForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+  console.log(replyForm);
+  console.log(productId);
   return (
     <div className="mt-6 w-full min-h-10 border-t-[1px] border-[#f7f7f7]">
       {openReviewForm && (
@@ -231,7 +270,7 @@ const Review = ({ data, productName, productId }) => {
                 name="comment"
                 required
                 onChange={reviewFormHandle}
-                className="w-full mt-2 min-h-[115px] pl-5 pt-2 pr-28 text-[#686868] text-sm outline-none rounded-md border border-[#ddd]"
+                className="w-full mt-2 focus:border-[#bdbdbd] min-h-[115px] pl-5 pt-2 pr-28 text-[#686868] text-sm outline-none rounded-md border border-[#ddd]"
               ></textarea>
             </div>
             <div className="pb-2 flex items-center space-x-10">
@@ -249,7 +288,7 @@ const Review = ({ data, productName, productId }) => {
                   id="fullName"
                   name="fullName"
                   onChange={reviewFormHandle}
-                  className="px-4 py-2 border min-w-[270px] text-[#686868] text-sm border-[#dddddd] outline-none"
+                  className="reviewInput"
                 />
               </div>
               <div>
@@ -265,7 +304,7 @@ const Review = ({ data, productName, productId }) => {
                   id="phoneNumber"
                   name="phoneNumber"
                   onChange={reviewFormHandle}
-                  className="px-4 py-2 border min-w-[270px] text-[#686868] text-sm border-[#dddddd] outline-none"
+                  className="reviewInput"
                 />
               </div>
             </div>
@@ -405,7 +444,13 @@ const Review = ({ data, productName, productId }) => {
                 </div>
               )}
               <div className="mb-3">
-                <span className="text-xs  cursor-pointer text-[#007bff]">
+                <span
+                  onClick={() => {
+                    setOpenReplyForm(false);
+                    setOpenReplyForm(true);
+                  }}
+                  className="text-xs  cursor-pointer text-[#007bff]"
+                >
                   Answer
                 </span>
                 <span className="text-[#666666] text-xs italic">
@@ -415,7 +460,46 @@ const Review = ({ data, productName, productId }) => {
               </div>
               {item.reply && (
                 <div className="border border-[#e5e5e5] divide-y arrow after:border-[12px] after:border-b-[12px] after:border-b-[#f5f5f5] mt-5 after:-top-6  rounded-sm  mb-6 px-3  bg-[#f5f5f5]">
-                  <Reply data={item.reply} />
+                  <ReplyItem data={item.reply} />
+                </div>
+              )}
+              {openReplyForm && (
+                <div className="mb-14">
+                  <form className="space-y-3" onSubmit={replyHandle}>
+                    <textarea
+                      required
+                      value={replyForm.comment}
+                      name="comment"
+                      onChange={replyFormHandle}
+                      placeholder="Enter reply for this review (*)"
+                      className="w-full focus:border-[#bdbdbd] mt-2 min-h-[115px] pl-5 pt-2 pr-28 text-[#686868] text-sm outline-none rounded-md border border-[#ddd]"
+                    ></textarea>
+                    <div className="space-x-8 flex items-center">
+                      <input
+                        type="text"
+                        placeholder="Full Name"
+                        className="reviewInput"
+                        required
+                        onChange={replyFormHandle}
+                        value={replyForm.fullName}
+                        name="fullName"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Phone Number"
+                        className="reviewInput"
+                        value={replyForm.phoneNumber}
+                        name="phoneNumber"
+                        onChange={replyFormHandle}
+                      />
+                      <button
+                        type="submit"
+                        className="rounded-md text-white bg-[#ff0000] px-4 py-3  flex-1 text-sm "
+                      >
+                        Send reply
+                      </button>
+                    </div>
+                  </form>
                 </div>
               )}
             </div>
