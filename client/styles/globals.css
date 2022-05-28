@@ -57,6 +57,9 @@ a {
   .arrow {
     @apply after:z-10 relative after:content-[''] after:absolute after:h-0 after:w-0  after:border-transparent;
   }
+  .scaleAnimation{
+    @apply hover:scale-105 cursor-pointer transition ease-linear
+  }
 }
 @layer utilities {
   .limit-1-line {
@@ -102,4 +105,5 @@ a {
       stroke-dashoffset: 234;
     }
   }
+  
 }

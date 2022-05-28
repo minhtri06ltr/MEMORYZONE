@@ -10,6 +10,7 @@ export default {
       name: "user",
       title: "User",
       type: "reference",
+      weak: true,
       to: [{ type: "user" }],
     },
     {

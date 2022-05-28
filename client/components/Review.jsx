@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { StarIcon } from "@heroicons/react/solid";
-import { formatDateTime } from "../utils/format";
+import { formatDateTime, toAsset } from "../utils/format";
 import { StarList } from ".";
 import { useRef, useState } from "react";
 
-import { client } from "../lib/client";
+import { client, urlFor } from "../lib/client";
 import { useDispatch } from "react-redux";
 import { loadingNotify } from "../redux/notifySlice";
 
@@ -78,10 +78,12 @@ const Review = ({ data, productName, productId }) => {
     productId: productId,
     images: [],
   });
+
+  console.log(reviewForm);
   const dispatch = useDispatch();
   const { images } = reviewForm;
   const [openReviewForm, setOpenReviewForm] = useState(true);
-  const reviewFormHandle = (e) => {
+  const reviewFormHandle = async (e) => {
     if (e.target.name === "images") {
       if (reviewForm.images.length >= 5) {
         alert("You can only post up to 5 product photos");
@@ -89,14 +91,32 @@ const Review = ({ data, productName, productId }) => {
       }
       if (
         e.target.files[0].type !== "image/jpeg" &&
-        e.target.files[0].type !== "image/png"
+        e.target.files[0].type !== "image/png" &&
+        e.target.files[0].type !== "image/svg" &&
+        e.target.files[0].type !== "image/tiff" &&
+        e.target.files[0].type !== "image/gif"
       ) {
         alert("Image format is incorrect");
+        return;
+      } else {
+        dispatch(loadingNotify(true));
+        await client.assets
+          .upload("image", e.target.files[0], {
+            contentType: e.target.files[0].type,
+            filename: e.target.files[0].name,
+          })
+          .then((res) => {
+            setReviewForm({
+              ...reviewForm,
+              images: [...images, res],
+            });
+            dispatch(loadingNotify(false));
+          })
+          .catch((error) => {
+            dispatch(loadingNotify(false));
+            alert(error.message);
+          });
       }
-      setReviewForm({
-        ...reviewForm,
-        images: [...images, e.target.files[0]],
-      });
     } else
       setReviewForm({
         ...reviewForm,
@@ -127,7 +147,7 @@ const Review = ({ data, productName, productId }) => {
           comment: reviewForm.comment,
           fullName: reviewForm.fullName,
           phoneNumber: reviewForm.phoneNumber,
-          image: reviewForm.images,
+          image: toAsset(reviewForm.images),
           isApprove: false,
           createTime: new Date(),
         },
@@ -140,13 +160,18 @@ const Review = ({ data, productName, productId }) => {
       .then((res) => {
         // data.push(res.reviews[res.reviews.length - 1]); -- render review imediately
         dispatch(loadingNotify(false));
+        alert(
+          "Thanks for your review, please wait for an admin to approve this review"
+        );
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        dispatch(loadingNotify(false));
+        alert(error.message);
+      });
 
     setOpenReviewForm(false);
   };
-  console.log(data);
-  var check = false;
+  console.log(toAsset(reviewForm.images));
   return (
     <div className="mt-6 w-full min-h-10 border-t-[1px] border-[#f7f7f7]">
       {openReviewForm && (
@@ -278,7 +303,7 @@ const Review = ({ data, productName, productId }) => {
                       <Image
                         src={image.url ? image.url : URL.createObjectURL(image)}
                         quantity={100}
-                        objectFit="cover"
+                        objectFit="contain"
                         layout="fill"
                         alt={`${productName} review images`}
                       />
@@ -348,7 +373,7 @@ const Review = ({ data, productName, productId }) => {
                     )}&font-size=0.42&color=ffffff&background=666&bold=true`}
                     width={32}
                     height={32}
-                    atl={`Memoryzone reivew: ${item.fullName} avatar`}
+                    atl={`Memoryzone review: ${item.fullName} avatar`}
                   />
                 </div>
                 <span className="font-semibold text-base ml-3 pb-1 text-[#505050]">
@@ -361,6 +386,24 @@ const Review = ({ data, productName, productId }) => {
                   {item.comment}
                 </span>
               </div>
+              {/*img section */}
+              {item.image.length > 0 && (
+                <div className="my-4 flex items-center flex-start space-x-6">
+                  {item.image.map((img, index) => (
+                    <div
+                      key={index}
+                      className="relative cursor-pointer scaleAnimation h-[180px] w-[180px]"
+                    >
+                      <Image
+                        quantity={100}
+                        objectFit="contain"
+                        layout="fill"
+                        src={urlFor(img).url()}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
               <div className="mb-3">
                 <span className="text-xs  cursor-pointer text-[#007bff]">
                   Answer

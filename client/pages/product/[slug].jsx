@@ -15,7 +15,7 @@ import { loadingNotify } from "../../redux/notifySlice";
 const ProductDetails = ({ productBySlug }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-
+  console.log(productBySlug);
   if (!productBySlug)
     return (
       <Layout

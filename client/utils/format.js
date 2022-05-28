@@ -20,3 +20,15 @@ export const formatDateTime = (datetime) => {
     ("0" + convert.getUTCSeconds()).slice(-2)
   );
 };
+
+export const toAsset = (imgArray) => {
+  return imgArray.map((img, index) => {
+    return {
+      _type: "image",
+      asset: {
+        _type: "reference",
+        _ref: img._id,
+      },
+    };
+  });
+};
