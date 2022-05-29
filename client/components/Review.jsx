@@ -8,48 +8,55 @@ import { client, urlFor } from "../lib/client";
 import { useDispatch } from "react-redux";
 import { loadingNotify } from "../redux/notifySlice";
 
-const ReplyItem = ({ data }) => (
-  <>
-    {data.map((item, index) => (
-      <div key={index} className=" pt-3 pb-6 border-[#dddddd]">
-        <div className="flex items-center  justify-start">
-          <div>
-            <Image
-              src={`https://ui-avatars.com/api/?rounded=true&size=32&name=${item.fullName.replace(
-                " ",
-                "+"
-              )}&font-size=0.42&color=ffffff&background=666&bold=true`}
-              width={32}
-              height={32}
-              atl={`Memoryzone reply: ${item.fullName} avatar`}
-            />
+const ReplyItem = ({ data, reviewIndex, setOpenIndex, setReplyForm }) => {
+  return (
+    <>
+      {data.map((item, index) => (
+        <div key={index} className=" pt-3 pb-6 border-[#dddddd]">
+          <div className="flex items-center  justify-start">
+            <div>
+              <Image
+                src={`https://ui-avatars.com/api/?rounded=true&size=32&name=${item.fullName.replace(
+                  " ",
+                  "+"
+                )}&font-size=0.42&color=ffffff&background=666&bold=true`}
+                width={32}
+                height={32}
+                atl={`Memoryzone reply: ${item.fullName} avatar`}
+              />
+            </div>
+            <span className="font-semibold text-base ml-3 text-[#505050]">
+              {item.fullName}
+            </span>
           </div>
-          <span className="font-semibold text-base ml-3 text-[#505050]">
-            {item.fullName}
+          <span className="text-sm block py-2 text-[#505050]">
+            {item.comment}
           </span>
+          <div className="mb-3">
+            <span
+              onClick={() => {
+                setReplyForm({
+                  comment: "",
+                  fullName: "",
+                  phoneNumber: "",
+                  reviewId: "",
+                });
+                setOpenIndex(reviewIndex);
+              }}
+              className="text-xs  cursor-pointer text-[#007bff]"
+            >
+              Answer
+            </span>
+            <span className="text-[#666666] text-xs italic">
+              {" "}
+              • {formatDateTime(item.createTime)}
+            </span>
+          </div>
         </div>
-        <span className="text-sm block py-2 text-[#505050]">
-          {item.comment}
-        </span>
-        <div className="mb-3">
-          <span
-            onClick={() => {
-              setOpenReplyForm(false);
-              setOpenReplyForm(true);
-            }}
-            className="text-xs  cursor-pointer text-[#007bff]"
-          >
-            Answer
-          </span>
-          <span className="text-[#666666] text-xs italic">
-            {" "}
-            • 09/04/2022 12:54
-          </span>
-        </div>
-      </div>
-    ))}
-  </>
-);
+      ))}
+    </>
+  );
+};
 const EmptyReview = () => {
   return (
     <div className="mt-3 bg-[#fff3cd] rounded-md px-6 py-3">
@@ -82,9 +89,9 @@ const Review = ({ data, productName, productRate, productId }) => {
     comment: "",
     fullName: "",
     phoneNumber: "",
+    reviewId: "",
   });
-  const [openReplyForm, setOpenReplyForm] = useState(false);
-  console.log(openReplyForm);
+
   const imgRef = useRef("");
   const [reviewForm, setReviewForm] = useState({
     star: 0,
@@ -94,7 +101,8 @@ const Review = ({ data, productName, productRate, productId }) => {
 
     images: [],
   });
-
+  const [openIndex, setOpenIndex] = useState(null);
+  console.log(openIndex);
   const dispatch = useDispatch();
   const { images } = reviewForm;
   const [openReviewForm, setOpenReviewForm] = useState(true);
@@ -157,7 +165,7 @@ const Review = ({ data, productName, productRate, productId }) => {
       // Ensure that the `reviews` arrays exists before attempting to add items to it
       .setIfMissing({ reviews: [] })
       // Add the items after the last item in the array (append)
-      .insert("after", "reviews[-1]", [
+      .append("reviews", [
         {
           _type: "review",
           rating: reviewForm.star,
@@ -175,6 +183,9 @@ const Review = ({ data, productName, productRate, productId }) => {
         autoGenerateArrayKeys: true,
       })
       .then((res) => {
+        // data.push(res.reviews[res.reviews.length - 1]); -- render review imediately
+
+        //transaction - calculate total rating, inc review number
         client
           .patch(productId)
           .inc({
@@ -196,11 +207,49 @@ const Review = ({ data, productName, productRate, productId }) => {
 
     setOpenReviewForm(false);
   };
-  const replyHandle = () => {
+  const replyHandle = async (reviewId, e) => {
+    e.preventDefault();
+    console.log(reviewId, productId);
     if (replyForm.fullName === "" || replyForm.comment === "") {
       alert("Please add required fields");
       return;
     } else {
+      dispatch(loadingNotify(true));
+      await client
+        .patch(productId)
+        .setIfMissing({
+          [`reviews[_key == \"${reviewId}\"].reply`]: [],
+        })
+        // Add the items after the last item in the array (append)
+        .append(`reviews[_key == \"${reviewId}\"].reply`, [
+          {
+            _type: "reply",
+            comment: replyForm.comment,
+            fullName: replyForm.fullName,
+            phoneNumber: replyForm.phoneNumber,
+            createTime: new Date(),
+          },
+        ])
+        .commit({
+          // Adds a `_key` attribute to array items, unique within the array, to
+          // ensure it can be addressed uniquely in a real-time collaboration context
+          autoGenerateArrayKeys: true,
+        })
+        .then((res) => {
+          console.log(res);
+          data[openIndex].reply = res.reviews.filter((item) => item.isApprove)[
+            openIndex
+          ].reply;
+
+          console.log(data);
+          setOpenIndex(null);
+          dispatch(loadingNotify(false));
+        })
+        .catch((error) => {
+          alert(error.message);
+          console.log(error);
+          dispatch(loadingNotify(false));
+        });
     }
   };
   const replyFormHandle = (e) => {
@@ -209,8 +258,7 @@ const Review = ({ data, productName, productRate, productId }) => {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(replyForm);
-  console.log(productId);
+  console.log(data);
   return (
     <div className="mt-6 w-full min-h-10 border-t-[1px] border-[#f7f7f7]">
       {openReviewForm && (
@@ -300,7 +348,7 @@ const Review = ({ data, productName, productRate, productId }) => {
                 </label>
                 <input
                   value={reviewForm.phoneNumber}
-                  type="text"
+                  type="tel"
                   id="phoneNumber"
                   name="phoneNumber"
                   onChange={reviewFormHandle}
@@ -446,8 +494,13 @@ const Review = ({ data, productName, productRate, productId }) => {
               <div className="mb-3">
                 <span
                   onClick={() => {
-                    setOpenReplyForm(false);
-                    setOpenReplyForm(true);
+                    setReplyForm({
+                      comment: "",
+                      fullName: "",
+                      phoneNumber: "",
+                      reviewId: "",
+                    });
+                    setOpenIndex(index);
                   }}
                   className="text-xs  cursor-pointer text-[#007bff]"
                 >
@@ -460,12 +513,20 @@ const Review = ({ data, productName, productRate, productId }) => {
               </div>
               {item.reply && (
                 <div className="border border-[#e5e5e5] divide-y arrow after:border-[12px] after:border-b-[12px] after:border-b-[#f5f5f5] mt-5 after:-top-6  rounded-sm  mb-6 px-3  bg-[#f5f5f5]">
-                  <ReplyItem data={item.reply} />
+                  <ReplyItem
+                    data={item.reply}
+                    setOpenIndex={setOpenIndex}
+                    reviewIndex={index}
+                    setReplyForm={setReplyForm}
+                  />
                 </div>
               )}
-              {openReplyForm && (
+              {index === openIndex && (
                 <div className="mb-14">
-                  <form className="space-y-3" onSubmit={replyHandle}>
+                  <form
+                    className="space-y-3"
+                    onSubmit={(e) => replyHandle(item._key, e)}
+                  >
                     <textarea
                       required
                       value={replyForm.comment}
@@ -477,7 +538,7 @@ const Review = ({ data, productName, productRate, productId }) => {
                     <div className="space-x-8 flex items-center">
                       <input
                         type="text"
-                        placeholder="Full Name"
+                        placeholder="Full Name (*)"
                         className="reviewInput"
                         required
                         onChange={replyFormHandle}
@@ -485,12 +546,13 @@ const Review = ({ data, productName, productRate, productId }) => {
                         name="fullName"
                       />
                       <input
-                        type="text"
+                        type="tel"
                         placeholder="Phone Number"
                         className="reviewInput"
                         value={replyForm.phoneNumber}
                         name="phoneNumber"
                         onChange={replyFormHandle}
+                        pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
                       />
                       <button
                         type="submit"

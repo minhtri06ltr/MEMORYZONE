@@ -65,7 +65,7 @@ const ProductDetails = ({ productBySlug }) => {
     router.push("/cart");
     dispatch(loadingNotify(false));
   };
-  console.log(productBySlug);
+
   return (
     <Layout title={productBySlug.name} description={productBySlug.name}>
       <div>
