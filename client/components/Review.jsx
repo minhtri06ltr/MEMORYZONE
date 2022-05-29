@@ -98,14 +98,13 @@ const Review = ({ data, productName, productRate, productId }) => {
     comment: "",
     fullName: "",
     phoneNumber: "",
-
     images: [],
   });
   const [openIndex, setOpenIndex] = useState(null);
-  console.log(openIndex);
+
   const dispatch = useDispatch();
   const { images } = reviewForm;
-  const [openReviewForm, setOpenReviewForm] = useState(true);
+  const [openReviewForm, setOpenReviewForm] = useState(false);
   const reviewFormHandle = async (e) => {
     if (e.target.name === "images") {
       if (reviewForm.images.length >= 5) {
@@ -184,7 +183,6 @@ const Review = ({ data, productName, productRate, productId }) => {
       })
       .then((res) => {
         // data.push(res.reviews[res.reviews.length - 1]); -- render review imediately
-
         //transaction - calculate total rating, inc review number
         client
           .patch(productId)
@@ -195,6 +193,13 @@ const Review = ({ data, productName, productRate, productId }) => {
             rating: Math.round((reviewForm.star + productRate) / 2),
           })
           .commit();
+        setReviewForm({
+          star: 0,
+          comment: "",
+          fullName: "",
+          phoneNumber: "",
+          images: [],
+        });
         dispatch(loadingNotify(false));
         alert(
           "Thanks for your review, please wait for an admin to approve this review"
@@ -236,13 +241,17 @@ const Review = ({ data, productName, productRate, productId }) => {
           autoGenerateArrayKeys: true,
         })
         .then((res) => {
-          console.log(res);
           data[openIndex].reply = res.reviews.filter((item) => item.isApprove)[
             openIndex
           ].reply;
 
-          console.log(data);
           setOpenIndex(null);
+          setReplyForm({
+            comment: "",
+            fullName: "",
+            phoneNumber: "",
+            reviewId: "",
+          });
           dispatch(loadingNotify(false));
         })
         .catch((error) => {
@@ -258,7 +267,7 @@ const Review = ({ data, productName, productRate, productId }) => {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(data);
+
   return (
     <div className="mt-6 w-full min-h-10 border-t-[1px] border-[#f7f7f7]">
       {openReviewForm && (

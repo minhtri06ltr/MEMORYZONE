@@ -1,14 +1,64 @@
 import Image from "next/image";
-import { Layout } from ".";
+import { Layout } from "../../components";
 import Link from "next/link";
 import { UserCircleIcon, ChevronLeftIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
-import { urlFor } from "../lib/client";
-import { numberWithCommas } from "../utils/format";
+import { urlFor } from "../../lib/client";
+import { numberWithCommas } from "../../utils/format";
+import { useEffect, useState } from "react";
 
-const Test = () => {
+const Hoang = ({ provinceList }) => {
   const cart = useSelector((state) => state.cart);
-
+  const [districtList, setDistrictList] = useState([]);
+  const [wardList, setWardList] = useState([]);
+  console.log(wardList);
+  const [checkoutForm, setCheckoutForm] = useState({
+    province: "",
+    district: "",
+    ward: "",
+  });
+  useEffect(() => {
+    const getDistrict = async () => {
+      const res = await fetch(
+        `https://vapi.vnappmob.com/api/province/district/${
+          checkoutForm.province.split("|")[0]
+        }`,
+        {
+          method: "GET",
+        }
+      );
+      const formatRes = await res.json();
+      setDistrictList(formatRes.results);
+    };
+    if (checkoutForm.province !== "") {
+      getDistrict();
+    }
+  }, [checkoutForm.province]);
+  useEffect(() => {
+    const getWard = async () => {
+      const res = await fetch(
+        `https://vapi.vnappmob.com/api/province/ward/${
+          checkoutForm.district.split("|")[0]
+        }`,
+        {
+          method: "GET",
+        }
+      );
+      const formatRes = await res.json();
+      console.log(formatRes);
+      setWardList(formatRes.results);
+    };
+    if (checkoutForm.district !== "") {
+      getWard();
+    }
+  }, [checkoutForm.district]);
+  const checkoutFormHandle = (e) => {
+    setCheckoutForm({
+      ...checkoutForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+  console.log(checkoutForm);
   return (
     <Layout
       removeLayout={true}
@@ -73,30 +123,74 @@ const Test = () => {
                     className="checkoutInput"
                   />
                   <div className="checkoutInput  checkoutSelectWrapper">
-                    <label className="absolute border-r-1 border-red-500 block text-xs top-1 text-[#999999]">
+                    <label
+                      htmlFor="province"
+                      className="absolute border-r-1 border-red-500 block text-xs top-1 text-[#999999]"
+                    >
                       Province
                     </label>
-                    <select className="checkoutSelect ">
-                      <option>---</option>
-                      <option>Something</option>
+                    <select
+                      name="province"
+                      id="province"
+                      className="checkoutSelect"
+                      onChange={checkoutFormHandle}
+                    >
+                      {checkoutForm.province === "" && <option>---</option>}
+                      {provinceList.results.map((item, index) => (
+                        <option
+                          key={index}
+                          value={`${item.province_id} | ${item.province_name}`}
+                        >
+                          {item.province_name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="checkoutInput checkoutSelectWrapper">
-                    <label className="absolute text-xs top-1 text-[#999999]">
+                    <label
+                      htmlFor="district"
+                      className="absolute z-10 text-xs top-1 text-[#999999]"
+                    >
                       District
                     </label>
-                    <select className="checkoutSelect ">
-                      <option>---</option>
-                      <option>Something</option>
+                    <select
+                      disabled={checkoutForm.province === "" && true}
+                      className="checkoutSelect"
+                      name="district"
+                      id="district"
+                      onChange={checkoutFormHandle}
+                    >
+                      {checkoutForm.district === "" && <option>---</option>}
+                      {districtList.map((item, index) => (
+                        <option
+                          key={index}
+                          value={`${item.district_id} | ${item.district_name}`}
+                        >
+                          {item.district_name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="checkoutInput checkoutSelectWrapper">
-                    <label className="absolute text-xs top-1 text-[#999999]">
+                    <label className="absolute z-10 text-xs top-1 text-[#999999]">
                       Wards
                     </label>
-                    <select className="checkoutSelect ">
-                      <option>---</option>
-                      <option>Something</option>
+                    <select
+                      disabled={checkoutForm.district === "" && true}
+                      className="checkoutSelect"
+                      id="ward"
+                      name="ward"
+                      onChange={checkoutFormHandle}
+                    >
+                      {checkoutForm.ward === "" && <option>---</option>}
+                      {wardList.map((item, index) => (
+                        <option
+                          key={index}
+                          value={`${item.ward_id} | ${item.ward_name}`}
+                        >
+                          {item.ward_name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <textarea
@@ -298,4 +392,19 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default Hoang;
+export async function getStaticProps() {
+  try {
+    const resProvince = await fetch("https://vapi.vnappmob.com/api/province");
+    const provinceList = await resProvince.json();
+    return {
+      props: {
+        provinceList,
+      },
+    };
+  } catch (error) {
+    return {
+      provinceList: null,
+    };
+  }
+}

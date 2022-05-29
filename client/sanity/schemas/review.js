@@ -4,7 +4,6 @@ export default {
   type: "object",
   initialValue: {
     isApprove: false,
-    reply: [],
   },
   fields: [
     {

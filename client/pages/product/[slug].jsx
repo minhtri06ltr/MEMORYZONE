@@ -460,7 +460,6 @@ export async function getStaticPaths() {
 export const getStaticProps = async ({ params: { slug } }) => {
   //get product data by slug param
   const queryproductBySlug = `*[_type=="product" && slug.current == '${slug}'][0]`;
-
   try {
     const productBySlug = await client.fetch(queryproductBySlug);
     return {

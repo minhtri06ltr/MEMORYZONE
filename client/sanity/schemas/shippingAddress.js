@@ -30,8 +30,8 @@ export default {
       type: "string",
     },
     {
-      name: "wards",
-      title: "Wards",
+      name: "ward",
+      title: "Ward",
       type: "string",
     },
     {
