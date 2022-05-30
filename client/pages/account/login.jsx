@@ -9,11 +9,28 @@ import { loginSuccess } from "../../redux/accountSlice";
 import { useRouter } from "next/router";
 
 const login = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState("");
   const account = useSelector((state) => state.account);
+  useEffect(() => {
+    if (
+      Object.keys(account.user).length !== 0 &&
+      localStorage.getItem("isLogin")
+    ) {
+      router.push("/cart");
+    }
+  }, [account]);
+  if (Object.keys(account.user).length !== 0) {
+    return (
+      <Layout
+        title="Memoryzone | Login"
+        description="Memoryzone login to account"
+        removeLayout={true}
+      ></Layout>
+    );
+  }
 
+  const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState("");
   const loginHandler = async (e) => {
     e.preventDefault();
     dispatch(loadingNotify(true));
@@ -45,14 +62,7 @@ const login = () => {
       [e.target.name]: e.target.value,
     });
   };
-  useEffect(() => {
-    if (
-      Object.keys(account.user).length !== 0 &&
-      localStorage.getItem("isLogin")
-    ) {
-      router.push("/cart");
-    }
-  }, [account]);
+
   return (
     <Layout
       title="Memoryzone | Login"

@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  nextScriptWorkers: true,
   images: {
     domains: [
       "app2.jeoway.net",
@@ -9,12 +10,6 @@ const nextConfig = {
       "bizweb.dktcdn.net",
       "ui-avatars.com",
     ],
-  },
-  webpack7: true,
-  webpack: (config) => {
-    config.resolve.fallback = { fs: false };
-
-    return config;
   },
 };
 

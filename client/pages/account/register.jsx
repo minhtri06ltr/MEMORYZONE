@@ -8,9 +8,26 @@ import { postData } from "../../utils/requestMethod";
 import { useRouter } from "next/router";
 
 const register = () => {
-  const dispatch = useDispatch();
   const account = useSelector((state) => state.account);
   const router = useRouter();
+  useEffect(() => {
+    if (
+      Object.keys(account.user).length !== 0 &&
+      localStorage.getItem("isLogin")
+    ) {
+      router.push("/cart");
+    }
+  }, [account]);
+  if (Object.keys(account.user).length !== 0) {
+    return (
+      <Layout
+        title="Memoryzone | Register"
+        description="Memoryzone register an account"
+        removeLayout={true}
+      ></Layout>
+    );
+  }
+  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [registerForm, setRegisterForm] = useState({
     firstName: "",
@@ -45,14 +62,7 @@ const register = () => {
       dispatch(loadingNotify(false));
     } else dispatch(loadingNotify(false));
   };
-  useEffect(() => {
-    if (
-      Object.keys(account.user).length !== 0 &&
-      localStorage.getItem("isLogin")
-    ) {
-      router.push("/cart");
-    }
-  }, [account]);
+
   return (
     <Layout
       title="Memoryzone | Register"
