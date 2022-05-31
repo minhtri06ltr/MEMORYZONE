@@ -9,7 +9,6 @@ const Layout = ({
   keywords = "",
   removeLayout = false,
 }) => {
-  console.log("render");
   return (
     <>
       <Head>

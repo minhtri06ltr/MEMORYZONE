@@ -49,7 +49,7 @@ const cart = () => {
                   <tr key={index}>
                     <td className=" cartRow ">
                       <Link href={`/product/${item.slug}`}>
-                        <a>
+                        <div>
                           <Image
                             alt={`Memoryzone products in cart: ${item.name}`}
                             className="cursor-pointer"
@@ -59,7 +59,7 @@ const cart = () => {
                             priority
                             layout="responsive"
                           />
-                        </a>
+                        </div>
                       </Link>
                     </td>
                     <td className=" cartRow">{item.name}</td>

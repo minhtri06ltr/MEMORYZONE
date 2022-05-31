@@ -26,7 +26,7 @@ const Header = () => {
     Cookies.remove("refreshToken", {
       path: "/api/account/accessToken",
     });
-    localStorage.removeItem("isLogin");
+    localStorage.setItem("isLogin", false);
     dispatch(loadingNotify(false));
   };
   return (
@@ -49,26 +49,27 @@ const Header = () => {
         <div className="w-full bg-primary px-10 border-b flex justify-between border-[#339f69] py-1.5">
           <div>
             <Link href="#">
-              <a className="text-xs text-white">
+              <span className="text-xs text-white">
                 Open: 9am to 8pm from Monday to Sunday
-              </a>
+              </span>
             </Link>
           </div>
 
           <div className="flex justify-evenly items-center">
-            <Link href="/account/login">
-              <div className="topHeaderItem">
-                <UserIcon width={18} className="text-inherit" />
+            <div className="topHeaderItem">
+              <UserIcon width={18} className="text-inherit" />
 
-                {Object.keys(account.user).length !== 0 ? (
-                  <span className="topHeaderText">
-                    Hi! {account.user.firstName} {account.user.lastName}
-                  </span>
-                ) : (
+              {Object.keys(account.user).length !== 0 ? (
+                <span className="topHeaderText">
+                  Hi! {account.user.firstName} {account.user.lastName}
+                </span>
+              ) : (
+                <Link href="/account/login">
                   <span className="topHeaderText">Account</span>
-                )}
-              </div>
-            </Link>
+                </Link>
+              )}
+            </div>
+
             <div className="topHeaderItem">
               <StarIcon width={18} className="mt-0.5 text-inherit" />
               <span className="topHeaderText">Hot Promotion</span>
@@ -86,14 +87,14 @@ const Header = () => {
         <div className="bg-primary py-4 px-10 flex items-center justify-between">
           <div className="mr-16">
             <Link href="/">
-              <a>
+              <div>
                 <Image
                   src={logo}
                   alt="Memoryzone homepage logo"
                   width={178}
                   height={45}
                 />
-              </a>
+              </div>
             </Link>
           </div>
           <div className=" px-6 flex-1">

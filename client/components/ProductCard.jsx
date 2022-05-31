@@ -8,7 +8,7 @@ const ProductCard = ({ name, price, img, slug }) => {
     <div>
       <div>
         <Link href={`/product/${slug}`}>
-          <a className="relative aspect-square block ">
+          <div className="relative aspect-square block ">
             <Image
               alt={name}
               priority
@@ -17,13 +17,13 @@ const ProductCard = ({ name, price, img, slug }) => {
               objectFit="contain"
               quality={100}
             />
-          </a>
+          </div>
         </Link>
       </div>
       <Link href={`/product/${slug}`}>
-        <a className="text-text text-sm cursor-pointer font-light leading-none hover:text-primary limit-3-line my-2">
+        <span className="text-text text-sm cursor-pointer font-light leading-none hover:text-primary limit-3-line my-2">
           {name}
-        </a>
+        </span>
       </Link>
       <div className="text-center">
         <span className="text-primary text-base font-bold mr-2">

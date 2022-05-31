@@ -46,10 +46,6 @@ const ProductDetails = ({ productBySlug }) => {
     }
   };
   const handleAddToCart = (product) => {
-    if (product.countInStock === 0) {
-      alert("This product is out of stock.");
-      return;
-    }
     dispatch(loadingNotify(true));
     dispatch(
       addToCart({
@@ -63,6 +59,7 @@ const ProductDetails = ({ productBySlug }) => {
       })
     );
     router.push("/cart");
+    localStorage.setItem("emptyCart", false);
     dispatch(loadingNotify(false));
   };
 

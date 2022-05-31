@@ -214,7 +214,7 @@ const Review = ({ data, productName, productRate, productId }) => {
   };
   const replyHandle = async (reviewId, e) => {
     e.preventDefault();
-    console.log(reviewId, productId);
+
     if (replyForm.fullName === "" || replyForm.comment === "") {
       alert("Please add required fields");
       return;

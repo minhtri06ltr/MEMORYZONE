@@ -28,6 +28,15 @@ export default {
       type: "string",
     },
     {
+      name: "productTag",
+      title: "Product Tag",
+      type: "array",
+      of: [{ type: "string" }],
+      options: {
+        layout: "tags",
+      },
+    },
+    {
       name: "slug",
       title: "Slug",
       type: "slug",

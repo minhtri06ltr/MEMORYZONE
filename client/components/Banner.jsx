@@ -7,7 +7,7 @@ const Banner = () => {
       <div className="grid gap-2 grid-cols-4 grid-rows-2">
         <div className="col-span-3 row-span-2 relative shadow-md">
           <Link href="#">
-            <a>
+            <div>
               <Image
                 priority
                 src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/slider1_1.jpg?1651552159868"
@@ -17,7 +17,7 @@ const Banner = () => {
                 quality={100}
                 alt="Memoryzone first main slider banner"
               />
-            </a>
+            </div>
           </Link>
           <div>
             <ul className="flex items-center">
@@ -33,7 +33,7 @@ const Banner = () => {
         </div>
         <div>
           <Link href="#">
-            <a>
+            <div>
               <Image
                 alt="Memoryzone secondary banner"
                 src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_slider_1.jpg?1651552159868"
@@ -43,12 +43,12 @@ const Banner = () => {
                 quality={100}
                 priority
               />
-            </a>
+            </div>
           </Link>
         </div>
         <div>
           <Link href="#">
-            <a>
+            <div>
               <Image
                 src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_slider_2.jpg?1651552159868"
                 width="100%"
@@ -57,7 +57,7 @@ const Banner = () => {
                 quality={100}
                 alt="Memoryzone third banner"
               />
-            </a>
+            </div>
           </Link>
         </div>
       </div>

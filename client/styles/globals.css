@@ -43,7 +43,7 @@ a {
     @apply text-primary font-semibold;
   }
   .checkoutInput {
-    @apply outline-none text-sm p-3 rounded-md focus:border-primary focus:border-2 border border-[#d9d9d9];
+    @apply outline-none text-sm p-3 rounded-md focus:outline-2 focus:outline-primary outline-offset-0 border border-[#d9d9d9];
   }
   .checkoutSelect {
     @apply w-full h-full place-items-end  outline-none;

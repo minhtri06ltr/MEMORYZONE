@@ -2,15 +2,20 @@ import Image from "next/image";
 import { Layout, PaypalButton } from "../../components";
 import Link from "next/link";
 import { UserCircleIcon, ChevronLeftIcon } from "@heroicons/react/solid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { urlFor } from "../../lib/client";
 import { numberWithCommas } from "../../utils/format";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+
+import { postData } from "../../utils/requestMethod";
+import { LogoutIcon } from "@heroicons/react/outline";
+import { logout } from "../../redux/accountSlice";
+import { loadingNotify } from "../../redux/notifySlice";
 
 const standard = ({ provinceList }) => {
-  const router = useRouter();
   const cart = useSelector((state) => state.cart);
+  const account = useSelector((state) => state.account);
+  const dispatch = useDispatch();
 
   const [districtList, setDistrictList] = useState([]);
   const [wardList, setWardList] = useState([]);
@@ -18,42 +23,66 @@ const standard = ({ provinceList }) => {
     province: "",
     district: "",
     ward: "",
+    email: account.user.email ? account.user.email : "",
+    fullName: "",
+    address: "",
+    phoneNumber: "",
     paymentMethod: 0,
   });
 
   useEffect(() => {
-    const getDistrict = async () => {
-      const res = await fetch(
-        `https://vapi.vnappmob.com/api/province/district/${
-          checkoutForm.province.split("|")[0]
-        }`,
-        {
-          method: "GET",
-        }
-      );
-      const formatRes = await res.json();
-      setDistrictList(formatRes.results);
-    };
-    if (checkoutForm.province !== "") {
-      getDistrict();
+    try {
+      const getDistrict = async () => {
+        const res = await fetch(
+          `https://vapi.vnappmob.com/api/province/district/${
+            checkoutForm.province.split("|")[0]
+          }`,
+          {
+            method: "GET",
+          }
+        );
+        const formatRes = await res.json();
+        setDistrictList(formatRes.results);
+        setCheckoutForm({
+          ...checkoutForm,
+          district: formatRes.results[0]
+            ? `${formatRes.results[0].district_id} | ${formatRes.results[0].district_name}`
+            : "",
+        });
+      };
+      if (checkoutForm.province !== "") {
+        getDistrict();
+      }
+    } catch (error) {
+      alert(error.message);
     }
   }, [checkoutForm.province]);
   useEffect(() => {
-    const getWard = async () => {
-      const res = await fetch(
-        `https://vapi.vnappmob.com/api/province/ward/${
-          checkoutForm.district.split("|")[0]
-        }`,
-        {
-          method: "GET",
-        }
-      );
-      const formatRes = await res.json();
+    try {
+      const getWard = async () => {
+        const res = await fetch(
+          `https://vapi.vnappmob.com/api/province/ward/${
+            checkoutForm.district.split("|")[0]
+          }`,
+          {
+            method: "GET",
+          }
+        );
+        const formatRes = await res.json();
 
-      setWardList(formatRes.results);
-    };
-    if (checkoutForm.district !== "") {
-      getWard();
+        setWardList(formatRes.results);
+        setCheckoutForm({
+          ...checkoutForm,
+          ward: formatRes.results[0]
+            ? `${formatRes.results[0].ward_id} | ${formatRes.results[0].ward_name}`
+            : "",
+        });
+      };
+      if (checkoutForm.district !== "") {
+        getWard();
+      }
+    } catch (error) {
+      alert(error.message);
     }
   }, [checkoutForm.district]);
   const checkoutFormHandle = (e) => {
@@ -63,30 +92,43 @@ const standard = ({ provinceList }) => {
     });
   };
 
+  useEffect(() => {
+    Object.keys(account.user).length !== 0 &&
+      setCheckoutForm({
+        ...checkoutForm,
+        email: account.user.email,
+        fullName: `${account.user.firstName} ${account.user.lastName}`,
+      });
+  }, [Object.keys(account.user).length]);
+  const handleCheckout = async (e) => {
+    e.preventDefault();
+
+    const res = await postData("order/create", {
+      test: "asdasd",
+    });
+
+    console.log(res);
+  };
   return (
     <Layout
       removeLayout={true}
       title="Memoryzone | Standard Checkout"
       description="Memoryzone - Professional in memory - Checkout - Payment orders "
     >
-      {cart.quantity === 0 ? (
-        <h1 onClick={() => router.push("/")} className={``}>
-          Return to cart
-        </h1>
-      ) : (
+      {cart.quantity !== 0 && (
         <div className="flex">
           <div className="bg-[#f4f4f4]  pl-6  w-[66%]">
             <div className="px-8 py-1.5">
               <div className="relative w-56 h-14 mt-6 cursor-pointer ">
                 <Link href="/">
-                  <a>
+                  <div>
                     <Image
                       alt="Memoryzone checkout page logo"
                       quanlity={100}
                       src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/checkout_logo.png?1653463685615"
                       layout="fill"
                     />
-                  </a>
+                  </div>
                 </Link>
               </div>
               <div className="flex space-x-6 py-6 border-b border-[#ddd]">
@@ -96,38 +138,94 @@ const standard = ({ provinceList }) => {
                       Delivery information
                     </span>
                     <div>
-                      <Link href="/account/login">
-                        <a className="flex cursor-pointer items-cemter">
-                          <UserCircleIcon
+                      {Object.keys(account.user).length === 0 ? (
+                        <Link
+                          prefetch
+                          href={{
+                            pathname: "/account/login",
+                            query: { return: "checkout" },
+                          }}
+                        >
+                          <div className="flex cursor-pointer items-cemter">
+                            <UserCircleIcon
+                              className="text-primary mr-1"
+                              width={22}
+                              height={22}
+                            />
+                            <span className="text-sm text-primary translate-y-[0.5px] ">
+                              Login
+                            </span>
+                          </div>
+                        </Link>
+                      ) : (
+                        <div
+                          onClick={() => {
+                            dispatch(loadingNotify(true));
+                            dispatch(logout());
+                            localStorage.setItem("isLogin", false);
+                            dispatch(loadingNotify(false));
+                          }}
+                          className="flex cursor-pointer items-cemter"
+                        >
+                          <LogoutIcon
                             className="text-primary mr-1"
                             width={22}
                             height={22}
                           />
                           <span className="text-sm text-primary translate-y-[0.5px] ">
-                            Login
+                            Logout
                           </span>
-                        </a>
-                      </Link>
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <form className="flex flex-col space-y-3 ">
+                  <form
+                    id="checkout"
+                    onSubmit={handleCheckout}
+                    className="flex flex-col space-y-3 "
+                  >
                     <input
+                      onChange={checkoutFormHandle}
+                      name="email"
+                      required
                       type="email"
+                      value={checkoutForm.email}
                       placeholder="Email"
-                      className="checkoutInput"
+                      disabled={Object.keys(account.user) !== 0 && true}
+                      className={`checkoutInput ${
+                        Object.keys(account.user) !== 0 &&
+                        "cursor-not-allowed bg-[#eee]"
+                      }`}
                     />
                     <input
+                      required
                       type="text"
+                      onChange={checkoutFormHandle}
+                      name="fullName"
                       placeholder="Full Name"
-                      className="checkoutInput"
+                      value={checkoutForm.fullName}
+                      disabled={Object.keys(account.user) !== 0 && true}
+                      className={`checkoutInput ${
+                        Object.keys(account.user) !== 0 &&
+                        "cursor-not-allowed bg-[#eee]"
+                      }`}
                     />
                     <input
                       type="tel"
+                      onChange={checkoutFormHandle}
+                      name="phoneNumber"
                       placeholder="Phone Number"
                       className="checkoutInput"
+                      pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
+                      value={checkoutForm.phoneNumber}
+                      required
                     />
                     <input
+                      onChange={checkoutFormHandle}
+                      name="address"
                       type="text"
+                      required
+                      value={checkoutForm.address}
                       placeholder="Address"
                       className="checkoutInput"
                     />
@@ -139,12 +237,18 @@ const standard = ({ provinceList }) => {
                         Province
                       </label>
                       <select
+                        required
+                        value={checkoutForm.province}
                         name="province"
                         id="province"
-                        className="checkoutSelect"
+                        className="checkoutSelect required"
                         onChange={checkoutFormHandle}
                       >
-                        {checkoutForm.province === "" && <option>---</option>}
+                        {checkoutForm.province === "" && (
+                          <option value="" disabled>
+                            ---
+                          </option>
+                        )}
                         {provinceList.results.map((item, index) => (
                           <option
                             key={index}
@@ -155,7 +259,11 @@ const standard = ({ provinceList }) => {
                         ))}
                       </select>
                     </div>
-                    <div className="checkoutInput checkoutSelectWrapper">
+                    <div
+                      className={`checkoutInput checkoutSelectWrapper ${
+                        checkoutForm.district === "" && "bg-[#eee]"
+                      }`}
+                    >
                       <label
                         htmlFor="district"
                         className="absolute z-10 text-xs top-1 text-[#999999]"
@@ -163,15 +271,13 @@ const standard = ({ provinceList }) => {
                         District
                       </label>
                       <select
+                        value={checkoutForm.district}
                         disabled={checkoutForm.province === "" && true}
-                        className="checkoutSelect"
+                        className="checkoutSelect  bg-inherit required"
                         name="district"
                         id="district"
                         onChange={checkoutFormHandle}
                       >
-                        {checkoutForm.district === "" && (
-                          <option value="Empty">---</option>
-                        )}
                         {districtList.map((item, index) => (
                           <option
                             key={index}
@@ -182,20 +288,22 @@ const standard = ({ provinceList }) => {
                         ))}
                       </select>
                     </div>
-                    <div className="checkoutInput checkoutSelectWrapper">
+                    <div
+                      className={`checkoutInput  checkoutSelectWrapper ${
+                        checkoutForm.district === "" && "bg-[#eee]"
+                      }`}
+                    >
                       <label className="absolute z-10 text-xs top-1 text-[#999999]">
                         Wards
                       </label>
                       <select
+                        value={checkoutForm.ward}
                         disabled={checkoutForm.district === "" && true}
-                        className="checkoutSelect"
+                        className="checkoutSelect bg-inherit"
                         id="ward"
                         name="ward"
                         onChange={checkoutFormHandle}
                       >
-                        {checkoutForm.ward === "" && (
-                          <option value="Empty">---</option>
-                        )}
                         {wardList.map((item, index) => (
                           <option
                             key={index}
@@ -229,7 +337,7 @@ const standard = ({ provinceList }) => {
                     <div className="rounded-md border bg-white border-[#cecdcd] divide-y divide-[#cecdcd]">
                       <div className="checkoutInfo">
                         <div className="space-x-3 flex items-center">
-                          <input type="radio" className=" block " />
+                          <input type="radio" className=" block" />
                           <span className="text-sm text-[#545454]">
                             Bank Transfer (VietQR) (Free of charge)
                           </span>
@@ -265,7 +373,7 @@ const standard = ({ provinceList }) => {
                         </div>
                         <Image
                           atl="Memoryzone  0% interest installment payment via Visa, Master, JCB
-                    cards (Order from 150 $)"
+                cards (Order from 150 $)"
                           src="https://bizweb.dktcdn.net/100/329/122/files/03icon-tragop-0.png?v=1639481630773"
                           width={48}
                           height={32}
@@ -281,7 +389,7 @@ const standard = ({ provinceList }) => {
                         </div>
                         <Image
                           alt="Memoryzone    Online payment via Visa, Master, JCB cards (Free
-                      payment)"
+                  payment)"
                           src="https://bizweb.dktcdn.net/100/329/122/files/04icon-visamaster.png?v=1639481634747"
                           width={48}
                           height={32}
@@ -386,22 +494,31 @@ const standard = ({ provinceList }) => {
                 </div>
                 <div className="space-y-3 flex items-center  justify-between">
                   <Link href="/cart">
-                    <a>
+                    <div>
                       <div className="text-primary cursor-pointer flex items-center">
                         <ChevronLeftIcon width={20} height={20} />
                         <span className="text-sm text-inerhit">
                           Back to cart
                         </span>
                       </div>
-                    </a>
+                    </div>
                   </Link>
-                  <button className="rounded-md text-white text-sm bg-primary py-3 px-8">
+                  <button
+                    type="submit"
+                    form="checkout"
+                    value="checkout"
+                    className="rounded-md text-white text-sm bg-primary py-3 px-8"
+                  >
                     ORDER
                   </button>
                 </div>
-                <div className="mt-8 space-y-4">
+                <div className="mt-8 border-t border-[#e1e1e1] space-y-4">
                   <div>
-                    <PaypalButton />
+                    <PaypalButton
+                      total={cart.total}
+                      dispatch={dispatch}
+                      data={checkoutForm}
+                    />
                   </div>
                   <div>stripe</div>
                 </div>

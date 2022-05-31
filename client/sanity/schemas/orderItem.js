@@ -1,35 +1,28 @@
 export default {
-  name: "orderList",
-  title: "Order List",
+  name: "orderItem",
+  title: "Order Item",
   type: "object",
 
   fields: [
     {
       name: "name",
-      title: "Name",
+      title: "Product Name",
+      type: "string",
+    },
+    {
+      name: "price",
+      title: "Product Price",
+      type: "string",
+    },
+    {
+      name: "slug",
+      title: "Slug",
       type: "string",
     },
     {
       name: "quantity",
       title: "Quantity",
-      type: "string",
-    },
-    {
-      name: "price",
-      title: "Price",
       type: "number",
-    },
-    {
-      name: "image",
-      type: "image",
-      title: "Image",
-    },
-    {
-      name: "product",
-      title: "Product",
-      type: "reference",
-      weak: true,
-      to: [{ type: "product" }],
     },
   ],
 };

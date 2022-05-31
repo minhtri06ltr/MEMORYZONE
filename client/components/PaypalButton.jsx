@@ -6,12 +6,12 @@ import {
 } from "@paypal/react-paypal-js";
 
 // This values are the props in the UI
-const amount = "2";
+
 const currency = "USD";
 const style = { layout: "vertical" };
 
 // Custom component to wrap the PayPalButtons and handle currency changes
-const ButtonWrapper = ({ currency, showSpinner }) => {
+const ButtonWrapper = ({ currency, showSpinner, amount }) => {
   // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
   // This is the main reason to wrap the PayPalButtons in a new component
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
@@ -54,6 +54,7 @@ const ButtonWrapper = ({ currency, showSpinner }) => {
         onApprove={function (data, actions) {
           return actions.order.capture().then(function () {
             // Your code here after capture the order
+            console.log(data);
           });
         }}
       />
@@ -61,7 +62,7 @@ const ButtonWrapper = ({ currency, showSpinner }) => {
   );
 };
 
-const PaypalButton = () => {
+const PaypalButton = ({ dispatch, data, total }) => {
   return (
     <div className="max-w-full min-h-[148px]">
       <PayPalScriptProvider
@@ -73,7 +74,7 @@ const PaypalButton = () => {
           currency: "USD",
         }}
       >
-        <ButtonWrapper currency={currency} showSpinner={true} />
+        <ButtonWrapper currency={currency} amount={total} showSpinner={true} />
       </PayPalScriptProvider>
     </div>
   );

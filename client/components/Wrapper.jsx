@@ -22,10 +22,12 @@ const Wrapper = ({ children }) => {
       });
     }
   }, []);
+
   useEffect(() => {
     const __memoryzone__cart = JSON.parse(
       localStorage.getItem("__memoryzone__cart")
     );
+
     __memoryzone__cart &&
       __memoryzone__cart.quantity > 0 &&
       dispatch(getCartItemsFromLocalStorage(__memoryzone__cart));
@@ -33,6 +35,7 @@ const Wrapper = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("__memoryzone__cart", JSON.stringify(cart));
   }, [cart]);
+
   return <>{children}</>;
 };
 
