@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadingNotify } from "../../redux/notifySlice";
 import { postData } from "../../utils/requestMethod";
 import { useRouter } from "next/router";
-import { useLocalStorage } from "../../utils/useLocalStorage";
+import { useLocalStorageLogin } from "../../utils/getLocalValue";
 
 const register = () => {
   const account = useSelector((state) => state.account);
   const router = useRouter();
-  let checkLogin = useLocalStorage("isLogin");
+  let checkLogin = useLocalStorageLogin();
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [registerForm, setRegisterForm] = useState({
@@ -56,7 +56,10 @@ const register = () => {
     }
   }, [Object.keys(account.user).length]);
 
-  if (Object.keys(account.user).length === 0 && checkLogin === false)
+  if (
+    Object.keys(account.user).length === 0 &&
+    (checkLogin === false || checkLogin === null)
+  )
     return (
       <Layout
         title="Memoryzone | Register"

@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { urlFor } from "../../lib/client";
 import { numberWithCommas } from "../../utils/format";
 import { useEffect, useState } from "react";
-
 import { postData } from "../../utils/requestMethod";
 import { LogoutIcon } from "@heroicons/react/outline";
 import { logout } from "../../redux/accountSlice";
@@ -14,7 +13,10 @@ import { loadingNotify } from "../../redux/notifySlice";
 
 const standard = ({ provinceList }) => {
   const cart = useSelector((state) => state.cart);
-  const account = useSelector((state) => state.account);
+  const [allow, setAllow] = useState(true);
+  const user = useSelector((state) => state.account.user);
+  const [info, setInfo] = useState(false);
+  const [button, setButton] = useState("");
   const dispatch = useDispatch();
 
   const [districtList, setDistrictList] = useState([]);
@@ -23,7 +25,7 @@ const standard = ({ provinceList }) => {
     province: "",
     district: "",
     ward: "",
-    email: account.user.email ? account.user.email : "",
+    email: "",
     fullName: "",
     address: "",
     phoneNumber: "",
@@ -93,37 +95,57 @@ const standard = ({ provinceList }) => {
   };
 
   useEffect(() => {
-    Object.keys(account.user).length !== 0 &&
+    if (Object.keys(user).length !== 0) {
       setCheckoutForm({
         ...checkoutForm,
-        email: account.user.email,
-        fullName: `${account.user.firstName} ${account.user.lastName}`,
+        email: user.email,
+        fullName: `${user.firstName} ${user.lastName}`,
       });
-  }, [Object.keys(account.user).length]);
-  const handleCheckout = async (e) => {
+      setAllow(false);
+    }
+  }, [Object.keys(user).length]);
+  const checkoutHandle = async (e) => {
     e.preventDefault();
+    if (
+      checkoutForm.address === "" ||
+      checkoutForm.email === "" ||
+      checkoutForm.phoneNumber === "" ||
+      checkoutForm.fullName === "" ||
+      checkoutForm.province === ""
+    ) {
+      alert("Please fill all required fields");
+      return;
+    }
+    if (button === "paypal") {
+      setInfo(true);
+    }
 
-    const res = await postData("order/create", {
-      test: "asdasd",
-    });
-
-    console.log(res);
+    if (button === "standard") {
+      const res = await postData("order/create", {
+        ...checkoutForm,
+        orderAt: new Date(),
+        paymentMethod: "standard",
+      });
+      console.log(res);
+    }
   };
+
   return (
     <Layout
       removeLayout={true}
       title="Memoryzone | Standard Checkout"
       description="Memoryzone - Professional in memory - Checkout - Payment orders "
     >
-      {cart.quantity !== 0 && (
+      {cart.quantity !== 0 ? (
         <div className="flex">
           <div className="bg-[#f4f4f4]  pl-6  w-[66%]">
             <div className="px-8 py-1.5">
-              <div className="relative w-56 h-14 mt-6 cursor-pointer ">
+              <div className=" mt-6 cursor-pointer ">
                 <Link href="/">
-                  <div>
+                  <div className="relative w-56 h-14">
                     <Image
                       alt="Memoryzone checkout page logo"
+                      priority
                       quanlity={100}
                       src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/checkout_logo.png?1653463685615"
                       layout="fill"
@@ -138,9 +160,8 @@ const standard = ({ provinceList }) => {
                       Delivery information
                     </span>
                     <div>
-                      {Object.keys(account.user).length === 0 ? (
+                      {allow ? (
                         <Link
-                          prefetch
                           href={{
                             pathname: "/account/login",
                             query: { return: "checkout" },
@@ -162,6 +183,7 @@ const standard = ({ provinceList }) => {
                           onClick={() => {
                             dispatch(loadingNotify(true));
                             dispatch(logout());
+                            setAllow(true);
                             localStorage.setItem("isLogin", false);
                             dispatch(loadingNotify(false));
                           }}
@@ -181,7 +203,7 @@ const standard = ({ provinceList }) => {
                   </div>
                   <form
                     id="checkout"
-                    onSubmit={handleCheckout}
+                    onSubmit={checkoutHandle}
                     className="flex flex-col space-y-3 "
                   >
                     <input
@@ -191,10 +213,9 @@ const standard = ({ provinceList }) => {
                       type="email"
                       value={checkoutForm.email}
                       placeholder="Email"
-                      disabled={Object.keys(account.user) !== 0 && true}
+                      disabled={!allow && true}
                       className={`checkoutInput ${
-                        Object.keys(account.user) !== 0 &&
-                        "cursor-not-allowed bg-[#eee]"
+                        !allow && "cursor-not-allowed bg-[#eee]"
                       }`}
                     />
                     <input
@@ -204,10 +225,9 @@ const standard = ({ provinceList }) => {
                       name="fullName"
                       placeholder="Full Name"
                       value={checkoutForm.fullName}
-                      disabled={Object.keys(account.user) !== 0 && true}
+                      disabled={!allow && true}
                       className={`checkoutInput ${
-                        Object.keys(account.user) !== 0 &&
-                        "cursor-not-allowed bg-[#eee]"
+                        !allow && "cursor-not-allowed bg-[#eee]"
                       }`}
                     />
                     <input
@@ -504,6 +524,7 @@ const standard = ({ provinceList }) => {
                     </div>
                   </Link>
                   <button
+                    onClick={() => setButton("standard")}
                     type="submit"
                     form="checkout"
                     value="checkout"
@@ -512,13 +533,25 @@ const standard = ({ provinceList }) => {
                     ORDER
                   </button>
                 </div>
-                <div className="mt-8 border-t border-[#e1e1e1] space-y-4">
+                <div className="mt-8 space-y-4">
                   <div>
-                    <PaypalButton
-                      total={cart.total}
-                      dispatch={dispatch}
-                      data={checkoutForm}
-                    />
+                    {info ? (
+                      <PaypalButton
+                        total={cart.total}
+                        dispatch={dispatch}
+                        data={{ ...checkoutForm, products: cart.products }}
+                      />
+                    ) : (
+                      <button
+                        type="submit"
+                        form="checkout"
+                        onClick={() => setButton("paypal")}
+                        value="checkout"
+                        className="rounded-md w-full text-white text-sm bg-primary py-3 px-8"
+                      >
+                        CONTINUE WITH PAYPAL
+                      </button>
+                    )}
                   </div>
                   <div>stripe</div>
                 </div>
@@ -526,6 +559,8 @@ const standard = ({ provinceList }) => {
             </div>
           </div>
         </div>
+      ) : (
+        <h1>Empty cart</h1>
       )}
     </Layout>
   );
@@ -543,7 +578,9 @@ export async function getStaticProps() {
     };
   } catch (error) {
     return {
-      provinceList: null,
+      props: {
+        provinceList: null,
+      },
     };
   }
 }

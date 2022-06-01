@@ -5,14 +5,14 @@ export default {
 
   fields: [
     {
-      name: "name",
+      name: "productName",
       title: "Product Name",
       type: "string",
     },
     {
       name: "price",
       title: "Product Price",
-      type: "string",
+      type: "number",
     },
     {
       name: "slug",

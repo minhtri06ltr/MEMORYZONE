@@ -7,13 +7,12 @@ import { loadingNotify } from "../../redux/notifySlice";
 import Cookies from "js-cookie";
 import { loginSuccess } from "../../redux/accountSlice";
 import { useRouter } from "next/router";
-import { useLocalStorage } from "../../utils/useLocalStorage";
+import { useLocalStorageLogin } from "../../utils/getLocalValue";
 
 const login = () => {
-  let checkLogin = useLocalStorage("isLogin");
-
+  let checkLogin = useLocalStorageLogin();
   const router = useRouter();
-  const account = useSelector((state) => state.account);
+  const user = useSelector((state) => state.account.user);
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -48,16 +47,17 @@ const login = () => {
     });
   };
   useEffect(() => {
-    if (
-      localStorage.getItem("isLogin") &&
-      Object.keys(account.user).length !== 0
-    ) {
+    if (localStorage.getItem("isLogin") && Object.keys(user).length !== 0) {
       if (router.query?.return === "checkout") {
         router.push("/checkout/standard");
       } else router.push("/");
     }
-  }, [Object.keys(account.user).length]);
-  if (Object.keys(account.user).length === 0 && checkLogin === false)
+  }, [Object.keys(user).length]);
+
+  if (
+    Object.keys(user).length === 0 &&
+    (checkLogin === false || checkLogin === null)
+  )
     return (
       <Layout
         title="Memoryzone | Login"

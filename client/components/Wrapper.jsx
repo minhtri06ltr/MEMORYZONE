@@ -9,12 +9,12 @@ const Wrapper = ({ children }) => {
   const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
-    const firstLogin = localStorage.getItem("isLogin");
+    const firstLogin = JSON.parse(localStorage.getItem("isLogin"));
     if (firstLogin) {
       getData("account/accessToken").then((res) => {
         //token expire or incorrect or user delete
         if (!res.success) {
-          return localStorage.removeItem("isLogin");
+          return localStorage.setItem("isLogin", false);
         }
         dispatch(
           loginSuccess({ accessToken: res.accessToken, user: res.user })

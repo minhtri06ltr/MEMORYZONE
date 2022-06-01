@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { StarIcon } from "@heroicons/react/solid";
-import { formatDateTime, toAsset } from "../utils/format";
+import { formatDateTime } from "../utils/format";
 import { StarList } from ".";
 import { useRef, useState } from "react";
 
@@ -171,7 +171,15 @@ const Review = ({ data, productName, productRate, productId }) => {
           comment: reviewForm.comment,
           fullName: reviewForm.fullName,
           phoneNumber: reviewForm.phoneNumber,
-          image: toAsset(reviewForm.images),
+          image: reviewForm.images.map((item) => {
+            return {
+              _type: "image",
+              asset: {
+                _type: "reference",
+                _ref: item._id,
+              },
+            };
+          }),
           isApprove: false,
           createTime: new Date(),
         },

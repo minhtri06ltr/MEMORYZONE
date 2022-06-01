@@ -3,7 +3,6 @@ import { client } from "../lib/client";
 
 const auth = async (req, res) => {
   const token = req.headers.authorization;
-
   const decoded = jwt.verify(
     token.split(" ")[1],
     process.env.NEXT_PUBLIC_ACCESS_TOKEN

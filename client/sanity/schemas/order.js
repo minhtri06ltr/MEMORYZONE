@@ -4,13 +4,14 @@ export default {
   type: "document",
   initialValue: {
     taxPrice: 0.0,
+    shippingPrice: 0.0,
   },
   fields: [
     {
       name: "user",
       title: "User",
       type: "reference",
-      weak: true,
+
       to: [{ type: "user" }],
     },
     {
@@ -39,17 +40,20 @@ export default {
     {
       name: "paymentMethod",
       title: "Payment Method",
-      type: "array",
-      of: [{ type: "string" }],
+      type: "string",
+
       options: {
-        list: [{ title: "Paypal", value: "paypal" }],
+        list: [
+          { title: "Paypal", value: "paypal" },
+          { title: "Standard", value: "standard" },
+        ],
+
         layout: "radio",
       },
     },
     {
       name: "paymentProcess",
       title: "Payment Process",
-
       type: "object",
       fields: [
         {
@@ -129,6 +133,7 @@ export default {
       name: "isPaid",
       title: "Paid",
       type: "boolean",
+      initialValue: false,
     },
 
     {
@@ -136,7 +141,11 @@ export default {
       title: "Paid Time",
       type: "datetime",
     },
-
+    {
+      name: "guestEmail",
+      title: "Guest Email",
+      type: "string",
+    },
     {
       name: "orderAt",
       title: "Order Time",

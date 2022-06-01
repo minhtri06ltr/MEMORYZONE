@@ -25,8 +25,8 @@ export default {
       type: "string",
     },
     {
-      name: "distric",
-      title: "Distric",
+      name: "district",
+      title: "District",
       type: "string",
     },
     {

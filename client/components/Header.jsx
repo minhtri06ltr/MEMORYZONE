@@ -16,7 +16,7 @@ import { loadingNotify } from "../redux/notifySlice";
 import { logout } from "../redux/accountSlice";
 
 const Header = () => {
-  const account = useSelector((state) => state.account);
+  const user = useSelector((state) => state.account.user);
 
   const dispatch = useDispatch();
   const productQuantity = useSelector((state) => state.cart.quantity);
@@ -59,9 +59,9 @@ const Header = () => {
             <div className="topHeaderItem">
               <UserIcon width={18} className="text-inherit" />
 
-              {Object.keys(account.user).length !== 0 ? (
+              {Object.keys(user).length !== 0 ? (
                 <span className="topHeaderText">
-                  Hi! {account.user.firstName} {account.user.lastName}
+                  Hi! {user.firstName} {user.lastName}
                 </span>
               ) : (
                 <Link href="/account/login">
@@ -87,7 +87,7 @@ const Header = () => {
         <div className="bg-primary py-4 px-10 flex items-center justify-between">
           <div className="mr-16">
             <Link href="/">
-              <div>
+              <div className="cursor-pointer">
                 <Image
                   src={logo}
                   alt="Memoryzone homepage logo"
