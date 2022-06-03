@@ -72,7 +72,9 @@ const Header = () => {
 
             <div className="topHeaderItem">
               <StarIcon width={18} className="mt-0.5 text-inherit" />
-              <span className="topHeaderText">Hot Promotion</span>
+              <Link href="/account">
+                <span className="topHeaderText">Hot Promotion</span>
+              </Link>
             </div>
 
             <div className="topHeaderItem">

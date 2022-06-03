@@ -2,6 +2,7 @@ import { ChevronRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 
 const Path = ({ path }) => {
+  console.log(path);
   return (
     <section>
       <div className="border-b border-[#e5e5e5] py-3.5 flex justify-start items-center px-10">
@@ -9,7 +10,7 @@ const Path = ({ path }) => {
           <div key={index} className="flex  items-center">
             {path.length !== 1 ? (
               <>
-                <Link href={item === "Home" ? "/" : item.toLowerCase()}>
+                <Link href={item.pathName}>
                   <span
                     className={`${
                       index === path.length - 1
@@ -17,16 +18,16 @@ const Path = ({ path }) => {
                         : "text-[#333333] cursor-pointer"
                     }  text-sm   `}
                   >
-                    {item}
+                    {item.title}
                   </span>
                 </Link>
-                {index === path.length - 2 && (
+                {index >= 0 && index !== path.length - 1 && (
                   <ChevronRightIcon width={13} height={13} className=" mx-2" />
                 )}
               </>
             ) : (
               <span className=" text-primary  text-sm  limit-1-line block">
-                {item}
+                {item.title}
               </span>
             )}
           </div>

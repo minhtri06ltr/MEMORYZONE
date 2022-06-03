@@ -57,11 +57,20 @@ a {
   .arrow {
     @apply after:z-10 relative after:content-[''] after:absolute after:h-0 after:w-0  after:border-transparent;
   }
-  .scaleAnimation{
-    @apply hover:scale-105 cursor-pointer transition ease-linear
+  .scaleAnimation {
+    @apply hover:scale-105 cursor-pointer transition ease-linear;
   }
-  .reviewInput{
-    @apply   px-4 py-3 border min-w-[270px] text-[#686868] text-sm border-[#dddddd] outline-none focus:border-[#bdbdbd] rounded-md
+  .reviewInput {
+    @apply px-4 py-3 border min-w-[270px] text-[#686868] text-sm border-[#dddddd] outline-none focus:border-[#bdbdbd] rounded-md;
+  }
+  .headerOrderTable {
+    @apply p-2 bg-[#acacac] text-center text-sm align-middle;
+  }
+  .itemOrderTable {
+    @apply text-sm text-center p-3 align-top;
+  }
+  .addressInput {
+    @apply px-4 py-2 border min-w-[270px] text-[#686868] text-sm border-[#dddddd] outline-none focus:border-[#bdbdbd] rounded-sm w-full;
   }
 }
 @layer utilities {
@@ -108,5 +117,4 @@ a {
       stroke-dashoffset: 234;
     }
   }
-  
 }

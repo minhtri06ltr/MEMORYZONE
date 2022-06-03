@@ -12,3 +12,4 @@ export { default as Loading } from "./Loading";
 export { default as Notify } from "./Notify";
 export { default as Wrapper } from "./Wrapper";
 export { default as PaypalButton } from "./PaypalButton";
+export { default as Test } from "./Test";
