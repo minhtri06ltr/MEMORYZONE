@@ -51,25 +51,25 @@ const Footer = () => {
               <h4 className="footerHeaderText">
                 SUPER SPEED INFORMATION SERVICES CO., LTD
               </h4>
-              <span className="text-sm text-[#444444] block">
+              <span className="text-sm text-text block">
                 Head office: No. 91-93 Road No. 5, An Phu Ward, City. Thu Duc,
                 Ho Chi Minh City
               </span>
-              <span className="text-sm text-[#444444] block">
+              <span className="text-sm text-text block">
                 MST: 0311427563 - issued on December 22, 2011 at the Department
                 of Planning and Investment of Ho Chi Minh City
               </span>
             </div>
             <div>
               <h4 className="footerHeaderText">SHOWROOM HO CHI MINH:</h4>
-              <span className="text-sm text-[#444444] block">
+              <span className="text-sm text-text block">
                 Address: 4C Dong Xoai, Ward 13, Tan Binh District
               </span>
-              <span className="text-sm text-[#444444] block">
+              <span className="text-sm text-text block">
                 Phone:
                 <b>(028) 7301 3878</b> - Mobile: <b>0909 305 350</b>
               </span>
-              <span className="text-sm text-[#444444] block">
+              <span className="text-sm text-text block">
                 <b>Open</b>:{" "}
                 <span className="cursor-pointer hover:text-primary">
                   9am to 8pm from Monday to Sunday
@@ -78,15 +78,15 @@ const Footer = () => {
             </div>
             <div>
               <h4 className="footerHeaderText">SHOWROOM HANOI:</h4>
-              <span className="text-sm text-[#444444] block">
+              <span className="text-sm text-text block">
                 Address: 60 Dich Vong Hau Street, Dich Vong Hau, Cau Giay
                 District
               </span>
-              <span className="text-sm text-[#444444] block">
+              <span className="text-sm text-text block">
                 Phone:
                 <b>(028) 7301 3878</b> - Mobile: <b>0915 305 350</b>
               </span>
-              <span className="text-sm text-[#444444] block">
+              <span className="text-sm text-text block">
                 <b>Open</b>:{" "}
                 <span className="cursor-pointer hover:text-primary">
                   9am to 8pm from Monday to Sunday

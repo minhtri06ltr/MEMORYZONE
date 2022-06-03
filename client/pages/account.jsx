@@ -28,10 +28,8 @@ const account = () => {
       />
       <div className="px-10 my-12 space-x-6 flex  ">
         <div className="w-3/4 pr-2">
-          <span className="text-[#444] text-lg block font-medium">
-            CUSTOMER
-          </span>
-          <span className="text-sm my-3 block font-semibold text-[#444] ">
+          <span className="text-text text-lg block font-medium">CUSTOMER</span>
+          <span className="text-sm my-3 block font-semibold text-text ">
             Hello, <span className="text-primary">ly tri</span> !
           </span>
           <div>

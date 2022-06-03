@@ -73,7 +73,7 @@ a {
     @apply px-4 py-2 border min-w-[270px] text-[#686868] text-sm border-[#dddddd] outline-none focus:border-[#bdbdbd] rounded-sm w-full;
   }
   .footerHeaderText {
-    @apply text-[#444444] text-sm font-bold hover:text-primary cursor-default;
+    @apply text-text text-sm font-bold hover:text-primary cursor-default;
   }
   .footerItem {
     @apply cursor-pointer hover:text-primary;

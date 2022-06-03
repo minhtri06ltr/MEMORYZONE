@@ -39,13 +39,13 @@ const address = () => {
       />
       <div className="px-10 my-12">
         <div className="flex justify-between mb-6">
-          <span className="text-[#444] text-lg block font-medium">
+          <span className="text-text text-lg block font-medium">
             YOUR ADDRESS
           </span>
           <Link href="/account">
             <div className="flex items-center cursor-pointer">
               <ArrowLeftIcon width={18} height={18} className="text-primary" />
-              <span className="text-sm text-[#444] ml-2 block">
+              <span className="text-sm text-text ml-2 block">
                 Return to account page
               </span>
             </div>
@@ -212,19 +212,19 @@ const address = () => {
         <div className="mt-7">
           <div className="border-t border-[#ebebeb] py-8 flex space-x-6">
             <div className="flex-1 space-y-6">
-              <span className="text-sm block text-[#444]">
+              <span className="text-sm block text-text">
                 <b>Account Name:</b> ly test
               </span>
-              <span className="text-sm block text-[#444]">
+              <span className="text-sm block text-text">
                 <b>Company:</b> ly test
               </span>
-              <span className="text-sm block text-[#444]">
+              <span className="text-sm block text-text">
                 <b>Address:</b> ly test
               </span>
-              <span className="text-sm block text-[#444]">
+              <span className="text-sm block text-text">
                 <b>Country:</b> ly test
               </span>
-              <span className="text-sm block text-[#444]">
+              <span className="text-sm block text-text">
                 <b>Phone Number:</b> ly test
               </span>
               <button className="rounded-sm my-4 hover:bg-white hover:text-primary transition ease-linear text-white text-sm bg-primary  border border-primary  py-2 px-6">
