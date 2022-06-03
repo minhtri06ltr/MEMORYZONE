@@ -1,6 +1,7 @@
 import Head from "next/head";
 
 import { Header, Notify } from ".";
+import Footer from "./Footer";
 
 const Layout = ({
   children,
@@ -24,7 +25,7 @@ const Layout = ({
       <Notify />
       <header>{!removeLayout && <Header />}</header>
       <main>{children}</main>
-      <footer></footer>
+      <footer>{!removeLayout && <Footer />}</footer>
     </>
   );
 };

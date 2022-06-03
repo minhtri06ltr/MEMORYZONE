@@ -20,9 +20,20 @@ const cart = () => {
 
   return (
     <Layout title="Memoryzone | Cart" description="Memoryzone personal cart">
-      <Path path={["Home", "Cart"]} />
-      <div className="px-10">
-        <span className="block text-[#323c3f] text-3xl mt-12 mb-4 font-semibold">
+      <Path
+        path={[
+          {
+            title: "Home",
+            pathName: "/",
+          },
+          {
+            title: "Cart",
+            pathName: "/cart",
+          },
+        ]}
+      />
+      <div className="px-10 my-12">
+        <span className="block text-[#323c3f] text-3xl  mb-4 font-semibold">
           Cart
         </span>
         {cartItems.products.length > 0 ? (
@@ -193,7 +204,6 @@ const cart = () => {
             to continue shopping.
           </span>
         )}
-        <div className="h-[2000px]"></div>
       </div>
     </Layout>
   );
