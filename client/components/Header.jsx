@@ -153,9 +153,15 @@ const Header = () => {
             <li className="bottomHeaderItem">HOME</li>
             <li className="bottomHeaderItem">PAYMENT</li>
             <li className="bottomHeaderItem">INSTALLMENT</li>
-            <li className="bottomHeaderItem">DELIVERY POLICY</li>
-            <li className="bottomHeaderItem">CONTACT</li>
-            <li className="bottomHeaderItem">LIBRARY</li>
+            <Link href="/category/chuot-app">
+              <li className="bottomHeaderItem">DELIVERY POLICY</li>
+            </Link>
+            <Link href="/product/search?query=asd">
+              <li className="bottomHeaderItem">CONTACT</li>
+            </Link>
+            <Link href="/news">
+              <li className="bottomHeaderItem">LIBRARY</li>
+            </Link>
             <li onClick={handleLogout} className="cursor-pointer">
               Logout
             </li>

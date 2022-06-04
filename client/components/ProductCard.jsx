@@ -12,8 +12,7 @@ const ProductCard = ({ name, price, img, slug }) => {
             <Image
               alt={name}
               priority
-              // src={urlFor(img).url()}
-              src={img}
+              src={urlFor(img).url()}
               layout="fill"
               objectFit="contain"
               quality={100}

@@ -63,7 +63,18 @@ const login = () => {
         title="Memoryzone | Login"
         description="Memoryzone login to account"
       >
-        <Path path={["Home", "Log in to account"]} />
+        <Path
+          path={[
+            {
+              title: "Home",
+              pathName: "/",
+            },
+            {
+              title: "Log in to account",
+              pathName: "/account/login",
+            },
+          ]}
+        />
         <div className="m-10">
           <span className="text-text font- text-lg block">
             LOG IN TO ACCOUNT
@@ -159,12 +170,7 @@ const login = () => {
                     onChange={(e) => setForgotEmail(e.target.value)}
                   />
                 </div>
-                <label
-                  htmlFor="password"
-                  className="text-text mb-2.5 block  text-sm"
-                >
-                  *
-                </label>
+                <label className="invisible mb-2.5 block  text-sm">*</label>
                 <div>
                   <button
                     type="submit"
