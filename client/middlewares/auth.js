@@ -1,12 +1,9 @@
 import jwt from "jsonwebtoken";
-import { client } from "../lib/client";
 
 const auth = async (req, res) => {
   const token = req.headers.authorization;
-  const decoded = jwt.verify(
-    token.split(" ")[1],
-    process.env.NEXT_PUBLIC_ACCESS_TOKEN
-  );
+
+  const decoded = jwt.verify(token, process.env.NEXT_PUBLIC_ACCESS_TOKEN);
 
   if (!decoded) {
     return res.status(400).json({
@@ -14,10 +11,8 @@ const auth = async (req, res) => {
       message: "Invalid Authentication",
     });
   }
-  const user = await client.fetch(`*[_type=="user" && _id==$id][0]`, {
-    id: decoded.id,
-  });
-  return user;
+
+  return decoded.id;
 };
 
 export default auth;

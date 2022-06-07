@@ -8,6 +8,7 @@ export default {
     price: 0,
     countInStock: 0,
     numberReview: 0,
+    sold: 0,
     rating: 0,
   },
   fields: [
@@ -99,6 +100,11 @@ export default {
           type: "review",
         },
       ],
+    },
+    {
+      name: "sold",
+      title: "Sold",
+      type: "number",
     },
   ],
 };

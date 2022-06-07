@@ -2,30 +2,28 @@ export default {
   name: "order",
   title: "Order",
   type: "document",
-  initialValue: {
-    taxPrice: 0.0,
-    shippingPrice: 0.0,
-  },
+
   fields: [
+    {
+      name: "guestName",
+      title: "Guest Name",
+      type: "string",
+      hidden: ({ value }) => !value,
+    },
+    {
+      name: "guestEmail",
+      title: "Guest Email",
+      type: "string",
+      hidden: ({ value }) => !value,
+    },
     {
       name: "user",
       title: "User",
       type: "reference",
-
       to: [{ type: "user" }],
+      hidden: ({ value }) => !value,
     },
-    {
-      name: "type",
-      title: "Type",
-      type: "string",
-      options: {
-        list: [
-          { title: "Guest", value: "guest" },
-          { title: "Account", value: "account" },
-        ],
-        layout: "radio",
-      },
-    },
+
     {
       name: "shippingAddress",
       title: "Shipping Address",
@@ -41,7 +39,6 @@ export default {
       name: "paymentMethod",
       title: "Payment Method",
       type: "string",
-
       options: {
         list: [
           { title: "Paypal", value: "paypal" },
@@ -66,7 +63,6 @@ export default {
           title: "Confirm Time",
           name: "confirmTime",
           type: "datetime",
-          initialValue: new Date().toISOString(),
         },
         {
           title: "Prepare",
@@ -118,11 +114,13 @@ export default {
       name: "taxPrice",
       title: "Tax Price",
       type: "number",
+      initialValue: 0,
     },
     {
       name: "shippingPrice",
       title: "Shipping Price",
       type: "number",
+      initialValue: 0,
     },
     {
       name: "totalPrice",
@@ -133,7 +131,6 @@ export default {
       name: "isPaid",
       title: "Paid",
       type: "boolean",
-      initialValue: false,
     },
 
     {
@@ -141,15 +138,23 @@ export default {
       title: "Paid Time",
       type: "datetime",
     },
-    {
-      name: "guestEmail",
-      title: "Guest Email",
-      type: "string",
-    },
+
     {
       name: "orderAt",
       title: "Order Time",
       type: "datetime",
+    },
+    {
+      name: "role",
+      title: "Role",
+      type: "string",
+      options: {
+        list: [
+          { title: "Guest", value: "guest" },
+          { title: "Account", value: "account" },
+        ],
+        layout: "radio",
+      },
     },
   ],
 };

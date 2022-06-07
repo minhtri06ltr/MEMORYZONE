@@ -6,6 +6,12 @@ import {
 } from "@paypal/react-paypal-js";
 import { postData } from "../utils/requestMethod";
 import { useSelector } from "react-redux";
+import { client } from "../lib/client";
+import { clearCart } from "../redux/cartSlice";
+import { loadingNotify } from "../redux/notifySlice";
+import { useRouter } from "next/router";
+import { productSold } from "../middlewares/product";
+import { client } from "../lib/client";
 
 // This values are the props in the UI
 
@@ -18,7 +24,8 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
   // This is the main reason to wrap the PayPalButtons in a new component
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
   const token = useSelector((state) => state.account.accessToken);
-
+  const router = useRouter();
+  console.log(token);
   useEffect(() => {
     dispatch({
       type: "resetOptions",
@@ -55,19 +62,71 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
             });
         }}
         onApprove={async function (data, actions) {
+          dispatch(loadingNotify(true));
           return actions.order.capture().then(async function () {
             // Your code here after capture the order
-            const res = await postData(
-              "order/create",
-              {
-                ...form,
-                total: amount,
-                paymentMethod: "paypal",
-                orderAt: new Date(),
-              },
-              token
-            );
-            console.log(res);
+
+            try {
+              if (!token || token === "") {
+                client
+                  .create({
+                    role: "guest", // --
+                    guestEmail: form.email, //--
+                    guestName: form.fullName,
+                    _type: "order",
+                    shippingAddress: {
+                      _type: "shippingAddress",
+
+                      address: form.address,
+                      phoneNumber: form.phoneNumber,
+                      province: form.province,
+                      district: form.district,
+                      ward: form.ward,
+                      note: form.note,
+                    },
+                    paymentMethod: "paypal",
+                    orderAt: new Date(),
+                    totalPrice: amount,
+                    orderList: form.products.map((item) => {
+                      return {
+                        _key: item.id,
+                        productName: item.name,
+                        price: item.price,
+                        slug: item.slug,
+                        quantity: item.quantity,
+                      };
+                    }),
+                  })
+                  .then((res) => {
+                    //  router.push("/checkout/success");
+                    console.log(res);
+                    res.orderList.filter((item) => {
+                      return productSold(item._key, item.quantity);
+                    });
+                  })
+                  .catch((error) => alert(error.message));
+              } else {
+                const res = await postData(
+                  "order/create",
+                  {
+                    ...form,
+                    total: amount,
+                    paymentMethod: "paypal",
+                    orderAt: new Date(),
+                  },
+                  token
+                );
+                if (!res.success) {
+                  alert(res.error);
+                } else {
+                  dispatch(clearCart());
+                  //  router.push("/checkout/success");
+                }
+              }
+            } catch (error) {
+              alert(error.message);
+            }
+            dispatch(loadingNotify(false));
           });
         }}
       />
@@ -91,6 +150,7 @@ const PaypalButton = ({ dispatch, data, total }) => {
           currency={currency}
           amount={total}
           form={data}
+          dispatch={dispatch}
           showSpinner={true}
         />
       </PayPalScriptProvider>

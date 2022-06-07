@@ -1,5 +1,6 @@
 import { client } from "../../../lib/client";
 import auth from "../../../middlewares/auth";
+import { validateOrder } from "../../../utils/validate";
 
 export default async (req, res) => {
   switch (req.method) {
@@ -11,14 +12,10 @@ export default async (req, res) => {
 
 const createOrder = async (req, res) => {
   try {
-    const isLogin = req.headers.authorization;
-    console.log(JSON.parse(req.body));
     const {
       province,
       district,
       ward,
-      email,
-      fullName,
       address,
       phoneNumber,
       note,
@@ -29,11 +26,8 @@ const createOrder = async (req, res) => {
     } = JSON.parse(req.body);
     const errorMessage = validateOrder(
       province,
-
-      fullName,
       address,
       phoneNumber,
-
       total,
       paymentMethod,
       orderAt,
@@ -46,10 +40,8 @@ const createOrder = async (req, res) => {
       });
     const docs = {
       _type: "order",
-
       shippingAddress: {
         _type: "shippingAddress",
-        fullName,
         address,
         phoneNumber,
         province,
@@ -58,7 +50,6 @@ const createOrder = async (req, res) => {
         note,
       },
       paymentMethod,
-
       orderAt,
       totalPrice: total,
       orderList: products.map((item) => {
@@ -71,34 +62,21 @@ const createOrder = async (req, res) => {
         };
       }),
     };
-    if (isLogin || isLogin === "") {
-      const returnOrder = await client.create({
-        ...docs,
-        type: "guest", // --
-        guestEmail: email, //--
-      });
+    const userId = await auth(req, res);
 
-      return res.status(200).json({
-        success: true,
-        returnOrder,
-      });
-    } else {
-      const result = await auth(req, res);
-      console.log(result);
-      const returnOrder = await client.create({
-        ...docs,
-
-        type: "account",
-        user: {
-          _type: "reference",
-          _ref: result.id,
-        },
-      });
-      return res.status(200).json({
-        success: true,
-        returnOrder,
-      });
-    }
+    const returnOrder = await client.create({
+      ...docs,
+      role: "account",
+      user: {
+        _type: "reference",
+        _ref: userId,
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Payment success! We will contact you to confirm the order",
+      returnOrder,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({

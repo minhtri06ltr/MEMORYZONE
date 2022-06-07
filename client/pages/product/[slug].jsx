@@ -59,7 +59,7 @@ const ProductDetails = ({ productBySlug }) => {
       })
     );
     router.push("/cart");
-    localStorage.setItem("emptyCart", false);
+
     dispatch(loadingNotify(false));
   };
 

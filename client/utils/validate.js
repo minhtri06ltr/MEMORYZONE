@@ -20,11 +20,8 @@ const validateEmail = (email) => {
 
 export const validateOrder = (
   province,
-
-  fullName,
   address,
   phoneNumber,
-
   total,
   paymentMethod,
   orderAt,
@@ -32,7 +29,6 @@ export const validateOrder = (
 ) => {
   if (
     province === "" ||
-    fullName === "" ||
     address === "" ||
     phoneNumber === "" ||
     total === "" ||

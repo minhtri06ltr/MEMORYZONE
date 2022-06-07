@@ -5,11 +5,6 @@ export default {
 
   fields: [
     {
-      name: "fullName",
-      title: "Full Name",
-      type: "string",
-    },
-    {
       name: "phoneNumber",
       title: "Phone Number",
       type: "string",
