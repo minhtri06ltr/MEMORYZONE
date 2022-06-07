@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadingNotify } from "../../redux/notifySlice";
 import { postData } from "../../utils/requestMethod";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import { loginSuccess } from "../../redux/accountSlice";
 import { useLocalStorageLogin } from "../../utils/getLocalValue";
 
 const register = () => {
@@ -44,8 +46,17 @@ const register = () => {
     const res = await postData("account/register", registerForm);
     if (!res.success) {
       setErrorMessage(res.error);
-      dispatch(loadingNotify(false));
-    } else dispatch(loadingNotify(false));
+    } else {
+      Cookies.set("refreshToken", res.refreshToken, {
+        expires: 7,
+        path: "/api/account/accessToken",
+      });
+
+      dispatch(loginSuccess({ accessToken: res.accessToken, user: res.user }));
+      localStorage.setItem("isLogin", true);
+    }
+
+    dispatch(loadingNotify(false));
   };
   useEffect(() => {
     if (
@@ -65,7 +76,18 @@ const register = () => {
         title="Memoryzone | Register"
         description="Memoryzone register an account"
       >
-        <Path path={["Home", "Register an account"]} />
+        <Path
+          path={[
+            {
+              title: "Home",
+              pathName: "/",
+            },
+            {
+              title: "Register an account",
+              pathName: "/account/register",
+            },
+          ]}
+        />
 
         <div className="m-10">
           <span className="text-text font- text-lg block">
@@ -129,7 +151,7 @@ const register = () => {
                     >
                       Register
                     </button>
-                    <Link href="login">
+                    <Link href="/account/login">
                       <span className="text-[#575454] cursor-pointer text-sm underline hover:text-primary ">
                         Login
                       </span>

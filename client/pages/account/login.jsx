@@ -15,7 +15,11 @@ const login = () => {
   const user = useSelector((state) => state.account.user);
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [loginForm, setLoginForm] = useState({
+    email: "",
+    password: "",
+  });
+  const [forgotEmail, setForgotEmail] = useState("");
   const loginHandler = async (e) => {
     e.preventDefault();
 
@@ -35,11 +39,7 @@ const login = () => {
 
     dispatch(loadingNotify(false));
   };
-  const [loginForm, setLoginForm] = useState({
-    email: "",
-    password: "",
-  });
-  const [forgotEmail, setForgotEmail] = useState("");
+
   const loginFormHandler = (e) => {
     setLoginForm({
       ...loginForm,
@@ -47,17 +47,17 @@ const login = () => {
     });
   };
   useEffect(() => {
-    if (localStorage.getItem("isLogin") && Object.keys(user).length !== 0) {
+    if (
+      JSON.parse(localStorage.getItem("isLogin")) &&
+      Object.keys(user).length !== 0
+    ) {
       if (router.query?.return === "checkout") {
         router.push("/checkout/standard");
       } else router.push("/");
     }
   }, [Object.keys(user).length]);
 
-  if (
-    Object.keys(user).length === 0 &&
-    (checkLogin === false || checkLogin === null)
-  )
+  if (Object.keys(user).length === 0 && (!checkLogin || checkLogin === null))
     return (
       <Layout
         title="Memoryzone | Login"
@@ -135,7 +135,7 @@ const login = () => {
                   >
                     Login
                   </button>
-                  <Link href="register">
+                  <Link href="/account/register">
                     <span className="text-[#575454] cursor-pointer text-sm underline hover:text-primary ">
                       Register
                     </span>

@@ -34,8 +34,7 @@ export default async (req, res) => {
       success: true,
       accessToken: accessToken,
       user: {
-        firstName: existUser.firstName,
-        lastName: existUser.lastName,
+        fullName: `${existUser.firstName} ${existUser.lastName}`,
         email: existUser.email,
         _createdAt: existUser._createdAt,
         isAdmin: existUser.isAdmin,

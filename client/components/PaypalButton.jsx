@@ -5,13 +5,12 @@ import {
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
 import { postData } from "../utils/requestMethod";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { client } from "../lib/client";
 import { clearCart } from "../redux/cartSlice";
 import { loadingNotify } from "../redux/notifySlice";
 import { useRouter } from "next/router";
 import { productSold } from "../middlewares/product";
-import { client } from "../lib/client";
 
 // This values are the props in the UI
 
@@ -25,6 +24,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
   const token = useSelector((state) => state.account.accessToken);
   const router = useRouter();
+  const appDispatch = useDispatch();
   console.log(token);
   useEffect(() => {
     dispatch({
@@ -65,9 +65,9 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
           dispatch(loadingNotify(true));
           return actions.order.capture().then(async function () {
             // Your code here after capture the order
-
+            console.log(token);
             try {
-              if (!token || token === "") {
+              if (token == null || token === "" || token === undefined) {
                 client
                   .create({
                     role: "guest", // --
@@ -99,7 +99,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
                   })
                   .then((res) => {
                     //  router.push("/checkout/success");
-                    console.log(res);
+                    appDispatch(clearCart());
                     res.orderList.filter((item) => {
                       return productSold(item._key, item.quantity);
                     });
@@ -119,8 +119,11 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
                 if (!res.success) {
                   alert(res.error);
                 } else {
-                  dispatch(clearCart());
+                  appDispatch(clearCart());
                   //  router.push("/checkout/success");
+                  res.returnOrder.orderList.filter((item) => {
+                    return productSold(item._key, item.quantity);
+                  });
                 }
               }
             } catch (error) {
@@ -150,7 +153,6 @@ const PaypalButton = ({ dispatch, data, total }) => {
           currency={currency}
           amount={total}
           form={data}
-          dispatch={dispatch}
           showSpinner={true}
         />
       </PayPalScriptProvider>

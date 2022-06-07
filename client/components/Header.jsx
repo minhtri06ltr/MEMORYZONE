@@ -60,9 +60,9 @@ const Header = () => {
               <UserIcon width={18} className="text-inherit" />
 
               {Object.keys(user).length !== 0 ? (
-                <span className="topHeaderText">
-                  Hi! {user.firstName} {user.lastName}
-                </span>
+                <Link href="/account">
+                  <span className="topHeaderText">Hi! {user.fullName}</span>
+                </Link>
               ) : (
                 <Link href="/account/login">
                   <span className="topHeaderText">Account</span>

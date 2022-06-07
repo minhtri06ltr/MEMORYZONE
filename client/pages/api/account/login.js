@@ -46,8 +46,7 @@ const login = async (req, res) => {
       accessToken: accessToken,
       refreshToken: refreshToken,
       user: {
-        firstName: existUser.firstName,
-        lastName: existUser.lastName,
+        fullName: `${existUser.firstName} ${existUser.lastName}`,
         email: existUser.email,
         _createdAt: existUser._createdAt,
         isAdmin: existUser.isAdmin,

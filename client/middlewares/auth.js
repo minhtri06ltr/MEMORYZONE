@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 
 const auth = async (req, res) => {
   const token = req.headers.authorization;
-
   const decoded = jwt.verify(token, process.env.NEXT_PUBLIC_ACCESS_TOKEN);
 
   if (!decoded) {
@@ -11,7 +10,6 @@ const auth = async (req, res) => {
       message: "Invalid Authentication",
     });
   }
-
   return decoded.id;
 };
 

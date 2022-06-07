@@ -1,3 +1,5 @@
+import { client } from "../lib/client";
+
 export const productSold = async (productId, quantity) => {
   await client
     .patch(productId)
@@ -5,7 +7,7 @@ export const productSold = async (productId, quantity) => {
       sold: quantity,
     })
     .dec({
-      inStock: quantity,
+      countInStock: quantity,
     })
     .commit();
 };

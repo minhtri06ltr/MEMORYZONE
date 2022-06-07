@@ -1,5 +1,8 @@
 import bcrypt from "bcryptjs";
-
+import {
+  createAccessToken,
+  createRefreshToken,
+} from "../../../utils/generateToken";
 import { client } from "../../../lib/client";
 import { validRegister } from "../../../utils/validate";
 
@@ -44,9 +47,20 @@ const register = async (req, res) => {
     };
 
     const returnUser = await client.create(newUser);
+    const accessToken = createAccessToken({ id: returnUser._id });
+    const refreshToken = createRefreshToken({ id: returnUser._id });
+    console.log(returnUser);
     return res.status(200).json({
       message: "Register successfull",
       success: true,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      user: {
+        fullName: `${returnUser.firstName} ${returnUser.lastName}`,
+        email: returnUser.email,
+        _createdAt: returnUser._createdAt,
+        isAdmin: returnUser.isAdmin,
+      },
     });
   } catch (error) {
     console.log(error);

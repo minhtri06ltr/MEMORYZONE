@@ -99,7 +99,7 @@ const standard = ({ provinceList }) => {
       setCheckoutForm({
         ...checkoutForm,
         email: user.email,
-        fullName: `${user.firstName} ${user.lastName}`,
+        fullName: user.fullName,
       });
       setAllow(false);
     }
@@ -538,7 +538,6 @@ const standard = ({ provinceList }) => {
                     {info ? (
                       <PaypalButton
                         total={cart.total}
-                        dispatch={dispatch}
                         data={{ ...checkoutForm, products: cart.products }}
                       />
                     ) : (

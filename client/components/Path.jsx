@@ -2,7 +2,6 @@ import { ChevronRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 
 const Path = ({ path }) => {
-  console.log(path);
   return (
     <section>
       <div className="border-b border-[#e5e5e5] py-3.5 flex justify-start items-center px-10">
