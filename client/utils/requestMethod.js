@@ -1,4 +1,6 @@
 export const getData = async (url, token) => {
+  console.log(token);
+  console.log(url);
   const res = await fetch(`/api/${url}`, {
     method: "GET",
     headers: {

@@ -20,6 +20,21 @@ const login = () => {
     password: "",
   });
   const [forgotEmail, setForgotEmail] = useState("");
+
+  const forgotEmailHandle = async (e) => {
+    e.preventDefault();
+    if (forgotEmail === "") {
+      alert("Please fill all required fields");
+      return;
+    }
+    const res = await postData("account/forgotPassword", forgotEmail);
+    if (!res.success) {
+      alert(res.message);
+      return;
+    }
+    console.log(res);
+    console.log("hi");
+  };
   const loginHandler = async (e) => {
     e.preventDefault();
 
@@ -124,7 +139,7 @@ const login = () => {
                     name="password"
                     value={loginForm.password}
                     minLength={6}
-                    required={true}
+                    required
                     onChange={(e) => loginFormHandler(e)}
                   />
                 </div>
@@ -148,7 +163,7 @@ const login = () => {
                 Forgot your password? Enter your email address to retrieve your
                 password via email.
               </span>
-              <form className="my-8">
+              <form onSubmit={forgotEmailHandle} className="my-8">
                 <div className="mb-6">
                   <label
                     htmlFor="forgotEmail"
@@ -166,6 +181,7 @@ const login = () => {
                     className="w-full border outline-none rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                     placeholder="Email"
                     name="forgotEmail"
+                    required
                     value={forgotEmail}
                     onChange={(e) => setForgotEmail(e.target.value)}
                   />

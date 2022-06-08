@@ -25,7 +25,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
   const token = useSelector((state) => state.account.accessToken);
   const router = useRouter();
   const appDispatch = useDispatch();
-  console.log(token);
+
   useEffect(() => {
     dispatch({
       type: "resetOptions",
@@ -65,7 +65,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
           dispatch(loadingNotify(true));
           return actions.order.capture().then(async function () {
             // Your code here after capture the order
-            console.log(token);
+
             try {
               if (token == null || token === "" || token === undefined) {
                 client
@@ -103,6 +103,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
                     res.orderList.filter((item) => {
                       return productSold(item._key, item.quantity);
                     });
+                    alert("buy success");
                   })
                   .catch((error) => alert(error.message));
               } else {
@@ -124,6 +125,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
                   res.returnOrder.orderList.filter((item) => {
                     return productSold(item._key, item.quantity);
                   });
+                  alert("buy success");
                 }
               }
             } catch (error) {

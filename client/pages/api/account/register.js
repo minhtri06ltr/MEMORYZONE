@@ -34,7 +34,7 @@ const register = async (req, res) => {
     if (existUser) {
       return res
         .status(401)
-        .json({ success: false, error: "Email aleardy exists" });
+        .json({ success: false, error: "Email already exists" });
     }
 
     const newUser = {
@@ -51,7 +51,7 @@ const register = async (req, res) => {
     const refreshToken = createRefreshToken({ id: returnUser._id });
     console.log(returnUser);
     return res.status(200).json({
-      message: "Register successfull",
+      message: "Register successful",
       success: true,
       accessToken: accessToken,
       refreshToken: refreshToken,

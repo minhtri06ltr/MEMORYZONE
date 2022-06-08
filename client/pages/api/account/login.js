@@ -25,7 +25,7 @@ const login = async (req, res) => {
     );
 
     if (!existUser) {
-      return res.status(400).json({
+      return res.status(422).json({
         success: false,
         error: `Email does not exist`,
       });
@@ -42,7 +42,7 @@ const login = async (req, res) => {
     const refreshToken = createRefreshToken({ id: existUser._id });
     return res.status(200).json({
       success: true,
-      message: "Login successfull",
+      message: "Login successful",
       accessToken: accessToken,
       refreshToken: refreshToken,
       user: {
