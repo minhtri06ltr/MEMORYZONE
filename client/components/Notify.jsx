@@ -1,10 +1,8 @@
-import { useSelector } from "react-redux";
 import { Loading } from ".";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 const Notify = () => {
-  const notify = useSelector((state) => state.notify);
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -24,7 +22,7 @@ const Notify = () => {
     };
   });
 
-  return (loading || notify.loading) && <Loading />;
+  return loading && <Loading />;
 };
 
 export default Notify;

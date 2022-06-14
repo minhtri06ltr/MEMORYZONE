@@ -62,10 +62,8 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
             });
         }}
         onApprove={async function (data, actions) {
-          dispatch(loadingNotify(true));
           return actions.order.capture().then(async function () {
             // Your code here after capture the order
-
             try {
               if (token == null || token === "" || token === undefined) {
                 client
@@ -131,7 +129,6 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
             } catch (error) {
               alert(error.message);
             }
-            dispatch(loadingNotify(false));
           });
         }}
       />

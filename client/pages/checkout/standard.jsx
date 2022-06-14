@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { postData } from "../../utils/requestMethod";
 import { LogoutIcon } from "@heroicons/react/outline";
 import { logout } from "../../redux/accountSlice";
-import { loadingNotify } from "../../redux/notifySlice";
 
 const standard = ({ provinceList }) => {
   const cart = useSelector((state) => state.cart);
@@ -104,6 +103,7 @@ const standard = ({ provinceList }) => {
       setAllow(false);
     }
   }, [Object.keys(user).length]);
+
   const checkoutHandle = async (e) => {
     e.preventDefault();
     if (
@@ -126,7 +126,10 @@ const standard = ({ provinceList }) => {
         orderAt: new Date(),
         paymentMethod: "standard",
       });
-      console.log(res);
+
+      if (res.success) {
+        alert("Order success");
+      }
     }
   };
 
@@ -136,7 +139,14 @@ const standard = ({ provinceList }) => {
       title="Memoryzone | Standard Checkout"
       description="Memoryzone - Professional in memory - Checkout - Payment orders "
     >
-      {cart.quantity !== 0 ? (
+      {cart.quantity === 0 ? (
+        <Link href="/">
+          <span className="mt-12 cursor-pointer hover:text-primary block text-center text-text text-md ">
+            You don't have any product in cart yet! Please choose at least one
+            product at shop
+          </span>
+        </Link>
+      ) : (
         <div className="flex">
           <div className="bg-[#f4f4f4]  pl-6  w-[66%]">
             <div className="px-8 py-1.5">
@@ -146,7 +156,7 @@ const standard = ({ provinceList }) => {
                     <Image
                       alt="Memoryzone checkout page logo"
                       priority
-                      quanlity={100}
+                      quality={100}
                       src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/checkout_logo.png?1653463685615"
                       layout="fill"
                     />
@@ -167,7 +177,7 @@ const standard = ({ provinceList }) => {
                             query: { return: "checkout" },
                           }}
                         >
-                          <div className="flex cursor-pointer items-cemter">
+                          <div className="flex cursor-pointer items-center">
                             <UserCircleIcon
                               className="text-primary mr-1"
                               width={22}
@@ -181,13 +191,11 @@ const standard = ({ provinceList }) => {
                       ) : (
                         <div
                           onClick={() => {
-                            dispatch(loadingNotify(true));
                             dispatch(logout());
                             setAllow(true);
                             localStorage.setItem("isLogin", false);
-                            dispatch(loadingNotify(false));
                           }}
-                          className="flex cursor-pointer items-cemter"
+                          className="flex cursor-pointer items-center"
                         >
                           <LogoutIcon
                             className="text-primary mr-1"
@@ -393,7 +401,7 @@ const standard = ({ provinceList }) => {
                         </div>
                         <Image
                           atl="Memoryzone  0% interest installment payment via Visa, Master, JCB
-                cards (Order from 150 $)"
+               cards (Order from 150 $)"
                           src="https://bizweb.dktcdn.net/100/329/122/files/03icon-tragop-0.png?v=1639481630773"
                           width={48}
                           height={32}
@@ -409,7 +417,7 @@ const standard = ({ provinceList }) => {
                         </div>
                         <Image
                           alt="Memoryzone    Online payment via Visa, Master, JCB cards (Free
-                  payment)"
+                 payment)"
                           src="https://bizweb.dktcdn.net/100/329/122/files/04icon-visamaster.png?v=1639481634747"
                           width={48}
                           height={32}
@@ -558,8 +566,6 @@ const standard = ({ provinceList }) => {
             </div>
           </div>
         </div>
-      ) : (
-        <h1>Empty cart</h1>
       )}
     </Layout>
   );

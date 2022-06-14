@@ -350,11 +350,6 @@
   "resolved" "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
   "version" "0.0.29"
 
-"@types/node@>=8.1.0":
-  "integrity" "sha512-vu1SrqBjbbZ3J6vwY17jBs8Sr/BKA+/a/WtjRG+whKg1iuLFOosq872EXS0eXWILdO36DHQQeku/ZcL6hz2fpg=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-17.0.35.tgz"
-  "version" "17.0.35"
-
 "@types/prop-types@*":
   "integrity" "sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w=="
   "resolved" "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz"
@@ -1371,11 +1366,6 @@
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
 
-"fs@^0.0.1-security":
-  "integrity" "sha1-invTcYa23d84E/I4WLV+yq9eQdQ="
-  "resolved" "https://registry.npmjs.org/fs/-/fs-0.0.1-security.tgz"
-  "version" "0.0.1-security"
-
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
   "resolved" "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz"
@@ -1627,11 +1617,6 @@
   "version" "1.2.1"
   dependencies:
     "ms" "^2.0.0"
-
-"i@^0.3.7":
-  "integrity" "sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q=="
-  "resolved" "https://registry.npmjs.org/i/-/i-0.3.7.tgz"
-  "version" "0.3.7"
 
 "iconv-lite@^0.6.2":
   "version" "0.6.3"
@@ -2346,11 +2331,6 @@
   "resolved" "https://registry.npmjs.org/node-releases/-/node-releases-2.0.5.tgz"
   "version" "2.0.5"
 
-"nodemailer@^6.7.5":
-  "integrity" "sha512-6VtMpwhsrixq1HDYSBBHvW0GwiWawE75dS3oal48VqRhUvKJNnKnJo2RI/bCVQubj1vgrgscMNW4DHaD6xtMCg=="
-  "resolved" "https://registry.npmjs.org/nodemailer/-/nodemailer-6.7.5.tgz"
-  "version" "6.7.5"
-
 "nopt@^5.0.0":
   "version" "5.0.0"
   dependencies:
@@ -2837,13 +2817,6 @@
 "qrcode-terminal@^0.12.0":
   "version" "0.12.0"
 
-"qs@^6.10.3":
-  "integrity" "sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ=="
-  "resolved" "https://registry.npmjs.org/qs/-/qs-6.10.3.tgz"
-  "version" "6.10.3"
-  dependencies:
-    "side-channel" "^1.0.4"
-
 "querystringify@^2.1.1":
   "integrity" "sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ=="
   "resolved" "https://registry.npmjs.org/querystringify/-/querystringify-2.2.0.tgz"
@@ -2859,7 +2832,7 @@
   "resolved" "https://registry.npmjs.org/quick-lru/-/quick-lru-5.1.1.tgz"
   "version" "5.1.1"
 
-"react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@>=16.2.0", "react-dom@>=16.3.0", "react-dom@18.1.0":
+"react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@>=16.3.0", "react-dom@18.1.0":
   "integrity" "sha512-fU1Txz7Budmvamp7bshe4Zi32d0ll7ect+ccxNu9FlObT605GOEB8BfO4tmRJ39R5Zj831VCpvQ05QPBW5yb+w=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.1.0.tgz"
   "version" "18.1.0"
@@ -2889,12 +2862,7 @@
     "react-is" "^18.0.0"
     "use-sync-external-store" "^1.0.0"
 
-"react-webcam@^7.0.1":
-  "integrity" "sha512-8E/Eb/7ksKwn5QdLn67tOR7+TdP9BZdu6E5/DSt20v8yfW/s0VGBigE6VA7R4278mBuBUowovAB3DkCfVmSPvA=="
-  "resolved" "https://registry.npmjs.org/react-webcam/-/react-webcam-7.0.1.tgz"
-  "version" "7.0.1"
-
-"react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^17.0.2 || ^18.0.0-0", "react@^18.1.0", "react@>= 16", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.2.0", "react@>=16.3.0", "react@18.1.0":
+"react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^17.0.2 || ^18.0.0-0", "react@^18.1.0", "react@>= 16", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.3.0", "react@18.1.0":
   "integrity" "sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.1.0.tgz"
   "version" "18.1.0"
@@ -3273,14 +3241,6 @@
   "integrity" "sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig=="
   "resolved" "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz"
   "version" "3.1.1"
-
-"stripe@^9.1.0":
-  "integrity" "sha512-eTv1i8N6+f1mdfSlIUYXehwLwDAS6D7ijVz6izg7Pt2m1C9Xm8ZkDNz3KcSmQuTqHvsNHzdeCL2lIC/IcU6RMw=="
-  "resolved" "https://registry.npmjs.org/stripe/-/stripe-9.4.0.tgz"
-  "version" "9.4.0"
-  dependencies:
-    "@types/node" ">=8.1.0"
-    "qs" "^6.10.3"
 
 "styled-jsx@5.0.2":
   "integrity" "sha512-LqPQrbBh3egD57NBcHET4qcgshPks+yblyhPlH2GY8oaDgKs8SK4C3dBh3oSJjgzJ3G5t1SYEZGHkP+QEpX9EQ=="

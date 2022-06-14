@@ -1,6 +1,10 @@
 import { client } from "../../../../lib/client";
 import auth from "../../../../middlewares/auth";
 import bcrypt from "bcryptjs";
+import {
+  createAccessToken,
+  createRefreshToken,
+} from "../../../../utils/generateToken";
 
 export default async (req, res) => {
   switch (req.method) {
@@ -38,10 +42,19 @@ const resetPassword = async (req, res) => {
         password: bcrypt.hashSync(password),
       })
       .commit();
+    const accessToken = createAccessToken({ id: returnUser._id });
+    const refreshToken = createRefreshToken({ id: returnUser._id });
     return res.json({
       success: true,
       message: "Reset password success",
-      returnUser,
+      accessToken,
+      refreshToken,
+      user: {
+        fullName: `${returnUser.firstName} ${returnUser.lastName}`,
+        email: returnUser.email,
+        _createdAt: returnUser._createdAt,
+        isAdmin: returnUser.isAdmin,
+      },
     });
   } catch (error) {
     console.log(error);

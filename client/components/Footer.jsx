@@ -1,6 +1,18 @@
 import Image from "next/image";
+import { useState } from "react";
+import { postData } from "../utils/requestMethod";
 
 const Footer = () => {
+  const [contactEmail, setContactEmail] = useState("");
+  const contactHandle = async (e) => {
+    e.preventDefault();
+    if (contactEmail === "") {
+      alert("Please fill contact email to continue");
+      return;
+    }
+    const res = await postData("contact", { email: contactEmail });
+    console.log(res);
+  };
   return (
     <>
       <div className="px-10 border-y border-[#ebebeb]">
@@ -121,8 +133,18 @@ const Footer = () => {
               SIGN UP TO RECEIVE PROMOTION NEWS
             </h4>
             <div>
-              <form className="space-x-2 flex items-center">
+              <form
+                onSubmit={contactHandle}
+                className="space-x-2 flex items-center"
+              >
                 <input
+                  id="contactEmail"
+                  rules={{
+                    required: true,
+                    pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                  }}
+                  name="contactEmail"
+                  onChange={(e) => setContactEmail(e.target.value)}
                   type="email"
                   placeholder="Enter your email"
                   className="text-sm outline-none bg-[#f8f8f8] px-4 py-2 flex-1 rounded-sm border border-[#e1e1e1]"

@@ -6,7 +6,6 @@ import { useRef, useState } from "react";
 
 import { client, urlFor } from "../lib/client";
 import { useDispatch } from "react-redux";
-import { loadingNotify } from "../redux/notifySlice";
 
 const ReplyItem = ({ data, reviewIndex, setOpenIndex, setReplyForm }) => {
   return (
@@ -118,7 +117,6 @@ const Review = ({ data, productName, productRate, productId }) => {
         e.target.files[0].type === "image/gif" ||
         e.target.files[0].type === "image/tiff"
       ) {
-        dispatch(loadingNotify(true));
         await client.assets
           .upload("image", e.target.files[0], {
             contentType: e.target.files[0].type,
@@ -129,10 +127,8 @@ const Review = ({ data, productName, productRate, productId }) => {
               ...reviewForm,
               images: [...images, res],
             });
-            dispatch(loadingNotify(false));
           })
           .catch((error) => {
-            dispatch(loadingNotify(false));
             alert(error.message);
           });
       } else {
@@ -157,7 +153,6 @@ const Review = ({ data, productName, productRate, productId }) => {
       alert("Please add required fields");
       return;
     }
-    dispatch(loadingNotify(true));
 
     await client
       .patch(productId)
@@ -208,13 +203,12 @@ const Review = ({ data, productName, productRate, productId }) => {
           phoneNumber: "",
           images: [],
         });
-        dispatch(loadingNotify(false));
+
         alert(
           "Thanks for your review, please wait for an admin to approve this review"
         );
       })
       .catch((error) => {
-        dispatch(loadingNotify(false));
         alert(error.message);
       });
 
@@ -227,7 +221,6 @@ const Review = ({ data, productName, productRate, productId }) => {
       alert("Please add required fields");
       return;
     } else {
-      dispatch(loadingNotify(true));
       await client
         .patch(productId)
         .setIfMissing({
@@ -260,12 +253,10 @@ const Review = ({ data, productName, productRate, productId }) => {
             phoneNumber: "",
             reviewId: "",
           });
-          dispatch(loadingNotify(false));
         })
         .catch((error) => {
           alert(error.message);
           console.log(error);
-          dispatch(loadingNotify(false));
         });
     }
   };

@@ -53,8 +53,8 @@ const register = async (req, res) => {
     return res.status(200).json({
       message: "Register successful",
       success: true,
-      accessToken: accessToken,
-      refreshToken: refreshToken,
+      accessToken,
+      refreshToken,
       user: {
         fullName: `${returnUser.firstName} ${returnUser.lastName}`,
         email: returnUser.email,

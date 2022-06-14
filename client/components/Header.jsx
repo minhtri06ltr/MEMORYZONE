@@ -12,22 +12,23 @@ import {
 import logo from "../assets/img/logo.webp";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { loadingNotify } from "../redux/notifySlice";
+
 import { logout } from "../redux/accountSlice";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const user = useSelector((state) => state.account.user);
 
   const dispatch = useDispatch();
   const productQuantity = useSelector((state) => state.cart.quantity);
+  const router = useRouter();
   const handleLogout = () => {
-    dispatch(loadingNotify(true));
     dispatch(logout());
     Cookies.remove("refreshToken", {
       path: "/api/account/accessToken",
     });
     localStorage.setItem("isLogin", false);
-    dispatch(loadingNotify(false));
+    router.push("/");
   };
   return (
     <div className="w-full">
