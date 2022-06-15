@@ -51,6 +51,7 @@ const createOrder = async (req, res) => {
       },
       paymentMethod,
       orderAt,
+      orderStatus: "Wait for confirm",
       totalPrice: total,
       orderList: products.map((item) => {
         return {

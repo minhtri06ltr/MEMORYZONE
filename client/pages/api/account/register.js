@@ -56,6 +56,7 @@ const register = async (req, res) => {
       accessToken,
       refreshToken,
       user: {
+        id: existUser._id,
         fullName: `${returnUser.firstName} ${returnUser.lastName}`,
         email: returnUser.email,
         _createdAt: returnUser._createdAt,

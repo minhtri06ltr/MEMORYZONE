@@ -28,7 +28,6 @@ const Header = () => {
       path: "/api/account/accessToken",
     });
     localStorage.setItem("isLogin", false);
-    router.push("/");
   };
   return (
     <div className="w-full">

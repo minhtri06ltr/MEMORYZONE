@@ -1,4 +1,5 @@
 import { client } from "../../../lib/client";
+import { sendEmailHandle } from "../../../middlewares/mailer";
 
 import { createAccessToken } from "../../../utils/generateToken";
 
@@ -28,7 +29,9 @@ const forgotPasswordRequest = async (req, res) => {
     }
     const accessToken = createAccessToken({ id: existEmail._id });
     const url = `${process.env.NEXT_PUBLIC_CLIENT_URL}/account/reset/${accessToken}`;
-    console.log(url);
+
+    await sendEmailHandle(req, res);
+
     return res.status(200).json({
       message: "Please check your email to reset the password",
       success: true,

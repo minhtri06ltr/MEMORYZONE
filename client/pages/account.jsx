@@ -10,154 +10,157 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { getData } from "../utils/requestMethod";
+import { useState } from "react";
+import { formatDateTime, formatProcess } from "../utils/format";
 
 const account = () => {
   const router = useRouter();
-  const user = useSelector((state) => state.account.user);
+  const account = useSelector((state) => state.account);
+  const [orderList, setOrderList] = useState([]);
   useEffect(() => {
     if (
-      Object.keys(user).length === 0 &&
+      Object.keys(account.user).length === 0 &&
       !JSON.parse(localStorage.getItem("isLogin"))
     ) {
       router.push("/account/login");
+    } else {
+      const getOrderHistory = async () => {
+        const res = await getData("order/history", account.accessToken);
+        console.log(res);
+        if (res.success) {
+          setOrderList(res.orderHistoryList);
+        }
+      };
+      if (account.accessToken !== "" && account.accessToken !== undefined)
+        getOrderHistory();
     }
-  }, [Object.keys(user).length]);
-  if (Object.keys(user).length === 0)
-    return (
-      <Layout
-        title="Memoryzone | Account"
-        description="Memoryzone account information"
-        removeLayout={true}
-      ></Layout>
-    );
-  else
-    return (
-      <Layout
-        title="Memoryzone | Account"
-        description="Memoryzone account information"
-      >
-        <Path
-          path={[
-            {
-              title: "Home",
-              pathName: "/",
-            },
-            {
-              title: "Account",
-              pathName: "/account",
-            },
-          ]}
-        />
-        <div className="px-10 my-12 space-x-6 flex  ">
-          <div className="w-3/4 pr-2">
-            <span className="text-text text-lg block font-medium">
-              CUSTOMER
-            </span>
-            <span className="text-sm my-3 block font-semibold text-text ">
-              Hello, <span className="text-primary">{user.fullName}</span> !
-            </span>
-            <div>
-              <table className="border w-full border-[#e1e1e1]">
-                <tbody className="divide-y divide-[#e1e1e1]">
-                  <tr className="divide-x divide-[#e1e1e1]">
-                    <td className="headerOrderTable">Order</td>
-                    <td className="headerOrderTable">Date</td>
-                    <td className="headerOrderTable">Address</td>
-                    <td className="headerOrderTable">Order Price</td>
-                    <td className="headerOrderTable">Payment Status</td>
-                    <td className="headerOrderTable">Status</td>
-                  </tr>
-                  <tr className="divide-x divide-[#e1e1e1]">
-                    {/* <td colspan="6" className="text-center align-top   p-2">
-                  <span className="text-sm min-h-[42px] block">
-                    There is no order yet.
-                  </span>
-                </td> */}
+  }, [Object.keys(account.user).length, router]);
 
-                    <td className="itemOrderTable ">#sds87d83</td>
-                    <td className="itemOrderTable ">6/3/2022</td>
-                    <td className="itemOrderTable ">
-                      2/19 Ap Tan Lap, xa Tan Thoi Nhi, huyen Hoc Mon, tp
-                      HCMasdddddddddddddddd
-                    </td>
-                    <td className="itemOrderTable ">2.345$</td>
-                    <td className="itemOrderTable italic">Paid</td>
-                    <td className="itemOrderTable ">Prepare</td>
-                  </tr>
+  return (
+    <Layout
+      title="Memoryzone | Account"
+      description="Memoryzone account information"
+    >
+      <Path
+        path={[
+          {
+            title: "Home",
+            pathName: "/",
+          },
+          {
+            title: "Account",
+            pathName: "/account",
+          },
+        ]}
+      />
+      <div className="px-10 my-12 space-x-6 flex  ">
+        <div className="w-3/4 pr-2">
+          <span className="text-text text-lg block font-medium">CUSTOMER</span>
+          <span className="text-sm my-3 block font-semibold text-text ">
+            Hello, <span className="text-primary">{account.user.fullName}</span>{" "}
+            !
+          </span>
+          <div>
+            <table className="border w-full border-[#e1e1e1]">
+              <tbody className="divide-y divide-[#e1e1e1]">
+                <tr className="divide-x divide-[#e1e1e1]">
+                  <td className="headerOrderTable">Order</td>
+                  <td className="headerOrderTable">Date</td>
+                  <td className="headerOrderTable">Address</td>
+                  <td className="headerOrderTable">Order Price</td>
+                  <td className="headerOrderTable">Payment Status</td>
+                  <td className="headerOrderTable">Status</td>
+                </tr>
+                {!orderList ? (
                   <tr className="divide-x divide-[#e1e1e1]">
-                    {/* <td colspan="6" className="text-center align-top   p-2">
-                  <span className="text-sm min-h-[42px] block">
-                    There is no order yet.
-                  </span>
-                </td> */}
-
-                    <td className="itemOrderTable ">#sds87d83</td>
-                    <td className="itemOrderTable ">6/3/2022</td>
-                    <td className="itemOrderTable ">
-                      2/19 Ap Tan Lap, xa Tan Thoi Nhi, huyen Hoc Mon, tp
-                      HCMasdddddddddddddddd
+                    <td colSpan="6" className="text-center align-top   p-2">
+                      <span className="text-sm min-h-[42px] block">
+                        There is no order yet.
+                      </span>
                     </td>
-                    <td className="itemOrderTable ">2.345$</td>
-                    <td className="itemOrderTable italic">Paid</td>
-                    <td className="itemOrderTable ">Prepare</td>
                   </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div className="flex-1">
-            <span className="block text-base mt-4 py-3">MY ACCOUNT</span>
-            <div className="space-y-6 text-sm mb-2">
-              <div className="flex items-center ">
-                <DeviceMobileIcon
-                  width={15}
-                  height={15}
-                  className="text-primary mr-2.5 mb-[0.25px]"
-                />
-                <span>Phone Number:</span> <span></span>
-              </div>
-              <div className="flex items-center">
-                <LocationMarkerIcon
-                  width={15}
-                  height={15}
-                  className="text-primary mr-2.5 mb-[0.25px]"
-                />
-                <span>Address</span> <span></span>
-              </div>
-              <div className="flex items-center">
-                <OfficeBuildingIcon
-                  width={15}
-                  height={15}
-                  className="text-primary mr-2.5 mb-[0.25px]"
-                />
-                <span>Company:</span> <span></span>
-              </div>
-              <div className="flex items-center">
-                <GlobeIcon
-                  width={15}
-                  height={15}
-                  className="text-primary mr-2.5 "
-                />
-                <span>Country:</span> <span></span>
-              </div>
-              <div className="flex items-center">
-                <CodeIcon
-                  width={15}
-                  height={15}
-                  className="text-primary mr-2.5 mb-[0.25px]"
-                />
-                <span>Zip Code:</span> <span></span>
-              </div>
-            </div>
-            <Link href="/account/address">
-              <button className="rounded-sm my-4 hover:bg-white hover:text-primary transition ease-linear text-white text-sm bg-primary w-full border border-primary  py-2 px-8">
-                Address list (0)
-              </button>
-            </Link>
+                ) : (
+                  orderList.map((item, index) => (
+                    <tr key={index} className="divide-x divide-[#e1e1e1]">
+                      <td className="itemOrderTable ">{item._id}</td>
+                      <td className="itemOrderTable ">
+                        {formatDateTime(item.orderAt, true)}
+                      </td>
+                      <td className="itemOrderTable ">
+                        {`${item.shippingAddress.address}, ${
+                          item.shippingAddress.ward.split("|")[1]
+                        }, ${item.shippingAddress.district.split("|")[1]}, ${
+                          item.shippingAddress.province.split("|")[1]
+                        }`}
+                      </td>
+                      <td className="itemOrderTable ">{item.totalPrice}$</td>
+                      <td className="itemOrderTable italic">
+                        {item.isPaid === null || item.isPaid === false
+                          ? "Unpaid"
+                          : "Paid"}
+                      </td>
+                      <td className="itemOrderTable ">{item.orderStatus}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
-      </Layout>
-    );
+        <div className="flex-1">
+          <span className="block text-base mt-4 py-3">MY ACCOUNT</span>
+          <div className="space-y-6 text-sm mb-2">
+            <div className="flex items-center ">
+              <DeviceMobileIcon
+                width={15}
+                height={15}
+                className="text-primary mr-2.5 mb-[0.25px]"
+              />
+              <span>Phone Number:</span> <span></span>
+            </div>
+            <div className="flex items-center">
+              <LocationMarkerIcon
+                width={15}
+                height={15}
+                className="text-primary mr-2.5 mb-[0.25px]"
+              />
+              <span>Address</span> <span></span>
+            </div>
+            <div className="flex items-center">
+              <OfficeBuildingIcon
+                width={15}
+                height={15}
+                className="text-primary mr-2.5 mb-[0.25px]"
+              />
+              <span>Company:</span> <span></span>
+            </div>
+            <div className="flex items-center">
+              <GlobeIcon
+                width={15}
+                height={15}
+                className="text-primary mr-2.5 "
+              />
+              <span>Country:</span> <span></span>
+            </div>
+            <div className="flex items-center">
+              <CodeIcon
+                width={15}
+                height={15}
+                className="text-primary mr-2.5 mb-[0.25px]"
+              />
+              <span>Zip Code:</span> <span></span>
+            </div>
+          </div>
+          <Link href="/account/address">
+            <button className="rounded-sm my-4 hover:bg-white hover:text-primary transition ease-linear text-white text-sm bg-primary w-full border border-primary  py-2 px-8">
+              Address list (0)
+            </button>
+          </Link>
+        </div>
+      </div>
+    </Layout>
+  );
 };
 
 export default account;

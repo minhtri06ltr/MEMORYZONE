@@ -12,7 +12,6 @@ import {
   onChangeQuantity,
 } from "../redux/cartSlice";
 import { isNumber } from "../utils/validate";
-import { loadingNotify } from "../redux/notifySlice";
 
 const cart = () => {
   const dispatch = useDispatch();
@@ -158,9 +157,7 @@ const cart = () => {
                     <td className=" cartRow">
                       <XIcon
                         onClick={() => {
-                          dispatch(loadingNotify(true));
                           dispatch(deleteProduct(item.id));
-                          dispatch(loadingNotify(false));
                         }}
                         className="inline-block hover:text-[#c92b26] mb-1 cursor-pointer"
                         width={15}

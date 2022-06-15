@@ -125,6 +125,7 @@ const standard = ({ provinceList }) => {
         ...checkoutForm,
         orderAt: new Date(),
         paymentMethod: "standard",
+        orderStatus: "Wait for confirm",
       });
 
       if (res.success) {
@@ -136,7 +137,7 @@ const standard = ({ provinceList }) => {
   return (
     <Layout
       removeLayout={true}
-      title="Memoryzone | Standard Checkout"
+      title="Memoryzone | Checkout"
       description="Memoryzone - Professional in memory - Checkout - Payment orders "
     >
       {cart.quantity === 0 ? (
@@ -453,7 +454,7 @@ const standard = ({ provinceList }) => {
             <div className="px-6 py-4 border-b border-[#e1e1e1]">
               <span className="font-semibold text-[#000000] text-lg">
                 {`Order (${cart.quantity} ${
-                  cart.quanlity > 1 ? "products" : "product"
+                  cart.quantity > 1 ? "products" : "product"
                 })`}
               </span>
             </div>
@@ -525,7 +526,7 @@ const standard = ({ provinceList }) => {
                     <div>
                       <div className="text-primary cursor-pointer flex items-center">
                         <ChevronLeftIcon width={20} height={20} />
-                        <span className="text-sm text-inerhit">
+                        <span className="text-sm text-inherit">
                           Back to cart
                         </span>
                       </div>
@@ -547,6 +548,7 @@ const standard = ({ provinceList }) => {
                       <PaypalButton
                         total={cart.total}
                         data={{ ...checkoutForm, products: cart.products }}
+                        dispatch={dispatch}
                       />
                     ) : (
                       <button

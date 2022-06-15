@@ -5,10 +5,10 @@ import {
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
 import { postData } from "../utils/requestMethod";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { client } from "../lib/client";
 import { clearCart } from "../redux/cartSlice";
-import { loadingNotify } from "../redux/notifySlice";
+
 import { useRouter } from "next/router";
 import { productSold } from "../middlewares/product";
 
@@ -18,13 +18,18 @@ const currency = "USD";
 const style = { layout: "vertical" };
 
 // Custom component to wrap the PayPalButtons and handle currency changes
-const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
+const ButtonWrapper = ({
+  currency,
+  showSpinner,
+  amount,
+  form,
+  dispatchProp,
+}) => {
   // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
   // This is the main reason to wrap the PayPalButtons in a new component
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
   const token = useSelector((state) => state.account.accessToken);
   const router = useRouter();
-  const appDispatch = useDispatch();
 
   useEffect(() => {
     dispatch({
@@ -82,6 +87,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
                       ward: form.ward,
                       note: form.note,
                     },
+                    orderStatus: "Wait for confirm",
                     paymentMethod: "paypal",
                     orderAt: new Date(),
                     totalPrice: amount,
@@ -97,13 +103,19 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
                   })
                   .then((res) => {
                     //  router.push("/checkout/success");
-                    appDispatch(clearCart());
+                    dispatchProp(clearCart());
                     res.orderList.filter((item) => {
                       return productSold(item._key, item.quantity);
                     });
                     alert("buy success");
                   })
-                  .catch((error) => alert(error.message));
+                  .catch((error) => {
+                    if (error.message === "jwt expired") {
+                      alert(
+                        "Your session is expired please refresh the page or login again"
+                      );
+                    }
+                  });
               } else {
                 const res = await postData(
                   "order/create",
@@ -118,7 +130,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, form }) => {
                 if (!res.success) {
                   alert(res.error);
                 } else {
-                  appDispatch(clearCart());
+                  dispatchProp(clearCart());
                   //  router.push("/checkout/success");
                   res.returnOrder.orderList.filter((item) => {
                     return productSold(item._key, item.quantity);
@@ -153,6 +165,7 @@ const PaypalButton = ({ dispatch, data, total }) => {
           amount={total}
           form={data}
           showSpinner={true}
+          dispatchProp={dispatch}
         />
       </PayPalScriptProvider>
     </div>

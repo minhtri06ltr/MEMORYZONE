@@ -10,7 +10,6 @@ import { useDispatch } from "react-redux";
 import { isNumber } from "../../utils/validate";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { loadingNotify } from "../../redux/notifySlice";
 
 const ProductDetails = ({ productBySlug }) => {
   const router = useRouter();
@@ -46,7 +45,6 @@ const ProductDetails = ({ productBySlug }) => {
     }
   };
   const handleAddToCart = (product) => {
-    dispatch(loadingNotify(true));
     dispatch(
       addToCart({
         name: product.name,
@@ -59,8 +57,6 @@ const ProductDetails = ({ productBySlug }) => {
       })
     );
     router.push("/cart");
-
-    dispatch(loadingNotify(false));
   };
 
   return (
@@ -435,7 +431,7 @@ const ProductDetails = ({ productBySlug }) => {
 
 export default ProductDetails;
 //set path for nextjs
-export async function getStaticPaths() {
+export const getStaticPaths = async () => {
   const queryAllProductSlug = `*[_type=="product"]{
       slug{
         current
@@ -452,7 +448,7 @@ export async function getStaticPaths() {
       })) || [],
     fallback: true,
   };
-}
+};
 //get data when build
 export const getStaticProps = async ({ params: { slug } }) => {
   //get product data by slug param
@@ -465,7 +461,9 @@ export const getStaticProps = async ({ params: { slug } }) => {
     };
   } catch (error) {
     return {
-      productBySlug: null,
+      props: {
+        productBySlug: null,
+      },
     };
   }
 };

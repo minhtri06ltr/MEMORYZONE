@@ -31,7 +31,9 @@ export const getStaticProps = async () => {
   } catch (error) {
     console.log(error);
     return {
-      products: null,
+      props: {
+        products: null,
+      },
     };
   }
 };

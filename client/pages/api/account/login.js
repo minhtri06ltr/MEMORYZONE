@@ -40,12 +40,14 @@ const login = async (req, res) => {
 
     const accessToken = createAccessToken({ id: existUser._id });
     const refreshToken = createRefreshToken({ id: existUser._id });
+    console.log(existUser);
     return res.status(200).json({
       success: true,
       message: "Login successful",
       accessToken: accessToken,
       refreshToken: refreshToken,
       user: {
+        id: existUser._id,
         fullName: `${existUser.firstName} ${existUser.lastName}`,
         email: existUser.email,
         _createdAt: existUser._createdAt,

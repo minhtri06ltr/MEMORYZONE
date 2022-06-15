@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 export default async (req, res) => {
   try {
     const rfToken = req.cookies.refreshToken;
-
     if (!rfToken)
       return res.status(400).json({
         success: false,
@@ -34,6 +33,7 @@ export default async (req, res) => {
       success: true,
       accessToken: accessToken,
       user: {
+        id: existUser._id,
         fullName: `${existUser.firstName} ${existUser.lastName}`,
         email: existUser.email,
         _createdAt: existUser._createdAt,

@@ -2,7 +2,6 @@ export default {
   name: "order",
   title: "Order",
   type: "document",
-
   fields: [
     {
       name: "guestName",
@@ -49,66 +48,20 @@ export default {
       },
     },
     {
-      name: "paymentProcess",
-      title: "Payment Process",
-      type: "object",
-      fields: [
-        {
-          title: "Confirm",
-          name: "confirm",
-          type: "boolean",
-          initialValue: false,
-        },
-        {
-          title: "Confirm Time",
-          name: "confirmTime",
-          type: "datetime",
-        },
-        {
-          title: "Prepare",
-          name: "prepare",
-          type: "boolean",
-          initialValue: false,
-        },
-        {
-          title: "Prepare Time",
-          name: "prepareTime",
-          type: "datetime",
-        },
-        {
-          title: "Pickup",
-          name: "pickup",
-          type: "boolean",
-          initialValue: false,
-        },
-        {
-          title: "Pickup Time",
-          name: "pickupTime",
-          type: "datetime",
-        },
-        {
-          title: "Delivery",
-          name: "delivery",
-          type: "boolean",
-          initialValue: false,
-        },
-        {
-          title: "Delivery Time",
-          name: "deliveryTime",
-          type: "datetime",
-        },
-        {
-          title: "Successful",
-          name: "successful",
-          type: "boolean",
-          initialValue: false,
-        },
-        {
-          title: "Successful Time",
-          name: "successfulTime",
-          type: "datetime",
-        },
-      ],
+      name: "orderStatus",
+      title: "Order Status",
+      type: "string",
+      options: {
+        list: [
+          { title: "Wait for confirm", value: "Wait for confirm" },
+          { title: "Confirmed", value: "Confirmed" },
+          { title: "Wait for pickup", value: "Wait for pickup" },
+          { title: "Delivering", value: "Delivering" },
+          { title: "Successful delivery", value: "Successful delivery" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "Wait for confirm",
     },
     {
       name: "taxPrice",
@@ -131,6 +84,7 @@ export default {
       name: "isPaid",
       title: "Paid",
       type: "boolean",
+      initialValue: false,
     },
 
     {
