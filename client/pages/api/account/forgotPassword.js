@@ -27,10 +27,10 @@ const forgotPasswordRequest = async (req, res) => {
         error: "Email is not exist",
       });
     }
-    const accessToken = createAccessToken({ id: existEmail._id });
-    const url = `${process.env.NEXT_PUBLIC_CLIENT_URL}/account/reset/${accessToken}`;
+    const forgotToken = createAccessToken({ id: existEmail._id });
+    const url = `${process.env.NEXT_PUBLIC_CLIENT_URL}/account/reset/${forgotToken}`;
 
-    await sendEmailHandle(req, res);
+    await sendEmailHandle();
 
     return res.status(200).json({
       message: "Please check your email to reset the password",
