@@ -2,25 +2,32 @@ import Link from "next/link";
 import { Layout, Path } from "../../components";
 import { useState, useEffect } from "react";
 import { validRegister } from "../../utils/validate";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from "react-redux";
 import { postData } from "../../utils/requestMethod";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { loginSuccess } from "../../redux/accountSlice";
 
 const register = () => {
-  const account = useSelector((state) => state.account);
+  const account = useSelector(
+    (state) => state.account,
+  );
   const router = useRouter();
 
   const dispatch = useDispatch();
-  const [errorMessage, setErrorMessage] = useState("");
-  const [registerForm, setRegisterForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    isAdmin: false,
-  });
+  const [errorMessage, setErrorMessage] =
+    useState("");
+  const [registerForm, setRegisterForm] =
+    useState({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      isAdmin: false,
+    });
 
   const registerFormHandler = (e) => {
     setRegisterForm({
@@ -34,24 +41,21 @@ const register = () => {
       registerForm.firstName,
       registerForm.lastName,
       registerForm.email,
-      registerForm.password
+      registerForm.password,
     );
     if (errorMessage) {
       alert(`${errorMessage}`);
       return;
     }
 
-    const res = await postData("account/register", registerForm);
+    const res = await postData(
+      "account/register",
+      registerForm,
+    );
     if (!res.success) {
       setErrorMessage(res.error);
     } else {
-      Cookies.set("refreshToken", res.refreshToken, {
-        expires: 7,
-        path: "/api/account/accessToken",
-      });
-
-      dispatch(loginSuccess({ accessToken: res.accessToken, user: res.user }));
-      localStorage.setItem("isLogin", true);
+      alert(res.message);
     }
   };
   useEffect(() => {
@@ -86,13 +90,19 @@ const register = () => {
           REGISTER AN ACCOUNT
         </span>
         <div>
-          <form onSubmit={registerHandler} className="my-1 flex space-x-8">
+          <form
+            onSubmit={registerHandler}
+            className="my-1 flex space-x-8"
+          >
             <div className="w-1/2">
               <span className="text-text text-sm pb-4  block">
-                If you don't have an account, please register here
+                If you don't have an account,
+                please register here
               </span>
               {errorMessage && (
-                <span className="text-text text-sm block ">{errorMessage}</span>
+                <span className="text-text text-sm block ">
+                  {errorMessage}
+                </span>
               )}
               <div className="my-4">
                 <div className="mb-6">
@@ -124,7 +134,8 @@ const register = () => {
                     onChange={registerFormHandler}
                     rules={{
                       required: true,
-                      pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                      pattern:
+                        /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                     }}
                     name="email"
                     type="email"
@@ -150,7 +161,9 @@ const register = () => {
               </div>
             </div>
             <div className="w-1/2">
-              <span className="text-text text-sm invisible  block">*</span>
+              <span className="text-text text-sm invisible  block">
+                *
+              </span>
               <div className="my-8">
                 <div className="mb-6">
                   <label

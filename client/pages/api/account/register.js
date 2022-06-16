@@ -1,10 +1,12 @@
 import bcrypt from "bcryptjs";
 import {
   createAccessToken,
+  createActiveToken,
   createRefreshToken,
 } from "../../../utils/generateToken";
 import { client } from "../../../lib/client";
 import { validRegister } from "../../../utils/validate";
+import { sendEmailHandle } from "../../../middlewares/mailer";
 
 export default async (req, res) => {
   switch (req.method) {
@@ -15,10 +17,19 @@ export default async (req, res) => {
 };
 const register = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, isAdmin } = JSON.parse(
-      req.body
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      isAdmin,
+    } = JSON.parse(req.body);
+    const errorMessage = validRegister(
+      firstName,
+      lastName,
+      email,
+      password,
     );
-    const errorMessage = validRegister(firstName, lastName, email, password);
     if (errorMessage)
       return res.status(400).json({
         success: false,
@@ -28,13 +39,14 @@ const register = async (req, res) => {
       `*[_type == "user" && email == $email][0]{email}`,
       {
         email: email,
-      }
+      },
     );
 
     if (existUser) {
-      return res
-        .status(401)
-        .json({ success: false, error: "Email already exists" });
+      return res.status(401).json({
+        success: false,
+        error: "Email already exists",
+      });
     }
 
     const newUser = {
@@ -45,24 +57,23 @@ const register = async (req, res) => {
       password: bcrypt.hashSync(password),
       email: email,
     };
-
-    const returnUser = await client.create(newUser);
-    const accessToken = createAccessToken({ id: returnUser._id });
-    const refreshToken = createRefreshToken({ id: returnUser._id });
-    console.log(returnUser);
+    const activeToken =
+      createActiveToken(newUser);
+    const url = `${process.env.NEXT_PUBLIC_CLIENT_URL}/account/activate/${activeToken}`;
+    console.log(url);
+    await sendEmailHandle(
+      email,
+      url,
+      "activate",
+      req,
+      res,
+    );
     return res.status(200).json({
-      message: "Register successful",
       success: true,
-      accessToken,
-      refreshToken,
-      user: {
-        id: existUser._id,
-        fullName: `${returnUser.firstName} ${returnUser.lastName}`,
-        email: returnUser.email,
-        _createdAt: returnUser._createdAt,
-        isAdmin: returnUser.isAdmin,
-      },
+      message:
+        "Register success! Please confirm your email to continue",
     });
+   
   } catch (error) {
     console.log(error);
     return res.status(500).json({

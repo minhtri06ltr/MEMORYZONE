@@ -1,16 +1,25 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Layout, Path } from "../../../components";
-
-import { getData, postData } from "../../../utils/requestMethod";
-
+import {
+  useDispatch,
+  useSelector,
+} from "react-redux";
+import {
+  Layout,
+  Path,
+} from "../../../components";
+import {
+  getData,
+  postData,
+} from "../../../utils/requestMethod";
 import Cookies from "js-cookie";
 import { loginSuccess } from "../../../redux/accountSlice";
 
 const ResetPassword = () => {
-  const user = useSelector((state) => state.account.user);
+  const user = useSelector(
+    (state) => state.account.user,
+  );
   const router = useRouter();
   const dispatch = useDispatch();
   const { query } = useRouter();
@@ -32,21 +41,35 @@ const ResetPassword = () => {
       alert("Missing user id please reload page");
       return;
     }
-    if (resetForm.cfPassword !== resetForm.password) {
-      alert("Password and confirm password is incorrect!");
+    if (
+      resetForm.cfPassword !== resetForm.password
+    ) {
+      alert(
+        "Password and confirm password is incorrect!",
+      );
       return;
     }
 
     if (query.token) {
-      const res = await postData(`account/reset/${query.token}`, resetForm);
+      const res = await postData(
+        `account/reset/${query.token}`,
+        resetForm,
+      );
       if (res.success) {
-        Cookies.set("refreshToken", res.refreshToken, {
-          expires: 7,
-          path: "/api/account/accessToken",
-        });
+        Cookies.set(
+          "refreshToken",
+          res.refreshToken,
+          {
+            expires: 7,
+            path: "/api/account/accessToken",
+          },
+        );
 
         dispatch(
-          loginSuccess({ accessToken: res.accessToken, user: res.user })
+          loginSuccess({
+            accessToken: res.accessToken,
+            user: res.user,
+          }),
         );
         localStorage.setItem("isLogin", true);
       } else {
@@ -55,23 +78,40 @@ const ResetPassword = () => {
         return;
       }
     } else {
-      alert("Missing validate token please take new one!");
+      alert(
+        "Missing validate token please take new one!",
+      );
       return;
     }
   };
 
   useEffect(() => {
+    if (
+      JSON.parse(
+        localStorage.getItem("isLogin"),
+      ) &&
+      Object.keys(user).length !== 0
+    ) {
+      router.push("/");
+    }
     const validateToken = async () => {
-      const res = await getData(`account/reset/${query.token}`, query.token);
-
+      const res = await getData(
+        `account/reset/${query.token}`,
+        query.token,
+      );
       if (!res.success) {
         if (res.error === "jwt expired") {
           router.push("/account/login");
-          alert("Validate token was expired please take new one!");
-        }
-        if (res.error === "jwt malformed") {
+          alert(
+            "Validate token was expired please take new one!",
+          );
+        } else if (
+          res.error === "jwt malformed"
+        ) {
           router.push("/account/login");
           alert("Invalid token");
+        } else {
+          alert(res.error);
         }
       } else
         setResetForm({
@@ -80,15 +120,11 @@ const ResetPassword = () => {
         });
     };
     query.token && validateToken();
-  }, [query.token]);
-  useEffect(() => {
-    if (
-      JSON.parse(localStorage.getItem("isLogin")) &&
-      Object.keys(user).length !== 0
-    ) {
-      router.push("/");
-    }
-  }, [Object.keys(user).length, router]);
+  }, [
+    query.token,
+    Object.keys(user).length,
+    router,
+  ]);
 
   return (
     <Layout
@@ -109,8 +145,13 @@ const ResetPassword = () => {
           <span className="block text-base font-semibold text-text">
             PASSWORD RETRIEVAL
           </span>
-          <span className="block text-sm text-text">Enter new password</span>
-          <form onSubmit={resetHandle} className="space-y-8">
+          <span className="block text-sm text-text">
+            Enter new password
+          </span>
+          <form
+            onSubmit={resetHandle}
+            className="space-y-8"
+          >
             <div>
               <label
                 htmlFor="password"
@@ -125,7 +166,7 @@ const ResetPassword = () => {
                 minLength={6}
                 required
                 onChange={resetFormHandle}
-                className="outline-none border text-text px-6 py-2 w-[555px] border-[#ebebeb]"
+                className="outline-none border text-text px-4 py-2 w-[555px] border-[#ebebeb]"
                 type="password"
               />
             </div>
@@ -143,14 +184,14 @@ const ResetPassword = () => {
                 value={resetForm.cfPassword}
                 id="cfPassword"
                 onChange={resetFormHandle}
-                className="outline-none border text-text px-6 py-2 w-[555px] border-[#ebebeb]"
+                className="outline-none border text-text px-4 py-2 w-[555px] border-[#ebebeb]"
                 type="password"
               />
             </div>
 
             <div className="space-x-10">
               <button className="rounded-sm my-4 hover:bg-white hover:text-primary transition ease-linear text-white text-sm bg-primary  border border-primary  py-2 px-6">
-                Add address
+                Change
               </button>
               <Link href="/">
                 <span className="text-[#575454] cursor-pointer text-sm underline hover:text-primary ">

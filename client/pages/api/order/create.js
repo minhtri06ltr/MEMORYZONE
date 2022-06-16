@@ -1,5 +1,5 @@
 import { client } from "../../../lib/client";
-import auth from "../../../middlewares/auth";
+import {auth} from "../../../middlewares/auth";
 import { validateOrder } from "../../../utils/validate";
 
 export default async (req, res) => {

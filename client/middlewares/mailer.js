@@ -2,60 +2,82 @@ import nodemailer from "nodemailer";
 import { google } from "googleapis";
 import { emailTemplate } from "./EmailTemplate";
 
-export const sendEmailHandle = async () => {
+const getSubject = (template) => {
+  switch (template) {
+    case "forgotPassword":
+      return "🚀 Get back your Memoryzone account password 🚀";
+      break;
+    case "activate":
+      return "🚀 Activate your Memoryzone account 🚀";
+      break;
+  }
+};
+
+export const sendEmailHandle = async (
+  to,
+  url,
+  template,
+  req,
+  res,
+) => {
   try {
-    const OAUTH2_URL = "https://developers.google.com/oauthplayground";
+    const OAUTH2_URL =
+      "https://developers.google.com/oauthplayground";
     const oauth2Client = new google.auth.OAuth2(
       process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
       process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
       process.env.NEXT_PUBLIC_OAUTH2_REFRESH_TOKEN,
-      OAUTH2_URL
+      OAUTH2_URL,
     );
 
     oauth2Client.setCredentials({
-      refresh_token: process.env.NEXT_PUBLIC_OAUTH2_REFRESH_TOKEN,
+      refresh_token:
+        process.env
+          .NEXT_PUBLIC_OAUTH2_REFRESH_TOKEN,
     });
-    const accessToken = await oauth2Client.getAccessToken();
-    console.log(
-      "1||",
-      process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      "2||",
-      process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
-      "3||",
-      process.env.NEXT_PUBLIC_OAUTH2_REFRESH_TOKEN,
-      "4||",
-      OAUTH2_URL,
-      "5||",
-      accessToken.token
-    );
+    const accessToken =
+      await oauth2Client.getAccessToken();
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        type: "OAuth2",
-        user: "laptopdienthoai1@gmail.com",
-        clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-        clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
-        refreshToken: process.env.NEXT_PUBLIC_OAUTH2_REFRESH_TOKEN,
-        accessToken: accessToken.token,
-      },
-    });
+    const transporter =
+      nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          type: "OAuth2",
+          user: process.env
+            .NEXT_PUBLIC_SENDER_EMAIL,
+          clientId:
+            process.env
+              .NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+          clientSecret:
+            process.env
+              .NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+          refreshToken:
+            process.env
+              .NEXT_PUBLIC_OAUTH2_REFRESH_TOKEN,
+          accessToken: accessToken.token,
+        },
+      });
     const mailOptions = {
-      from: "Tri <laptopdienthoai1@gmail.com>",
-      to: "animeismylife10122001@gmail.com",
-      subject: "test subject",
-      html: (
-        <html>
-          <body>
-            <p>testing</p>
-          </body>
-        </html>
-      ),
+      from: `Memoryzone Service  <${process.env.NEXT_PUBLIC_SENDER_EMAIL}>`,
+      to: to,
+      subject: getSubject(template),
+      html: emailTemplate(url, template),
     };
-    transporter.sendMail(mailOptions, (error, info) => {
-      console.log(error);
-    });
+    transporter.sendMail(
+      mailOptions,
+      (error, info) => {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({
+            success: false,
+            error: error.message,
+          });
+        }
+        console.log("send mail success");
+      },
+    );
   } catch (error) {
     console.log(error);
+    return false;
   }
 };

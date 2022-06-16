@@ -2,21 +2,28 @@ import Link from "next/link";
 import { Layout, Path } from "../../components";
 import { postData } from "../../utils/requestMethod";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from "react-redux";
 import Cookies from "js-cookie";
 import { loginSuccess } from "../../redux/accountSlice";
 import { useRouter } from "next/router";
 
 const login = () => {
   const router = useRouter();
-  const user = useSelector((state) => state.account.user);
+  const user = useSelector(
+    (state) => state.account.user,
+  );
   const dispatch = useDispatch();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] =
+    useState("");
   const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
   });
-  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotEmail, setForgotEmail] =
+    useState("");
 
   const forgotEmailHandle = async (e) => {
     e.preventDefault();
@@ -24,7 +31,10 @@ const login = () => {
       alert("Please fill all required fields");
       return;
     }
-    const res = await postData("account/forgotPassword", forgotEmail);
+    const res = await postData(
+      "account/forgotPassword",
+      forgotEmail,
+    );
     if (!res.success) {
       alert(res.error);
       return;
@@ -33,19 +43,34 @@ const login = () => {
   };
   const loginHandler = async (e) => {
     e.preventDefault();
-    if (loginForm.email === "" || loginForm.password === "") {
+    if (
+      loginForm.email === "" ||
+      loginForm.password === ""
+    ) {
       alert("Please fill all required fields");
       return;
     }
-    const res = await postData("account/login", loginForm);
+    const res = await postData(
+      "account/login",
+      loginForm,
+    );
     if (!res.success) {
       setErrorMessage(res.error);
     } else {
-      Cookies.set("refreshToken", res.refreshToken, {
-        expires: 7,
-        path: "/api/account/accessToken",
-      });
-      dispatch(loginSuccess({ accessToken: res.accessToken, user: res.user }));
+      Cookies.set(
+        "refreshToken",
+        res.refreshToken,
+        {
+          expires: 7,
+          path: "/api/account/accessToken",
+        },
+      );
+      dispatch(
+        loginSuccess({
+          accessToken: res.accessToken,
+          user: res.user,
+        }),
+      );
       localStorage.setItem("isLogin", true);
     }
   };
@@ -58,7 +83,9 @@ const login = () => {
   };
   useEffect(() => {
     if (
-      JSON.parse(localStorage.getItem("isLogin")) &&
+      JSON.parse(
+        localStorage.getItem("isLogin"),
+      ) &&
       Object.keys(user).length !== 0
     ) {
       if (router.query?.return === "checkout") {
@@ -85,16 +112,24 @@ const login = () => {
         ]}
       />
       <div className="m-10">
-        <span className="text-text font- text-lg block">LOG IN TO ACCOUNT</span>
+        <span className="text-text font- text-lg block">
+          LOG IN TO ACCOUNT
+        </span>
         <div className="my-1 flex space-x-8">
           <div className="w-1/2">
             <span className="text-text text-sm pb-4 block">
-              If you already have an account, log in here.
+              If you already have an account, log
+              in here.
             </span>
             {errorMessage && (
-              <span className="text-text block text-sm">{errorMessage}</span>
+              <span className="text-text block text-sm">
+                {errorMessage}
+              </span>
             )}
-            <form onSubmit={loginHandler} className="my-4">
+            <form
+              onSubmit={loginHandler}
+              className="my-4"
+            >
               <div className="mb-6">
                 <label
                   htmlFor="email"
@@ -109,10 +144,13 @@ const login = () => {
                   name="email"
                   id="email"
                   value={loginForm.email}
-                  onChange={(e) => loginFormHandler(e)}
+                  onChange={(e) =>
+                    loginFormHandler(e)
+                  }
                   rules={{
                     required: true,
-                    pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                    pattern:
+                      /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                   }}
                 />
               </div>
@@ -132,7 +170,9 @@ const login = () => {
                   value={loginForm.password}
                   minLength={6}
                   required
-                  onChange={(e) => loginFormHandler(e)}
+                  onChange={(e) =>
+                    loginFormHandler(e)
+                  }
                 />
               </div>
               <div className="flex mt-10 space-x-6 items-center">
@@ -152,10 +192,14 @@ const login = () => {
           </div>
           <div className="w-1/2">
             <span className="text-text text-sm  block">
-              Forgot your password? Enter your email address to retrieve your
+              Forgot your password? Enter your
+              email address to retrieve your
               password via email.
             </span>
-            <form onSubmit={forgotEmailHandle} className="my-8">
+            <form
+              onSubmit={forgotEmailHandle}
+              className="my-8"
+            >
               <div className="mb-6">
                 <label
                   htmlFor="forgotEmail"
@@ -166,7 +210,8 @@ const login = () => {
                 <input
                   rules={{
                     required: true,
-                    pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                    pattern:
+                      /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                   }}
                   type="email"
                   id="forgotEmail"
@@ -175,10 +220,14 @@ const login = () => {
                   name="forgotEmail"
                   required
                   value={forgotEmail}
-                  onChange={(e) => setForgotEmail(e.target.value)}
+                  onChange={(e) =>
+                    setForgotEmail(e.target.value)
+                  }
                 />
               </div>
-              <label className="invisible mb-2.5 block  text-sm">*</label>
+              <label className="invisible mb-2.5 block  text-sm">
+                *
+              </label>
               <div>
                 <button
                   type="submit"
