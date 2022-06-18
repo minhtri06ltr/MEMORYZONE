@@ -35,8 +35,7 @@ const standard = ({ provinceList }) => {
     try {
       const getDistrict = async () => {
         const res = await fetch(
-          `https://vapi.vnappmob.com/api/province/district/${
-            checkoutForm.province.split("|")[0]
+          `https://vapi.vnappmob.com/api/province/district/${checkoutForm.province.split("|")[0]
           }`,
           {
             method: "GET",
@@ -62,8 +61,7 @@ const standard = ({ provinceList }) => {
     try {
       const getWard = async () => {
         const res = await fetch(
-          `https://vapi.vnappmob.com/api/province/ward/${
-            checkoutForm.district.split("|")[0]
+          `https://vapi.vnappmob.com/api/province/ward/${checkoutForm.district.split("|")[0]
           }`,
           {
             method: "GET",
@@ -133,7 +131,7 @@ const standard = ({ provinceList }) => {
       }
     }
   };
-
+  useEffect(() => { console.log('redux cart', cart); }, [cart.quantity])
   return (
     <Layout
       removeLayout={true}
@@ -223,9 +221,8 @@ const standard = ({ provinceList }) => {
                       value={checkoutForm.email}
                       placeholder="Email"
                       disabled={!allow && true}
-                      className={`checkoutInput ${
-                        !allow && "cursor-not-allowed bg-[#eee]"
-                      }`}
+                      className={`checkoutInput ${!allow && "cursor-not-allowed bg-[#eee]"
+                        }`}
                     />
                     <input
                       required
@@ -235,9 +232,8 @@ const standard = ({ provinceList }) => {
                       placeholder="Full Name"
                       value={checkoutForm.fullName}
                       disabled={!allow && true}
-                      className={`checkoutInput ${
-                        !allow && "cursor-not-allowed bg-[#eee]"
-                      }`}
+                      className={`checkoutInput ${!allow && "cursor-not-allowed bg-[#eee]"
+                        }`}
                     />
                     <input
                       type="tel"
@@ -289,9 +285,8 @@ const standard = ({ provinceList }) => {
                       </select>
                     </div>
                     <div
-                      className={`checkoutInput checkoutSelectWrapper ${
-                        checkoutForm.district === "" && "bg-[#eee]"
-                      }`}
+                      className={`checkoutInput checkoutSelectWrapper ${checkoutForm.district === "" && "bg-[#eee]"
+                        }`}
                     >
                       <label
                         htmlFor="district"
@@ -318,9 +313,8 @@ const standard = ({ provinceList }) => {
                       </select>
                     </div>
                     <div
-                      className={`checkoutInput  checkoutSelectWrapper ${
-                        checkoutForm.district === "" && "bg-[#eee]"
-                      }`}
+                      className={`checkoutInput  checkoutSelectWrapper ${checkoutForm.district === "" && "bg-[#eee]"
+                        }`}
                     >
                       <label className="absolute z-10 text-xs top-1 text-[#999999]">
                         Wards
@@ -453,9 +447,8 @@ const standard = ({ provinceList }) => {
           <div className="bg-[#fafafa] border-l border-[#e1e1e1]  flex-1">
             <div className="px-6 py-4 border-b border-[#e1e1e1]">
               <span className="font-semibold text-[#000000] text-lg">
-                {`Order (${cart.quantity} ${
-                  cart.quantity > 1 ? "products" : "product"
-                })`}
+                {`Order (${cart.quantity} ${cart.quantity > 1 ? "products" : "product"
+                  })`}
               </span>
             </div>
             <div className=" px-6 ">

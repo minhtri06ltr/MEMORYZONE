@@ -13,3 +13,5 @@ export { default as Notify } from "./Notify";
 export { default as Wrapper } from "./Wrapper";
 export { default as PaypalButton } from "./PaypalButton";
 export { default as Footer } from "./Footer";
+export { default as Ads } from "./Ads";
+export { default as Interest } from "./Interest";

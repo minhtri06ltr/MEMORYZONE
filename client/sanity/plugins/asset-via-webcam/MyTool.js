@@ -12,10 +12,12 @@ const videoConstraints = {
 
 function WebcamSource(props) {
   const webcamRef = React.useRef(null);
-  const [imageData, setImageData] = React.useState("");
+  const [imageData, setImageData] =
+    React.useState("");
 
   const handleCapture = React.useCallback(() => {
-    const imageSrc = webcamRef.current.getScreenshot();
+    const imageSrc =
+      webcamRef.current.getScreenshot();
     setImageData(imageSrc);
   }, [webcamRef]);
 
@@ -33,7 +35,11 @@ function WebcamSource(props) {
   };
 
   return (
-    <Dialog title="Take a photo!" onClose={props.onClose} isOpen>
+    <Dialog
+      title="Take a photo!"
+      onClose={props.onClose}
+      isOpen
+    >
       <Webcam
         audio={false}
         height={480}
@@ -42,11 +48,18 @@ function WebcamSource(props) {
         screenshotFormat="image/jpeg"
         videoConstraints={videoConstraints}
       />
-      <Button onClick={handleCapture}>Take a photo!</Button>
+      <Button onClick={handleCapture}>
+        Take a photo!
+      </Button>
       {imageData && (
         <React.Fragment>
-          <img src={imageData} alt="A webcam photo" />
-          <Button onClick={handleSelect}>Use this photo!</Button>
+          <img
+            src={imageData}
+            alt="Memoryzone webcam photo"
+          />
+          <Button onClick={handleSelect}>
+            Use this photo!
+          </Button>
         </React.Fragment>
       )}
     </Dialog>

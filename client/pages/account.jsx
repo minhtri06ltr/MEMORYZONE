@@ -12,11 +12,16 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { getData } from "../utils/requestMethod";
 import { useState } from "react";
-import { formatDateTime, formatProcess } from "../utils/format";
+import {
+  formatDateTime,
+  formatProcess,
+} from "../utils/format";
 
 const account = () => {
   const router = useRouter();
-  const account = useSelector((state) => state.account);
+  const account = useSelector(
+    (state) => state.account,
+  );
   const [orderList, setOrderList] = useState([]);
   useEffect(() => {
     if (
@@ -26,13 +31,19 @@ const account = () => {
       router.push("/account/login");
     } else {
       const getOrderHistory = async () => {
-        const res = await getData("order/history", account.accessToken);
-        console.log(res);
+        const res = await getData(
+          "order/history",
+          account.accessToken,
+        );
+
         if (res.success) {
           setOrderList(res.orderHistoryList);
         }
       };
-      if (account.accessToken !== "" && account.accessToken !== undefined)
+      if (
+        account.accessToken !== "" &&
+        account.accessToken !== undefined
+      )
         getOrderHistory();
     }
   }, [Object.keys(account.user).length, router]);
@@ -56,25 +67,45 @@ const account = () => {
       />
       <div className="px-10 my-12 space-x-6 flex  ">
         <div className="w-3/4 pr-2">
-          <span className="text-text text-lg block font-medium">CUSTOMER</span>
+          <span className="text-text text-lg block font-medium">
+            CUSTOMER
+          </span>
           <span className="text-sm my-3 block font-semibold text-text ">
-            Hello, <span className="text-primary">{account.user.fullName}</span>{" "}
+            Hello,{" "}
+            <span className="text-primary">
+              {account.user.fullName}
+            </span>{" "}
             !
           </span>
           <div>
             <table className="border w-full border-[#e1e1e1]">
               <tbody className="divide-y divide-[#e1e1e1]">
                 <tr className="divide-x divide-[#e1e1e1]">
-                  <td className="headerOrderTable">Order</td>
-                  <td className="headerOrderTable">Date</td>
-                  <td className="headerOrderTable">Address</td>
-                  <td className="headerOrderTable">Order Price</td>
-                  <td className="headerOrderTable">Payment Status</td>
-                  <td className="headerOrderTable">Status</td>
+                  <td className="headerOrderTable">
+                    Order
+                  </td>
+                  <td className="headerOrderTable">
+                    Date
+                  </td>
+                  <td className="headerOrderTable">
+                    Address
+                  </td>
+                  <td className="headerOrderTable">
+                    Order Price
+                  </td>
+                  <td className="headerOrderTable">
+                    Payment Status
+                  </td>
+                  <td className="headerOrderTable">
+                    Status
+                  </td>
                 </tr>
-                {!orderList ? (
+                {orderList.length === 0 ? (
                   <tr className="divide-x divide-[#e1e1e1]">
-                    <td colSpan="6" className="text-center align-top   p-2">
+                    <td
+                      colSpan="6"
+                      className="text-center align-top   p-2"
+                    >
                       <span className="text-sm min-h-[42px] block">
                         There is no order yet.
                       </span>
@@ -82,25 +113,49 @@ const account = () => {
                   </tr>
                 ) : (
                   orderList.map((item, index) => (
-                    <tr key={index} className="divide-x divide-[#e1e1e1]">
-                      <td className="itemOrderTable ">{item._id}</td>
+                    <tr
+                      key={index}
+                      className="divide-x divide-[#e1e1e1]"
+                    >
                       <td className="itemOrderTable ">
-                        {formatDateTime(item.orderAt, true)}
+                        {item._id}
                       </td>
                       <td className="itemOrderTable ">
-                        {`${item.shippingAddress.address}, ${
-                          item.shippingAddress.ward.split("|")[1]
-                        }, ${item.shippingAddress.district.split("|")[1]}, ${
-                          item.shippingAddress.province.split("|")[1]
+                        {formatDateTime(
+                          item.orderAt,
+                          true,
+                        )}
+                      </td>
+                      <td className="itemOrderTable ">
+                        {`${
+                          item.shippingAddress
+                            .address
+                        }, ${
+                          item.shippingAddress.ward.split(
+                            "|",
+                          )[1]
+                        }, ${
+                          item.shippingAddress.district.split(
+                            "|",
+                          )[1]
+                        }, ${
+                          item.shippingAddress.province.split(
+                            "|",
+                          )[1]
                         }`}
                       </td>
-                      <td className="itemOrderTable ">{item.totalPrice}$</td>
+                      <td className="itemOrderTable ">
+                        {item.totalPrice}$
+                      </td>
                       <td className="itemOrderTable italic">
-                        {item.isPaid === null || item.isPaid === false
+                        {item.isPaid === null ||
+                        item.isPaid === false
                           ? "Unpaid"
                           : "Paid"}
                       </td>
-                      <td className="itemOrderTable ">{item.orderStatus}</td>
+                      <td className="itemOrderTable ">
+                        {item.orderStatus}
+                      </td>
                     </tr>
                   ))
                 )}
@@ -109,7 +164,9 @@ const account = () => {
           </div>
         </div>
         <div className="flex-1">
-          <span className="block text-base mt-4 py-3">MY ACCOUNT</span>
+          <span className="block text-base mt-4 py-3">
+            MY ACCOUNT
+          </span>
           <div className="space-y-6 text-sm mb-2">
             <div className="flex items-center ">
               <DeviceMobileIcon
@@ -117,7 +174,8 @@ const account = () => {
                 height={15}
                 className="text-primary mr-2.5 mb-[0.25px]"
               />
-              <span>Phone Number:</span> <span></span>
+              <span>Phone Number:</span>{" "}
+              <span></span>
             </div>
             <div className="flex items-center">
               <LocationMarkerIcon

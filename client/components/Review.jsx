@@ -185,7 +185,7 @@ const Review = ({ data, productName, productRate, productId }) => {
         autoGenerateArrayKeys: true,
       })
       .then((res) => {
-        // data.push(res.reviews[res.reviews.length - 1]); -- render review imediately
+        // data.push(res.reviews[res.reviews.length - 1]); -- render review immediately
         //transaction - calculate total rating, inc review number
         client
           .patch(productId)
@@ -287,15 +287,14 @@ const Review = ({ data, productName, productRate, productId }) => {
                 {[5, 4, 3, 2, 1].map((index) => (
                   <StarIcon
                     key={index}
-                    color={`${
-                      reviewForm.star === 0
+                    color={`${reviewForm.star === 0
                         ? index <= rating
                           ? "#ffd700"
                           : "#cccccc"
                         : index <= reviewForm.star
-                        ? "#ffd700"
-                        : "#cccccc"
-                    }`}
+                          ? "#ffd700"
+                          : "#cccccc"
+                      }`}
                     width={30}
                     height={30}
                     className={`cursor-pointer rating mx-1 hover:text-[gold] `}

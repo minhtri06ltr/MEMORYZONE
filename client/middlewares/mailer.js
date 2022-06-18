@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
-import { emailTemplate } from "./EmailTemplate";
+import { forgotTemplate } from "./forgotTemplate";
+import { activateTemplate } from "./activateTemplate";
 
 const getSubject = (template) => {
   switch (template) {
@@ -12,7 +13,16 @@ const getSubject = (template) => {
       break;
   }
 };
-
+const getTemplate = (template, url) => {
+  switch (template) {
+    case "forgotPassword":
+      return forgotTemplate(url);
+      break;
+    case "activate":
+      return activateTemplate(url);
+      break;
+  }
+};
 export const sendEmailHandle = async (
   to,
   url,
@@ -61,7 +71,7 @@ export const sendEmailHandle = async (
       from: `Memoryzone Service  <${process.env.NEXT_PUBLIC_SENDER_EMAIL}>`,
       to: to,
       subject: getSubject(template),
-      html: emailTemplate(url, template),
+      html: getTemplate(template, url),
     };
     transporter.sendMail(
       mailOptions,
