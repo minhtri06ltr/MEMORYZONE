@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { isNumber } from "../../utils/validate";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { calculateRate } from "../../utils/calculate";
 
 const ProductDetails = ({
   productBySlug,
@@ -26,7 +27,7 @@ const ProductDetails = ({
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  console.log(statisticalReviews);
+
   if (!productBySlug)
     return (
       <Layout
@@ -56,14 +57,16 @@ const ProductDetails = ({
       direction === "right" &&
       slideNumber < productBySlug.image.length - 4
     ) {
-      listRef.current.style.transform = `translateX(-${pixel + 92
-        }px)`;
+      listRef.current.style.transform = `translateX(-${
+        pixel + 92
+      }px)`;
       setPixel(pixel + 92);
       setSlideNumber(slideNumber + 1);
     }
     if (direction === "left" && slideNumber > 0) {
-      listRef.current.style.transform = `translateX(-${pixel - 92
-        }px)`;
+      listRef.current.style.transform = `translateX(-${
+        pixel - 92
+      }px)`;
       setPixel(pixel - 92);
       setSlideNumber(slideNumber - 1);
     }
@@ -99,38 +102,39 @@ const ProductDetails = ({
               <div className="flex-1  overflow-hidden ">
                 <div className="relative aspect-square">
                   <Image
-                    alt={`Memoryzone product slider: ${productBySlug.name &&
+                    alt={`Memoryzone product slider: ${
+                      productBySlug.name &&
                       productBySlug?.name[index]
-                      }`}
+                    }`}
                     layout="fill"
                     quality={100}
                     priority
                     objectFit="cover"
                     src={urlFor(
                       productBySlug.image &&
-                      productBySlug?.image[
-                      index
-                      ],
+                        productBySlug?.image[
+                          index
+                        ],
                     ).url()}
                   />
                 </div>
                 <div className="flex mt-4 items-center relative justify-center ">
                   {productBySlug.image.length >
                     4 && (
-                      <ChevronLeftIcon
-                        width={24}
-                        height={24}
-                        color={
-                          slideNumber < 1
-                            ? "#ccc"
-                            : undefined
-                        }
-                        onClick={() => {
-                          handleSlide("left");
-                        }}
-                        className="cursor-pointer hover:text-primary z-10 top-1/2 left-0 -translate-y-1/2 translate-x-1/2 absolute"
-                      />
-                    )}
+                    <ChevronLeftIcon
+                      width={24}
+                      height={24}
+                      color={
+                        slideNumber < 1
+                          ? "#ccc"
+                          : undefined
+                      }
+                      onClick={() => {
+                        handleSlide("left");
+                      }}
+                      className="cursor-pointer hover:text-primary z-10 top-1/2 left-0 -translate-y-1/2 translate-x-1/2 absolute"
+                    />
+                  )}
                   <div className="overflow-hidden w-[74%]">
                     <div
                       ref={listRef}
@@ -145,10 +149,11 @@ const ProductDetails = ({
                                 setIndex(i)
                               }
                               key={i}
-                              className={`relative duration-700 ease-in-out  aspect-square mx-1.5  cursor-pointer hover:border-primary h-20 w-20 border ${i === index
+                              className={`relative duration-700 ease-in-out  aspect-square mx-1.5  cursor-pointer hover:border-primary h-20 w-20 border ${
+                                i === index
                                   ? "border-primary"
                                   : "border-[#ccc]"
-                                } `}
+                              } `}
                             >
                               <Image
                                 src={urlFor(
@@ -165,23 +170,23 @@ const ProductDetails = ({
                   </div>
                   {productBySlug.image.length >
                     4 && (
-                      <ChevronRightIcon
-                        width={24}
-                        height={24}
-                        color={
-                          slideNumber >=
-                            productBySlug.image
-                              .length -
-                            4
-                            ? "#ccc"
-                            : undefined
-                        }
-                        onClick={() => {
-                          handleSlide("right");
-                        }}
-                        className="cursor-pointer hover:text-primary top-1/2 z-10 -translate-y-1/2 -translate-x-1/2 right-0  absolute"
-                      />
-                    )}
+                    <ChevronRightIcon
+                      width={24}
+                      height={24}
+                      color={
+                        slideNumber >=
+                        productBySlug.image
+                          .length -
+                          4
+                          ? "#ccc"
+                          : undefined
+                      }
+                      onClick={() => {
+                        handleSlide("right");
+                      }}
+                      className="cursor-pointer hover:text-primary top-1/2 z-10 -translate-y-1/2 -translate-x-1/2 right-0  absolute"
+                    />
+                  )}
                 </div>
               </div>
               <div className="w-[58%] pl-8">
@@ -191,23 +196,27 @@ const ProductDetails = ({
                 <div className="flex py-3 items-center ">
                   <div className="flex ">
                     <StarList
-                      quantity={
-                        productBySlug.rating
-                      }
+                      quantity={Math.round(
+                        statisticalReviews.average,
+                      )}
                       width={30}
                       height={30}
                     />
                   </div>
                   <Link href="#review">
                     <span className="text-[#055eff] cursor-pointer text-sm ml-2">
-                      {!productBySlug.reviews
+                      {productBySlug.reviews
+                        .length === 0
                         ? "Be the first to review"
-                        : `See ${productBySlug.numberReview
-                        } ${productBySlug.numberReview >
-                          1
-                          ? "reviews"
-                          : "review"
-                        }`}
+                        : `See ${
+                            productBySlug.reviews
+                              .length
+                          } ${
+                            productBySlug.reviews
+                              .length > 1
+                              ? "reviews"
+                              : "review"
+                          }`}
                     </span>
                   </Link>
                 </div>
@@ -224,7 +233,7 @@ const ProductDetails = ({
                   </span>
                   <span className="text-primary text-sm">
                     {productBySlug.countInStock >
-                      0
+                    0
                       ? "In stock"
                       : "Out of stock"}
                   </span>
@@ -276,94 +285,101 @@ const ProductDetails = ({
                 </div>
                 {productBySlug.countInStock >
                   0 && (
-                    <>
-                      <span className="text-sm block text-gray my-2">
-                        Quantity:
-                      </span>
-                      <div className="border my-4 flex items-center border-[#ccc] rounded-sm w-fit">
-                        <button
-                          onClick={() =>
-                            quantity > 1 &&
-                            setQuantity(
-                              quantity - 1,
-                            )
-                          }
-                          className="border-r border-[#ccc] font-medium text-3xl px-4 py-1"
-                        >
-                          -
-                        </button>
-                        <input
-                          disabled={
-                            productBySlug.countInStock ===
+                  <>
+                    <span className="text-sm block text-gray my-2">
+                      Quantity:
+                    </span>
+                    <div className="border my-4 flex items-center border-[#ccc] rounded-sm w-fit">
+                      <button
+                        onClick={() =>
+                          quantity > 1 &&
+                          setQuantity(
+                            quantity - 1,
+                          )
+                        }
+                        className="border-r border-[#ccc] font-medium text-3xl px-4 py-1"
+                      >
+                        -
+                      </button>
+                      <input
+                        disabled={
+                          productBySlug.countInStock ===
                             0 && true
-                          }
-                          value={quantity}
-                          onChange={(e) => {
-                            const re = /^[0-9\b]+$/;
+                        }
+                        value={quantity}
+                        onChange={(e) => {
+                          const re = /^[0-9\b]+$/;
 
-                            if (
-                              e.target.value ===
+                          if (
+                            e.target.value ===
                               "" ||
-                              re.test(
-                                e.target.value,
+                            re.test(
+                              e.target.value,
+                            )
+                          ) {
+                            if (
+                              isNumber(
+                                parseInt(
+                                  e.target.value,
+                                ),
                               )
                             ) {
                               if (
-                                isNumber(
-                                  parseInt(
-                                    e.target.value,
-                                  ),
-                                )
+                                e.target.value >
+                                productBySlug.countInStock
                               ) {
-                                if (
-                                  e.target.value >
-                                  productBySlug.countInStock
-                                ) {
-                                  setQuantity(
-                                    productBySlug.countInStock,
-                                  );
-                                } else
-                                  setQuantity(
-                                    parseInt(
-                                      e.target
-                                        .value,
-                                    ),
-                                  );
-                              } else {
+                                setQuantity(
+                                  productBySlug.countInStock,
+                                );
+                              } else if (
+                                parseInt(
+                                  e.target.value,
+                                ) === 0
+                              ) {
                                 setQuantity(1);
-                              }
+                              } else
+                                setQuantity(
+                                  parseInt(
+                                    e.target
+                                      .value,
+                                  ),
+                                );
+                            } else {
+                              setQuantity(1);
                             }
-                          }}
-                          type="text"
-                          className={`w-16 ${productBySlug.countInStock ===
+                          }
+                        }}
+                        type="text"
+                        className={`w-16 ${
+                          productBySlug.countInStock ===
                             0 &&
-                            "cursor-not-allowed"
-                            } text-center text-base outline-none border-none px-4`}
-                        />
-                        <button
-                          onClick={() => {
-                            if (
-                              productBySlug.countInStock ===
-                              0
-                            ) {
-                              alert(
-                                "This product is out of stock.",
-                              );
-                              return;
-                            }
-                            quantity <
-                              productBySlug.countInStock &&
-                              setQuantity(
-                                quantity + 1,
-                              );
-                          }}
-                          className="border-l border-[#ccc] font-medium text-xl px-4 py-1"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </>
-                  )}
+                          "cursor-not-allowed"
+                        } text-center text-base outline-none border-none px-4`}
+                      />
+                      <button
+                        onClick={() => {
+                          if (
+                            productBySlug.countInStock ===
+                            0
+                          ) {
+                            alert(
+                              "This product is out of stock.",
+                            );
+                            return;
+                          }
+                          quantity <
+                            productBySlug.countInStock &&
+                            setQuantity(
+                              quantity + 1,
+                            );
+                        }}
+                        className="border-l border-[#ccc] font-medium text-xl px-4 py-1"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </>
+                )}
                 <div className="space-y-4 pt-1">
                   <div className="flex border-[#e7e7e7] items-center  px-4 py-2 shadow-sm border rounded-md">
                     <div className="flex-1">
@@ -439,12 +455,15 @@ const ProductDetails = ({
             </div>
 
             <Review
-              data={productBySlug.reviews?.filter(
-                (item) => item.isApprove,
-              )}
+              data={productBySlug.reviews}
               productName={productBySlug.name}
-              productRate={productBySlug.rating}
               productId={productBySlug._id}
+              averageRate={
+                statisticalReviews.average
+              }
+              ratingList={
+                statisticalReviews.ratingList
+              }
             />
           </div>
 
@@ -564,24 +583,33 @@ export const getStaticProps = async ({
   //get product data by slug param
 
   try {
-    const productBySlug =
-      await client.fetch(`*[_type=="product" && slug.current == '${slug}'][0]
-    {
-      "statisticalReviews":
-          [count(reviews[rating==1 && isApprove==true]), 
-           count(reviews[rating==2 && isApprove==true]),
-           count(reviews[rating==3 && isApprove==true]),
-           count(reviews[rating==4 && isApprove==true]),
-           count(reviews[rating==5 && isApprove==true])],
-      "productDetails":*[_type=="product" && slug.current=='${slug}'][0],
-    }
-    `);
+    const productBySlug = await client.fetch(
+      `*[_type=="product" && slug.current==$slug][0]{
+        "statisticalReviews":
+            [coalesce(count(reviews[rating==1 && isApprove==true]),0), 
+            coalesce(count(reviews[rating==2 && isApprove==true]),0), 
+            coalesce(count(reviews[rating==3 && isApprove==true]),0), 
+        coalesce(count(reviews[rating==4 && isApprove==true]),0), 
+           coalesce(count(reviews[rating==5 && isApprove==true]),0)], 
+        "productDetails":*[_type=="product" && slug.current==$slug][0]{
+        image,name,countInStock,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
+      }
+      }
+      
+    `,
+      { slug },
+    );
+    const result = calculateRate(
+      productBySlug.statisticalReviews,
+    );
     return {
       props: {
         productBySlug:
           productBySlug.productDetails,
-        statisticalReviews:
-          productBySlug.statisticalReviews,
+        statisticalReviews: {
+          average: result.average,
+          ratingList: result.ratingList,
+        },
       },
       revalidate: 60,
     };

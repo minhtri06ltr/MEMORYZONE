@@ -7,7 +7,7 @@ export default {
   initialValue: {
     price: 0,
     countInStock: 0,
-    numberReview: 0,
+    reviews: [],
     sold: 0,
     rating: 0,
   },
@@ -70,26 +70,6 @@ export default {
       name: "countInStock",
       title: "Count InStock",
       type: "number",
-    },
-    {
-      name: "numberReview",
-      title: "Number Review",
-      type: "number",
-    },
-    {
-      name: "rating",
-      title: "Rating",
-      type: "number",
-      options: {
-        list: [
-          { title: "5 Star", value: 5 },
-          { title: "4 Star", value: 4 },
-          { title: "3 Star", value: 3 },
-          { title: "2 Star", value: 2 },
-          { title: "1 Star", value: 1 },
-        ],
-        layout: "radio",
-      },
     },
     {
       name: "reviews",

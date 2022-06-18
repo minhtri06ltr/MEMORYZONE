@@ -6,17 +6,25 @@ import { useRef, useState } from "react";
 import { client, urlFor } from "../lib/client";
 import { useDispatch } from "react-redux";
 
-const ReplyItem = ({ data, reviewIndex, setOpenIndex, setReplyForm }) => {
+const ReplyItem = ({
+  data,
+  reviewIndex,
+  setOpenIndex,
+  setReplyForm,
+}) => {
   return (
     <>
       {data.map((item, index) => (
-        <div key={index} className=" pt-3 pb-6 border-[#dddddd]">
+        <div
+          key={index}
+          className=" pt-3 pb-6 border-[#dddddd]"
+        >
           <div className="flex items-center  justify-start">
             <div>
               <Image
                 src={`https://ui-avatars.com/api/?rounded=true&size=32&name=${item.fullName.replace(
                   " ",
-                  "+"
+                  "+",
                 )}&font-size=0.42&color=ffffff&background=666&bold=true`}
                 width={32}
                 height={32}
@@ -58,7 +66,9 @@ const ReplyItem = ({ data, reviewIndex, setOpenIndex, setReplyForm }) => {
 const EmptyReview = () => {
   return (
     <div className="mt-3 bg-[#fff3cd] rounded-md px-6 py-3">
-      <span className="text-sm text-[#856404]">There are no reviews yet</span>
+      <span className="text-sm text-[#856404]">
+        There are no reviews yet
+      </span>
     </div>
   );
 };
@@ -75,22 +85,36 @@ const Rating = ({ index, active }) => {
   return (
     <div className="bg-[#37a953] rounded-sm arrow after:right-full after:border-r-[6px] after:border-r-[#37a953] after:border-[6px] flex items-center justify-center ml-2 py-1 px-2">
       <span className="text-white text-xs">
-        {index === 0 ? ratingLevel[active - 1] : ratingLevel[index - 1]}
+        {index === 0
+          ? ratingLevel[active - 1]
+          : ratingLevel[index - 1]}
       </span>
     </div>
   );
 };
 const RateBar = ({ index, percent }) => {
-
-  return (<div className="flex items-center space-x-2 text-sm text-text">
-    <span className="whitespace-nowrap">{index} ★</span>
-    <div className="rounded-full bg-[#efefef]  w-full h-3 ">
-      <div className={`rounded-full bg-[#5cb85c]   h-3 `} style={{ width: `${percent}%` }}></div>
+  return (
+    <div className="flex items-center space-x-2 text-sm text-text">
+      <span className="whitespace-nowrap">
+        {index} ★
+      </span>
+      <div className="rounded-full bg-[#efefef]  w-full h-3 ">
+        <div
+          className={`rounded-full bg-[#5cb85c]   h-3 `}
+          style={{ width: `${percent}%` }}
+        ></div>
+      </div>
+      <span> {percent}%</span>
     </div>
-    <span>  {percent}%</span>
-  </div>)
-}
-const Review = ({ data, productName, productRate, productId }) => {
+  );
+};
+const Review = ({
+  data,
+  productName,
+  productId,
+  averageRate,
+  ratingList,
+}) => {
   const [rating, setRating] = useState(0);
   const [replyForm, setReplyForm] = useState({
     comment: "",
@@ -107,20 +131,25 @@ const Review = ({ data, productName, productRate, productId }) => {
     phoneNumber: "",
     images: [],
   });
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] =
+    useState(null);
 
   const dispatch = useDispatch();
   const { images } = reviewForm;
-  const [openReviewForm, setOpenReviewForm] = useState(false);
+  const [openReviewForm, setOpenReviewForm] =
+    useState(false);
   const reviewFormHandle = async (e) => {
     if (e.target.name === "images") {
       if (reviewForm.images.length >= 5) {
-        alert("You can only post up to 5 product photos");
+        alert(
+          "You can only post up to 5 product photos",
+        );
         return;
       }
       if (
         e.target.files[0].type === "image/png" ||
-        e.target.files[0].type === "image/svg+xml" ||
+        e.target.files[0].type ===
+          "image/svg+xml" ||
         e.target.files[0].type === "image/jpeg" ||
         e.target.files[0].type === "image/gif" ||
         e.target.files[0].type === "image/tiff"
@@ -151,6 +180,7 @@ const Review = ({ data, productName, productRate, productId }) => {
         [e.target.name]: e.target.value,
       });
   };
+
   const reviewHandle = async (e) => {
     e.preventDefault();
     if (
@@ -194,16 +224,6 @@ const Review = ({ data, productName, productRate, productId }) => {
       })
       .then((res) => {
         // data.push(res.reviews[res.reviews.length - 1]); -- render review immediately
-        //transaction - calculate total rating, inc review number
-        client
-          .patch(productId)
-          .inc({
-            numberReview: 1,
-          })
-          .set({
-            rating: Math.round((reviewForm.star + productRate) / 2),
-          })
-          .commit();
         setReviewForm({
           star: 0,
           comment: "",
@@ -213,7 +233,7 @@ const Review = ({ data, productName, productRate, productId }) => {
         });
 
         alert(
-          "Thanks for your review, please wait for an admin to approve this review"
+          "Thanks for your review, please wait for an admin to approve this review",
         );
       })
       .catch((error) => {
@@ -225,34 +245,42 @@ const Review = ({ data, productName, productRate, productId }) => {
   const replyHandle = async (reviewId, e) => {
     e.preventDefault();
 
-    if (replyForm.fullName === "" || replyForm.comment === "") {
+    if (
+      replyForm.fullName === "" ||
+      replyForm.comment === ""
+    ) {
       alert("Please add required fields");
       return;
     } else {
       await client
         .patch(productId)
         .setIfMissing({
-          [`reviews[_key == \"${reviewId}\"].reply`]: [],
+          [`reviews[_key == \"${reviewId}\"].reply`]:
+            [],
         })
         // Add the items after the last item in the array (append)
-        .append(`reviews[_key == \"${reviewId}\"].reply`, [
-          {
-            _type: "reply",
-            comment: replyForm.comment,
-            fullName: replyForm.fullName,
-            phoneNumber: replyForm.phoneNumber,
-            createTime: new Date(),
-          },
-        ])
+        .append(
+          `reviews[_key == \"${reviewId}\"].reply`,
+          [
+            {
+              _type: "reply",
+              comment: replyForm.comment,
+              fullName: replyForm.fullName,
+              phoneNumber: replyForm.phoneNumber,
+              createTime: new Date(),
+            },
+          ],
+        )
         .commit({
           // Adds a `_key` attribute to array items, unique within the array, to
           // ensure it can be addressed uniquely in a real-time collaboration context
           autoGenerateArrayKeys: true,
         })
         .then((res) => {
-          data[openIndex].reply = res.reviews.filter((item) => item.isApprove)[
-            openIndex
-          ].reply;
+          data[openIndex].reply =
+            res.reviews.filter(
+              (item) => item.isApprove,
+            )[openIndex].reply;
 
           setOpenIndex(null);
           setReplyForm({
@@ -276,35 +304,46 @@ const Review = ({ data, productName, productRate, productId }) => {
   };
 
   return (
-    <>  {/*Review summary */}
+    <>
+      {" "}
+      {/*Review summary */}
       <div className="mt-10 mb-4">
         <span className="block text-text text-2xl">
-          CUSTOMER REVIEWS</span>
+          CUSTOMER REVIEWS
+        </span>
         <div className="flex  my-6 items-start">
           <div className="flex  space-y-3 flex-1 flex-col items-center justify-center">
             <span className="text-text text-sm block">
-              Average rating</span>
-            <span className="text-3xl font-semibold text-[#d9534f] text-center">5 / 5</span>
-            <span className="text-sm text-gray block">({data.length} reviews)</span>
+              Average rating
+            </span>
+            <span className="text-3xl font-semibold text-[#d9534f] text-center">
+              {parseFloat(averageRate.toFixed(1))}{" "}
+              / 5
+            </span>
+            <span className="text-sm text-gray block">
+              ({data?.length} reviews)
+            </span>
           </div>
-          <div className="flex-1 -translate-x-[14px]  space-y-4" >
-            {
-              [78, 65, 12, 0, 100].map((item, index) => (
-                <RateBar
-                  key={index}
-                  index={index}
-                  percent={item}
-                />
-              ))
-            }
-
+          <div className="flex-1 -translate-x-[14px]  space-y-4">
+            {ratingList.map((item, index) => (
+              <RateBar
+                key={index}
+                index={index}
+                percent={item}
+              />
+            ))}
           </div>
           <div className="flex-1  space-y-3 flex flex-col items-center justify-center">
-            <span className="text-sm text-text block">Share product reviews</span>
+            <span className="text-sm text-text block">
+              Share product reviews
+            </span>
             <button
-              onClick={() => setOpenReviewForm(!openReviewForm)}
+              onClick={() =>
+                setOpenReviewForm(!openReviewForm)
+              }
               type="button"
-              className="rounded-sm text-white bg-[#d9534f] px-12 py-3  text-xs "
+              id="review"
+              className="rounded-sm text-white bg-[#d9534f] px-12 py-3  text-sm "
             >
               Write your review
             </button>
@@ -317,51 +356,66 @@ const Review = ({ data, productName, productRate, productId }) => {
           <form onSubmit={reviewHandle}>
             <div className="py-6 space-y-5">
               <span className="block text-2xl text-[#323c3f]">
-                Rate and comment on <b>"{productName}"</b>
+                Rate and comment on{" "}
+                <b>"{productName}"</b>
               </span>
               <div>
-                <label htmlFor="rating" className="block text-sm text-[#323c3f]">
+                <label
+                  htmlFor="rating"
+                  className="block text-sm text-[#323c3f]"
+                >
                   Step 1. Choose your rating (*)
                 </label>
                 <div
                   id="rating"
                   className="flex-row-reverse  items-center justify-end my-1 flex"
                 >
-                  <Rating index={rating} active={reviewForm.star} />
-                  {[5, 4, 3, 2, 1].map((index) => (
-                    <StarIcon
-                      key={index}
-                      color={`${reviewForm.star === 0
-                        ? index <= rating
-                          ? "#ffd700"
-                          : "#cccccc"
-                        : index <= reviewForm.star
-                          ? "#ffd700"
-                          : "#cccccc"
+                  <Rating
+                    index={rating}
+                    active={reviewForm.star}
+                  />
+                  {[5, 4, 3, 2, 1].map(
+                    (index) => (
+                      <StarIcon
+                        key={index}
+                        color={`${
+                          reviewForm.star === 0
+                            ? index <= rating
+                              ? "#ffd700"
+                              : "#cccccc"
+                            : index <=
+                              reviewForm.star
+                            ? "#ffd700"
+                            : "#cccccc"
                         }`}
-                      width={30}
-                      height={30}
-                      className={`cursor-pointer rating mx-1 hover:text-[gold] `}
-                      onMouseEnter={() => {
-                        setRating(index);
-                      }}
-                      onMouseLeave={() => {
-                        setRating(0);
-                      }}
-                      onClick={() => {
-                        setReviewForm({
-                          ...reviewForm,
-                          star: index,
-                        });
-                        setRating(index);
-                      }}
-                    />
-                  ))}
+                        width={30}
+                        height={30}
+                        className={`cursor-pointer rating mx-1 hover:text-[gold] `}
+                        onMouseEnter={() => {
+                          setRating(index);
+                        }}
+                        onMouseLeave={() => {
+                          setRating(0);
+                        }}
+                        onClick={() => {
+                          setReviewForm({
+                            ...reviewForm,
+                            star: index,
+                          });
+                          setRating(index);
+                        }}
+                      />
+                    ),
+                  )}
                 </div>
               </div>
               <div>
-                <label htmlFor="comment" className="block text-sm text-[#323c3f]">
-                  Step 2. Enter a product review(*):
+                <label
+                  htmlFor="comment"
+                  className="block text-sm text-[#323c3f]"
+                >
+                  Step 2. Enter a product
+                  review(*):
                 </label>
                 <textarea
                   value={reviewForm.comment}
@@ -410,10 +464,13 @@ const Review = ({ data, productName, productRate, productId }) => {
               <div className="pb-2">
                 <label
                   htmlFor="images"
-                  onClick={() => imgRef.current.click()}
+                  onClick={() =>
+                    imgRef.current.click()
+                  }
                   className="inline text-sm text-[#323c3f]"
                 >
-                  Step 5. Add product images if available (Maximum 5 images):{" "}
+                  Step 5. Add product images if
+                  available (Maximum 5 images):{" "}
                   <button
                     type="button"
                     className="text-sm outline-none bg-white border border-[#007ff0] text-[#007ff0] rounded-md p-2"
@@ -435,31 +492,47 @@ const Review = ({ data, productName, productRate, productId }) => {
                   />
                 </label>
                 <div className="flex items-center space-x-6 mt-4 ">
-                  {reviewForm.images.map((image, index) => (
-                    <div key={index} className="relative">
-                      <div className="rounded-md relative align-middle  w-[100px] overflow-hidden h-[100px]">
-                        <Image
-                          src={image.url ? image.url : URL.createObjectURL(image)}
-                          quantity={100}
-                          objectFit="contain"
-                          layout="fill"
-                          alt={`${productName} review images`}
-                        />
-                      </div>
-
-                      <span
-                        onClick={() => {
-                          setReviewForm({
-                            ...reviewForm,
-                            images: images.filter((item) => item !== image),
-                          });
-                        }}
-                        className=" text-white text-xs absolute cursor-pointer right-0 top-0 -translate-y-1/2 translate-x-1/2 z-10 bg-[#635f5f] font-semibold  flex justify-center items-center w-6 h-6 border-2 rounded-full border-white"
+                  {reviewForm.images.map(
+                    (image, index) => (
+                      <div
+                        key={index}
+                        className="relative"
                       >
-                        x
-                      </span>
-                    </div>
-                  ))}
+                        <div className="rounded-md relative align-middle  w-[100px] overflow-hidden h-[100px]">
+                          <Image
+                            src={
+                              image.url
+                                ? image.url
+                                : URL.createObjectURL(
+                                    image,
+                                  )
+                            }
+                            quantity={100}
+                            objectFit="contain"
+                            layout="fill"
+                            alt={`${productName} review images`}
+                          />
+                        </div>
+
+                        <span
+                          onClick={() => {
+                            setReviewForm({
+                              ...reviewForm,
+                              images:
+                                images.filter(
+                                  (item) =>
+                                    item !==
+                                    image,
+                                ),
+                            });
+                          }}
+                          className=" text-white text-xs absolute cursor-pointer right-0 top-0 -translate-y-1/2 translate-x-1/2 z-10 bg-[#635f5f] font-semibold  flex justify-center items-center w-6 h-6 border-2 rounded-full border-white"
+                        >
+                          x
+                        </span>
+                      </div>
+                    ),
+                  )}
                 </div>
               </div>
               <button
@@ -481,7 +554,9 @@ const Review = ({ data, productName, productRate, productId }) => {
             id="selectReview"
           >
             <option value={0}>All</option>
-            <option value={1}>Have pictures</option>
+            <option value={1}>
+              Have pictures
+            </option>
             <option value={2}>No pictures</option>
           </select>
           <select
@@ -501,13 +576,16 @@ const Review = ({ data, productName, productRate, productId }) => {
         {data && data.length !== 0 ? (
           <div className="divide-y  ">
             {data?.map((item, index) => (
-              <div className=" py-3 border-[#dddddd] w-full" key={index}>
+              <div
+                className=" py-3 border-[#dddddd] w-full"
+                key={index}
+              >
                 <div className="flex items-center  justify-start">
                   <div>
                     <Image
                       src={`https://ui-avatars.com/api/?rounded=true&size=32&name=${item.fullName.replace(
                         " ",
-                        "+"
+                        "+",
                       )}&font-size=0.42&color=ffffff&background=666&bold=true`}
                       width={32}
                       height={32}
@@ -519,7 +597,11 @@ const Review = ({ data, productName, productRate, productId }) => {
                   </span>
                 </div>
                 <div>
-                  <StarList quantity={item.rating} width={22} height={22} />
+                  <StarList
+                    quantity={item.rating}
+                    width={22}
+                    height={22}
+                  />
                   <span className="text-sm py-2 text-[#505050]">
                     {item.comment}
                   </span>
@@ -527,19 +609,23 @@ const Review = ({ data, productName, productRate, productId }) => {
                 {/*img section */}
                 {item.image.length > 0 && (
                   <div className="my-4 flex items-center flex-start space-x-6">
-                    {item.image.map((img, index) => (
-                      <div
-                        key={index}
-                        className="relative cursor-pointer scaleAnimation h-[180px] w-[180px]"
-                      >
-                        <Image
-                          quantity={100}
-                          objectFit="contain"
-                          layout="fill"
-                          src={urlFor(img).url()}
-                        />
-                      </div>
-                    ))}
+                    {item.image.map(
+                      (img, index) => (
+                        <div
+                          key={index}
+                          className="relative cursor-pointer scaleAnimation h-[180px] w-[180px]"
+                        >
+                          <Image
+                            quantity={100}
+                            objectFit="contain"
+                            layout="fill"
+                            src={urlFor(
+                              img,
+                            ).url()}
+                          />
+                        </div>
+                      ),
+                    )}
                   </div>
                 )}
                 <div className="mb-3">
@@ -559,7 +645,10 @@ const Review = ({ data, productName, productRate, productId }) => {
                   </span>
                   <span className="text-[#666666] text-xs italic">
                     {" "}
-                    • {formatDateTime(item.createTime)}
+                    •{" "}
+                    {formatDateTime(
+                      item.createTime,
+                    )}
                   </span>
                 </div>
                 {item.reply && (
@@ -576,7 +665,9 @@ const Review = ({ data, productName, productRate, productId }) => {
                   <div className="mb-14">
                     <form
                       className="space-y-3"
-                      onSubmit={(e) => replyHandle(item._key, e)}
+                      onSubmit={(e) =>
+                        replyHandle(item._key, e)
+                      }
                     >
                       <textarea
                         required
@@ -592,17 +683,25 @@ const Review = ({ data, productName, productRate, productId }) => {
                           placeholder="Full Name (*)"
                           className="reviewInput"
                           required
-                          onChange={replyFormHandle}
-                          value={replyForm.fullName}
+                          onChange={
+                            replyFormHandle
+                          }
+                          value={
+                            replyForm.fullName
+                          }
                           name="fullName"
                         />
                         <input
                           type="tel"
                           placeholder="Phone Number"
                           className="reviewInput"
-                          value={replyForm.phoneNumber}
+                          value={
+                            replyForm.phoneNumber
+                          }
                           name="phoneNumber"
-                          onChange={replyFormHandle}
+                          onChange={
+                            replyFormHandle
+                          }
                           pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
                         />
                         <button
@@ -621,7 +720,6 @@ const Review = ({ data, productName, productRate, productId }) => {
         ) : (
           <EmptyReview />
         )}
-
       </div>
     </>
   );
