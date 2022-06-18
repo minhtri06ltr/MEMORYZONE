@@ -2,44 +2,68 @@ import Image from "next/image";
 import { client, urlFor } from "../../lib/client";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { numberWithCommas } from "../../utils/format";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/outline";
 import { useRef, useState } from "react";
-import { NotFound, Layout, Path, Review, StarList } from "../../components";
+import {
+  NotFound,
+  Layout,
+  Path,
+  Review,
+  StarList,
+} from "../../components";
 import { addToCart } from "../../redux/cartSlice";
 import { useDispatch } from "react-redux";
 import { isNumber } from "../../utils/validate";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-const ProductDetails = ({ productBySlug }) => {
+const ProductDetails = ({
+  productBySlug,
+  statisticalReviews,
+}) => {
   const router = useRouter();
   const dispatch = useDispatch();
-
+  console.log(statisticalReviews);
   if (!productBySlug)
     return (
       <Layout
         title={"Memoryzone | Product not found"}
-        description={"Memoryzone Product not found"}
+        description={
+          "Memoryzone Product not found"
+        }
         removeLayout={true}
       >
-        <NotFound message={"Oops Look like product don't exist in our shop"} />
+        <NotFound
+          message={
+            "Oops Look like product don't exist in our shop"
+          }
+        />
       </Layout>
     );
 
   const [pixel, setPixel] = useState(0);
-  const [slideNumber, setSlideNumber] = useState(0);
+  const [slideNumber, setSlideNumber] =
+    useState(0);
   const [index, setIndex] = useState(1);
   const [quantity, setQuantity] = useState(1);
 
   const listRef = useRef();
   const handleSlide = (direction) => {
-    if (direction === "right" && slideNumber < productBySlug.image.length - 4) {
-      listRef.current.style.transform = `translateX(-${pixel + 92}px)`;
+    if (
+      direction === "right" &&
+      slideNumber < productBySlug.image.length - 4
+    ) {
+      listRef.current.style.transform = `translateX(-${pixel + 92
+        }px)`;
       setPixel(pixel + 92);
       setSlideNumber(slideNumber + 1);
     }
     if (direction === "left" && slideNumber > 0) {
-      listRef.current.style.transform = `translateX(-${pixel - 92}px)`;
+      listRef.current.style.transform = `translateX(-${pixel - 92
+        }px)`;
       setPixel(pixel - 92);
       setSlideNumber(slideNumber - 1);
     }
@@ -54,13 +78,16 @@ const ProductDetails = ({ productBySlug }) => {
         quantity: quantity,
         slug: product.slug.current,
         countInStock: product.countInStock,
-      })
+      }),
     );
     router.push("/cart");
   };
 
   return (
-    <Layout title={productBySlug.name} description={productBySlug.name}>
+    <Layout
+      title={productBySlug.name}
+      description={productBySlug.name}
+    >
       <div>
         <Path path={[productBySlug.name]} />
         {/*main product details */}
@@ -72,30 +99,38 @@ const ProductDetails = ({ productBySlug }) => {
               <div className="flex-1  overflow-hidden ">
                 <div className="relative aspect-square">
                   <Image
-                    alt={`Memoryzone product slider: ${
-                      productBySlug.name && productBySlug?.name[index]
-                    }`}
+                    alt={`Memoryzone product slider: ${productBySlug.name &&
+                      productBySlug?.name[index]
+                      }`}
                     layout="fill"
                     quality={100}
                     priority
                     objectFit="cover"
                     src={urlFor(
-                      productBySlug.image && productBySlug?.image[index]
+                      productBySlug.image &&
+                      productBySlug?.image[
+                      index
+                      ],
                     ).url()}
                   />
                 </div>
                 <div className="flex mt-4 items-center relative justify-center ">
-                  {productBySlug.image.length > 4 && (
-                    <ChevronLeftIcon
-                      width={24}
-                      height={24}
-                      color={slideNumber < 1 ? "#ccc" : undefined}
-                      onClick={() => {
-                        handleSlide("left");
-                      }}
-                      className="cursor-pointer hover:text-primary z-10 top-1/2 left-0 -translate-y-1/2 translate-x-1/2 absolute"
-                    />
-                  )}
+                  {productBySlug.image.length >
+                    4 && (
+                      <ChevronLeftIcon
+                        width={24}
+                        height={24}
+                        color={
+                          slideNumber < 1
+                            ? "#ccc"
+                            : undefined
+                        }
+                        onClick={() => {
+                          handleSlide("left");
+                        }}
+                        className="cursor-pointer hover:text-primary z-10 top-1/2 left-0 -translate-y-1/2 translate-x-1/2 absolute"
+                      />
+                    )}
                   <div className="overflow-hidden w-[74%]">
                     <div
                       ref={listRef}
@@ -106,38 +141,47 @@ const ProductDetails = ({ productBySlug }) => {
                         (img, i) =>
                           i > 0 && (
                             <div
-                              onMouseDownCapture={() => setIndex(i)}
+                              onMouseDownCapture={() =>
+                                setIndex(i)
+                              }
                               key={i}
-                              className={`relative duration-700 ease-in-out  aspect-square mx-1.5  cursor-pointer hover:border-primary h-20 w-20 border ${
-                                i === index ? "border-primary" : "border-[#ccc]"
-                              } `}
+                              className={`relative duration-700 ease-in-out  aspect-square mx-1.5  cursor-pointer hover:border-primary h-20 w-20 border ${i === index
+                                  ? "border-primary"
+                                  : "border-[#ccc]"
+                                } `}
                             >
                               <Image
-                                src={urlFor(img).url()}
+                                src={urlFor(
+                                  img,
+                                ).url()}
                                 alt={`Memoryzone other products image: ${productBySlug.name}`}
                                 layout="fill"
                                 objectFit="cover"
                               />
                             </div>
-                          )
+                          ),
                       )}
                     </div>
                   </div>
-                  {productBySlug.image.length > 4 && (
-                    <ChevronRightIcon
-                      width={24}
-                      height={24}
-                      color={
-                        slideNumber >= productBySlug.image.length - 4
-                          ? "#ccc"
-                          : undefined
-                      }
-                      onClick={() => {
-                        handleSlide("right");
-                      }}
-                      className="cursor-pointer hover:text-primary top-1/2 z-10 -translate-y-1/2 -translate-x-1/2 right-0  absolute"
-                    />
-                  )}
+                  {productBySlug.image.length >
+                    4 && (
+                      <ChevronRightIcon
+                        width={24}
+                        height={24}
+                        color={
+                          slideNumber >=
+                            productBySlug.image
+                              .length -
+                            4
+                            ? "#ccc"
+                            : undefined
+                        }
+                        onClick={() => {
+                          handleSlide("right");
+                        }}
+                        className="cursor-pointer hover:text-primary top-1/2 z-10 -translate-y-1/2 -translate-x-1/2 right-0  absolute"
+                      />
+                    )}
                 </div>
               </div>
               <div className="w-[58%] pl-8">
@@ -147,7 +191,9 @@ const ProductDetails = ({ productBySlug }) => {
                 <div className="flex py-3 items-center ">
                   <div className="flex ">
                     <StarList
-                      quantity={productBySlug.rating}
+                      quantity={
+                        productBySlug.rating
+                      }
                       width={30}
                       height={30}
                     />
@@ -156,28 +202,39 @@ const ProductDetails = ({ productBySlug }) => {
                     <span className="text-[#055eff] cursor-pointer text-sm ml-2">
                       {!productBySlug.reviews
                         ? "Be the first to review"
-                        : `See ${productBySlug.numberReview} ${
-                            productBySlug.numberReview > 1
-                              ? "reviews"
-                              : "review"
-                          }`}
+                        : `See ${productBySlug.numberReview
+                        } ${productBySlug.numberReview >
+                          1
+                          ? "reviews"
+                          : "review"
+                        }`}
                     </span>
                   </Link>
                 </div>
                 <div>
-                  <span className="text-text text-sm">Trademake: </span>
-                  <span className="text-primary  text-sm">Gigabyte</span>
+                  <span className="text-text text-sm">
+                    Trademake:{" "}
+                  </span>
+                  <span className="text-primary  text-sm">
+                    Gigabyte
+                  </span>
                   <div className="w-[1px] h-3.5 -mb-0.5 mx-2 inline-block bg-text"></div>
-                  <span className="text-text text-sm ">Status: </span>
+                  <span className="text-text text-sm ">
+                    Status:{" "}
+                  </span>
                   <span className="text-primary text-sm">
-                    {productBySlug.countInStock > 0
+                    {productBySlug.countInStock >
+                      0
                       ? "In stock"
                       : "Out of stock"}
                   </span>
                 </div>
                 <div className="my-1.5">
                   <span className="text-primary text-3xl font-bold ">
-                    {numberWithCommas(productBySlug.price)}$
+                    {numberWithCommas(
+                      productBySlug.price,
+                    )}
+                    $
                   </span>
                   <span className="ml-4 text-base line-through text-gray">
                     {numberWithCommas(7423)}$
@@ -217,61 +274,96 @@ const ProductDetails = ({ productBySlug }) => {
                     </li>
                   </ul>
                 </div>
-                {productBySlug.countInStock > 0 && (
-                  <>
-                    <span className="text-sm block text-gray my-2">
-                      Quantity:
-                    </span>
-                    <div className="border my-4 flex items-center border-[#ccc] rounded-sm w-fit">
-                      <button
-                        onClick={() =>
-                          quantity > 1 && setQuantity(quantity - 1)
-                        }
-                        className="border-r border-[#ccc] font-medium text-3xl px-4 py-1"
-                      >
-                        -
-                      </button>
-                      <input
-                        disabled={productBySlug.countInStock === 0 && true}
-                        value={quantity}
-                        onChange={(e) => {
-                          const re = /^[0-9\b]+$/;
+                {productBySlug.countInStock >
+                  0 && (
+                    <>
+                      <span className="text-sm block text-gray my-2">
+                        Quantity:
+                      </span>
+                      <div className="border my-4 flex items-center border-[#ccc] rounded-sm w-fit">
+                        <button
+                          onClick={() =>
+                            quantity > 1 &&
+                            setQuantity(
+                              quantity - 1,
+                            )
+                          }
+                          className="border-r border-[#ccc] font-medium text-3xl px-4 py-1"
+                        >
+                          -
+                        </button>
+                        <input
+                          disabled={
+                            productBySlug.countInStock ===
+                            0 && true
+                          }
+                          value={quantity}
+                          onChange={(e) => {
+                            const re = /^[0-9\b]+$/;
 
-                          if (
-                            e.target.value === "" ||
-                            re.test(e.target.value)
-                          ) {
-                            if (isNumber(parseInt(e.target.value))) {
-                              if (e.target.value > productBySlug.countInStock) {
-                                setQuantity(productBySlug.countInStock);
-                              } else setQuantity(parseInt(e.target.value));
-                            } else {
-                              setQuantity(1);
+                            if (
+                              e.target.value ===
+                              "" ||
+                              re.test(
+                                e.target.value,
+                              )
+                            ) {
+                              if (
+                                isNumber(
+                                  parseInt(
+                                    e.target.value,
+                                  ),
+                                )
+                              ) {
+                                if (
+                                  e.target.value >
+                                  productBySlug.countInStock
+                                ) {
+                                  setQuantity(
+                                    productBySlug.countInStock,
+                                  );
+                                } else
+                                  setQuantity(
+                                    parseInt(
+                                      e.target
+                                        .value,
+                                    ),
+                                  );
+                              } else {
+                                setQuantity(1);
+                              }
                             }
-                          }
-                        }}
-                        type="text"
-                        className={`w-16 ${
-                          productBySlug.countInStock === 0 &&
-                          "cursor-not-allowed"
-                        } text-center text-base outline-none border-none px-4`}
-                      />
-                      <button
-                        onClick={() => {
-                          if (productBySlug.countInStock === 0) {
-                            alert("This product is out of stock.");
-                            return;
-                          }
-                          quantity < productBySlug.countInStock &&
-                            setQuantity(quantity + 1);
-                        }}
-                        className="border-l border-[#ccc] font-medium text-xl px-4 py-1"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </>
-                )}
+                          }}
+                          type="text"
+                          className={`w-16 ${productBySlug.countInStock ===
+                            0 &&
+                            "cursor-not-allowed"
+                            } text-center text-base outline-none border-none px-4`}
+                        />
+                        <button
+                          onClick={() => {
+                            if (
+                              productBySlug.countInStock ===
+                              0
+                            ) {
+                              alert(
+                                "This product is out of stock.",
+                              );
+                              return;
+                            }
+                            quantity <
+                              productBySlug.countInStock &&
+                              setQuantity(
+                                quantity + 1,
+                              );
+                          }}
+                          className="border-l border-[#ccc] font-medium text-xl px-4 py-1"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </>
+                  )}
                 <div className="space-y-4 pt-1">
                   <div className="flex border-[#e7e7e7] items-center  px-4 py-2 shadow-sm border rounded-md">
                     <div className="flex-1">
@@ -284,8 +376,10 @@ const ProductDetails = ({ productBySlug }) => {
                       />
                     </div>
                     <span className="text-[#393a44] text-base w-[90%] pl-4 font-bold">
-                      Preferential conversion fee for VISA and Master
-                      installments from only 1.8% for a 6-month term.
+                      Preferential conversion fee
+                      for VISA and Master
+                      installments from only 1.8%
+                      for a 6-month term.
                     </span>
                   </div>
                   <div className="flex border-[#e7e7e7] items-center px-4 py-2 shadow-sm border rounded-md">
@@ -299,15 +393,20 @@ const ProductDetails = ({ productBySlug }) => {
                       />
                     </div>
                     <span className="text-[#393a44] text-base w-[90%] pl-4 font-bold">
-                      Free payment via Visa, Master, JCB, Union Pay, Amex (No
-                      hidden fees).
+                      Free payment via Visa,
+                      Master, JCB, Union Pay, Amex
+                      (No hidden fees).
                     </span>
                   </div>
                   <div className=" space-y-2">
                     <div className="flex space-x-2 ">
                       <button
                         className="flex-1 bg-primary rounded-sm py-2"
-                        onClick={() => handleAddToCart(productBySlug)}
+                        onClick={() =>
+                          handleAddToCart(
+                            productBySlug,
+                          )
+                        }
                       >
                         <span className="block text-white font-bold leading-5">
                           BUY NOW
@@ -327,9 +426,11 @@ const ProductDetails = ({ productBySlug }) => {
                     </div>
                     <button className="rounded-sm bg-[#f3a20e] py-2 w-full">
                       <span className="text-white font-bold ">
-                        0% INSTALLMENT THROUGH CARDS
+                        0% INSTALLMENT THROUGH
+                        CARDS
                         <br />
-                        Visa, Master, JCB (Order from 150 Dollars)
+                        Visa, Master, JCB (Order
+                        from 150 Dollars)
                       </span>
                     </button>
                   </div>
@@ -338,7 +439,9 @@ const ProductDetails = ({ productBySlug }) => {
             </div>
 
             <Review
-              data={productBySlug.reviews?.filter((item) => item.isApprove)}
+              data={productBySlug.reviews?.filter(
+                (item) => item.isApprove,
+              )}
               productName={productBySlug.name}
               productRate={productBySlug.rating}
               productId={productBySlug._id}
@@ -377,7 +480,8 @@ const ProductDetails = ({ productBySlug }) => {
                     TPHCM
                   </span>
                   <span className="text-gray  text-sm block font-light">
-                    Receive goods from 24 to 72 hours after ordering
+                    Receive goods from 24 to 72
+                    hours after ordering
                   </span>
                 </div>
               </div>
@@ -396,7 +500,8 @@ const ProductDetails = ({ productBySlug }) => {
                     HÀ NỘI
                   </span>
                   <span className="text-gray  text-sm block font-light">
-                    Receive goods from 24 to 48 hours after ordering
+                    Receive goods from 24 to 48
+                    hours after ordering
                   </span>
                 </div>
               </div>
@@ -415,7 +520,8 @@ const ProductDetails = ({ productBySlug }) => {
                     OTHER PROVINCE
                   </span>
                   <span className="text-gray  text-sm block font-light">
-                    Receive goods from 24 to 96 hours after ordering
+                    Receive goods from 24 to 96
+                    hours after ordering
                   </span>
                 </div>
               </div>
@@ -437,7 +543,9 @@ export const getStaticPaths = async () => {
         current
       }
   }`;
-  const productSlugs = await client.fetch(queryAllProductSlug);
+  const productSlugs = await client.fetch(
+    queryAllProductSlug,
+  );
 
   return {
     paths:
@@ -450,19 +558,38 @@ export const getStaticPaths = async () => {
   };
 };
 //get data when build
-export const getStaticProps = async ({ params: { slug } }) => {
+export const getStaticProps = async ({
+  params: { slug },
+}) => {
   //get product data by slug param
-  const queryproductBySlug = `*[_type=="product" && slug.current == '${slug}'][0]`;
+
   try {
-    const productBySlug = await client.fetch(queryproductBySlug);
+    const productBySlug =
+      await client.fetch(`*[_type=="product" && slug.current == '${slug}'][0]
+    {
+      "statisticalReviews":
+          [count(reviews[rating==1 && isApprove==true]), 
+           count(reviews[rating==2 && isApprove==true]),
+           count(reviews[rating==3 && isApprove==true]),
+           count(reviews[rating==4 && isApprove==true]),
+           count(reviews[rating==5 && isApprove==true])],
+      "productDetails":*[_type=="product" && slug.current=='${slug}'][0],
+    }
+    `);
     return {
-      props: { productBySlug },
+      props: {
+        productBySlug:
+          productBySlug.productDetails,
+        statisticalReviews:
+          productBySlug.statisticalReviews,
+      },
       revalidate: 60,
     };
   } catch (error) {
     return {
       props: {
         productBySlug: null,
+        statisticalReviews: null,
       },
     };
   }

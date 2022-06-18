@@ -3,7 +3,6 @@ import { StarIcon } from "@heroicons/react/solid";
 import { formatDateTime } from "../utils/format";
 import { StarList } from ".";
 import { useRef, useState } from "react";
-
 import { client, urlFor } from "../lib/client";
 import { useDispatch } from "react-redux";
 
@@ -81,7 +80,16 @@ const Rating = ({ index, active }) => {
     </div>
   );
 };
+const RateBar = ({ index, percent }) => {
 
+  return (<div className="flex items-center space-x-2 text-sm text-text">
+    <span className="whitespace-nowrap">{index} ★</span>
+    <div className="rounded-full bg-[#efefef]  w-full h-3 ">
+      <div className={`rounded-full bg-[#5cb85c]   h-3 `} style={{ width: `${percent}%` }}></div>
+    </div>
+    <span>  {percent}%</span>
+  </div>)
+}
 const Review = ({ data, productName, productRate, productId }) => {
   const [rating, setRating] = useState(0);
   const [replyForm, setReplyForm] = useState({
@@ -268,319 +276,354 @@ const Review = ({ data, productName, productRate, productId }) => {
   };
 
   return (
-    <div className="mt-6 w-full min-h-10 border-t-[1px] border-[#f7f7f7]">
-      {openReviewForm && (
-        <form onSubmit={reviewHandle}>
-          <div className="py-6 space-y-5">
-            <span className="block text-2xl text-[#323c3f]">
-              Rate and comment on <b>"{productName}"</b>
-            </span>
-            <div>
-              <label htmlFor="rating" className="block text-sm text-[#323c3f]">
-                Step 1. Choose your rating (*)
-              </label>
-              <div
-                id="rating"
-                className="flex-row-reverse  items-center justify-end my-1 flex"
-              >
-                <Rating index={rating} active={reviewForm.star} />
-                {[5, 4, 3, 2, 1].map((index) => (
-                  <StarIcon
-                    key={index}
-                    color={`${reviewForm.star === 0
+    <>  {/*Review summary */}
+      <div className="mt-10 mb-4">
+        <span className="block text-text text-2xl">
+          CUSTOMER REVIEWS</span>
+        <div className="flex  my-6 items-start">
+          <div className="flex  space-y-3 flex-1 flex-col items-center justify-center">
+            <span className="text-text text-sm block">
+              Average rating</span>
+            <span className="text-3xl font-semibold text-[#d9534f] text-center">5 / 5</span>
+            <span className="text-sm text-gray block">({data.length} reviews)</span>
+          </div>
+          <div className="flex-1 -translate-x-[14px]  space-y-4" >
+            {
+              [78, 65, 12, 0, 100].map((item, index) => (
+                <RateBar
+                  key={index}
+                  index={index}
+                  percent={item}
+                />
+              ))
+            }
+
+          </div>
+          <div className="flex-1  space-y-3 flex flex-col items-center justify-center">
+            <span className="text-sm text-text block">Share product reviews</span>
+            <button
+              onClick={() => setOpenReviewForm(!openReviewForm)}
+              type="button"
+              className="rounded-sm text-white bg-[#d9534f] px-12 py-3  text-xs "
+            >
+              Write your review
+            </button>
+          </div>
+        </div>
+      </div>
+      {/*Review section */}
+      <div className="mt-6 w-full min-h-10 border-t-[1px] border-[#f7f7f7]">
+        {openReviewForm && (
+          <form onSubmit={reviewHandle}>
+            <div className="py-6 space-y-5">
+              <span className="block text-2xl text-[#323c3f]">
+                Rate and comment on <b>"{productName}"</b>
+              </span>
+              <div>
+                <label htmlFor="rating" className="block text-sm text-[#323c3f]">
+                  Step 1. Choose your rating (*)
+                </label>
+                <div
+                  id="rating"
+                  className="flex-row-reverse  items-center justify-end my-1 flex"
+                >
+                  <Rating index={rating} active={reviewForm.star} />
+                  {[5, 4, 3, 2, 1].map((index) => (
+                    <StarIcon
+                      key={index}
+                      color={`${reviewForm.star === 0
                         ? index <= rating
                           ? "#ffd700"
                           : "#cccccc"
                         : index <= reviewForm.star
                           ? "#ffd700"
                           : "#cccccc"
-                      }`}
-                    width={30}
-                    height={30}
-                    className={`cursor-pointer rating mx-1 hover:text-[gold] `}
-                    onMouseEnter={() => {
-                      setRating(index);
-                    }}
-                    onMouseLeave={() => {
-                      setRating(0);
-                    }}
-                    onClick={() => {
-                      setReviewForm({
-                        ...reviewForm,
-                        star: index,
-                      });
-                      setRating(index);
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-            <div>
-              <label htmlFor="comment" className="block text-sm text-[#323c3f]">
-                Step 2. Enter a product review(*):
-              </label>
-              <textarea
-                value={reviewForm.comment}
-                id="comment"
-                name="comment"
-                required
-                onChange={reviewFormHandle}
-                className="w-full mt-2 focus:border-[#bdbdbd] min-h-[115px] pl-5 pt-2 pr-28 text-[#686868] text-sm outline-none rounded-md border border-[#ddd]"
-              ></textarea>
-            </div>
-            <div className="pb-2 flex items-center space-x-10">
-              <div>
-                <label
-                  htmlFor="fullName"
-                  className="block mb-2 text-sm text-[#323c3f]"
-                >
-                  Step 3. Your full name (*)
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={reviewForm.fullName}
-                  id="fullName"
-                  name="fullName"
-                  onChange={reviewFormHandle}
-                  className="reviewInput"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="phoneNumber"
-                  className="block mb-2 text-sm text-[#323c3f]"
-                >
-                  Step 4. Phone number
-                </label>
-                <input
-                  value={reviewForm.phoneNumber}
-                  type="tel"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  onChange={reviewFormHandle}
-                  className="reviewInput"
-                />
-              </div>
-            </div>
-            <div className="pb-2">
-              <label
-                htmlFor="images"
-                onClick={() => imgRef.current.click()}
-                className="inline text-sm text-[#323c3f]"
-              >
-                Step 5. Add product images if available (Maximum 5 images):{" "}
-                <button
-                  type="button"
-                  className="text-sm outline-none bg-white border border-[#007ff0] text-[#007ff0] rounded-md p-2"
-                >
-                  Choose image
-                </button>
-                <input
-                  accept="image/*"
-                  id="images"
-                  name="images"
-                  onChange={reviewFormHandle}
-                  type="file"
-                  onClick={(e) => {
-                    e.target.value = null;
-                  }}
-                  hidden
-                  ref={imgRef}
-                  multiple
-                />
-              </label>
-              <div className="flex items-center space-x-6 mt-4 ">
-                {reviewForm.images.map((image, index) => (
-                  <div key={index} className="relative">
-                    <div className="rounded-md relative align-middle  w-[100px] overflow-hidden h-[100px]">
-                      <Image
-                        src={image.url ? image.url : URL.createObjectURL(image)}
-                        quantity={100}
-                        objectFit="contain"
-                        layout="fill"
-                        alt={`${productName} review images`}
-                      />
-                    </div>
-
-                    <span
+                        }`}
+                      width={30}
+                      height={30}
+                      className={`cursor-pointer rating mx-1 hover:text-[gold] `}
+                      onMouseEnter={() => {
+                        setRating(index);
+                      }}
+                      onMouseLeave={() => {
+                        setRating(0);
+                      }}
                       onClick={() => {
                         setReviewForm({
                           ...reviewForm,
-                          images: images.filter((item) => item !== image),
+                          star: index,
                         });
+                        setRating(index);
                       }}
-                      className=" text-white text-xs absolute cursor-pointer right-0 top-0 -translate-y-1/2 translate-x-1/2 z-10 bg-[#635f5f] font-semibold  flex justify-center items-center w-6 h-6 border-2 rounded-full border-white"
-                    >
-                      x
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <button
-              type="submit"
-              className="rounded-sm text-white bg-[#d9534f] px-4 py-3  text-sm "
-            >
-              Submit a review
-            </button>
-          </div>
-        </form>
-      )}
-      <span className="text-sm text-text my-3 block">
-        Choose to see a review
-      </span>
-      <div className="space-x-2 border-b border-[#f7f7f7] pb-3 ">
-        <select
-          name="selectReview"
-          className="outline-none border cursor-pointer border-[#f1efef] text-sm text-text p-2 w-[150px]"
-          id="selectReview"
-        >
-          <option value={0}>All</option>
-          <option value={1}>Have pictures</option>
-          <option value={2}>No pictures</option>
-        </select>
-        <select
-          name="selectStar"
-          className="outline-none  cursor-pointer border border-[#f1efef] text-sm text-text p-2 w-[150px]"
-          id="selectStar"
-        >
-          <option value={0}>All ★</option>
-          <option value={5}>5 ★</option>
-          <option value={4}>4 ★</option>
-          <option value={3}>3 ★</option>
-          <option value={2}>2 ★</option>
-          <option value={1}>1 ★</option>
-        </select>
-      </div>
-
-      {data && data.length !== 0 ? (
-        <div className="divide-y  ">
-          {data?.map((item, index) => (
-            <div className=" py-3 border-[#dddddd] w-full" key={index}>
-              <div className="flex items-center  justify-start">
-                <div>
-                  <Image
-                    src={`https://ui-avatars.com/api/?rounded=true&size=32&name=${item.fullName.replace(
-                      " ",
-                      "+"
-                    )}&font-size=0.42&color=ffffff&background=666&bold=true`}
-                    width={32}
-                    height={32}
-                    atl={`Memoryzone review: ${item.fullName} avatar`}
-                  />
+                    />
+                  ))}
                 </div>
-                <span className="font-semibold text-base ml-3 pb-1 text-[#505050]">
-                  {item.fullName}
-                </span>
               </div>
               <div>
-                <StarList quantity={item.rating} width={22} height={22} />
-                <span className="text-sm py-2 text-[#505050]">
-                  {item.comment}
-                </span>
+                <label htmlFor="comment" className="block text-sm text-[#323c3f]">
+                  Step 2. Enter a product review(*):
+                </label>
+                <textarea
+                  value={reviewForm.comment}
+                  id="comment"
+                  name="comment"
+                  required
+                  onChange={reviewFormHandle}
+                  className="w-full mt-2 focus:border-[#bdbdbd] min-h-[115px] pl-5 pt-2 pr-28 text-[#686868] text-sm outline-none rounded-md border border-[#ddd]"
+                ></textarea>
               </div>
-              {/*img section */}
-              {item.image.length > 0 && (
-                <div className="my-4 flex items-center flex-start space-x-6">
-                  {item.image.map((img, index) => (
-                    <div
-                      key={index}
-                      className="relative cursor-pointer scaleAnimation h-[180px] w-[180px]"
-                    >
-                      <Image
-                        quantity={100}
-                        objectFit="contain"
-                        layout="fill"
-                        src={urlFor(img).url()}
-                      />
+              <div className="pb-2 flex items-center space-x-10">
+                <div>
+                  <label
+                    htmlFor="fullName"
+                    className="block mb-2 text-sm text-[#323c3f]"
+                  >
+                    Step 3. Your full name (*)
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={reviewForm.fullName}
+                    id="fullName"
+                    name="fullName"
+                    onChange={reviewFormHandle}
+                    className="reviewInput"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="phoneNumber"
+                    className="block mb-2 text-sm text-[#323c3f]"
+                  >
+                    Step 4. Phone number
+                  </label>
+                  <input
+                    value={reviewForm.phoneNumber}
+                    type="tel"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    onChange={reviewFormHandle}
+                    className="reviewInput"
+                  />
+                </div>
+              </div>
+              <div className="pb-2">
+                <label
+                  htmlFor="images"
+                  onClick={() => imgRef.current.click()}
+                  className="inline text-sm text-[#323c3f]"
+                >
+                  Step 5. Add product images if available (Maximum 5 images):{" "}
+                  <button
+                    type="button"
+                    className="text-sm outline-none bg-white border border-[#007ff0] text-[#007ff0] rounded-md p-2"
+                  >
+                    Choose image
+                  </button>
+                  <input
+                    accept="image/*"
+                    id="images"
+                    name="images"
+                    onChange={reviewFormHandle}
+                    type="file"
+                    onClick={(e) => {
+                      e.target.value = null;
+                    }}
+                    hidden
+                    ref={imgRef}
+                    multiple
+                  />
+                </label>
+                <div className="flex items-center space-x-6 mt-4 ">
+                  {reviewForm.images.map((image, index) => (
+                    <div key={index} className="relative">
+                      <div className="rounded-md relative align-middle  w-[100px] overflow-hidden h-[100px]">
+                        <Image
+                          src={image.url ? image.url : URL.createObjectURL(image)}
+                          quantity={100}
+                          objectFit="contain"
+                          layout="fill"
+                          alt={`${productName} review images`}
+                        />
+                      </div>
+
+                      <span
+                        onClick={() => {
+                          setReviewForm({
+                            ...reviewForm,
+                            images: images.filter((item) => item !== image),
+                          });
+                        }}
+                        className=" text-white text-xs absolute cursor-pointer right-0 top-0 -translate-y-1/2 translate-x-1/2 z-10 bg-[#635f5f] font-semibold  flex justify-center items-center w-6 h-6 border-2 rounded-full border-white"
+                      >
+                        x
+                      </span>
                     </div>
                   ))}
                 </div>
-              )}
-              <div className="mb-3">
-                <span
-                  onClick={() => {
-                    setReplyForm({
-                      comment: "",
-                      fullName: "",
-                      phoneNumber: "",
-                      reviewId: "",
-                    });
-                    setOpenIndex(index);
-                  }}
-                  className="text-xs  cursor-pointer text-[#007bff]"
-                >
-                  Answer
-                </span>
-                <span className="text-[#666666] text-xs italic">
-                  {" "}
-                  • {formatDateTime(item.createTime)}
-                </span>
               </div>
-              {item.reply && (
-                <div className="border border-[#e5e5e5] divide-y arrow after:border-[12px] after:border-b-[12px] after:border-b-[#f5f5f5] mt-5 after:-top-6  rounded-sm  mb-6 px-3  bg-[#f5f5f5]">
-                  <ReplyItem
-                    data={item.reply}
-                    setOpenIndex={setOpenIndex}
-                    reviewIndex={index}
-                    setReplyForm={setReplyForm}
-                  />
-                </div>
-              )}
-              {index === openIndex && (
-                <div className="mb-14">
-                  <form
-                    className="space-y-3"
-                    onSubmit={(e) => replyHandle(item._key, e)}
-                  >
-                    <textarea
-                      required
-                      value={replyForm.comment}
-                      name="comment"
-                      onChange={replyFormHandle}
-                      placeholder="Enter reply for this review (*)"
-                      className="w-full focus:border-[#bdbdbd] mt-2 min-h-[115px] pl-5 pt-2 pr-28 text-[#686868] text-sm outline-none rounded-md border border-[#ddd]"
-                    ></textarea>
-                    <div className="space-x-8 flex items-center">
-                      <input
-                        type="text"
-                        placeholder="Full Name (*)"
-                        className="reviewInput"
-                        required
-                        onChange={replyFormHandle}
-                        value={replyForm.fullName}
-                        name="fullName"
-                      />
-                      <input
-                        type="tel"
-                        placeholder="Phone Number"
-                        className="reviewInput"
-                        value={replyForm.phoneNumber}
-                        name="phoneNumber"
-                        onChange={replyFormHandle}
-                        pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
-                      />
-                      <button
-                        type="submit"
-                        className="rounded-md text-white bg-[#ff0000] px-4 py-3  flex-1 text-sm "
-                      >
-                        Send reply
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              )}
+              <button
+                type="submit"
+                className="rounded-sm text-white bg-[#d9534f] px-4 py-3  text-sm "
+              >
+                Submit a review
+              </button>
             </div>
-          ))}
+          </form>
+        )}
+        <span className="text-sm text-text my-3 block">
+          Choose to see a review
+        </span>
+        <div className="space-x-2 border-b border-[#f7f7f7] pb-3 ">
+          <select
+            name="selectReview"
+            className="outline-none border cursor-pointer border-[#f1efef] text-sm text-text p-2 w-[150px]"
+            id="selectReview"
+          >
+            <option value={0}>All</option>
+            <option value={1}>Have pictures</option>
+            <option value={2}>No pictures</option>
+          </select>
+          <select
+            name="selectStar"
+            className="outline-none  cursor-pointer border border-[#f1efef] text-sm text-text p-2 w-[150px]"
+            id="selectStar"
+          >
+            <option value={0}>All ★</option>
+            <option value={5}>5 ★</option>
+            <option value={4}>4 ★</option>
+            <option value={3}>3 ★</option>
+            <option value={2}>2 ★</option>
+            <option value={1}>1 ★</option>
+          </select>
         </div>
-      ) : (
-        <EmptyReview />
-      )}
-      <button onClick={() => setOpenReviewForm(!openReviewForm)}>
-        Write your review
-      </button>
-    </div>
+
+        {data && data.length !== 0 ? (
+          <div className="divide-y  ">
+            {data?.map((item, index) => (
+              <div className=" py-3 border-[#dddddd] w-full" key={index}>
+                <div className="flex items-center  justify-start">
+                  <div>
+                    <Image
+                      src={`https://ui-avatars.com/api/?rounded=true&size=32&name=${item.fullName.replace(
+                        " ",
+                        "+"
+                      )}&font-size=0.42&color=ffffff&background=666&bold=true`}
+                      width={32}
+                      height={32}
+                      atl={`Memoryzone review: ${item.fullName} avatar`}
+                    />
+                  </div>
+                  <span className="font-semibold text-base ml-3 pb-1 text-[#505050]">
+                    {item.fullName}
+                  </span>
+                </div>
+                <div>
+                  <StarList quantity={item.rating} width={22} height={22} />
+                  <span className="text-sm py-2 text-[#505050]">
+                    {item.comment}
+                  </span>
+                </div>
+                {/*img section */}
+                {item.image.length > 0 && (
+                  <div className="my-4 flex items-center flex-start space-x-6">
+                    {item.image.map((img, index) => (
+                      <div
+                        key={index}
+                        className="relative cursor-pointer scaleAnimation h-[180px] w-[180px]"
+                      >
+                        <Image
+                          quantity={100}
+                          objectFit="contain"
+                          layout="fill"
+                          src={urlFor(img).url()}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className="mb-3">
+                  <span
+                    onClick={() => {
+                      setReplyForm({
+                        comment: "",
+                        fullName: "",
+                        phoneNumber: "",
+                        reviewId: "",
+                      });
+                      setOpenIndex(index);
+                    }}
+                    className="text-xs  cursor-pointer text-[#007bff]"
+                  >
+                    Answer
+                  </span>
+                  <span className="text-[#666666] text-xs italic">
+                    {" "}
+                    • {formatDateTime(item.createTime)}
+                  </span>
+                </div>
+                {item.reply && (
+                  <div className="border border-[#e5e5e5] divide-y arrow after:border-[12px] after:border-b-[12px] after:border-b-[#f5f5f5] mt-5 after:-top-6  rounded-sm  mb-6 px-3  bg-[#f5f5f5]">
+                    <ReplyItem
+                      data={item.reply}
+                      setOpenIndex={setOpenIndex}
+                      reviewIndex={index}
+                      setReplyForm={setReplyForm}
+                    />
+                  </div>
+                )}
+                {index === openIndex && (
+                  <div className="mb-14">
+                    <form
+                      className="space-y-3"
+                      onSubmit={(e) => replyHandle(item._key, e)}
+                    >
+                      <textarea
+                        required
+                        value={replyForm.comment}
+                        name="comment"
+                        onChange={replyFormHandle}
+                        placeholder="Enter reply for this review (*)"
+                        className="w-full focus:border-[#bdbdbd] mt-2 min-h-[115px] pl-5 pt-2 pr-28 text-[#686868] text-sm outline-none rounded-md border border-[#ddd]"
+                      ></textarea>
+                      <div className="space-x-8 flex items-center">
+                        <input
+                          type="text"
+                          placeholder="Full Name (*)"
+                          className="reviewInput"
+                          required
+                          onChange={replyFormHandle}
+                          value={replyForm.fullName}
+                          name="fullName"
+                        />
+                        <input
+                          type="tel"
+                          placeholder="Phone Number"
+                          className="reviewInput"
+                          value={replyForm.phoneNumber}
+                          name="phoneNumber"
+                          onChange={replyFormHandle}
+                          pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
+                        />
+                        <button
+                          type="submit"
+                          className="rounded-md text-white bg-[#ff0000] px-4 py-3  flex-1 text-sm "
+                        >
+                          Send reply
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <EmptyReview />
+        )}
+
+      </div>
+    </>
   );
 };
 

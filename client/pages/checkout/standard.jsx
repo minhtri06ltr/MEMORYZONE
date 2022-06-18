@@ -10,6 +10,7 @@ import { postData } from "../../utils/requestMethod";
 import { LogoutIcon } from "@heroicons/react/outline";
 import { logout } from "../../redux/accountSlice";
 
+
 const standard = ({ provinceList }) => {
   const cart = useSelector((state) => state.cart);
   const [allow, setAllow] = useState(true);
@@ -131,7 +132,12 @@ const standard = ({ provinceList }) => {
       }
     }
   };
-  useEffect(() => { console.log('redux cart', cart); }, [cart.quantity])
+  useEffect(() => {
+    console.log('redux cart', cart);
+    if (cart.quantity === 0) {
+      router.push('/cart')
+    }
+  }, [cart.quantity])
   return (
     <Layout
       removeLayout={true}
