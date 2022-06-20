@@ -29,11 +29,11 @@ const ProductDescription = ({ content }) => {
   console.log(expand);
   return (
     <div className="my-14">
-      {/* <PortableText
+      <PortableText
         value={content}
         components={components}
-      /> */}
-      <div>
+      />
+      {/* <div>
         <div className="space-x-1">
           <button
             onClick={() => {
@@ -154,7 +154,7 @@ const ProductDescription = ({ content }) => {
             </div>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
