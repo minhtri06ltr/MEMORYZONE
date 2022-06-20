@@ -128,17 +128,17 @@ a {
   .blurBackground::before {
     display: block;
     content: "";
-    height: 120px;
+    height: 110px;
     position: absolute;
-    top: -120px;
+    top: -150px;
     width: 100%;
     left: 0;
     background: rgba(255, 255, 255, 0.6);
     background: linear-gradient(
       180deg,
       rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 0.33) 33%,
-      rgba(255, 255, 255, 0.8) 83%,
+      rgba(255, 255, 255, 0.33) 35%,
+      rgba(255, 255, 255, 0.8) 80%,
       #fff
     );
   }
