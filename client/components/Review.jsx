@@ -63,15 +63,6 @@ const ReplyItem = ({
     </>
   );
 };
-const EmptyReview = () => {
-  return (
-    <div className="mt-3 bg-[#fff3cd] rounded-md px-6 py-3">
-      <span className="text-sm text-[#856404]">
-        There are no reviews yet
-      </span>
-    </div>
-  );
-};
 
 const Rating = ({ index, active }) => {
   const ratingLevel = [
@@ -305,26 +296,36 @@ const Review = ({
 
   return (
     <>
-      {" "}
       {/*Review summary */}
       <div className="mt-10 mb-4">
         <span className="block text-text text-2xl">
           CUSTOMER REVIEWS
         </span>
-        <div className="flex  my-6 items-start">
-          <div className="flex  space-y-3 flex-1 flex-col items-center justify-center">
-            <span className="text-text text-sm block">
-              Average rating
-            </span>
-            <span className="text-3xl font-semibold text-[#d9534f] text-center">
-              {parseFloat(averageRate.toFixed(1))}{" "}
-              / 5
-            </span>
-            <span className="text-sm text-gray block">
-              ({data?.length} reviews)
-            </span>
-          </div>
-          <div className="flex-1 -translate-x-[14px]  space-y-4">
+        <div className="flex  my-6 items-start space-x-8">
+          {data.length === 0 ? (
+            <div className=" bg-[#fff3cd] flex-1 text-center rounded-md px-6 py-3">
+              <span className="text-sm text-[#856404]">
+                There are no reviews yet, be the
+                first
+              </span>
+            </div>
+          ) : (
+            <div className="flex  space-y-3 flex-1 flex-col items-center justify-center">
+              <span className="text-text text-sm block">
+                Average rating
+              </span>
+              <span className="text-3xl font-semibold text-[#d9534f] text-center">
+                {parseFloat(
+                  averageRate.toFixed(1),
+                )}{" "}
+                / 5
+              </span>
+              <span className="text-sm text-gray block">
+                ({data?.length} reviews)
+              </span>
+            </div>
+          )}
+          <div className="flex-1  space-y-4">
             {ratingList.map((item, index) => (
               <RateBar
                 key={index}
@@ -573,7 +574,7 @@ const Review = ({
           </select>
         </div>
 
-        {data && data.length !== 0 ? (
+        {data.length !== 0 ? (
           <div className="divide-y  ">
             {data?.map((item, index) => (
               <div
@@ -718,7 +719,11 @@ const Review = ({
             ))}
           </div>
         ) : (
-          <EmptyReview />
+          <div className="mt-3 bg-[#fff3cd] rounded-md px-6 py-3">
+            <span className="text-sm text-[#856404]">
+              There are no reviews yet
+            </span>
+          </div>
         )}
       </div>
     </>

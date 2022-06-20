@@ -1,4 +1,3 @@
-import React from "react";
 import MyTool from "./MyTool";
 import MyToolIcon from "./MyToolIcon";
 

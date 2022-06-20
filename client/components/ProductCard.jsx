@@ -3,12 +3,17 @@ import Image from "next/image";
 import { numberWithCommas } from "../utils/format";
 import { urlFor } from "../lib/client";
 
-const ProductCard = ({ name, price, img, slug }) => {
+const ProductCard = ({
+  name,
+  price,
+  img,
+  slug,
+}) => {
   return (
     <div>
       <div>
         <Link href={`/product/${slug}`}>
-          <div className="relative aspect-square block ">
+          <div className="relative aspect-square  ">
             <Image
               alt={name}
               priority
@@ -29,7 +34,9 @@ const ProductCard = ({ name, price, img, slug }) => {
         <span className="text-primary text-base font-bold mr-2">
           {numberWithCommas(price)}$
         </span>
-        <span className="text-gray line-through text-sm ">2.359$</span>
+        <span className="text-gray line-through text-sm ">
+          2.359$
+        </span>
       </div>
     </div>
   );

@@ -20,6 +20,7 @@ import { isNumber } from "../../utils/validate";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { calculateRate } from "../../utils/calculate";
+import ProductDescription from "../../components/ProductDescription";
 
 const ProductDetails = ({
   productBySlug,
@@ -453,7 +454,9 @@ const ProductDetails = ({
                 </div>
               </div>
             </div>
-
+            <ProductDescription
+              content={productBySlug.description}
+            />
             <Review
               data={productBySlug.reviews}
               productName={productBySlug.name}
@@ -592,7 +595,7 @@ export const getStaticProps = async ({
         coalesce(count(reviews[rating==4 && isApprove==true]),0), 
            coalesce(count(reviews[rating==5 && isApprove==true]),0)], 
         "productDetails":*[_type=="product" && slug.current==$slug][0]{
-        image,name,countInStock,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
+        image,name,countInStock,description,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
       }
       }
       

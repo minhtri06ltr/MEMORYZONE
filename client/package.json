@@ -11,7 +11,9 @@
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@paypal/react-paypal-js": "^7.8.1",
+    "@portabletext/react": "^1.0.6",
     "@reduxjs/toolkit": "^1.8.1",
+    "@sanity/asset-utils": "^1.2.3",
     "@sanity/image-url": "^1.0.1",
     "bcryptjs": "^2.4.3",
     "googleapis": "^102.0.0",

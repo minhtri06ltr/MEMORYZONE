@@ -1,4 +1,5 @@
 import Webcam from "part:sanity-plugin-asset-source-webcam/image-asset-source";
+import MyToolIcon from "../plugins/asset-via-webcam/MyToolIcon";
 
 export default {
   name: "product",
@@ -10,6 +11,7 @@ export default {
     reviews: [],
     sold: 0,
     rating: 0,
+    description: [],
   },
   fields: [
     {
@@ -85,6 +87,20 @@ export default {
       name: "sold",
       title: "Sold",
       type: "number",
+    },
+    {
+      name: "description",
+      title: "Description",
+      type: "array",
+      of: [
+        { type: "block" },
+        { type: "youtube", icon: MyToolIcon },
+        { type: "seoImage", icon: MyToolIcon },
+        {
+          type: "productDetail",
+          icon: MyToolIcon,
+        },
+      ],
     },
   ],
 };

@@ -1,4 +1,7 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/outline";
 import Link from "next/link";
 import { Error, ProductCard } from ".";
 
@@ -16,14 +19,25 @@ const Sell = ({ products }) => {
             LAPTOP
           </span>
           <ul className="flex items-center">
-            <li className="sellItem">Laptop brand</li>
+            <li className="sellItem">
+              Laptop brand
+            </li>
             <li className="sellItem">Trending</li>
-            <li className="sellItem">Laptop Acer</li>
-            <li className="sellItem">Laptop Gigabyte</li>
-            <li className="sellItem">Laptop Dell</li>
+            <li className="sellItem">
+              Laptop Acer
+            </li>
+            <li className="sellItem">
+              Laptop Gigabyte
+            </li>
+            <li className="sellItem">
+              Laptop Dell
+            </li>
             <li className="sellItem">See All</li>
             <div className="text-[#d5d5d5] ml-2 relative flex items-center">
-              <ChevronLeftIcon width={30} className="cursor-pointer mr-6" />
+              <ChevronLeftIcon
+                width={30}
+                className="cursor-pointer mr-6"
+              />
               <ChevronRightIcon
                 width={30}
                 className="cursor-pointer absolute right-0"

@@ -105,7 +105,8 @@ a {
     color: gold;
   }
   .loading text {
-    animation: textAnimation 1s ease-in-out infinite;
+    animation: textAnimation 1s ease-in-out
+      infinite;
   }
   @keyframes textAnimation {
     50% {
@@ -115,12 +116,30 @@ a {
   .polygon {
     stroke-dasharray: 22;
     stroke-dashoffset: 1;
-    animation: dash 4s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite
-      alternate-reverse;
+    animation: dash 4s
+      cubic-bezier(0.455, 0.03, 0.515, 0.955)
+      infinite alternate-reverse;
   }
   @keyframes dash {
     to {
       stroke-dashoffset: 234;
     }
+  }
+  .blurBackground::before {
+    display: block;
+    content: "";
+    height: 120px;
+    position: absolute;
+    top: -120px;
+    width: 100%;
+    left: 0;
+    background: rgba(255, 255, 255, 0.6);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.33) 33%,
+      rgba(255, 255, 255, 0.8) 83%,
+      #fff
+    );
   }
 }

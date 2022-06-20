@@ -9,6 +9,7 @@ const nextConfig = {
       "cdn.sanity.io",
       "bizweb.dktcdn.net",
       "ui-avatars.com",
+      "images.unsplash.com",
     ],
   },
 };

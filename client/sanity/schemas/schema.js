@@ -12,6 +12,9 @@ import shippingAddress from "./shippingAddress";
 
 import reply from "./reply";
 import orderItem from "./orderItem";
+import seoImage from "./seoImage";
+import youtube from "./youtube";
+import productDetail from "./productDetail";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -28,5 +31,8 @@ export default createSchema({
     shippingAddress,
     orderItem,
     reply,
+    seoImage,
+    youtube,
+    productDetail,
   ]),
 });
