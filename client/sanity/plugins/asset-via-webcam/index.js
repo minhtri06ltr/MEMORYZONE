@@ -1,9 +1,14 @@
 import MyTool from "./MyTool";
-import MyToolIcon from "./MyToolIcon";
+
+import React from "react";
 
 export default {
   title: "Webcam",
   name: "webcam",
-  icon: MyToolIcon,
+  icon: () => (
+    <div>
+      <img src="https://img.icons8.com/ios-glyphs/18/undefined/webcam.png" />
+    </div>
+  ),
   component: MyTool,
 };

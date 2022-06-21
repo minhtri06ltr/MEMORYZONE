@@ -8,13 +8,12 @@ const YoutubePreview = ({ value }) => {
     return <span>Missing Youtube URL</span>;
   return (
     <iframe
-      width="500"
-      height="300"
+      style={{ width: "100%", height: "100%" }}
       src={url}
       title="YouTube video player"
-      frameborder="0"
+      frameBorder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
+      allowFullScreen
     ></iframe>
   );
 };

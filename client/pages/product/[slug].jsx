@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { client, urlFor } from "../../lib/client";
-import { CheckCircleIcon } from "@heroicons/react/solid";
+import { components } from "../../utils/portableTextComponent";
 import { numberWithCommas } from "../../utils/format";
 import {
   ChevronLeftIcon,
@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { calculateRate } from "../../utils/calculate";
 import ProductDescription from "../../components/ProductDescription";
+import { PortableText } from "@portabletext/react";
 
 const ProductDetails = ({
   productBySlug,
@@ -251,37 +252,13 @@ const ProductDetails = ({
                   </span>
                 </div>
                 <div>
-                  <ul className="my-3">
-                    {[
-                      `CPU: Ryzen 5 5600H (3.3GHz~4.2GHz) 6 Cores 12 Threads`,
-                      `VGA: AMD Radeon RX 5500M 4GB`,
-                      `Ram: 8GB DDR4 3200MHz`,
-                      `Hard disk: 512GB SSD M.2 PCIe NVMe Gen3 x4`,
-                      `Screen: 15.6'' IPS FHD`,
-                      `Warranty for 1 year.`,
-                    ].map((item, index) => (
-                      <div key={index}>
-                        <li className="text-gray text-sm flex items-center">
-                          <CheckCircleIcon
-                            className="mr-2 text-primary"
-                            height={20}
-                            width={20}
-                          />
-                          {item}
-                        </li>
-                      </div>
-                    ))}
-                    <li className="text-gray flex items-center">
-                      <CheckCircleIcon
-                        className="mr-2 text-primary"
-                        height={22}
-                        width={22}
-                      />
-                      Status:
-                      <span className="text-primary text-sm font-semibold">
-                        &nbsp;IN STOCK
-                      </span>
-                    </li>
+                  <ul className="my-3 space-y-1">
+                    <PortableText
+                      value={
+                        productBySlug.specifications
+                      }
+                      components={components}
+                    />
                   </ul>
                 </div>
                 {productBySlug.countInStock >
@@ -595,7 +572,7 @@ export const getStaticProps = async ({
         coalesce(count(reviews[rating==4 && isApprove==true]),0), 
            coalesce(count(reviews[rating==5 && isApprove==true]),0)], 
         "productDetails":*[_type=="product" && slug.current==$slug][0]{
-        image,name,countInStock,description,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
+        image,name,countInStock,description,specifications,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
       }
       }
       
