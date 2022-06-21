@@ -12,7 +12,7 @@ export const components = {
       const { width, height } =
         getImageDimensions(props.value.image);
       return (
-        <div className="my-6">
+        <div className="my-6 mx-auto">
           <Image
             src={urlFor(props.value.image).url()}
             layout="responsive"
@@ -33,7 +33,11 @@ export const components = {
             }`}
           >
             <div
-              className={`w-[30%]  p-4  ${
+              style={{
+                width: "30%",
+                padding: "1rem",
+              }}
+              className={`max-w-[30%]  p-4 ${
                 props.value.reverse
                   ? "border-l"
                   : "border-r"
@@ -49,7 +53,12 @@ export const components = {
                 />
               </div>
             </div>
-            <div className="w-[70%] p-4">
+            <div
+              style={{
+                width: "70%",
+                padding: "1rem",
+              }}
+            >
               <span className="text-2xl font-semibold mb-4 block">
                 {props.value.title}
               </span>
@@ -95,23 +104,48 @@ export const components = {
         </span>
       );
     },
-    highlight: ({ children }) => {
-      return (
-        <span className="text-primary">
-          {children}
-        </span>
-      );
-    },
+
     checkMark: ({ children }) => {
       return (
-        <li className="text-gray text-sm flex items-center">
+        <span className="text-gray text-sm flex items-center">
           <CheckCircleIcon
             className="mr-2 text-primary"
             height={20}
             width={20}
           />
           {children}
-        </li>
+        </span>
+      );
+    },
+    link: (props) => {
+      const rel = !props.value.href.startsWith(
+        "/",
+      )
+        ? "noreferrer noopener"
+        : undefined;
+      return props.value.blank ? (
+        <a
+          href={props.value.href}
+          target="_blank"
+          rel={rel}
+        >
+          {props.children}
+        </a>
+      ) : (
+        <a href={props.value.href} rel={rel}>
+          {props.children}
+        </a>
+      );
+    },
+    color: (props) => {
+      return (
+        <span
+          style={{
+            color: props.value.hex,
+          }}
+        >
+          {props.children}
+        </span>
       );
     },
   },

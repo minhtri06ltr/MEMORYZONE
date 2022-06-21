@@ -12,6 +12,7 @@ import {
   Layout,
   Path,
   Review,
+  ProductDescription,
   StarList,
 } from "../../components";
 import { addToCart } from "../../redux/cartSlice";
@@ -20,7 +21,6 @@ import { isNumber } from "../../utils/validate";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { calculateRate } from "../../utils/calculate";
-import ProductDescription from "../../components/ProductDescription";
 import { PortableText } from "@portabletext/react";
 
 const ProductDetails = ({
@@ -533,8 +533,8 @@ const ProductDetails = ({
     </Layout>
   );
 };
-
 export default ProductDetails;
+
 //set path for nextjs
 export const getStaticPaths = async () => {
   const queryAllProductSlug = `*[_type=="product"]{
@@ -572,7 +572,7 @@ export const getStaticProps = async ({
         coalesce(count(reviews[rating==4 && isApprove==true]),0), 
            coalesce(count(reviews[rating==5 && isApprove==true]),0)], 
         "productDetails":*[_type=="product" && slug.current==$slug][0]{
-        image,name,countInStock,description,specifications,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
+        image,name,countInStock,description,specifications,specificationTable,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
       }
       }
       

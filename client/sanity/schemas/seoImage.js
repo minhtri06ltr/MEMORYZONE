@@ -13,6 +13,8 @@ export default {
       name: "imageAlt",
       title: "Image Alternative Text",
       type: "string",
+      description:
+        "Don't forget to make it SEO friendly!",
     },
     {
       name: "caption",

@@ -12,7 +12,10 @@
     "@sanity/default-layout",
     "@sanity/default-login",
     "@sanity/desk-tool",
-    "asset-via-webcam"
+    "asset-via-webcam",
+    "@sanity/color-input",
+    "dark-mode",
+    "color-list"
   ],
   "env": {
     "development": {

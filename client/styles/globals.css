@@ -78,6 +78,9 @@ a {
   .footerItem {
     @apply cursor-pointer hover:text-primary;
   }
+  .specificationsItem {
+    @apply text-sm text-right p-3 border border-[#e5e5e5];
+  }
 }
 @layer utilities {
   .limit-1-line {

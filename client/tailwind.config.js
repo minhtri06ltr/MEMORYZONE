@@ -6,7 +6,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        loading: ["Big Shoulders Text", "cursive"],
+        loading: [
+          "Big Shoulders Text",
+          "cursive",
+        ],
       },
       colors: {
         primary: "#008744",

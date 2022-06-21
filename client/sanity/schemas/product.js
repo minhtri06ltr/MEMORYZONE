@@ -2,16 +2,6 @@ import Webcam from "part:sanity-plugin-asset-source-webcam/image-asset-source";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import React from "react";
 
-const highlightIcon = () => (
-  <span style={{ fontWeight: "bold" }}>H</span>
-);
-const highlightRender = (props) => {
-  return (
-    <span style={{ color: "#008744" }}>
-      {props.children}
-    </span>
-  );
-};
 const centerBlock = (props) => {
   return (
     <div style={{ textAlign: "center" }}>
@@ -143,14 +133,7 @@ export default {
                 title: "Strike",
                 value: "strike-through",
               },
-              {
-                title: "Highlight",
-                value: "highlight",
-                blockEditor: {
-                  icon: highlightIcon,
-                  render: highlightRender,
-                },
-              },
+
               {
                 title: "Check Mark",
                 value: "checkMark",
@@ -182,6 +165,26 @@ export default {
             ],
             annotations: [
               {
+                title: "Color",
+                name: "color",
+                type: "color",
+                blockEditor: {
+                  icon: () => "🎨",
+                  render: (props) => {
+                    return (
+                      <span
+                        style={{
+                          textDecoration: "none",
+                          color: props.hex,
+                        }}
+                      >
+                        {props.children}
+                      </span>
+                    );
+                  },
+                },
+              },
+              {
                 name: "link",
                 type: "object",
                 fields: [
@@ -196,18 +199,6 @@ export default {
                     type: "boolean",
                   },
                 ],
-                blockEditor: {
-                  render: ({ children }) => (
-                    <span
-                      style={{
-                        textDecoration: "none",
-                        color: "black",
-                      }}
-                    >
-                      {children}
-                    </span>
-                  ),
-                },
               },
             ],
           },
@@ -237,21 +228,14 @@ export default {
                 title: "Strike",
                 value: "strike-through",
               },
-              {
-                title: "Highlight",
-                value: "highlight",
-                blockEditor: {
-                  icon: highlightIcon,
-                  render: highlightRender,
-                },
-              },
+
               {
                 title: "Center text",
                 value: "centerText",
                 blockEditor: {
                   icon: () => (
                     <div>
-                      <img src="https://img.icons8.com/material-outlined/18/undefined/align-center.png" />
+                      <img src="https://img.icons8.com/stickers/18/000000/align-center.png" />
                     </div>
                   ),
                   render: centerBlock,
@@ -263,7 +247,7 @@ export default {
                 blockEditor: {
                   icon: () => (
                     <div>
-                      <img src="https://img.icons8.com/material-outlined/18/undefined/align-right.png" />
+                      <img src="https://img.icons8.com/stickers/18/000000/align-left.png" />
                     </div>
                   ),
                   render: rightBlock,
@@ -275,7 +259,7 @@ export default {
                 blockEditor: {
                   icon: () => (
                     <div>
-                      <img src="https://img.icons8.com/material-outlined/18/undefined/align-left.png" />
+                      <img src="https://img.icons8.com/stickers/18/000000/align-center.png" />
                     </div>
                   ),
                   render: leftBlock,
@@ -283,6 +267,26 @@ export default {
               },
             ],
             annotations: [
+              {
+                title: "Color",
+                name: "color",
+                type: "color",
+                blockEditor: {
+                  icon: () => "🎨",
+                  render: (props) => {
+                    return (
+                      <span
+                        style={{
+                          textDecoration: "none",
+                          color: props.hex,
+                        }}
+                      >
+                        {props.children}
+                      </span>
+                    );
+                  },
+                },
+              },
               {
                 name: "link",
                 type: "object",
@@ -298,45 +302,71 @@ export default {
                     type: "boolean",
                   },
                 ],
-                blockEditor: {
-                  render: ({ children }) => (
-                    <span
-                      style={{
-                        textDecoration: "none",
-                        color: "black",
-                      }}
-                    >
-                      {children}
-                    </span>
-                  ),
-                },
               },
             ],
           },
         },
         {
           type: "youtube",
-          icon: () => (
-            <div>
-              <img src="https://img.icons8.com/ios-filled/18/undefined/youtube-play.png" />
-            </div>
-          ),
+          icon: () => "💻",
         },
         {
           type: "seoImage",
-          icon: () => (
-            <div>
-              <img src="https://img.icons8.com/ios-glyphs/18/undefined/picture.png" />
-            </div>
-          ),
+          icon: () => "🗻",
         },
         {
           type: "productDetail",
-          icon: () => (
-            <div>
-              <img src="https://img.icons8.com/external-glyph-wichaiwi/18/undefined/external-detail-e-commerce-website-glyph-wichaiwi.png" />
-            </div>
-          ),
+          icon: () => "📘",
+        },
+      ],
+    },
+    {
+      name: "specificationTable",
+      title: "Specification Table",
+      type: "array",
+      of: [
+        {
+          type: "block",
+          marks: {
+            decorators: [
+              {
+                title: "Strong",
+                value: "strong",
+              },
+              { title: "Emphasis", value: "em" },
+              { title: "Code", value: "code" },
+              {
+                title: "Underline",
+                value: "underline",
+              },
+              {
+                title: "Strike",
+                value: "strike-through",
+              },
+            ],
+            annotations: [
+              {
+                title: "Color",
+                name: "color",
+                type: "color",
+                blockEditor: {
+                  icon: () => "🎨",
+                  render: (props) => {
+                    return (
+                      <span
+                        style={{
+                          textDecoration: "none",
+                          color: props.hex,
+                        }}
+                      >
+                        {props.children}
+                      </span>
+                    );
+                  },
+                },
+              },
+            ],
+          },
         },
       ],
     },

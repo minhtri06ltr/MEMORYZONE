@@ -14,7 +14,7 @@ const ProductDescription = ({ content }) => {
             onClick={() => {
               setTab("description");
             }}
-            className={` rounded-sm px-10 py-3 text-md font-semibold ${
+            className={` rounded-sm outline-none px-10 py-3 text-md font-semibold ${
               tab === "description"
                 ? "bg-primary text-white"
                 : "bg-[#f2f2f2] text-text"
@@ -26,7 +26,7 @@ const ProductDescription = ({ content }) => {
             onClick={() => {
               setTab("specification");
             }}
-            className={` rounded-sm px-10 py-3 text-md font-semibold ${
+            className={` rounded-sm px-10 outline-none py-3 text-md font-semibold ${
               tab === "specification"
                 ? "bg-primary text-white"
                 : "bg-[#f2f2f2] text-text"
@@ -60,6 +60,43 @@ const ProductDescription = ({ content }) => {
               >
                 {expand ? "Collapse" : "See all"}
               </button>
+            </div>
+          </div>
+        )}
+        {tab === "specification" && (
+          <div className="border-[#e5e5e5] border px-8 pt-8 pb-14">
+            <span className="block border border-[#e5e5e5] text-center text-[#800000] py-4 mb-6 text-xl font-semibold">
+              Specifications
+            </span>
+            <div className="border-x border-[#2c2c2c]">
+              <table className="w-full border  border-[#e5e5e5]">
+                <tbody className="even:bg-[#f9f6d1]">
+                  <tr className="last:text-left ">
+                    <td className="specificationsItem">
+                      Nhà sản xuất
+                    </td>
+                    <td className="specificationsItem">
+                      MSI
+                    </td>
+                  </tr>
+                  <tr className="last:text-left">
+                    <td className="specificationsItem">
+                      Model
+                    </td>
+                    <td className="specificationsItem">
+                      B5DD-276VN
+                    </td>
+                  </tr>
+                  <tr className="last:text-left">
+                    <td className="specificationsItem">
+                      Hệ điều hành
+                    </td>
+                    <td className="specificationsItem">
+                      Windows 11 Home
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         )}
