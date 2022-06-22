@@ -2,10 +2,13 @@ import { PortableText } from "@portabletext/react";
 import { components } from "../utils/portableTextComponent";
 import { useState } from "react";
 
-const ProductDescription = ({ content }) => {
+const ProductDescription = ({
+  description,
+  specificationTable,
+}) => {
   const [expand, setExpand] = useState(false);
   const [tab, setTab] = useState("description");
-
+  console.log(specificationTable);
   return (
     <div className="my-14">
       <div>
@@ -45,7 +48,7 @@ const ProductDescription = ({ content }) => {
           >
             <div className="text-[#000000] text-sm overflow-hidden h-inherit mb-10 ">
               <PortableText
-                value={content}
+                value={description}
                 components={components}
               />
             </div>
@@ -68,33 +71,32 @@ const ProductDescription = ({ content }) => {
             <span className="block border border-[#e5e5e5] text-center text-[#800000] py-4 mb-6 text-xl font-semibold">
               Specifications
             </span>
+
             <div className="border-x border-[#2c2c2c]">
               <table className="w-full border  border-[#e5e5e5]">
-                <tbody className="even:bg-[#f9f6d1]">
-                  <tr className="last:text-left ">
-                    <td className="specificationsItem">
-                      Nhà sản xuất
-                    </td>
-                    <td className="specificationsItem">
-                      MSI
-                    </td>
-                  </tr>
-                  <tr className="last:text-left">
-                    <td className="specificationsItem">
-                      Model
-                    </td>
-                    <td className="specificationsItem">
-                      B5DD-276VN
-                    </td>
-                  </tr>
-                  <tr className="last:text-left">
-                    <td className="specificationsItem">
-                      Hệ điều hành
-                    </td>
-                    <td className="specificationsItem">
-                      Windows 11 Home
-                    </td>
-                  </tr>
+                <tbody>
+                  {specificationTable.map(
+                    (item, index) => (
+                      <tr
+                        key={index}
+                        className="even:bg-[#f9f6d1]"
+                      >
+                        <td className="text-sm text-right p-3 border w-1/2 border-[#e5e5e5] font-semibold  ">
+                          {item.title}
+                        </td>
+                        <td className="text-sm text-left p-3 border w-1/2 border-[#e5e5e5] ">
+                          <PortableText
+                            value={
+                              item.description
+                            }
+                            components={
+                              components
+                            }
+                          />
+                        </td>
+                      </tr>
+                    ),
+                  )}
                 </tbody>
               </table>
             </div>

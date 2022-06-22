@@ -149,7 +149,7 @@ const Header = () => {
             <ViewListIcon width={24} className="mr-2 " />
             <span className="font-semibold text-lg pr-8">Product Category</span>
           </div>
-          <ul className="px-6 flex flex-1 text-white items-center text-base ">
+          <ul className="list-none px-6 flex flex-1 text-white items-center text-base ">
             <li className="bottomHeaderItem">HOME</li>
             <li className="bottomHeaderItem">PAYMENT</li>
             <li className="bottomHeaderItem">INSTALLMENT</li>

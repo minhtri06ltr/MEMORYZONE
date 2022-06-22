@@ -11,15 +11,14 @@ import {
 } from "../components/Icon";
 
 export default {
-  name: "productDetail",
-  title: "Product Detail",
-  type: "object",
-
+  name: "new",
+  title: "New",
+  type: "document",
   fields: [
     {
-      name: "image",
-      title: "Image",
-      type: "image",
+      name: "author",
+      title: "Author",
+      type: "string",
     },
     {
       name: "title",
@@ -104,13 +103,27 @@ export default {
             ],
           },
         },
+        {
+          type: "youtube",
+          icon: () => "💻",
+        },
+        {
+          type: "seoImage",
+          icon: () => "🗻",
+        },
+        {
+          type: "productDetail",
+          icon: () => "📘",
+        },
+        {
+          type: "table",
+          icon: () => "📰",
+        },
+        {
+          type: "blockTitle",
+          icon: () => "⛳️",
+        },
       ],
-    },
-    {
-      name: "reverse",
-      title: "Reverse",
-      type: "boolean",
-      initialValue: false,
     },
   ],
 };

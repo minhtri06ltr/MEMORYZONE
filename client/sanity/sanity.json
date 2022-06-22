@@ -15,7 +15,8 @@
     "asset-via-webcam",
     "@sanity/color-input",
     "dark-mode",
-    "color-list"
+    "color-list",
+    "table"
   ],
   "env": {
     "development": {

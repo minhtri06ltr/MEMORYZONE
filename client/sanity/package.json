@@ -31,6 +31,7 @@
     "react-webcam": "^7.0.1",
     "sanity-plugin-color-list": "^2.0.3",
     "sanity-plugin-dark-mode": "^0.0.33",
+    "sanity-plugin-table": "^2.3.0",
     "styled-components": "^5.2.0"
   }
 }

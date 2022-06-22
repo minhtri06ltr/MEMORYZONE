@@ -545,6 +545,13 @@ const Review = ({
             </div>
           </form>
         )}
+        <div className="mt-3 bg-[#dff0d8] border border-[#d6e9c6] rounded-md px-6 py-3">
+          <span className="text-sm text-[#3c763d]">
+            You have successfully posted a
+            comment. We will post your comment
+            once it is moderated.
+          </span>
+        </div>
         <span className="text-sm text-text my-3 block">
           Choose to see a review
         </span>

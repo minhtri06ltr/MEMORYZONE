@@ -20,14 +20,23 @@ const Banner = () => {
             </div>
           </Link>
           <div>
-            <ul className="flex items-center">
+            <ul className="list-none flex items-center">
               <li className=" bg-[#f8f8f8] border-primary bannerSlideItem">
-                RELEASE INVENTORY BIG SALE ON HOLIDAYS
+                RELEASE INVENTORY BIG SALE ON
+                HOLIDAYS
               </li>
-              <li className="bannerSlideItem">ACER HELIOS 300 2022</li>
-              <li className="bannerSlideItem">MSI DOUBLE RAM</li>
-              <li className="bannerSlideItem">SAMSUNG SALE</li>
-              <li className="bannerSlideItem">ROG WEEK SHOCK PRICE</li>
+              <li className="bannerSlideItem">
+                ACER HELIOS 300 2022
+              </li>
+              <li className="bannerSlideItem">
+                MSI DOUBLE RAM
+              </li>
+              <li className="bannerSlideItem">
+                SAMSUNG SALE
+              </li>
+              <li className="bannerSlideItem">
+                ROG WEEK SHOCK PRICE
+              </li>
             </ul>
           </div>
         </div>

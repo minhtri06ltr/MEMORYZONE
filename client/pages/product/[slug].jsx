@@ -432,7 +432,12 @@ const ProductDetails = ({
               </div>
             </div>
             <ProductDescription
-              content={productBySlug.description}
+              description={
+                productBySlug.description
+              }
+              specificationTable={
+                productBySlug.specificationTable
+              }
             />
             <Review
               data={productBySlug.reviews}

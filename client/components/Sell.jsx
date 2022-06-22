@@ -18,7 +18,7 @@ const Sell = ({ products }) => {
           <span className="shadow-2xl block text-white bg-primary text-lg font-bold py-2 px-6 rounded-sm">
             LAPTOP
           </span>
-          <ul className="flex items-center">
+          <ul className="list-none flex items-center">
             <li className="sellItem">
               Laptop brand
             </li>

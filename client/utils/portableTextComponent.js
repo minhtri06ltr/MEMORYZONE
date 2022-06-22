@@ -33,11 +33,11 @@ export const components = {
             }`}
           >
             <div
-              style={{
-                width: "30%",
-                padding: "1rem",
-              }}
-              className={`max-w-[30%]  p-4 ${
+              // style={{
+              //   width: "30%",
+              //   padding: "1rem",
+              // }}
+              className={`w-[30%]  p-4 ${
                 props.value.reverse
                   ? "border-l"
                   : "border-r"
@@ -54,10 +54,11 @@ export const components = {
               </div>
             </div>
             <div
-              style={{
-                width: "70%",
-                padding: "1rem",
-              }}
+              // style={{
+              //   width: "70%",
+              //   padding: "1rem",
+              // }}
+              className="w-[70%] p-4"
             >
               <span className="text-2xl font-semibold mb-4 block">
                 {props.value.title}

@@ -11,16 +11,11 @@ import {
 } from "../components/Icon";
 
 export default {
-  name: "productDetail",
-  title: "Product Detail",
+  name: "specification",
+  title: "Specification",
   type: "object",
 
   fields: [
-    {
-      name: "image",
-      title: "Image",
-      type: "image",
-    },
     {
       name: "title",
       title: "Title",
@@ -105,12 +100,6 @@ export default {
           },
         },
       ],
-    },
-    {
-      name: "reverse",
-      title: "Reverse",
-      type: "boolean",
-      initialValue: false,
     },
   ],
 };

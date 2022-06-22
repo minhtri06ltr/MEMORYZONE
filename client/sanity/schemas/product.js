@@ -1,28 +1,19 @@
 import Webcam from "part:sanity-plugin-asset-source-webcam/image-asset-source";
-import { CheckCircleIcon } from "@heroicons/react/solid";
-import React from "react";
 
-const centerBlock = (props) => {
-  return (
-    <div style={{ textAlign: "center" }}>
-      {props.children}
-    </div>
-  );
-};
-const leftBlock = (props) => {
-  return (
-    <div style={{ textAlign: "left" }}>
-      {props.children}
-    </div>
-  );
-};
-const rightBlock = (props) => {
-  return (
-    <div style={{ textAlign: "right" }}>
-      {props.children}
-    </div>
-  );
-};
+import {
+  rightBlock,
+  centerBlock,
+  leftBlock,
+  colorBlock,
+  checkBlock,
+} from "../components/Block";
+import {
+  centerTextIcon,
+  leftTextIcon,
+  checkIcon,
+  rightTextIcon,
+} from "../components/Icon";
+
 export default {
   name: "product",
   title: "Product",
@@ -138,28 +129,8 @@ export default {
                 title: "Check Mark",
                 value: "checkMark",
                 blockEditor: {
-                  icon: () => (
-                    <CheckCircleIcon
-                      color="#008744"
-                      height={22}
-                      width={22}
-                    />
-                  ),
-                  render: ({ children }) => {
-                    return (
-                      <span>
-                        <CheckCircleIcon
-                          color="#008744"
-                          height={22}
-                          style={{
-                            marginRight: "0.5rem",
-                          }}
-                          width={22}
-                        />
-                        {children}
-                      </span>
-                    );
-                  },
+                  icon: checkIcon,
+                  render: checkBlock,
                 },
               },
             ],
@@ -170,18 +141,7 @@ export default {
                 type: "color",
                 blockEditor: {
                   icon: () => "🎨",
-                  render: (props) => {
-                    return (
-                      <span
-                        style={{
-                          textDecoration: "none",
-                          color: props.hex,
-                        }}
-                      >
-                        {props.children}
-                      </span>
-                    );
-                  },
+                  render: colorBlock,
                 },
               },
               {
@@ -233,11 +193,7 @@ export default {
                 title: "Center text",
                 value: "centerText",
                 blockEditor: {
-                  icon: () => (
-                    <div>
-                      <img src="https://img.icons8.com/stickers/18/000000/align-center.png" />
-                    </div>
-                  ),
+                  icon: centerTextIcon,
                   render: centerBlock,
                 },
               },
@@ -245,11 +201,7 @@ export default {
                 title: "Right text",
                 value: "rightText",
                 blockEditor: {
-                  icon: () => (
-                    <div>
-                      <img src="https://img.icons8.com/stickers/18/000000/align-left.png" />
-                    </div>
-                  ),
+                  icon: leftTextIcon,
                   render: rightBlock,
                 },
               },
@@ -257,11 +209,7 @@ export default {
                 title: "Left text",
                 value: "leftText",
                 blockEditor: {
-                  icon: () => (
-                    <div>
-                      <img src="https://img.icons8.com/stickers/18/000000/align-center.png" />
-                    </div>
-                  ),
+                  icon: rightTextIcon,
                   render: leftBlock,
                 },
               },
@@ -273,18 +221,7 @@ export default {
                 type: "color",
                 blockEditor: {
                   icon: () => "🎨",
-                  render: (props) => {
-                    return (
-                      <span
-                        style={{
-                          textDecoration: "none",
-                          color: props.hex,
-                        }}
-                      >
-                        {props.children}
-                      </span>
-                    );
-                  },
+                  render: colorBlock,
                 },
               },
               {
@@ -318,57 +255,17 @@ export default {
           type: "productDetail",
           icon: () => "📘",
         },
+        {
+          type: "table",
+          icon: () => "📰",
+        },
       ],
     },
     {
       name: "specificationTable",
       title: "Specification Table",
       type: "array",
-      of: [
-        {
-          type: "block",
-          marks: {
-            decorators: [
-              {
-                title: "Strong",
-                value: "strong",
-              },
-              { title: "Emphasis", value: "em" },
-              { title: "Code", value: "code" },
-              {
-                title: "Underline",
-                value: "underline",
-              },
-              {
-                title: "Strike",
-                value: "strike-through",
-              },
-            ],
-            annotations: [
-              {
-                title: "Color",
-                name: "color",
-                type: "color",
-                blockEditor: {
-                  icon: () => "🎨",
-                  render: (props) => {
-                    return (
-                      <span
-                        style={{
-                          textDecoration: "none",
-                          color: props.hex,
-                        }}
-                      >
-                        {props.children}
-                      </span>
-                    );
-                  },
-                },
-              },
-            ],
-          },
-        },
-      ],
+      of: [{ type: "specification" }],
     },
   ],
 };
