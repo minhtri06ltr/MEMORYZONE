@@ -1,5 +1,5 @@
 import { PortableText } from "@portabletext/react";
-import { components } from "../utils/portableTextComponent";
+import { productDescriptionComponents } from "../utils/portableTextComponent";
 import { useState } from "react";
 
 const ProductDescription = ({
@@ -49,7 +49,9 @@ const ProductDescription = ({
             <div className="text-[#000000] text-sm overflow-hidden h-inherit mb-10 ">
               <PortableText
                 value={description}
-                components={components}
+                components={
+                  productDescriptionComponents
+                }
               />
             </div>
             <div
@@ -90,7 +92,7 @@ const ProductDescription = ({
                               item.description
                             }
                             components={
-                              components
+                              productDescriptionComponents
                             }
                           />
                         </td>

@@ -26,6 +26,20 @@ export default {
       type: "string",
     },
     {
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "title", //auto generate unique slug base on product's name
+        maxLength: 96,
+      },
+    },
+    {
+      name: "thumbnail",
+      title: "Thumbnail",
+      type: "seoImage",
+    },
+    {
       name: "description",
       title: "Description",
       type: "array",

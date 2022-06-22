@@ -259,6 +259,10 @@ export default {
           type: "table",
           icon: () => "📰",
         },
+        {
+          type: "blockTitle",
+          icon: () => "⛳️",
+        },
       ],
     },
     {

@@ -107,6 +107,13 @@ a {
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
   }
+  .limit-4-line {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+  }
   .rating:hover ~ svg {
     color: gold;
   }

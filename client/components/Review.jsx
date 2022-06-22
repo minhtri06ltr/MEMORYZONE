@@ -55,7 +55,11 @@ const ReplyItem = ({
             </span>
             <span className="text-[#666666] text-xs italic">
               {" "}
-              • {formatDateTime(item.createTime)}
+              •{" "}
+              {formatDateTime(
+                item.createTime,
+                true,
+              )}
             </span>
           </div>
         </div>
@@ -107,6 +111,8 @@ const Review = ({
   ratingList,
 }) => {
   const [rating, setRating] = useState(0);
+  const [reviewSuccess, setReviewSuccess] =
+    useState(false);
   const [replyForm, setReplyForm] = useState({
     comment: "",
     fullName: "",
@@ -222,10 +228,7 @@ const Review = ({
           phoneNumber: "",
           images: [],
         });
-
-        alert(
-          "Thanks for your review, please wait for an admin to approve this review",
-        );
+        setReviewSuccess(true);
       })
       .catch((error) => {
         alert(error.message);
@@ -545,13 +548,15 @@ const Review = ({
             </div>
           </form>
         )}
-        <div className="mt-3 bg-[#dff0d8] border border-[#d6e9c6] rounded-md px-6 py-3">
-          <span className="text-sm text-[#3c763d]">
-            You have successfully posted a
-            comment. We will post your comment
-            once it is moderated.
-          </span>
-        </div>
+        {reviewSuccess && (
+          <div className="mt-3 bg-[#dff0d8] border border-[#d6e9c6] rounded-md px-6 py-3">
+            <span className="text-sm text-[#3c763d]">
+              You have successfully posted a
+              review. We will post your review
+              once it is moderated.
+            </span>
+          </div>
+        )}
         <span className="text-sm text-text my-3 block">
           Choose to see a review
         </span>
@@ -656,6 +661,7 @@ const Review = ({
                     •{" "}
                     {formatDateTime(
                       item.createTime,
+                      true,
                     )}
                   </span>
                 </div>

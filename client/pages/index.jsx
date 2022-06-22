@@ -4,11 +4,10 @@ import {
   Sell,
   Banner,
 } from "../components";
-import { Ads, Interest } from '../components';
+import { Ads, Interest } from "../components";
 import Image from "next/image";
 
 const Home = ({ products }) => {
-
   return (
     <Layout
       title="Memoryzone | Home"
@@ -165,10 +164,10 @@ export default Home;
 
 export const getStaticProps = async () => {
   try {
-    const queryAllProduct =
-      '*[_type=="product" &&  !(_id in path("drafts.**")) ]';
     const products = await client.fetch(
-      queryAllProduct,
+      `  *[_type=="product"]{
+        slug,image[0],name,price
+      }`,
     );
 
     return {

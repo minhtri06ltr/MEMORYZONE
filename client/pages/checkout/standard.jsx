@@ -1,8 +1,17 @@
 import Image from "next/image";
-import { Layout, PaypalButton } from "../../components";
+import {
+  Layout,
+  PaypalButton,
+} from "../../components";
 import Link from "next/link";
-import { UserCircleIcon, ChevronLeftIcon } from "@heroicons/react/solid";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  UserCircleIcon,
+  ChevronLeftIcon,
+} from "@heroicons/react/solid";
+import {
+  useDispatch,
+  useSelector,
+} from "react-redux";
 import { urlFor } from "../../lib/client";
 import { numberWithCommas } from "../../utils/format";
 import { useEffect, useState } from "react";
@@ -10,37 +19,41 @@ import { postData } from "../../utils/requestMethod";
 import { LogoutIcon } from "@heroicons/react/outline";
 import { logout } from "../../redux/accountSlice";
 
-
 const standard = ({ provinceList }) => {
   const cart = useSelector((state) => state.cart);
   const [allow, setAllow] = useState(true);
-  const user = useSelector((state) => state.account.user);
+  const user = useSelector(
+    (state) => state.account.user,
+  );
   const [info, setInfo] = useState(false);
   const [button, setButton] = useState("");
   const dispatch = useDispatch();
 
-  const [districtList, setDistrictList] = useState([]);
+  const [districtList, setDistrictList] =
+    useState([]);
   const [wardList, setWardList] = useState([]);
-  const [checkoutForm, setCheckoutForm] = useState({
-    province: "",
-    district: "",
-    ward: "",
-    email: "",
-    fullName: "",
-    address: "",
-    phoneNumber: "",
-    paymentMethod: 0,
-  });
+  const [checkoutForm, setCheckoutForm] =
+    useState({
+      province: "",
+      district: "",
+      ward: "",
+      email: "",
+      fullName: "",
+      address: "",
+      phoneNumber: "",
+      paymentMethod: 0,
+    });
 
   useEffect(() => {
     try {
       const getDistrict = async () => {
         const res = await fetch(
-          `https://vapi.vnappmob.com/api/province/district/${checkoutForm.province.split("|")[0]
+          `https://vapi.vnappmob.com/api/province/district/${
+            checkoutForm.province.split("|")[0]
           }`,
           {
             method: "GET",
-          }
+          },
         );
         const formatRes = await res.json();
         setDistrictList(formatRes.results);
@@ -62,11 +75,12 @@ const standard = ({ provinceList }) => {
     try {
       const getWard = async () => {
         const res = await fetch(
-          `https://vapi.vnappmob.com/api/province/ward/${checkoutForm.district.split("|")[0]
+          `https://vapi.vnappmob.com/api/province/ward/${
+            checkoutForm.district.split("|")[0]
           }`,
           {
             method: "GET",
-          }
+          },
         );
         const formatRes = await res.json();
 
@@ -132,12 +146,7 @@ const standard = ({ provinceList }) => {
       }
     }
   };
-  useEffect(() => {
-    console.log('redux cart', cart);
-    if (cart.quantity === 0) {
-      router.push('/cart')
-    }
-  }, [cart.quantity])
+
   return (
     <Layout
       removeLayout={true}
@@ -147,7 +156,8 @@ const standard = ({ provinceList }) => {
       {cart.quantity === 0 ? (
         <Link href="/">
           <span className="mt-12 cursor-pointer hover:text-primary block text-center text-text text-md ">
-            You don't have any product in cart yet! Please choose at least one
+            You don't have any product in cart
+            yet! Please choose at least one
             product at shop
           </span>
         </Link>
@@ -178,8 +188,11 @@ const standard = ({ provinceList }) => {
                       {allow ? (
                         <Link
                           href={{
-                            pathname: "/account/login",
-                            query: { return: "checkout" },
+                            pathname:
+                              "/account/login",
+                            query: {
+                              return: "checkout",
+                            },
                           }}
                         >
                           <div className="flex cursor-pointer items-center">
@@ -198,7 +211,10 @@ const standard = ({ provinceList }) => {
                           onClick={() => {
                             dispatch(logout());
                             setAllow(true);
-                            localStorage.setItem("isLogin", false);
+                            localStorage.setItem(
+                              "isLogin",
+                              false,
+                            );
                           }}
                           className="flex cursor-pointer items-center"
                         >
@@ -220,39 +236,55 @@ const standard = ({ provinceList }) => {
                     className="flex flex-col space-y-3 "
                   >
                     <input
-                      onChange={checkoutFormHandle}
+                      onChange={
+                        checkoutFormHandle
+                      }
                       name="email"
                       required
                       type="email"
                       value={checkoutForm.email}
                       placeholder="Email"
                       disabled={!allow && true}
-                      className={`checkoutInput ${!allow && "cursor-not-allowed bg-[#eee]"
-                        }`}
+                      className={`checkoutInput ${
+                        !allow &&
+                        "cursor-not-allowed bg-[#eee]"
+                      }`}
                     />
                     <input
                       required
                       type="text"
-                      onChange={checkoutFormHandle}
+                      onChange={
+                        checkoutFormHandle
+                      }
                       name="fullName"
                       placeholder="Full Name"
-                      value={checkoutForm.fullName}
+                      value={
+                        checkoutForm.fullName
+                      }
                       disabled={!allow && true}
-                      className={`checkoutInput ${!allow && "cursor-not-allowed bg-[#eee]"
-                        }`}
+                      className={`checkoutInput ${
+                        !allow &&
+                        "cursor-not-allowed bg-[#eee]"
+                      }`}
                     />
                     <input
                       type="tel"
-                      onChange={checkoutFormHandle}
+                      onChange={
+                        checkoutFormHandle
+                      }
                       name="phoneNumber"
                       placeholder="Phone Number"
                       className="checkoutInput"
                       pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
-                      value={checkoutForm.phoneNumber}
+                      value={
+                        checkoutForm.phoneNumber
+                      }
                       required
                     />
                     <input
-                      onChange={checkoutFormHandle}
+                      onChange={
+                        checkoutFormHandle
+                      }
                       name="address"
                       type="text"
                       required
@@ -269,30 +301,42 @@ const standard = ({ provinceList }) => {
                       </label>
                       <select
                         required
-                        value={checkoutForm.province}
+                        value={
+                          checkoutForm.province
+                        }
                         name="province"
                         id="province"
                         className="checkoutSelect required"
-                        onChange={checkoutFormHandle}
+                        onChange={
+                          checkoutFormHandle
+                        }
                       >
-                        {checkoutForm.province === "" && (
-                          <option value="" disabled>
+                        {checkoutForm.province ===
+                          "" && (
+                          <option
+                            value=""
+                            disabled
+                          >
                             ---
                           </option>
                         )}
-                        {provinceList.results.map((item, index) => (
-                          <option
-                            key={index}
-                            value={`${item.province_id} | ${item.province_name}`}
-                          >
-                            {item.province_name}
-                          </option>
-                        ))}
+                        {provinceList.results.map(
+                          (item, index) => (
+                            <option
+                              key={index}
+                              value={`${item.province_id} | ${item.province_name}`}
+                            >
+                              {item.province_name}
+                            </option>
+                          ),
+                        )}
                       </select>
                     </div>
                     <div
-                      className={`checkoutInput checkoutSelectWrapper ${checkoutForm.district === "" && "bg-[#eee]"
-                        }`}
+                      className={`checkoutInput checkoutSelectWrapper ${
+                        checkoutForm.district ===
+                          "" && "bg-[#eee]"
+                      }`}
                     >
                       <label
                         htmlFor="district"
@@ -301,46 +345,64 @@ const standard = ({ provinceList }) => {
                         District
                       </label>
                       <select
-                        value={checkoutForm.district}
-                        disabled={checkoutForm.province === "" && true}
+                        value={
+                          checkoutForm.district
+                        }
+                        disabled={
+                          checkoutForm.province ===
+                            "" && true
+                        }
                         className="checkoutSelect  bg-inherit required"
                         name="district"
                         id="district"
-                        onChange={checkoutFormHandle}
+                        onChange={
+                          checkoutFormHandle
+                        }
                       >
-                        {districtList.map((item, index) => (
-                          <option
-                            key={index}
-                            value={`${item.district_id} | ${item.district_name}`}
-                          >
-                            {item.district_name}
-                          </option>
-                        ))}
+                        {districtList.map(
+                          (item, index) => (
+                            <option
+                              key={index}
+                              value={`${item.district_id} | ${item.district_name}`}
+                            >
+                              {item.district_name}
+                            </option>
+                          ),
+                        )}
                       </select>
                     </div>
                     <div
-                      className={`checkoutInput  checkoutSelectWrapper ${checkoutForm.district === "" && "bg-[#eee]"
-                        }`}
+                      className={`checkoutInput  checkoutSelectWrapper ${
+                        checkoutForm.district ===
+                          "" && "bg-[#eee]"
+                      }`}
                     >
                       <label className="absolute z-10 text-xs top-1 text-[#999999]">
                         Wards
                       </label>
                       <select
                         value={checkoutForm.ward}
-                        disabled={checkoutForm.district === "" && true}
+                        disabled={
+                          checkoutForm.district ===
+                            "" && true
+                        }
                         className="checkoutSelect bg-inherit"
                         id="ward"
                         name="ward"
-                        onChange={checkoutFormHandle}
+                        onChange={
+                          checkoutFormHandle
+                        }
                       >
-                        {wardList.map((item, index) => (
-                          <option
-                            key={index}
-                            value={`${item.ward_id} | ${item.ward_name}`}
-                          >
-                            {item.ward_name}
-                          </option>
-                        ))}
+                        {wardList.map(
+                          (item, index) => (
+                            <option
+                              key={index}
+                              value={`${item.ward_id} | ${item.ward_name}`}
+                            >
+                              {item.ward_name}
+                            </option>
+                          ),
+                        )}
                       </select>
                     </div>
                     <textarea
@@ -356,7 +418,8 @@ const standard = ({ provinceList }) => {
                   </span>
                   <div className="bg-[#d1ecf1] h-[44px] px-6 py-2 rounded-md">
                     <span className="text-sm text-primary">
-                      Please enter shipping information
+                      Please enter shipping
+                      information
                     </span>
                   </div>
                   <div>
@@ -366,9 +429,13 @@ const standard = ({ provinceList }) => {
                     <div className="rounded-md border bg-white border-[#cecdcd] divide-y divide-[#cecdcd]">
                       <div className="checkoutInfo">
                         <div className="space-x-3 flex items-center">
-                          <input type="radio" className=" block" />
+                          <input
+                            type="radio"
+                            className=" block"
+                          />
                           <span className="text-sm text-[#545454]">
-                            Bank Transfer (VietQR) (Free of charge)
+                            Bank Transfer (VietQR)
+                            (Free of charge)
                           </span>
                         </div>
                         <Image
@@ -380,9 +447,13 @@ const standard = ({ provinceList }) => {
                       </div>
                       <div className="checkoutInfo">
                         <div className="space-x-3 flex items-center">
-                          <input type="radio" className=" block " />
+                          <input
+                            type="radio"
+                            className=" block "
+                          />
                           <span className="text-sm text-[#545454]">
-                            Payment on Delivery (COD)
+                            Payment on Delivery
+                            (COD)
                           </span>
                         </div>
                         <Image
@@ -394,10 +465,16 @@ const standard = ({ provinceList }) => {
                       </div>
                       <div className="checkoutInfo">
                         <div className="space-x-3 flex items-center">
-                          <input type="radio" className=" block " />
+                          <input
+                            type="radio"
+                            className=" block "
+                          />
                           <span className="text-sm text-[#545454]">
-                            0% interest installment payment via Visa, Master,
-                            JCB cards (Order from 150 $)
+                            0% interest
+                            installment payment
+                            via Visa, Master, JCB
+                            cards (Order from 150
+                            $)
                           </span>
                         </div>
                         <Image
@@ -410,10 +487,14 @@ const standard = ({ provinceList }) => {
                       </div>
                       <div className="checkoutInfo">
                         <div className="space-x-3 flex items-center">
-                          <input type="radio" className=" block " />
+                          <input
+                            type="radio"
+                            className=" block "
+                          />
                           <span className="text-sm text-[#545454]">
-                            Online payment via Visa, Master, JCB cards (Free
-                            payment)
+                            Online payment via
+                            Visa, Master, JCB
+                            cards (Free payment)
                           </span>
                         </div>
                         <Image
@@ -434,16 +515,22 @@ const standard = ({ provinceList }) => {
                 </span>
                 <div className="text-right pb-6">
                   <span className="text-primary text-sm font-semibold block">
-                    Please keep an eye on your email to receive updates on your
-                    order, including the shipping unit and the waybill number.
+                    Please keep an eye on your
+                    email to receive updates on
+                    your order, including the
+                    shipping unit and the waybill
+                    number.
                   </span>
                   <span className="text-sm block">
-                    Due to the impact of the Covid-19 epidemic, some areas may
-                    receive goods later than expected. Thank you for your
+                    Due to the impact of the
+                    Covid-19 epidemic, some areas
+                    may receive goods later than
+                    expected. Thank you for your
                     understanding!
                   </span>
                   <span className="text-sm block">
-                    ** You can choose to pay in advance via bank transfer for
+                    ** You can choose to pay in
+                    advance via bank transfer for
                     contactless delivery.
                   </span>
                 </div>
@@ -453,43 +540,53 @@ const standard = ({ provinceList }) => {
           <div className="bg-[#fafafa] border-l border-[#e1e1e1]  flex-1">
             <div className="px-6 py-4 border-b border-[#e1e1e1]">
               <span className="font-semibold text-[#000000] text-lg">
-                {`Order (${cart.quantity} ${cart.quantity > 1 ? "products" : "product"
-                  })`}
+                {`Order (${cart.quantity} ${
+                  cart.quantity > 1
+                    ? "products"
+                    : "product"
+                })`}
               </span>
             </div>
             <div className=" px-6 ">
               <div className="max-h-[calc(100vh-480px)] border-b scroll-smooth border-[#e1e1e1] overflow-y-auto py-4 ">
                 <table>
                   <tbody>
-                    {cart.products.map((item, index) => (
-                      <tr key={index} className="flex items-center">
-                        <td>
-                          <div className="relative">
-                            <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md bg-white border border-[#e5e5e5]">
-                              <Image
-                                src={urlFor(item.img).url()}
-                                layout="fill"
-                                quality={100}
-                                atl={`Memoryzone checkout products: ${item.name}`}
-                              />
+                    {cart.products.map(
+                      (item, index) => (
+                        <tr
+                          key={index}
+                          className="flex items-center"
+                        >
+                          <td>
+                            <div className="relative">
+                              <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md bg-white border border-[#e5e5e5]">
+                                <Image
+                                  src={urlFor(
+                                    item.img,
+                                  ).url()}
+                                  layout="fill"
+                                  quality={100}
+                                  atl={`Memoryzone checkout products: ${item.name}`}
+                                />
+                              </div>
+                              <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
+                                {item.quantity}
+                              </span>
                             </div>
-                            <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
-                              {item.quantity}
+                          </td>
+                          <td>
+                            <span className="text-[#333333] text-sm text-left flex-1 block pl-4">
+                              {item.name}
                             </span>
-                          </div>
-                        </td>
-                        <td>
-                          <span className="text-[#333333] text-sm text-left flex-1 block pl-4">
-                            {item.name}
-                          </span>
-                        </td>
-                        <td>
-                          <span className="text-[#717171] text-sm text-right flex-1 pl-4">
-                            {item.price}$
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
+                          </td>
+                          <td>
+                            <span className="text-[#717171] text-sm text-right flex-1 pl-4">
+                              {item.price}$
+                            </span>
+                          </td>
+                        </tr>
+                      ),
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -506,7 +603,10 @@ const standard = ({ provinceList }) => {
               <div className=" border-b border-[#e1e1e1] py-5 space-y-4">
                 <div className="text-[#717171] text-sm flex items-center justify-between">
                   <span>Provisional</span>
-                  <span>{numberWithCommas(cart.total)}$</span>
+                  <span>
+                    {numberWithCommas(cart.total)}
+                    $
+                  </span>
                 </div>
                 <div className="text-[#717171] text-sm flex items-center justify-between">
                   <span>Shipping price</span>
@@ -515,16 +615,22 @@ const standard = ({ provinceList }) => {
               </div>
               <div className="py-4">
                 <div className=" flex items-center justify-between">
-                  <span className="text-base text-[#717171]">Total</span>
+                  <span className="text-base text-[#717171]">
+                    Total
+                  </span>
                   <span className="text-xl text-primary">
-                    {numberWithCommas(cart.total)}$
+                    {numberWithCommas(cart.total)}
+                    $
                   </span>
                 </div>
                 <div className="space-y-3 flex items-center  justify-between">
                   <Link href="/cart">
                     <div>
                       <div className="text-primary cursor-pointer flex items-center">
-                        <ChevronLeftIcon width={20} height={20} />
+                        <ChevronLeftIcon
+                          width={20}
+                          height={20}
+                        />
                         <span className="text-sm text-inherit">
                           Back to cart
                         </span>
@@ -532,7 +638,9 @@ const standard = ({ provinceList }) => {
                     </div>
                   </Link>
                   <button
-                    onClick={() => setButton("standard")}
+                    onClick={() =>
+                      setButton("standard")
+                    }
                     type="submit"
                     form="checkout"
                     value="checkout"
@@ -546,14 +654,19 @@ const standard = ({ provinceList }) => {
                     {info ? (
                       <PaypalButton
                         total={cart.total}
-                        data={{ ...checkoutForm, products: cart.products }}
+                        data={{
+                          ...checkoutForm,
+                          products: cart.products,
+                        }}
                         dispatch={dispatch}
                       />
                     ) : (
                       <button
                         type="submit"
                         form="checkout"
-                        onClick={() => setButton("paypal")}
+                        onClick={() =>
+                          setButton("paypal")
+                        }
                         value="checkout"
                         className="rounded-md w-full text-white text-sm bg-primary py-3 px-8"
                       >
@@ -575,7 +688,9 @@ const standard = ({ provinceList }) => {
 export default standard;
 export async function getStaticProps() {
   try {
-    const resProvince = await fetch("https://vapi.vnappmob.com/api/province");
+    const resProvince = await fetch(
+      "https://vapi.vnappmob.com/api/province",
+    );
     const provinceList = await resProvince.json();
     return {
       props: {

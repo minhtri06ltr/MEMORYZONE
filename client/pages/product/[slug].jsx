@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { client, urlFor } from "../../lib/client";
-import { components } from "../../utils/portableTextComponent";
+import { productDescriptionComponents } from "../../utils/portableTextComponent";
 import { numberWithCommas } from "../../utils/format";
 import {
   ChevronLeftIcon,
@@ -257,7 +257,9 @@ const ProductDetails = ({
                       value={
                         productBySlug.specifications
                       }
-                      components={components}
+                      components={
+                        productDescriptionComponents
+                      }
                     />
                   </ul>
                 </div>
@@ -542,13 +544,12 @@ export default ProductDetails;
 
 //set path for nextjs
 export const getStaticPaths = async () => {
-  const queryAllProductSlug = `*[_type=="product"]{
+  const productSlugs = await client.fetch(
+    `*[_type=="product"]{
       slug{
         current
       }
-  }`;
-  const productSlugs = await client.fetch(
-    queryAllProductSlug,
+  }`,
   );
 
   return {
@@ -566,7 +567,6 @@ export const getStaticProps = async ({
   params: { slug },
 }) => {
   //get product data by slug param
-
   try {
     const productBySlug = await client.fetch(
       `*[_type=="product" && slug.current==$slug][0]{

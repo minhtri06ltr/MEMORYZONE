@@ -123,7 +123,6 @@ const account = () => {
                       <td className="itemOrderTable ">
                         {formatDateTime(
                           item.orderAt,
-                          true,
                         )}
                       </td>
                       <td className="itemOrderTable ">

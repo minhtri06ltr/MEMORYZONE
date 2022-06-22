@@ -16,3 +16,4 @@ export { default as Footer } from "./Footer";
 export { default as Ads } from "./Ads";
 export { default as Interest } from "./Interest";
 export { default as ProductDescription } from "./ProductDescription";
+export { default as NewComment } from "./NewComment";

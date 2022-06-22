@@ -51,13 +51,12 @@ const Sell = ({ products }) => {
       <section>
         <div className="flex mt-10">
           <div className="w-3/4 grid gap-x-4 h-auto gap-y-6 grid-cols-4">
-            {products?.map((product) => (
+            {products?.map((product, index) => (
               <ProductCard
-                key={product._id}
+                key={index}
                 name={product.name}
-                details={product.details}
                 price={product.price}
-                img={product.image[0]}
+                img={product.image}
                 slug={product.slug.current}
               />
             ))}
