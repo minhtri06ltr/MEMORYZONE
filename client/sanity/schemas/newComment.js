@@ -25,8 +25,14 @@ export default {
       type: "string",
     },
     {
-      name: "createTime",
-      title: "Create Time",
+      name: "isApprove",
+      title: "Approve",
+      type: "boolean",
+      initialValue: false,
+    },
+    {
+      name: "createdTime",
+      title: "Created Time",
       type: "datetime",
     },
   ],

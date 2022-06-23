@@ -10,9 +10,26 @@ import { NewComment } from "../../components";
 import { client } from "../../lib/client";
 import { PortableText } from "@portabletext/react";
 import { newDescriptionComponents } from "../../utils/portableTextComponent";
+import { useState } from "react";
 
 const NewsDetail = ({ newBySlug }) => {
-  console.log(newBySlug);
+  const [commentSuccess, setCommentSuccess] =
+    useState(false);
+  const [commentForm, setCommentForm] = useState({
+    fullName: "",
+    email: "",
+    phoneNumber: "",
+    comment: "",
+  });
+  const commentFormHandle = (e) => {
+    setCommentForm({
+      ...commentForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const commentHandle = (e) => {
+    e.preventDefault();
+  };
   return (
     <Layout
       title="Memoryzone | News"
@@ -63,7 +80,7 @@ const NewsDetail = ({ newBySlug }) => {
               Posted by {newBySlug.author}
             </span>
           </div>
-          <div>
+          <div className="text-text text-sm">
             <PortableText
               value={newBySlug.description}
               components={
@@ -78,28 +95,41 @@ const NewsDetail = ({ newBySlug }) => {
             <span className="block font-semibold text-lg text-[#323c3f] mb-4">
               Comment:
             </span>
-            <NewComment />
-            <NewComment />
+            {newBySlug.comments.map(
+              (item, index) => (
+                <NewComment
+                  key={index}
+                  data={item}
+                />
+              ),
+            )}
           </div>
-          <div className="bg-[#dff0d8] border border-[#d6e9c6] rounded-md px-6 py-3">
-            <span className="text-sm text-[#3c763d]">
-              You have successfully posted a
-              review. We will post your review
-              once it is moderated.
-            </span>
-          </div>
+          {commentSuccess && (
+            <div className="bg-[#dff0d8] border border-[#d6e9c6] rounded-md px-6 py-3">
+              <span className="text-sm text-[#3c763d]">
+                You have successfully posted a
+                review. We will post your review
+                once it is moderated.
+              </span>
+            </div>
+          )}
           <div>
             <span className="block font-semibold text-lg text-[#323c3f] my-10">
               Write comment:
             </span>
             <div>
-              <form className="space-y-6">
+              <form
+                onSubmit={commentHandle}
+                className="space-y-6"
+              >
                 <div className="flex items-center space-x-8 ">
                   <div className="flex-1">
                     <input
                       className="px-4 text-text py-2 w-full outline-none rounded-sm border-[#e5e5e5] border text-sm"
                       type="text"
                       placeholder="Full Name"
+                      name="fullName"
+                      onChange={commentFormHandle}
                     />
                   </div>
                   <div className="flex-1">
@@ -107,6 +137,8 @@ const NewsDetail = ({ newBySlug }) => {
                       className="px-4 text-text py-2 w-full outline-none rounded-sm border-[#e5e5e5] border text-sm"
                       type="email"
                       placeholder="Email"
+                      name="email"
+                      onChange={commentFormHandle}
                     />
                   </div>
                   <div className="flex-1">
@@ -114,16 +146,23 @@ const NewsDetail = ({ newBySlug }) => {
                       className="text-text px-4 py-2 w-full outline-none rounded-sm border-[#e5e5e5] border text-sm"
                       type="tel"
                       placeholder="Phone Number"
+                      name="phoneNumber"
+                      onChange={commentFormHandle}
                     />
                   </div>
                 </div>
                 <div>
                   <textarea
+                    name="comment"
+                    onChange={commentFormHandle}
                     className="px-4 py-2 text-text h-[148px] outline-none w-full rounded-sm border-[#e5e5e5] border text-sm"
                     placeholder="Write comment"
                   ></textarea>
                 </div>
-                <button className="rounded-sm  hover:bg-white hover:text-primary transition ease-linear text-white text-sm bg-primary  border border-primary  py-2 px-6">
+                <button
+                  type="submit"
+                  className="rounded-sm  hover:bg-white hover:text-primary transition ease-linear text-white text-sm bg-primary  border border-primary  py-2 px-6"
+                >
                   Submit comment
                 </button>
               </form>
@@ -202,7 +241,7 @@ export const getStaticProps = async ({
   try {
     const newBySlug = await client.fetch(
       `*[_type=="new" && slug.current==$slug][0]{
-        description,title,author,_createdAt
+        description,title,author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
       }`,
       { slug },
     );

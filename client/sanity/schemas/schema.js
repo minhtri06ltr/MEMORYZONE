@@ -7,9 +7,7 @@ import product from "./product";
 import user from "./user";
 import review from "./review";
 import order from "./order";
-
 import shippingAddress from "./shippingAddress";
-
 import reply from "./reply";
 import orderItem from "./orderItem";
 import seoImage from "./seoImage";
@@ -19,6 +17,7 @@ import specification from "./specification";
 import _new from "./new";
 import blockTitle from "./blockTitle";
 import newComment from "./newComment";
+import content from "./content";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -42,5 +41,6 @@ export default createSchema({
     _new,
     blockTitle,
     newComment,
+    content,
   ]),
 });

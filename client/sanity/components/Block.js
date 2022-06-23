@@ -34,9 +34,10 @@ export const colorBlock = (props) => {
     </span>
   );
 };
-export const checkBlock = ({ children }) => {
+export const checkBlock = (props) => {
+  console.log(props);
   return (
-    <span>
+    <>
       <CheckCircleIcon
         color="#008744"
         height={22}
@@ -45,7 +46,15 @@ export const checkBlock = ({ children }) => {
         }}
         width={22}
       />
-      {children}
+      {props.children}
+    </>
+  );
+};
+
+export const linkBlock = (props) => {
+  return (
+    <span style={{ color: props.linkColor }}>
+      {props.children}
     </span>
   );
 };

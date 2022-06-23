@@ -1,9 +1,5 @@
 import bcrypt from "bcryptjs";
-import {
-  createAccessToken,
-  createActiveToken,
-  createRefreshToken,
-} from "../../../utils/generateToken";
+import { createActiveToken } from "../../../utils/generateToken";
 import { client } from "../../../lib/client";
 import { validRegister } from "../../../utils/validate";
 import { sendEmailHandle } from "../../../middlewares/mailer";
@@ -60,7 +56,7 @@ const register = async (req, res) => {
     const activeToken =
       createActiveToken(newUser);
     const url = `${process.env.NEXT_PUBLIC_CLIENT_URL}/account/activate/${activeToken}`;
-    console.log(url);
+
     await sendEmailHandle(
       email,
       url,
@@ -73,7 +69,6 @@ const register = async (req, res) => {
       message:
         "Register success! Please confirm your email to continue",
     });
-   
   } catch (error) {
     console.log(error);
     return res.status(500).json({

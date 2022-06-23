@@ -9,6 +9,7 @@ import {
   formatDateName,
   formatDateTime,
 } from "../utils/format";
+import { newSummaryComponents } from "../utils/portableTextComponent";
 
 const newsPage = ({ news }) => {
   return (
@@ -89,6 +90,9 @@ const newsPage = ({ news }) => {
                   <div className="text-sm limit-4-line text-[#707070]">
                     <PortableText
                       value={item.description}
+                      components={
+                        newSummaryComponents
+                      }
                     />
                   </div>
                 </div>

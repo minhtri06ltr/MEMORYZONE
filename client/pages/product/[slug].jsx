@@ -252,7 +252,7 @@ const ProductDetails = ({
                   </span>
                 </div>
                 <div>
-                  <ul className="my-3 space-y-1">
+                  <div className="my-3">
                     <PortableText
                       value={
                         productBySlug.specifications
@@ -261,7 +261,7 @@ const ProductDetails = ({
                         productDescriptionComponents
                       }
                     />
-                  </ul>
+                  </div>
                 </div>
                 {productBySlug.countInStock >
                   0 && (
