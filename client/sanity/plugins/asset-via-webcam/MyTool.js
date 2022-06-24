@@ -2,7 +2,6 @@ import React from "react";
 import Dialog from "part:@sanity/components/dialogs/fullscreen";
 import Button from "part:@sanity/components/buttons/default";
 import Webcam from "react-webcam";
-import styles from "./MyTool.css";
 
 const videoConstraints = {
   width: 1280,

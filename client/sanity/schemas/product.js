@@ -1,9 +1,12 @@
 import Webcam from "part:sanity-plugin-asset-source-webcam/image-asset-source";
+import { CubeIcon } from "@heroicons/react/outline";
+import { previewImgBlock } from "../components/Block";
 
 export default {
   name: "product",
   title: "Product",
   type: "document",
+  icon: CubeIcon,
   initialValue: {
     price: 0,
     countInStock: 0,
@@ -104,4 +107,21 @@ export default {
       of: [{ type: "specification" }],
     },
   ],
+  preview: {
+    select: {
+      title: "name",
+      subtitle: "slug.current",
+      media: "image",
+    },
+    prepare(selection) {
+      const { title, subtitle, media } =
+        selection;
+
+      return {
+        title: title,
+        subtitle: subtitle,
+        media: previewImgBlock(media[0]),
+      };
+    },
+  },
 };

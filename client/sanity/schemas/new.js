@@ -1,22 +1,11 @@
-import {
-  rightBlock,
-  centerBlock,
-  leftBlock,
-  colorBlock,
-  linkBlock,
-  checkBlock,
-} from "../components/Block";
-import {
-  centerTextIcon,
-  leftTextIcon,
-  checkIcon,
-  rightTextIcon,
-} from "../components/Icon";
+import { NewspaperIcon } from "@heroicons/react/outline";
+import { previewImgBlock } from "../components/Block";
 
 export default {
   name: "new",
   title: "New",
   type: "document",
+  icon: NewspaperIcon,
   fields: [
     {
       name: "author",
@@ -58,4 +47,18 @@ export default {
       ],
     },
   ],
+  preview: {
+    select: {
+      media: "thumbnail.image",
+      title: "title",
+      subtitle: "slug.current",
+    },
+    prepare: (selection) => {
+      return {
+        title: selection.title,
+        subtitle: selection.subtitle,
+        media: previewImgBlock(selection.media),
+      };
+    },
+  },
 };

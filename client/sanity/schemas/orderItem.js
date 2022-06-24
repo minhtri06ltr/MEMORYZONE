@@ -1,8 +1,10 @@
+import { CubeIcon } from "@heroicons/react/outline";
+
 export default {
   name: "orderItem",
   title: "Order Item",
   type: "object",
-
+  icon: CubeIcon,
   fields: [
     {
       name: "productName",

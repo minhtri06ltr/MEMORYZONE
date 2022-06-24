@@ -18,6 +18,7 @@ import _new from "./new";
 import blockTitle from "./blockTitle";
 import newComment from "./newComment";
 import content from "./content";
+import banner from "./banner";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -42,5 +43,6 @@ export default createSchema({
     blockTitle,
     newComment,
     content,
+    banner,
   ]),
 });

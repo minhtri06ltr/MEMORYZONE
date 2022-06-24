@@ -1,7 +1,11 @@
+import { UserIcon } from "@heroicons/react/outline";
+import React from "react";
+
 export default {
   name: "user",
   title: "User",
   type: "document",
+  icon: UserIcon,
   initialValue: {
     isAdmin: false,
   },
@@ -32,4 +36,28 @@ export default {
       type: "boolean",
     },
   ],
+  preview: {
+    select: {
+      firstName: "firstName",
+      lastName: "lastName",
+      subtitle: "email",
+    },
+    prepare: (selection) => {
+      return {
+        title: `${selection.firstName} ${selection.lastName}`,
+        subtitle: selection.subtitle,
+        media: (
+          <img
+            src={`https://api.multiavatar.com/${
+              selection.firstName +
+              selection.lastName
+            }.png?apikey=${
+              process.env
+                .SANITY_STUDIO_MULTIAVATAR_API_KEY
+            }`}
+          />
+        ),
+      };
+    },
+  },
 };

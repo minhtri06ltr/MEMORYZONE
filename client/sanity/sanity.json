@@ -16,19 +16,27 @@
     "@sanity/color-input",
     "dark-mode",
     "color-list",
-    "table"
+    "table",
+    "media",
+    "asset-source-unsplash"
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [
     {
       "name": "part:@sanity/base/schema",
       "path": "./schemas/schema"
+    },
+    {
+      "implements": "part:@sanity/form-builder/input/image/asset-sources",
+      "path": "./parts/assetSources.js"
+    },
+    {
+      "implements": "part:@sanity/form-builder/input/file/asset-sources",
+      "path": "./parts/assetSources.js"
     }
   ]
 }

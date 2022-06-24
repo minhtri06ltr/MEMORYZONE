@@ -1,7 +1,10 @@
+import { ClipboardListIcon } from "@heroicons/react/outline";
+
 export default {
   name: "order",
   title: "Order",
   type: "document",
+  icon: ClipboardListIcon,
   fields: [
     {
       name: "guestName",
@@ -41,7 +44,10 @@ export default {
       options: {
         list: [
           { title: "Paypal", value: "paypal" },
-          { title: "Standard", value: "standard" },
+          {
+            title: "Standard",
+            value: "standard",
+          },
         ],
 
         layout: "radio",
@@ -53,11 +59,26 @@ export default {
       type: "string",
       options: {
         list: [
-          { title: "Wait for confirm", value: "Wait for confirm" },
-          { title: "Confirmed", value: "Confirmed" },
-          { title: "Wait for pickup", value: "Wait for pickup" },
-          { title: "Delivering", value: "Delivering" },
-          { title: "Successful delivery", value: "Successful delivery" },
+          {
+            title: "Wait for confirm",
+            value: "Wait for confirm",
+          },
+          {
+            title: "Confirmed",
+            value: "Confirmed",
+          },
+          {
+            title: "Wait for pickup",
+            value: "Wait for pickup",
+          },
+          {
+            title: "Delivering",
+            value: "Delivering",
+          },
+          {
+            title: "Successful delivery",
+            value: "Successful delivery",
+          },
         ],
         layout: "radio",
       },
@@ -111,4 +132,28 @@ export default {
       },
     },
   ],
+  preview: {
+    select: {
+      userEmail: "user.email",
+      guestEmail: "guestEmail",
+      userFirstName: "user.firstName",
+      userLastName: "user.lastName",
+      guestName: "guestName",
+    },
+    prepare: (selection) => {
+      console.log(selection);
+      return {
+        title:
+          selection.guestName === undefined
+            ? `${selection.userFirstName} ${selection.userLastName}`
+            : selection.guestName,
+
+        subtitle:
+          selection.guestEmail === undefined
+            ? selection.userEmail
+            : selection.guestEmail,
+        media: ClipboardListIcon,
+      };
+    },
+  },
 };
