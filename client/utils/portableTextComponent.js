@@ -5,6 +5,7 @@ import { urlFor } from "../lib/client";
 import { PortableText } from "@portabletext/react";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import React from "react";
+import Link from "next/link";
 
 const centerBlock = ({ children }) => {
   return (
@@ -51,14 +52,91 @@ const seoImageBlock = (props) => {
   const { width, height } = getImageDimensions(
     props.value.image,
   );
+  if (props.value.url) {
+    const rel = !props.value.url?.startsWith("/")
+      ? "noreferrer noopener"
+      : undefined;
+    const appPage = props.value.url.startsWith(
+      process.env.NEXT_PUBLIC_CLIENT_URL,
+    );
+    console.log(
+      props.value.blank,
+      props.value.url,
+      appPage,
+    );
+    if (appPage && !props.value.blank) {
+      return (
+        <div className="my-6 mx-auto w-full">
+          <Link
+            href={
+              props.value.url.split(
+                process.env
+                  .NEXT_PUBLIC_CLIENT_URL,
+              )[1]
+            }
+          >
+            <a>
+              <Image
+                src={urlFor(
+                  props.value.image,
+                ).url()}
+                layout="responsive"
+                width={width}
+                height={height}
+                priority={true}
+                objectFit="contain"
+              />
+            </a>
+          </Link>
+        </div>
+      );
+    } else {
+      return props.value.blank ? (
+        <div className="my-6 mx-auto w-full">
+          <a
+            href={props.value.url}
+            target="_blank"
+            rel={rel}
+          >
+            <Image
+              src={urlFor(
+                props.value.image,
+              ).url()}
+              layout="responsive"
+              width={width}
+              height={height}
+              priority={true}
+              objectFit="contain"
+            />
+          </a>
+        </div>
+      ) : (
+        <div className="my-6 mx-auto w-full">
+          <a href={props.value.url} rel={rel}>
+            <Image
+              src={urlFor(
+                props.value.image,
+              ).url()}
+              layout="responsive"
+              width={width}
+              height={height}
+              priority={true}
+              objectFit="contain"
+            />
+          </a>
+        </div>
+      );
+    }
+  }
   return (
-    <div className="my-6 w-full flex justify-center items-center">
+    <div className="my-6 mx-auto w-full">
       <Image
         src={urlFor(props.value.image).url()}
         layout="responsive"
         width={width}
         height={height}
         priority={true}
+        objectFit="contain"
       />
     </div>
   );
@@ -251,6 +329,27 @@ export const newDescriptionComponents = {
       return <li>{props.children}</li>;
     },
     checkMark: checkMarkItemBlock,
+  },
+  block: {
+    h1: ({ children }) => (
+      <h1 className="text-3xl">{children}</h1>
+    ),
+    h3: ({ children }) => (
+      <h3 className="text-2xl">{children}</h3>
+    ),
+    h4: ({ children }) => (
+      <h4 className="text-lg">{children}</h4>
+    ),
+    h2: ({ children }) => (
+      <h2
+        style={{
+          fontSize: "28px",
+          lineHeight: "43.5px",
+        }}
+      >
+        {children}
+      </h2>
+    ),
   },
 };
 export const newSummaryComponents = {

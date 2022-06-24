@@ -1,8 +1,18 @@
 export const isNumber = (n) => {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
-export const validRegister = (firstName, lastName, email, password) => {
-  if (!firstName || !lastName || !email || !password) {
+export const validRegister = (
+  firstName,
+  lastName,
+  email,
+  password,
+) => {
+  if (
+    !firstName ||
+    !lastName ||
+    !email ||
+    !password
+  ) {
     return "Please add all fields";
   }
   if (!validateEmail(email)) {
@@ -12,9 +22,9 @@ export const validRegister = (firstName, lastName, email, password) => {
     return "Password must be at least 6 characters";
   }
 };
-const validateEmail = (email) => {
+export const validateEmail = (email) => {
   return email.match(
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   );
 };
 
@@ -25,7 +35,7 @@ export const validateOrder = (
   total,
   paymentMethod,
   orderAt,
-  products
+  products,
 ) => {
   if (
     province === "" ||

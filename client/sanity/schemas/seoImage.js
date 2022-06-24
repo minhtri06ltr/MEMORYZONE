@@ -21,12 +21,17 @@ export default {
     },
 
     {
-      name: "caption",
-      title: "Caption",
-      type: "string",
+      name: "url",
+      title: "Link URL",
+      type: "url",
       options: {
         isHighlighted: true, // <-- make this field easily accessible
       },
+    },
+    {
+      name: "blank",
+      title: "Open in new tab",
+      type: "boolean",
     },
   ],
 };

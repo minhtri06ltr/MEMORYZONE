@@ -9,6 +9,7 @@ import {
 import Cookies from "js-cookie";
 import { loginSuccess } from "../../redux/accountSlice";
 import { useRouter } from "next/router";
+import { validateEmail } from "../../utils/validate";
 
 const login = () => {
   const router = useRouter();
@@ -31,6 +32,10 @@ const login = () => {
       alert("Please fill all required fields");
       return;
     }
+    if (!validateEmail(forgotEmail)) {
+      alert("Invalid email");
+      return;
+    }
     const res = await postData(
       "account/forgotPassword",
       forgotEmail,
@@ -48,6 +53,10 @@ const login = () => {
       loginForm.password === ""
     ) {
       alert("Please fill all required fields");
+      return;
+    }
+    if (!validateEmail(loginForm.email)) {
+      alert("Invalid email");
       return;
     }
     const res = await postData(

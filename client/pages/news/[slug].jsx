@@ -11,6 +11,7 @@ import { client } from "../../lib/client";
 import { PortableText } from "@portabletext/react";
 import { newDescriptionComponents } from "../../utils/portableTextComponent";
 import { useState } from "react";
+import { validateEmail } from "../../utils/validate";
 
 const NewsDetail = ({ newBySlug }) => {
   const [commentSuccess, setCommentSuccess] =
@@ -21,14 +22,55 @@ const NewsDetail = ({ newBySlug }) => {
     phoneNumber: "",
     comment: "",
   });
+
   const commentFormHandle = (e) => {
     setCommentForm({
       ...commentForm,
       [e.target.name]: e.target.value,
     });
   };
-  const commentHandle = (e) => {
+  const commentHandle = async (e) => {
     e.preventDefault();
+    if (
+      commentForm.fullName === "" ||
+      commentForm.comment === "" ||
+      commentForm.email === "" ||
+      commentForm.phoneNumber === ""
+    ) {
+      alert("Please fill all required fields");
+      return;
+    }
+    if (!validateEmail(commentForm.email)) {
+      alert("Invalid email");
+      return;
+    }
+    await client
+      .patch(newBySlug._id)
+      .setIfMissing({ comments: [] })
+      .append("comments", [
+        {
+          _type: "newComment",
+          comment: commentForm.comment,
+          fullName: commentForm.fullName,
+          phoneNumber: commentForm.phoneNumber,
+          email: commentForm.email,
+          isApprove: false,
+          createdTime: new Date(),
+        },
+      ])
+      .commit({
+        autoGenerateArrayKeys: true,
+      })
+      .then((res) => {
+        setCommentForm({
+          comment: "",
+          fullName: "",
+          comment: "",
+          email: "",
+        });
+        setCommentSuccess(true);
+      })
+      .catch((error) => alert(error.message));
   };
   return (
     <Layout
@@ -53,9 +95,9 @@ const NewsDetail = ({ newBySlug }) => {
       />
       <div className="px-10 my-12 flex space-x-7">
         <div className="w-[75%]">
-          <span className="text-[#575454] text-3xl cursor-pointer hover:text-primary">
+          <h1 className="text-[#575454] text-3xl cursor-pointer hover:text-primary">
             {newBySlug.title}
-          </span>
+          </h1>
           <div className="text-gray text-xs flex my-6 items-center">
             <ClockIcon
               width={15}
@@ -125,6 +167,7 @@ const NewsDetail = ({ newBySlug }) => {
                 <div className="flex items-center space-x-8 ">
                   <div className="flex-1">
                     <input
+                      required
                       className="px-4 text-text py-2 w-full outline-none rounded-sm border-[#e5e5e5] border text-sm"
                       type="text"
                       placeholder="Full Name"
@@ -134,6 +177,11 @@ const NewsDetail = ({ newBySlug }) => {
                   </div>
                   <div className="flex-1">
                     <input
+                      rules={{
+                        required: true,
+                        pattern:
+                          /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                      }}
                       className="px-4 text-text py-2 w-full outline-none rounded-sm border-[#e5e5e5] border text-sm"
                       type="email"
                       placeholder="Email"
@@ -143,16 +191,19 @@ const NewsDetail = ({ newBySlug }) => {
                   </div>
                   <div className="flex-1">
                     <input
+                      required
                       className="text-text px-4 py-2 w-full outline-none rounded-sm border-[#e5e5e5] border text-sm"
                       type="tel"
                       placeholder="Phone Number"
                       name="phoneNumber"
+                      pattern="(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b"
                       onChange={commentFormHandle}
                     />
                   </div>
                 </div>
                 <div>
                   <textarea
+                    required
                     name="comment"
                     onChange={commentFormHandle}
                     className="px-4 py-2 text-text h-[148px] outline-none w-full rounded-sm border-[#e5e5e5] border text-sm"
@@ -241,7 +292,7 @@ export const getStaticProps = async ({
   try {
     const newBySlug = await client.fetch(
       `*[_type=="new" && slug.current==$slug][0]{
-        description,title,author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
+        _id,description,title,author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
       }`,
       { slug },
     );
