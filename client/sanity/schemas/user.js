@@ -35,6 +35,12 @@ export default {
       title: "Admin",
       type: "boolean",
     },
+    {
+      name: "addressList",
+      title: "Address List",
+      type: "array",
+      of: [{ type: "address" }],
+    },
   ],
   preview: {
     select: {

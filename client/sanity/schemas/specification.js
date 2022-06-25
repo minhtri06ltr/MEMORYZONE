@@ -1,11 +1,10 @@
 import { ChipIcon } from "@heroicons/react/outline";
-import React from "react";
 
 export default {
   name: "specification",
   title: "Specification",
   type: "object",
-
+  icon: ChipIcon,
   fields: [
     {
       name: "title",
@@ -25,8 +24,6 @@ export default {
     prepare: (selection) => {
       return {
         title: selection.title,
-
-        media: <ChipIcon />,
       };
     },
   },

@@ -395,40 +395,69 @@ const ProductDetails = ({
                     </span>
                   </div>
                   <div className=" space-y-2">
-                    <div className="flex space-x-2 ">
-                      <button
-                        className="flex-1 bg-primary rounded-sm py-2"
-                        onClick={() =>
-                          handleAddToCart(
-                            productBySlug,
-                          )
-                        }
-                      >
-                        <span className="block text-white font-bold leading-5">
-                          BUY NOW
-                        </span>
-                        <span className="block text-white text-sm">
-                          Free local delivery
-                        </span>
-                      </button>
-                      <button className="flex-1 bg-[#c80606] rounded-sm py-2">
-                        <span className="block text-white font-bold leading-5">
-                          INSTALLMENT
-                        </span>
-                        <span className="block text-white text-sm">
-                          Quick browsing by phone
-                        </span>
-                      </button>
-                    </div>
-                    <button className="rounded-sm bg-[#f3a20e] py-2 w-full">
-                      <span className="text-white font-bold ">
-                        0% INSTALLMENT THROUGH
-                        CARDS
-                        <br />
-                        Visa, Master, JCB (Order
-                        from 150 Dollars)
-                      </span>
-                    </button>
+                    {productBySlug.countInStock ===
+                    0 ? (
+                      <div className="flex space-x-2 ">
+                        <button
+                          disabled
+                          className="flex-1 cursor-default bg-[#57ae75] rounded-sm py-2"
+                        >
+                          <span className="block text-white font-bold leading-5">
+                            OUT OF STOCK
+                          </span>
+                        </button>
+                        <button className="flex-1 bg-text rounded-sm py-2">
+                          <span className="block text-white font-bold leading-5">
+                            CALL ORDER
+                          </span>
+                          <a href="tel:+84367907374">
+                            <span className="block text-white text-xs">
+                              Please call now (84)
+                              3679 0 7374
+                            </span>
+                          </a>
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex space-x-2 ">
+                          <button
+                            className="flex-1 bg-primary rounded-sm py-2"
+                            onClick={() =>
+                              handleAddToCart(
+                                productBySlug,
+                              )
+                            }
+                          >
+                            <span className="block text-white font-bold leading-5">
+                              BUY NOW
+                            </span>
+                            <span className="block text-white text-sm">
+                              Free local delivery
+                            </span>
+                          </button>
+                          <button className="flex-1 bg-[#c80606] rounded-sm py-2">
+                            <span className="block text-white font-bold leading-5">
+                              INSTALLMENT
+                            </span>
+                            <span className="block text-white text-sm">
+                              Quick browsing by
+                              phone
+                            </span>
+                          </button>
+                        </div>
+                        <button className="rounded-sm bg-[#f3a20e] py-2 w-full">
+                          <span className="text-white font-bold ">
+                            0% INSTALLMENT THROUGH
+                            CARDS
+                            <br />
+                            Visa, Master, JCB
+                            (Order from 150
+                            Dollars)
+                          </span>
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

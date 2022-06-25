@@ -16,10 +16,13 @@ const cartSlice = createSlice({
     },
     addToCart(state, action) {
       let newProduct = true;
-      state.total += action.payload.quantity * action.payload.price;
+      state.total +=
+        action.payload.quantity *
+        action.payload.price;
       state.products.map((item) => {
         if (item.id === action.payload.id) {
-          item.quantity += action.payload.quantity;
+          item.quantity +=
+            action.payload.quantity;
           newProduct = false;
         }
       });
@@ -49,21 +52,26 @@ const cartSlice = createSlice({
       state.total -= price;
     },
     deleteProduct(state, action) {
-      state.products = state.products.filter((item) => {
-        if (item.id === action.payload) {
-          state.total -= item.price * item.quantity;
-        }
-        return item.id !== action.payload;
-      });
+      state.products = state.products.filter(
+        (item) => {
+          if (item.id === action.payload) {
+            state.total -=
+              item.price * item.quantity;
+          }
+          return item.id !== action.payload;
+        },
+      );
       state.quantity -= 1;
     },
     onChangeQuantity(state, action) {
       let price = 0;
       state.products.map((item) => {
         if (item.id === action.payload.id) {
-          state.total -= item.quantity * item.price;
+          state.total -=
+            item.quantity * item.price;
           item.quantity = action.payload.quantity;
-          state.total += item.quantity * item.price;
+          state.total +=
+            item.quantity * item.price;
         }
       });
     },
@@ -71,7 +79,20 @@ const cartSlice = createSlice({
       state.products = [];
       state.quantity = 0;
       state.total = 0;
-      localStorage.removeItem("__memoryzone__cart");
+      localStorage.removeItem(
+        "__memoryzone__cart",
+      );
+    },
+    updateCart(state, action) {
+      state.quantity = action.payload.length;
+      state.products = action.payload;
+      if (action.payload.length > 0) {
+        let total = 0;
+        action.payload.map((item) => {
+          total += item.quantity * item.price;
+        });
+        state.total = total;
+      } else state.total = 0;
     },
   },
   extraReducers: {},
@@ -85,4 +106,5 @@ export const {
   onChangeQuantity,
   getCartItemsFromLocalStorage,
   clearCart,
+  updateCart,
 } = cartSlice.actions;

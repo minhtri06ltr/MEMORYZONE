@@ -11,7 +11,6 @@ import { clearCart } from "../redux/cartSlice";
 
 import { useRouter } from "next/router";
 import { productSold } from "../middlewares/product";
-import { validateEmail } from "../utils/validate";
 
 // This values are the props in the UI
 
@@ -135,9 +134,11 @@ const ButtonWrapper = ({
                       alert("buy success");
                     })
                     .catch((error) => {
+                      console.log(error.message);
                       alert(error.message);
                     });
                 } else {
+                  //buy with account
                   const res = await postData(
                     "order/create",
                     {
@@ -149,6 +150,7 @@ const ButtonWrapper = ({
                     token,
                   );
                   if (!res.success) {
+                    console.log(res.error);
                     alert(res.error);
                   } else {
                     dispatchProp(clearCart());
@@ -165,14 +167,7 @@ const ButtonWrapper = ({
                   }
                 }
               } catch (error) {
-                if (
-                  error.message === "jwt expired"
-                ) {
-                  alert(
-                    "Your session is expired please refresh the page or login again",
-                  );
-                  return;
-                }
+                console.log(error.message);
                 alert(error.message);
               }
             });

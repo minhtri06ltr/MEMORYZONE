@@ -58,7 +58,6 @@ export default {
       title: "Image",
       //array of image
       type: "array",
-
       of: [
         {
           type: "image",
@@ -67,6 +66,7 @@ export default {
           },
         },
       ],
+      validation: (Rule) => Rule.max(5),
     },
     {
       name: "createTime",

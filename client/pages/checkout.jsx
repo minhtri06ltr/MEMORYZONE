@@ -12,7 +12,7 @@ import {
   useDispatch,
   useSelector,
 } from "react-redux";
-import { urlFor } from "../lib/client";
+import { client, urlFor } from "../lib/client";
 import { numberWithCommas } from "../utils/format";
 import { useEffect, useState } from "react";
 
@@ -106,7 +106,48 @@ const checkout = ({ provinceList }) => {
       [e.target.name]: e.target.value,
     });
   };
-
+  const checkoutHandle = async (e) => {
+    e.preventDefault();
+    if (
+      checkoutForm.address === "" ||
+      checkoutForm.email === "" ||
+      checkoutForm.phoneNumber === "" ||
+      checkoutForm.fullName === "" ||
+      checkoutForm.province === ""
+    ) {
+      alert("Please fill all required fields");
+      return;
+    }
+    if (cart.products.length === 0) {
+      alert(
+        "Can't find any product in your order",
+      );
+      return;
+    }
+    if (!validateEmail(checkoutForm.email)) {
+      alert("Invalid email");
+      return;
+    }
+    let verifyCart = [];
+    for (let i of cart.products) {
+      let res = await client.fetch(
+        `*[_type=='product' && _id == $id][0]{countInStock}`,
+        {
+          id: i.id,
+        },
+      );
+      console.log(res);
+      if (res.countInStock - i.quantity >= 0) {
+        verifyCart.push(i);
+      } else {
+        alert(
+          `Sorry, ${i.name} is out of stock please remove it from your cart to continue`,
+        );
+        return;
+      }
+    }
+    setInfo(true);
+  };
   useEffect(() => {
     if (Object.keys(account.user).length !== 0) {
       setCheckoutForm({
@@ -203,43 +244,7 @@ const checkout = ({ provinceList }) => {
                   </div>
                   <form
                     id="checkout"
-                    onSubmit={(e) => {
-                      if (
-                        checkoutForm.address ===
-                          "" ||
-                        checkoutForm.email ===
-                          "" ||
-                        checkoutForm.phoneNumber ===
-                          "" ||
-                        checkoutForm.fullName ===
-                          "" ||
-                        checkoutForm.province ===
-                          ""
-                      ) {
-                        alert(
-                          "Please fill all required fields",
-                        );
-                        return;
-                      }
-                      if (
-                        cart.products.length === 0
-                      ) {
-                        alert(
-                          "Can't find any product in your order",
-                        );
-                        return;
-                      }
-                      if (
-                        !validateEmail(
-                          checkoutForm.email,
-                        )
-                      ) {
-                        alert("Invalid email");
-                        return;
-                      }
-                      e.preventDefault();
-                      setInfo(true);
-                    }}
+                    onSubmit={checkoutHandle}
                     className="flex flex-col space-y-3 "
                   >
                     <input

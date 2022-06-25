@@ -80,3 +80,13 @@ export const formatDateName = (datetime) => {
   );
   return days[convert.getDay()];
 };
+export const orderStatus = (number) => {
+  const array = [
+    "Wait for confirm",
+    "Confirmed",
+    "Wait for pick up",
+    "Delivering",
+    "Successful delivery",
+  ];
+  return array[number];
+};

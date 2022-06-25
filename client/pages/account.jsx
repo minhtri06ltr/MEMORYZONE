@@ -14,7 +14,7 @@ import { getData } from "../utils/requestMethod";
 import { useState } from "react";
 import {
   formatDateTime,
-  formatProcess,
+  orderStatus,
 } from "../utils/format";
 
 const account = () => {
@@ -153,7 +153,9 @@ const account = () => {
                           : "Paid"}
                       </td>
                       <td className="itemOrderTable ">
-                        {item.orderStatus}
+                        {orderStatus(
+                          item.orderStatus,
+                        )}
                       </td>
                     </tr>
                   ))
