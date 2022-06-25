@@ -132,11 +132,8 @@ const register = () => {
                   </label>
                   <input
                     onChange={registerFormHandler}
-                    rules={{
-                      required: true,
-                      pattern:
-                        /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                    }}
+                    required
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                     name="email"
                     type="email"
                     className="w-full border rounded-sm outline-none border-[#e5e5e5] text-sm px-6 py-2 "

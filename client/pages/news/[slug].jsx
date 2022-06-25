@@ -177,11 +177,8 @@ const NewsDetail = ({ newBySlug }) => {
                   </div>
                   <div className="flex-1">
                     <input
-                      rules={{
-                        required: true,
-                        pattern:
-                          /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                      }}
+                      required
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                       className="px-4 text-text py-2 w-full outline-none rounded-sm border-[#e5e5e5] border text-sm"
                       type="email"
                       placeholder="Email"

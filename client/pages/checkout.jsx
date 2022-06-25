@@ -2,7 +2,7 @@ import Image from "next/image";
 import {
   Layout,
   PaypalButton,
-} from "../../components";
+} from "../components";
 import Link from "next/link";
 import {
   UserCircleIcon,
@@ -12,21 +12,22 @@ import {
   useDispatch,
   useSelector,
 } from "react-redux";
-import { urlFor } from "../../lib/client";
-import { numberWithCommas } from "../../utils/format";
+import { urlFor } from "../lib/client";
+import { numberWithCommas } from "../utils/format";
 import { useEffect, useState } from "react";
-import { postData } from "../../utils/requestMethod";
-import { LogoutIcon } from "@heroicons/react/outline";
-import { logout } from "../../redux/accountSlice";
 
-const standard = ({ provinceList }) => {
+import { LogoutIcon } from "@heroicons/react/outline";
+import { logout } from "../redux/accountSlice";
+import { validateEmail } from "../utils/validate";
+
+const checkout = ({ provinceList }) => {
   const cart = useSelector((state) => state.cart);
   const [allow, setAllow] = useState(true);
-  const user = useSelector(
-    (state) => state.account.user,
+  const account = useSelector(
+    (state) => state.account,
   );
   const [info, setInfo] = useState(false);
-  const [button, setButton] = useState("");
+
   const dispatch = useDispatch();
 
   const [districtList, setDistrictList] =
@@ -107,45 +108,15 @@ const standard = ({ provinceList }) => {
   };
 
   useEffect(() => {
-    if (Object.keys(user).length !== 0) {
+    if (Object.keys(account.user).length !== 0) {
       setCheckoutForm({
         ...checkoutForm,
-        email: user.email,
-        fullName: user.fullName,
+        email: account.user.email,
+        fullName: account.user.fullName,
       });
       setAllow(false);
     }
-  }, [Object.keys(user).length]);
-
-  const checkoutHandle = async (e) => {
-    e.preventDefault();
-    if (
-      checkoutForm.address === "" ||
-      checkoutForm.email === "" ||
-      checkoutForm.phoneNumber === "" ||
-      checkoutForm.fullName === "" ||
-      checkoutForm.province === ""
-    ) {
-      alert("Please fill all required fields");
-      return;
-    }
-    if (button === "paypal") {
-      setInfo(true);
-    }
-
-    if (button === "standard") {
-      const res = await postData("order/create", {
-        ...checkoutForm,
-        orderAt: new Date(),
-        paymentMethod: "standard",
-        orderStatus: "Wait for confirm",
-      });
-
-      if (res.success) {
-        alert("Order success");
-      }
-    }
-  };
+  }, [Object.keys(account.user).length]);
 
   return (
     <Layout
@@ -232,7 +203,43 @@ const standard = ({ provinceList }) => {
                   </div>
                   <form
                     id="checkout"
-                    onSubmit={checkoutHandle}
+                    onSubmit={(e) => {
+                      if (
+                        checkoutForm.address ===
+                          "" ||
+                        checkoutForm.email ===
+                          "" ||
+                        checkoutForm.phoneNumber ===
+                          "" ||
+                        checkoutForm.fullName ===
+                          "" ||
+                        checkoutForm.province ===
+                          ""
+                      ) {
+                        alert(
+                          "Please fill all required fields",
+                        );
+                        return;
+                      }
+                      if (
+                        cart.products.length === 0
+                      ) {
+                        alert(
+                          "Can't find any product in your order",
+                        );
+                        return;
+                      }
+                      if (
+                        !validateEmail(
+                          checkoutForm.email,
+                        )
+                      ) {
+                        alert("Invalid email");
+                        return;
+                      }
+                      e.preventDefault();
+                      setInfo(true);
+                    }}
                     className="flex flex-col space-y-3 "
                   >
                     <input
@@ -241,6 +248,7 @@ const standard = ({ provinceList }) => {
                       }
                       name="email"
                       required
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                       type="email"
                       value={checkoutForm.email}
                       placeholder="Email"
@@ -275,7 +283,7 @@ const standard = ({ provinceList }) => {
                       name="phoneNumber"
                       placeholder="Phone Number"
                       className="checkoutInput"
-                      pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
+                      pattern="(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b"
                       value={
                         checkoutForm.phoneNumber
                       }
@@ -637,21 +645,20 @@ const standard = ({ provinceList }) => {
                       </div>
                     </div>
                   </Link>
-                  <button
-                    onClick={() =>
-                      setButton("standard")
-                    }
-                    type="submit"
-                    form="checkout"
-                    value="checkout"
-                    className="rounded-md text-white text-sm bg-primary py-3 px-8"
-                  >
-                    ORDER
-                  </button>
+                  {!info && (
+                    <button
+                      type="submit"
+                      form="checkout"
+                      value="checkout"
+                      className="rounded-md text-white text-sm bg-primary py-3 px-8"
+                    >
+                      ORDER WITH PAYPAL
+                    </button>
+                  )}
                 </div>
                 <div className="mt-8 space-y-4">
                   <div>
-                    {info ? (
+                    {info && (
                       <PaypalButton
                         total={cart.total}
                         data={{
@@ -660,18 +667,6 @@ const standard = ({ provinceList }) => {
                         }}
                         dispatch={dispatch}
                       />
-                    ) : (
-                      <button
-                        type="submit"
-                        form="checkout"
-                        onClick={() =>
-                          setButton("paypal")
-                        }
-                        value="checkout"
-                        className="rounded-md w-full text-white text-sm bg-primary py-3 px-8"
-                      >
-                        CONTINUE WITH PAYPAL
-                      </button>
                     )}
                   </div>
                   <div>stripe</div>
@@ -685,7 +680,7 @@ const standard = ({ provinceList }) => {
   );
 };
 
-export default standard;
+export default checkout;
 export async function getStaticProps() {
   try {
     const resProvince = await fetch(

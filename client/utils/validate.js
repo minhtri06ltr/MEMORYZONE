@@ -43,8 +43,9 @@ export const validateOrder = (
     phoneNumber === "" ||
     total === "" ||
     paymentMethod === "" ||
-    orderAt === "" ||
-    products.length === 0
+    orderAt === ""
   )
     return "Missing required fields";
+  if (products.length === 0)
+    return "Can't find any product in your order";
 };

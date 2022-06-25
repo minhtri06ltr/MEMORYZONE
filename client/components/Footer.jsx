@@ -188,11 +188,8 @@ const Footer = () => {
               >
                 <input
                   id="contactEmail"
-                  rules={{
-                    required: true,
-                    pattern:
-                      /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                  }}
+                  required
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                   name="contactEmail"
                   onChange={(e) =>
                     setContactEmail(

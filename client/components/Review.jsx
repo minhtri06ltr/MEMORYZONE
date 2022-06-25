@@ -456,6 +456,7 @@ const Review = ({
                     Step 4. Phone number
                   </label>
                   <input
+                    pattern="(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b"
                     value={reviewForm.phoneNumber}
                     type="tel"
                     id="phoneNumber"
@@ -716,7 +717,7 @@ const Review = ({
                           onChange={
                             replyFormHandle
                           }
-                          pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
+                          pattern="(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b"
                         />
                         <button
                           type="submit"

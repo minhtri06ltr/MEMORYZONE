@@ -11,6 +11,7 @@ import { clearCart } from "../redux/cartSlice";
 
 import { useRouter } from "next/router";
 import { productSold } from "../middlewares/product";
+import { validateEmail } from "../utils/validate";
 
 // This values are the props in the UI
 
@@ -27,9 +28,11 @@ const ButtonWrapper = ({
 }) => {
   // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
   // This is the main reason to wrap the PayPalButtons in a new component
-  const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
-  const token = useSelector((state) => state.account.accessToken);
-  const router = useRouter();
+  const [{ options, isPending }, dispatch] =
+    usePayPalScriptReducer();
+  const token = useSelector(
+    (state) => state.account.accessToken,
+  );
 
   useEffect(() => {
     dispatch({
@@ -43,7 +46,9 @@ const ButtonWrapper = ({
 
   return (
     <>
-      {showSpinner && isPending && <div className="spinner" />}
+      {showSpinner && isPending && (
+        <div className="spinner" />
+      )}
       <PayPalButtons
         style={style}
         disabled={false}
@@ -66,89 +71,122 @@ const ButtonWrapper = ({
               return orderId;
             });
         }}
-        onApprove={async function (data, actions) {
-          return actions.order.capture().then(async function () {
-            // Your code here after capture the order
-            try {
-              if (token == null || token === "" || token === undefined) {
-                client
-                  .create({
-                    role: "guest", // --
-                    guestEmail: form.email, //--
-                    guestName: form.fullName,
-                    _type: "order",
-                    shippingAddress: {
-                      _type: "shippingAddress",
+        onApprove={async function (
+          data,
+          actions,
+        ) {
+          return actions.order
+            .capture()
+            .then(async function () {
+              // Your code here after capture the order
+              try {
+                if (
+                  token == null ||
+                  token === "" ||
+                  token === undefined
+                ) {
+                  client
+                    .create({
+                      role: "guest", // --
+                      guestEmail: form.email, //--
+                      guestName: form.fullName,
+                      _type: "order",
+                      shippingAddress: {
+                        _type: "shippingAddress",
 
-                      address: form.address,
-                      phoneNumber: form.phoneNumber,
-                      province: form.province,
-                      district: form.district,
-                      ward: form.ward,
-                      note: form.note,
-                    },
-                    orderStatus: "Wait for confirm",
-                    paymentMethod: "paypal",
-                    orderAt: new Date(),
-                    totalPrice: amount,
-                    orderList: form.products.map((item) => {
-                      return {
-                        _key: item.id,
-                        productName: item.name,
-                        price: item.price,
-                        slug: item.slug,
-                        quantity: item.quantity,
-                      };
-                    }),
-                  })
-                  .then((res) => {
-                    //  router.push("/checkout/success");
-                    dispatchProp(clearCart());
-                    res.orderList.filter((item) => {
-                      return productSold(item._key, item.quantity);
-                    });
-                    alert("buy success");
-                  })
-                  .catch((error) => {
-                    if (error.message === "jwt expired") {
-                      alert(
-                        "Your session is expired please refresh the page or login again"
+                        address: form.address,
+                        phoneNumber:
+                          form.phoneNumber,
+                        province: form.province,
+                        district: form.district,
+                        ward: form.ward,
+                        note: form.note,
+                      },
+                      orderStatus: 0,
+                      paymentMethod: "paypal",
+                      orderAt: new Date(),
+                      totalPrice: amount,
+                      orderList:
+                        form.products.map(
+                          (item) => {
+                            return {
+                              _key: item.id,
+                              productName:
+                                item.name,
+                              price: item.price,
+                              slug: item.slug,
+                              quantity:
+                                item.quantity,
+                            };
+                          },
+                        ),
+                    })
+                    .then((res) => {
+                      //  router.push("/checkout/success");
+                      dispatchProp(clearCart());
+                      res.orderList.filter(
+                        (item) => {
+                          return productSold(
+                            item._key,
+                            item.quantity,
+                          );
+                        },
                       );
-                    }
-                  });
-              } else {
-                const res = await postData(
-                  "order/create",
-                  {
-                    ...form,
-                    total: amount,
-                    paymentMethod: "paypal",
-                    orderAt: new Date(),
-                  },
-                  token
-                );
-                if (!res.success) {
-                  alert(res.error);
+                      alert("buy success");
+                    })
+                    .catch((error) => {
+                      alert(error.message);
+                    });
                 } else {
-                  dispatchProp(clearCart());
-                  //  router.push("/checkout/success");
-                  res.returnOrder.orderList.filter((item) => {
-                    return productSold(item._key, item.quantity);
-                  });
-                  alert("buy success");
+                  const res = await postData(
+                    "order/create",
+                    {
+                      ...form,
+                      total: amount,
+                      paymentMethod: "paypal",
+                      orderAt: new Date(),
+                    },
+                    token,
+                  );
+                  if (!res.success) {
+                    alert(res.error);
+                  } else {
+                    dispatchProp(clearCart());
+                    //  router.push("/checkout/success");
+                    res.returnOrder.orderList.filter(
+                      (item) => {
+                        return productSold(
+                          item._key,
+                          item.quantity,
+                        );
+                      },
+                    );
+                    alert("buy success");
+                  }
                 }
+              } catch (error) {
+                if (
+                  error.message === "jwt expired"
+                ) {
+                  alert(
+                    "Your session is expired please refresh the page or login again",
+                  );
+                  return;
+                }
+                alert(error.message);
               }
-            } catch (error) {
-              alert(error.message);
-            }
-          });
+            });
         }}
       />
     </>
   );
 };
 
-const PaypalButton = ({ dispatch, data, total }) => {
+const PaypalButton = ({
+  dispatch,
+  data,
+  total,
+}) => {
   return (
     <div className="max-w-full min-h-[148px]">
       <PayPalScriptProvider

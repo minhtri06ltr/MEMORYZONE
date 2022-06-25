@@ -1,3 +1,5 @@
+import React from "react";
+
 export default {
   name: "newComment",
   title: "New Comment",
@@ -36,4 +38,22 @@ export default {
       type: "datetime",
     },
   ],
+  preview: {
+    select: {
+      title: "email",
+      subtitle: "comment",
+      fullName: "fullName",
+    },
+    prepare: (selection) => {
+      return {
+        title: selection.title,
+        subtitle: selection.subtitle,
+        media: (
+          <img
+            src={`https://api.multiavatar.com/${selection.fullName}.png?apikey=${process.env.SANITY_STUDIO_MULTIAVATAR_API_KEY}`}
+          />
+        ),
+      };
+    },
+  },
 };

@@ -1,4 +1,12 @@
-import { ClipboardListIcon } from "@heroicons/react/outline";
+import {
+  ClipboardListIcon,
+  BadgeCheckIcon,
+  TruckIcon,
+  GiftIcon,
+  CurrencyDollarIcon,
+  AnnotationIcon,
+} from "@heroicons/react/outline";
+import React from "react";
 
 export default {
   name: "order",
@@ -56,33 +64,33 @@ export default {
     {
       name: "orderStatus",
       title: "Order Status",
-      type: "string",
+      type: "number",
       options: {
         list: [
           {
             title: "Wait for confirm",
-            value: "Wait for confirm",
+            value: 0,
           },
           {
             title: "Confirmed",
-            value: "Confirmed",
+            value: 1,
           },
           {
             title: "Wait for pickup",
-            value: "Wait for pickup",
+            value: 2,
           },
           {
             title: "Delivering",
-            value: "Delivering",
+            value: 3,
           },
           {
             title: "Successful delivery",
-            value: "Successful delivery",
+            value: 4,
           },
         ],
         layout: "radio",
       },
-      initialValue: "Wait for confirm",
+      initialValue: 0,
     },
     {
       name: "taxPrice",
@@ -139,9 +147,17 @@ export default {
       userFirstName: "user.firstName",
       userLastName: "user.lastName",
       guestName: "guestName",
+      media: "orderStatus",
     },
     prepare: (selection) => {
-      console.log(selection);
+      const iconArray = [
+        <AnnotationIcon />,
+        <BadgeCheckIcon />,
+        <GiftIcon />,
+        <TruckIcon />,
+        <CurrencyDollarIcon />,
+      ];
+
       return {
         title:
           selection.guestName === undefined
@@ -152,7 +168,7 @@ export default {
           selection.guestEmail === undefined
             ? selection.userEmail
             : selection.guestEmail,
-        media: ClipboardListIcon,
+        media: iconArray[selection.media],
       };
     },
   },

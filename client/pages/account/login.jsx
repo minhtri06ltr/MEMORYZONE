@@ -156,11 +156,8 @@ const login = () => {
                   onChange={(e) =>
                     loginFormHandler(e)
                   }
-                  rules={{
-                    required: true,
-                    pattern:
-                      /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                  }}
+                  required
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                 />
               </div>
               <div className="mb-6">
@@ -217,17 +214,13 @@ const login = () => {
                   Email *
                 </label>
                 <input
-                  rules={{
-                    required: true,
-                    pattern:
-                      /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                  }}
+                  required
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                   type="email"
                   id="forgotEmail"
                   className="w-full border outline-none rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                   placeholder="Email"
                   name="forgotEmail"
-                  required
                   value={forgotEmail}
                   onChange={(e) =>
                     setForgotEmail(e.target.value)

@@ -1,5 +1,5 @@
 import { client } from "../../../lib/client";
-import {auth} from "../../../middlewares/auth";
+import { auth } from "../../../middlewares/auth";
 import { validateOrder } from "../../../utils/validate";
 
 export default async (req, res) => {
@@ -31,8 +31,9 @@ const createOrder = async (req, res) => {
       total,
       paymentMethod,
       orderAt,
-      products
+      products,
     );
+
     if (errorMessage)
       return res.status(400).json({
         success: false,
@@ -51,7 +52,7 @@ const createOrder = async (req, res) => {
       },
       paymentMethod,
       orderAt,
-      orderStatus: "Wait for confirm",
+      orderStatus: 0,
       totalPrice: total,
       orderList: products.map((item) => {
         return {
@@ -75,7 +76,8 @@ const createOrder = async (req, res) => {
     });
     return res.status(200).json({
       success: true,
-      message: "Payment success! We will contact you to confirm the order",
+      message:
+        "Payment success! We will contact you to confirm the order",
       returnOrder,
     });
   } catch (error) {

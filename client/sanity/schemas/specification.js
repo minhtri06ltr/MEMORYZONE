@@ -1,14 +1,5 @@
-import {
-  rightBlock,
-  centerBlock,
-  leftBlock,
-  colorBlock,
-} from "../components/Block";
-import {
-  centerTextIcon,
-  leftTextIcon,
-  rightTextIcon,
-} from "../components/Icon";
+import { ChipIcon } from "@heroicons/react/outline";
+import React from "react";
 
 export default {
   name: "specification",
@@ -27,4 +18,16 @@ export default {
       type: "content",
     },
   ],
+  preview: {
+    select: {
+      title: "title",
+    },
+    prepare: (selection) => {
+      return {
+        title: selection.title,
+
+        media: <ChipIcon />,
+      };
+    },
+  },
 };

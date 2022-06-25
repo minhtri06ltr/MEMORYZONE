@@ -48,13 +48,7 @@ export default {
         subtitle: selection.subtitle,
         media: (
           <img
-            src={`https://api.multiavatar.com/${
-              selection.firstName +
-              selection.lastName
-            }.png?apikey=${
-              process.env
-                .SANITY_STUDIO_MULTIAVATAR_API_KEY
-            }`}
+            src={`https://api.multiavatar.com/${selection.subtitle}.png?apikey=${process.env.SANITY_STUDIO_MULTIAVATAR_API_KEY}`}
           />
         ),
       };

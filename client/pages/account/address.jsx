@@ -7,7 +7,8 @@ import Link from "next/link";
 import { useState } from "react";
 
 const address = () => {
-  const [openAddressForm, setOpenAddressForm] = useState(false);
+  const [openAddressForm, setOpenAddressForm] =
+    useState(false);
   const [addressForm, setAddressForm] = useState({
     lastName: "",
     firstName: "",
@@ -19,7 +20,9 @@ const address = () => {
     phoneNumber: "",
   });
   const router = useRouter();
-  const user = useSelector((state) => state.account.user);
+  const user = useSelector(
+    (state) => state.account.user,
+  );
   useEffect(() => {
     if (
       Object.keys(user).length === 0 &&
@@ -57,7 +60,11 @@ const address = () => {
           </span>
           <Link href="/account">
             <div className="flex items-center cursor-pointer">
-              <ArrowLeftIcon width={18} height={18} className="text-primary" />
+              <ArrowLeftIcon
+                width={18}
+                height={18}
+                className="text-primary"
+              />
               <span className="text-sm text-text ml-2 block">
                 Return to account page
               </span>
@@ -65,7 +72,9 @@ const address = () => {
           </Link>
         </div>
         <button
-          onClick={() => setOpenAddressForm(!openAddressForm)}
+          onClick={() =>
+            setOpenAddressForm(!openAddressForm)
+          }
           className="rounded-sm my-4 hover:bg-white hover:text-primary transition ease-linear text-white text-sm bg-primary  border border-primary  py-2 px-6"
         >
           + Add address
@@ -201,6 +210,7 @@ const address = () => {
                 <input
                   type="tel"
                   required
+                  pattern="(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b"
                   //  value={reviewForm.fullName}
                   id="phoneNumber"
                   name="phoneNumber"
@@ -213,7 +223,9 @@ const address = () => {
                   Add address
                 </button>
                 <button
-                  onClick={() => setOpenAddressForm(false)}
+                  onClick={() =>
+                    setOpenAddressForm(false)
+                  }
                   className="rounded-sm my-4 text-white text-sm bg-[#2a2a2a] border border-[#2a2a2a] py-2 px-6"
                 >
                   Cancel
@@ -373,6 +385,7 @@ const address = () => {
                   </label>
                   <input
                     type="tel"
+                    pattern="(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b"
                     required
                     //  value={reviewForm.fullName}
                     id="phoneNumber"

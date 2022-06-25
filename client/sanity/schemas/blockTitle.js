@@ -1,14 +1,4 @@
-import {
-  rightBlock,
-  centerBlock,
-  leftBlock,
-  colorBlock,
-} from "../components/Block";
-import {
-  centerTextIcon,
-  leftTextIcon,
-  rightTextIcon,
-} from "../components/Icon";
+import React from "react";
 
 export default {
   name: "blockTitle",
@@ -22,4 +12,7 @@ export default {
       type: "content",
     },
   ],
+  preview: {
+    select: { title: "title", media: "⛳️" },
+  },
 };
