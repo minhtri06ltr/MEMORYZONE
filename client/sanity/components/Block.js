@@ -58,23 +58,23 @@ export const linkBlock = (props) => {
     </span>
   );
 };
-export const previewImgBlock = (data) => {
-  const splitArray = data.asset._ref.split("-");
+// export const previewImgBlock = (data) => {
+//   const splitArray = data.asset._ref.split("-");
 
-  const imageType =
-    splitArray[splitArray.length - 1];
+//   const imageType =
+//     splitArray[splitArray.length - 1];
 
-  let imageId = splitArray[1];
-  for (
-    let i = 2;
-    i < splitArray.length - 1;
-    i++
-  ) {
-    imageId += `-${splitArray[i]}`;
-  }
-  return (
-    <img
-      src={`https://cdn.sanity.io/images/trbtzvh4/production/${imageId}.${imageType}`}
-    />
-  );
-};
+//   let imageId = splitArray[1];
+//   for (
+//     let i = 2;
+//     i < splitArray.length - 1;
+//     i++
+//   ) {
+//     imageId += `-${splitArray[i]}`;
+//   }
+//   return (
+//     <img
+//       src={`https://cdn.sanity.io/images/trbtzvh4/production/${imageId}.${imageType}`}
+//     />
+//   );
+// };

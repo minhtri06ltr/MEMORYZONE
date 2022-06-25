@@ -9829,6 +9829,14 @@ sanity-diff-patch@^1.0.9:
   dependencies:
     diff-match-patch "^1.0.5"
 
+sanity-plugin-asset-source-cloudinary@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.npmjs.org/sanity-plugin-asset-source-cloudinary/-/sanity-plugin-asset-source-cloudinary-0.1.2.tgz#d683a3e76c44fb58aa448b28f56482fa9d9a2a65"
+  integrity sha512-6BDMoK/NwpWDiY8kWH97DXMa0SK3hssBv+g6dxU65hpep2zJb3IcYGSTJr6sT8k3dwVMLLuQeiTnqT6Vd1tgRQ==
+  dependencies:
+    "@sanity/ui" "^0.36.12"
+    styled-components "^5.2.0"
+
 sanity-plugin-asset-source-unsplash@^0.2.1:
   version "0.2.1"
   resolved "https://registry.npmjs.org/sanity-plugin-asset-source-unsplash/-/sanity-plugin-asset-source-unsplash-0.2.1.tgz#a4535294e16bbf8a4f6eda26ec979be02256d54a"

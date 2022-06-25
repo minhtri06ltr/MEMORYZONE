@@ -59,10 +59,14 @@ export default {
       //array of image
       type: "array",
 
-      of: [{ type: "image" }],
-      options: {
-        hotspot: true,
-      },
+      of: [
+        {
+          type: "image",
+          options: {
+            hotspot: true,
+          },
+        },
+      ],
     },
     {
       name: "createTime",

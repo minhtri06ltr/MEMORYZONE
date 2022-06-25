@@ -1,5 +1,4 @@
 import { NewspaperIcon } from "@heroicons/react/outline";
-import { previewImgBlock } from "../components/Block";
 
 export default {
   name: "new",
@@ -52,13 +51,6 @@ export default {
       media: "thumbnail.image",
       title: "title",
       subtitle: "slug.current",
-    },
-    prepare: (selection) => {
-      return {
-        title: selection.title,
-        subtitle: selection.subtitle,
-        media: previewImgBlock(selection.media),
-      };
     },
   },
 };

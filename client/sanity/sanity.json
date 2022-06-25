@@ -18,11 +18,14 @@
     "color-list",
     "table",
     "media",
-    "asset-source-unsplash"
+    "asset-source-unsplash",
+    "asset-source-cloudinary"
   ],
   "env": {
     "development": {
-      "plugins": ["@sanity/vision"]
+      "plugins": [
+        "@sanity/vision"
+      ]
     }
   },
   "parts": [

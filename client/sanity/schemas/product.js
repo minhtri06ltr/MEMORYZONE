@@ -1,6 +1,6 @@
 import Webcam from "part:sanity-plugin-asset-source-webcam/image-asset-source";
 import { CubeIcon } from "@heroicons/react/outline";
-import { previewImgBlock } from "../components/Block";
+import MediaAssetSource from "part:sanity-plugin-media/asset-source";
 
 export default {
   name: "product",
@@ -13,7 +13,6 @@ export default {
     reviews: [],
     sold: 0,
     rating: 0,
-    description: [],
   },
   fields: [
     {
@@ -21,11 +20,14 @@ export default {
       title: "Image",
       //array of image
       type: "array",
-      of: [{ type: "image" }],
-      options: {
-        hotspot: true,
-        sources: [Webcam],
-      },
+      of: [
+        {
+          type: "image",
+          options: {
+            hotspot: true,
+          },
+        },
+      ],
     },
     {
       name: "name",
@@ -55,11 +57,7 @@ export default {
       title: "Price",
       type: "number",
     },
-    {
-      name: "details",
-      title: "Details",
-      type: "string",
-    },
+
     {
       name: "brand",
       title: "Brand",
@@ -111,17 +109,7 @@ export default {
     select: {
       title: "name",
       subtitle: "slug.current",
-      media: "image",
-    },
-    prepare(selection) {
-      const { title, subtitle, media } =
-        selection;
-
-      return {
-        title: title,
-        subtitle: subtitle,
-        media: previewImgBlock(media[0]),
-      };
+      media: "image.0",
     },
   },
 };

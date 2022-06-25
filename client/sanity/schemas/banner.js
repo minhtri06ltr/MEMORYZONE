@@ -1,5 +1,4 @@
 import { ColorSwatchIcon } from "@heroicons/react/outline";
-import Webcam from "part:sanity-plugin-asset-source-webcam/image-asset-source";
 
 export default {
   name: "banner",
@@ -13,13 +12,10 @@ export default {
       type: "array",
       of: [
         {
-          type: "image",
+          type: "seoImage",
         },
       ],
-      options: {
-        hotspot: true,
-        sources: [Webcam],
-      },
+
       validation: (Rule) => Rule.max(5),
     },
   ],
