@@ -636,7 +636,7 @@ const checkout = ({ provinceList }) => {
                   </span>
                 </div>
                 <div className="text-[#717171] text-sm flex items-center justify-between">
-                  <span>Shipping price</span>
+                  <span>Transport fee</span>
                   <span>0$</span>
                 </div>
               </div>

@@ -90,3 +90,26 @@ export const orderStatus = (number) => {
   ];
   return array[number];
 };
+export const normalDateTime = (datetime) => {
+  var hours = datetime.getHours();
+  var minutes = datetime.getMinutes();
+  var ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes =
+    minutes < 10 ? "0" + minutes : minutes;
+  var strTime =
+    hours + ":" + minutes + " " + ampm;
+
+  return (
+    ("0" + datetime.getUTCDate()).slice(-2) +
+    "/" +
+    ("0" + (datetime.getUTCMonth() + 1)).slice(
+      -2,
+    ) +
+    "/" +
+    datetime.getUTCFullYear() +
+    ", " +
+    strTime
+  );
+};

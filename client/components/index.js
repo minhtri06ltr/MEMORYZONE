@@ -20,3 +20,4 @@ export { default as NewComment } from "./NewComment";
 export { default as AddressItem } from "./AddressItem";
 export { default as PaymentNotFound } from "./PaymentNotFound";
 export { default as Term } from "./Term";
+export { default as PDF } from "./PDF";

@@ -173,7 +173,7 @@ const OrderDetail = () => {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[#717171] text-sm block">
-                  Shipping price
+                  Transport fee
                 </span>
                 <span className="text-[#717171] text-sm block">
                   --
