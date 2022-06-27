@@ -2,6 +2,7 @@ import Image from "next/image";
 import {
   Layout,
   PaypalButton,
+  Term,
 } from "../components";
 import Link from "next/link";
 import {
@@ -213,7 +214,7 @@ const checkout = ({ provinceList }) => {
           </span>
         </Link>
       ) : (
-        <div className="flex">
+        <div className="flex min-h-screen">
           <div className="bg-[#f4f4f4]  pl-6  w-[66%]">
             <div className="px-8 py-1.5">
               <div className=" mt-6 cursor-pointer ">
@@ -229,7 +230,7 @@ const checkout = ({ provinceList }) => {
                   </div>
                 </Link>
               </div>
-              <div className="flex space-x-6 py-6 border-b border-[#ddd]">
+              <div className="flex space-x-6 py-6 ">
                 <div className="flex-1 ">
                   <div className="flex w-full justify-between items-center mb-3">
                     <span className="font-semibold text-[#000000] text-lg">
@@ -549,7 +550,7 @@ const checkout = ({ provinceList }) => {
                           </span>
                         </div>
                         <Image
-                          alt="Memoryzone    Online payment via Visa, Master, JCB cards (Free
+                          alt="Memoryzone Online payment via Visa, Master, JCB cards (Free
                  payment)"
                           src="https://bizweb.dktcdn.net/100/329/122/files/04icon-visamaster.png?v=1639481634747"
                           width={48}
@@ -560,32 +561,7 @@ const checkout = ({ provinceList }) => {
                   </div>
                 </div>
               </div>
-              <div>
-                <span className="cursor-pointer text-sm text-right text-primary block hover:text-[#006533] py-3">
-                  Terms of use
-                </span>
-                <div className="text-right pb-6">
-                  <span className="text-primary text-sm font-semibold block">
-                    Please keep an eye on your
-                    email to receive updates on
-                    your order, including the
-                    shipping unit and the waybill
-                    number.
-                  </span>
-                  <span className="text-sm block">
-                    Due to the impact of the
-                    Covid-19 epidemic, some areas
-                    may receive goods later than
-                    expected. Thank you for your
-                    understanding!
-                  </span>
-                  <span className="text-sm block">
-                    ** You can choose to pay in
-                    advance via bank transfer for
-                    contactless delivery.
-                  </span>
-                </div>
-              </div>
+              <Term />
             </div>
           </div>
           <div className="bg-[#fafafa] border-l border-[#e1e1e1]  flex-1">
@@ -601,7 +577,7 @@ const checkout = ({ provinceList }) => {
             <div className=" px-6 ">
               <div className="max-h-[calc(100vh-480px)] border-b scroll-smooth border-[#e1e1e1] overflow-y-auto py-4 ">
                 <table>
-                  <tbody>
+                  <tbody className="space-y-2">
                     {cart.products.map(
                       (item, index) => (
                         <tr
@@ -610,7 +586,7 @@ const checkout = ({ provinceList }) => {
                         >
                           <td>
                             <div className="relative">
-                              <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md bg-white border border-[#e5e5e5]">
+                              <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md  border border-[#e5e5e5]">
                                 <Image
                                   src={urlFor(
                                     item.img,
@@ -680,8 +656,8 @@ const checkout = ({ provinceList }) => {
                       <div className="text-primary    hover:text-[#006533]  cursor-pointer flex items-center">
                         <div className="hover:first:-translate-x-2 after:bg-transparent after:absolute after:h-full after:w-24 after:top-0 after:content-[''] relative  mt-0.5 transition ease-linear ">
                           <ChevronLeftIcon
-                            width={20}
-                            height={20}
+                            width={16}
+                            height={16}
                           />
                         </div>
                         <div className=" hover:first:-translate-x-2 transition ease-linear  ">

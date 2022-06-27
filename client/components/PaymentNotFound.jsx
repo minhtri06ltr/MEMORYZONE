@@ -10,7 +10,7 @@ const PaymentNotFound = () => {
       description="Sorry we can not find this payment in our data please check your order ID again or contact with admin"
       removeLayout={true}
     >
-      <div className="bg-[#f4f4f4] px-10 w-screen h-screen">
+      <div className="bg-[#f4f4f4] px-10 w-screen min-h-screen">
         <div className="py-8 border-b border-[#cecdcd] flex items-center justify-center  ">
           <Link href="/">
             <a>
