@@ -16,7 +16,6 @@ const Footer = () => {
     const res = await postData("contact", {
       email: contactEmail,
     });
-    console.log(res);
   };
   return (
     <>

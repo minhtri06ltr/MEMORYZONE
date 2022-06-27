@@ -35,7 +35,6 @@ export const colorBlock = (props) => {
   );
 };
 export const checkBlock = (props) => {
-  console.log(props);
   return (
     <>
       <CheckCircleIcon

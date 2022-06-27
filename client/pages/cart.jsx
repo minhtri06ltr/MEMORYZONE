@@ -6,62 +6,33 @@ import {
   useDispatch,
   useSelector,
 } from "react-redux";
-import { client, urlFor } from "../lib/client";
+import { urlFor } from "../lib/client";
 import Link from "next/link";
 import {
   decreaseProduct,
   increaseProduct,
   deleteProduct,
   onChangeQuantity,
-  updateCart,
 } from "../redux/cartSlice";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { isNumber } from "../utils/validate";
+
+import { updateCartHandle } from "../utils/update";
 
 const cart = () => {
   const dispatch = useDispatch();
-  const [callback, setCallback] = useState(false);
+
   const cartItems = useSelector(
     (state) => state.cart,
   );
   //Update cart
+
   useEffect(() => {
     const cartLocal = JSON.parse(
       localStorage.getItem("__memoryzone__cart"),
     );
-    if (
-      cartLocal &&
-      cartLocal.products.length > 0
-    ) {
-      let newCart = [];
-      const updateCartHandle = async () => {
-        for (let i of cartLocal.products) {
-          let res = await client.fetch(
-            `*[_type=='product' && _id ==$id][0]{countInStock}`,
-            { id: i.id },
-          );
-          console.log(res);
-          if (res.countInStock !== 0) {
-            newCart.push({
-              id: i.id,
-              name: i.name,
-              price: i.price,
-              img: i.img,
-              slug: i.slug,
-              quantity:
-                i.quantity < res.countInStock
-                  ? i.quantity
-                  : res.countInStock,
-              countInStock: res.countInStock,
-            });
-          }
-        }
-        console.log(newCart);
-        dispatch(updateCart(newCart));
-      };
-      updateCartHandle();
-    }
-  }, [callback]);
+    updateCartHandle(dispatch, cartLocal);
+  }, []);
   return (
     <Layout
       title="Memoryzone | Cart"

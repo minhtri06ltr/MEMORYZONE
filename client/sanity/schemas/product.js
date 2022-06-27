@@ -59,14 +59,21 @@ export default {
     },
 
     {
-      name: "brand",
-      title: "Brand",
-      type: "string",
+      name: "productBrand",
+      title: "Product Brand",
+      type: "reference",
+      to: [{ type: "brand" }],
     },
     {
-      name: "category",
-      title: "Category",
-      type: "string",
+      name: "categoryList",
+      title: "Category List",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "category" }],
+        },
+      ],
     },
     {
       name: "countInStock",

@@ -50,6 +50,7 @@ const createOrder = async (req, res) => {
         ward,
         note,
       },
+      isPaid: false,
       paymentMethod,
       orderAt,
       orderStatus: 0,
@@ -74,6 +75,8 @@ const createOrder = async (req, res) => {
         _ref: userId,
       },
     });
+   
+    //key,quantity, _id,ispay ,orderAt,orderstatus,shipaddress,total
     return res.status(200).json({
       success: true,
       message:

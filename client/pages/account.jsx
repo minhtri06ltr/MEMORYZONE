@@ -10,8 +10,6 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { getData } from "../utils/requestMethod";
-import { useState } from "react";
 import {
   formatDateTime,
   orderStatus,
@@ -22,29 +20,16 @@ const account = () => {
   const account = useSelector(
     (state) => state.account,
   );
-  const [orderList, setOrderList] = useState([]);
+  const orderList = useSelector(
+    (state) => state.order.orderList,
+  );
+
   useEffect(() => {
     if (
       Object.keys(account.user).length === 0 &&
       !JSON.parse(localStorage.getItem("isLogin"))
     ) {
       router.push("/account/login");
-    } else {
-      const getOrderHistory = async () => {
-        const res = await getData(
-          "order/history",
-          account.accessToken,
-        );
-
-        if (res.success) {
-          setOrderList(res.orderHistoryList);
-        }
-      };
-      if (
-        account.accessToken !== "" &&
-        account.accessToken !== undefined
-      )
-        getOrderHistory();
     }
   }, [Object.keys(account.user).length, router]);
 
@@ -117,8 +102,12 @@ const account = () => {
                       key={index}
                       className="divide-x divide-[#e1e1e1]"
                     >
-                      <td className="itemOrderTable ">
-                        {item._id}
+                      <td className="itemOrderTable cursor-pointer hover:text-primary">
+                        <Link
+                          href={`/checkout/${item._id}`}
+                        >
+                          {item._id}
+                        </Link>
                       </td>
                       <td className="itemOrderTable ">
                         {formatDateTime(

@@ -23,6 +23,7 @@ const address = () => {
     zipCode: "",
     phoneNumber: "",
   });
+  console.log(addressForm);
   const router = useRouter();
   const user = useSelector(
     (state) => state.account.user,
@@ -35,7 +36,26 @@ const address = () => {
       router.push("/account/login");
     }
   }, [Object.keys(user).length, router]);
-
+  const addressFormHandle = (e) => {
+    setAddressForm({
+      ...addressForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const addressHandle = (e) => {
+    e.preventDefault();
+    if (
+      addressForm.lastName === "" ||
+      addressForm.firstName === "" ||
+      addressForm.address === "" ||
+      addressForm.city === "" ||
+      addressForm.country === "" ||
+      addressForm.phoneNumber === ""
+    ) {
+      alert("Please fill all required fields");
+      return;
+    }
+  };
   return (
     <Layout
       title="Memoryzone | Address list"
@@ -85,7 +105,10 @@ const address = () => {
         </button>
         {openAddressForm && (
           <div className="mt-7">
-            <form className="space-y-6">
+            <form
+              onSubmit={addressHandle}
+              className="space-y-6"
+            >
               <div>
                 <label
                   htmlFor="lastName"
@@ -99,7 +122,7 @@ const address = () => {
                   value={addressForm.lastName}
                   id="lastName"
                   name="lastName"
-                  //  onChange={reviewFormHandle}
+                  onChange={addressFormHandle}
                   className="addressInput"
                 />
               </div>
@@ -116,7 +139,7 @@ const address = () => {
                   value={addressForm.firstName}
                   id="firstName"
                   name="firstName"
-                  //  onChange={reviewFormHandle}
+                  onChange={addressFormHandle}
                   className="addressInput"
                 />
               </div>
@@ -132,7 +155,7 @@ const address = () => {
                   value={addressForm.company}
                   id="company"
                   name="company"
-                  //  onChange={reviewFormHandle}
+                  onChange={addressFormHandle}
                   className="addressInput"
                 />
               </div>
@@ -149,7 +172,7 @@ const address = () => {
                   value={addressForm.address}
                   id="address"
                   name="address"
-                  //  onChange={reviewFormHandle}
+                  onChange={addressFormHandle}
                   className="addressInput"
                 />
               </div>
@@ -166,7 +189,7 @@ const address = () => {
                   value={addressForm.city}
                   id="city"
                   name="city"
-                  //  onChange={reviewFormHandle}
+                  onChange={addressFormHandle}
                   className="addressInput"
                 />
               </div>
@@ -184,7 +207,7 @@ const address = () => {
                   value={addressForm.country}
                   id="country"
                   name="country"
-                  //  onChange={reviewFormHandle}
+                  onChange={addressFormHandle}
                   className="addressInput"
                 />
               </div>
@@ -200,7 +223,7 @@ const address = () => {
                   value={addressForm.zipCode}
                   id="zipCode"
                   name="zipCode"
-                  //  onChange={reviewFormHandle}
+                  onChange={addressFormHandle}
                   className="addressInput"
                 />
               </div>
@@ -218,7 +241,7 @@ const address = () => {
                   value={addressForm.phoneNumber}
                   id="phoneNumber"
                   name="phoneNumber"
-                  //  onChange={reviewFormHandle}
+                  onChange={addressFormHandle}
                   className="addressInput"
                 />
               </div>

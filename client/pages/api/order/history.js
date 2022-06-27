@@ -1,5 +1,5 @@
 import { client } from "../../../lib/client";
-import {auth} from "../../../middlewares/auth";
+import { auth } from "../../../middlewares/auth";
 
 export default async (req, res) => {
   switch (req.method) {
@@ -19,13 +19,13 @@ const getOrderHistory = async (req, res) => {
           _id,
           shippingAddress,
           totalPrice,
-          isPaid,
+         isPaid,
           orderAt,
 
       } | order(_createdAt)`,
       {
         userId,
-      }
+      },
     );
     return res.status(200).json({
       success: true,

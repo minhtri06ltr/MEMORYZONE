@@ -83,7 +83,6 @@ export const sendEmailHandle = async (
             error: error.message,
           });
         }
-        console.log("send mail success");
       },
     );
   } catch (error) {

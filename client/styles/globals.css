@@ -155,4 +155,7 @@ a {
       #fff
     );
   }
+  .returnCart:hover:first-child {
+    transform: translateX(-0.5rem);
+  }
 }

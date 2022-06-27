@@ -19,17 +19,21 @@ import { useEffect, useState } from "react";
 import { LogoutIcon } from "@heroicons/react/outline";
 import { logout } from "../redux/accountSlice";
 import { validateEmail } from "../utils/validate";
+import { updateCartHandle } from "../utils/update";
+import { postData } from "../utils/requestMethod";
+import { addOrder } from "../redux/orderSlice";
+import { clearCart } from "../redux/cartSlice";
+import { productSold } from "../middlewares/product";
+import { useRouter } from "next/router";
 
 const checkout = ({ provinceList }) => {
+  const router = useRouter();
   const cart = useSelector((state) => state.cart);
   const [allow, setAllow] = useState(true);
   const account = useSelector(
     (state) => state.account,
   );
-  const [info, setInfo] = useState(false);
-
   const dispatch = useDispatch();
-
   const [districtList, setDistrictList] =
     useState([]);
   const [wardList, setWardList] = useState([]);
@@ -128,25 +132,60 @@ const checkout = ({ provinceList }) => {
       alert("Invalid email");
       return;
     }
-    let verifyCart = [];
-    for (let i of cart.products) {
-      let res = await client.fetch(
-        `*[_type=='product' && _id == $id][0]{countInStock}`,
+    const cartLocal = JSON.parse(
+      localStorage.getItem("__memoryzone__cart"),
+    );
+    updateCartHandle(dispatch, cartLocal);
+    try {
+      const res = await postData(
+        "order/create",
         {
-          id: i.id,
+          ...checkoutForm,
+          products: cart.products,
+          total: cart.total,
+          isPaid: false,
+          paymentMethod: "paypal",
+          orderAt: new Date(),
         },
+        account.accessToken,
       );
-      console.log(res);
-      if (res.countInStock - i.quantity >= 0) {
-        verifyCart.push(i);
+      if (!res.success) {
+        console.log(res.error);
+        alert(res.error);
       } else {
-        alert(
-          `Sorry, ${i.name} is out of stock please remove it from your cart to continue`,
+        dispatch(clearCart());
+        //  router.push("/checkout/success");
+        res.returnOrder.orderList.filter(
+          (item) => {
+            return productSold(
+              item._key,
+              item.quantity,
+            );
+          },
         );
-        return;
+        dispatch(
+          addOrder({
+            _id: res.returnOrder._id,
+            orderAt: res.returnOrder.orderAt,
+            orderStatus:
+              res.returnOrder.orderStatus,
+            shippingAddress:
+              res.returnOrder.shippingAddress,
+            totalPrice:
+              res.returnOrder.totalPrice,
+            isPaid: res.returnOrder.isPaid,
+          }),
+        );
+        router.push(
+          `/checkout/${res.returnOrder._id}`,
+        );
       }
+    } catch (error) {
+      console.log(error);
+      alert(error.message);
     }
-    setInfo(true);
+
+    // setInfo(true);
   };
   useEffect(() => {
     if (Object.keys(account.user).length !== 0) {
@@ -274,10 +313,9 @@ const checkout = ({ provinceList }) => {
                       value={
                         checkoutForm.fullName
                       }
-                      disabled={!allow && true}
                       className={`checkoutInput ${
-                        !allow &&
-                        "cursor-not-allowed bg-[#eee]"
+                        account.user.length !==
+                          0 && "hidden"
                       }`}
                     />
                     <input
@@ -639,31 +677,34 @@ const checkout = ({ provinceList }) => {
                 <div className="space-y-3 flex items-center  justify-between">
                   <Link href="/cart">
                     <div>
-                      <div className="text-primary cursor-pointer flex items-center">
-                        <ChevronLeftIcon
-                          width={20}
-                          height={20}
-                        />
-                        <span className="text-sm text-inherit">
-                          Back to cart
-                        </span>
+                      <div className="text-primary    hover:text-[#006533]  cursor-pointer flex items-center">
+                        <div className="hover:first:-translate-x-2 after:bg-transparent after:absolute after:h-full after:w-24 after:top-0 after:content-[''] relative  mt-0.5 transition ease-linear ">
+                          <ChevronLeftIcon
+                            width={20}
+                            height={20}
+                          />
+                        </div>
+                        <div className=" hover:first:-translate-x-2 transition ease-linear  ">
+                          <span className="text-sm text-inherit  ">
+                            Back to cart
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </Link>
-                  {!info && (
-                    <button
-                      type="submit"
-                      form="checkout"
-                      value="checkout"
-                      className="rounded-md text-white text-sm bg-primary py-3 px-8"
-                    >
-                      ORDER WITH PAYPAL
-                    </button>
-                  )}
+
+                  <button
+                    type="submit"
+                    form="checkout"
+                    value="checkout"
+                    className="rounded-md text-white text-sm bg-primary py-3 px-8"
+                  >
+                    ORDER WITH PAYPAL
+                  </button>
                 </div>
                 <div className="mt-8 space-y-4">
                   <div>
-                    {info && (
+                    {/* {info && (
                       <PaypalButton
                         total={cart.total}
                         data={{
@@ -672,7 +713,7 @@ const checkout = ({ provinceList }) => {
                         }}
                         dispatch={dispatch}
                       />
-                    )}
+                    )} */}
                   </div>
                   <div>stripe</div>
                 </div>

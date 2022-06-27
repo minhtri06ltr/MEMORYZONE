@@ -20,6 +20,8 @@ import newComment from "./newComment";
 import content from "./content";
 import banner from "./banner";
 import address from "./address";
+import category from "./category";
+import brand from "./brand";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -46,5 +48,7 @@ export default createSchema({
     content,
     banner,
     address,
+    category,
+    brand,
   ]),
 });

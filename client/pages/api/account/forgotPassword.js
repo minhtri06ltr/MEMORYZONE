@@ -34,7 +34,7 @@ const forgotPasswordRequest = async (
       id: existEmail._id,
     });
     const url = `${process.env.NEXT_PUBLIC_CLIENT_URL}/account/reset/${forgotToken}`;
-    console.log(url);
+
     await sendEmailHandle(
       "laptopdienthoai1@gmail.com",
       url,

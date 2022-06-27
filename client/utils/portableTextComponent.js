@@ -142,55 +142,156 @@ const seoImageBlock = (props) => {
   );
 };
 const productDetailBlock = (props) => {
+  console.log(props);
+  const { height } = getImageDimensions(
+    props.value.image.image,
+  );
   return (
     <div>
       <div
-        className={`flex border my-6 border-[#e5e5e5] ${
-          props.value.reverse &&
+        className={`flex  ${
+          props.value.position === "center" &&
+          "flex-col-reverse"
+        } border my-6 border-[#e5e5e5] ${
+          props.value.position === "right" &&
           "flex-row-reverse"
         }`}
+        style={{
+          flexDirection:
+            props.value.position === "center" &&
+            "column-reverse",
+        }}
       >
         <div
           style={{
-            width: "30%",
+            width:
+              props.value.position !== "center" &&
+              "30%",
+            paddingBottom:
+              props.value.position === "center" &&
+              "2rem",
+            paddingTop:
+              props.value.position === "center" &&
+              "1rem",
             // padding: "1rem",
           }}
-          className={`w-[30%]  px-4 py-4 ${
-            props.value.reverse
+          className={`w-[30%] flex justify-center items-center   ${
+            props.value.position !== "center"
               ? "border-l"
               : "border-r"
-          }  border-[#e5e5e5]`}
+          }  border-[#e5e5e5]  ${
+            props.value.position === "center"
+              ? "px-8"
+              : "px-4 py-4"
+          }  `}
         >
-          <div className="relative w-full h-full">
+          <div
+            className="relative w-full h-full"
+            style={{
+              maxHeight:
+                props.value.position ===
+                  "center" && "550px",
+              height:
+                props.value.position ===
+                  "center" && height,
+            }}
+          >
             <Image
               objectFit="contain"
               layout="fill"
               priority={true}
               src={urlFor(
-                props.value.image,
+                props.value.image.image,
               ).url()}
             />
           </div>
         </div>
         <div
           style={{
-            width: "70%",
+            width:
+              props.value.position !== "center" &&
+              "70%",
             // padding: "1rem",
+            paddingBottom:
+              props.value.position === "center" &&
+              "0.5rem",
+            paddingTop:
+              props.value.position === "center" &&
+              "1.5rem",
           }}
-          className="w-[70%] px-4 py-4"
+          className={`w-[70%] ${
+            props.value.position === "center"
+              ? "px-6"
+              : "px-4 py-4"
+          }  `}
         >
           {props.value.title && (
-            <span className="text-2xl font-semibold mb-4 block">
+            <span
+              className={`text-2xl font-semibold ${
+                props.value.position ===
+                  "center" && "text-center"
+              } mb-6 block`}
+            >
               {props.value.title}
             </span>
           )}
 
-          <PortableText
-            value={props.value.description}
-          />
+          <div>
+            <PortableText
+              value={props.value.description}
+            />
+          </div>
         </div>
       </div>
     </div>
+    // <div>
+    //   <div
+    //     className={`flex border my-6 border-[#e5e5e5] ${
+    //       props.value.position === "right" &&
+    //       "flex-row-reverse"
+    //     }`}
+    //   >
+    //     <div
+    //       style={{
+    //         width: "30%",
+    //         // padding: "1rem",
+    //       }}
+    //       className={`w-[30%]  px-4 py-4 ${
+    //         props.value.reverse
+    //           ? "border-l"
+    //           : "border-r"
+    //       }  border-[#e5e5e5]`}
+    //     >
+    //       <div className="relative w-full h-full">
+    //         <Image
+    //           objectFit="contain"
+    //           layout="fill"
+    //           priority={true}
+    //           src={urlFor(
+    //             props.value.image.image,
+    //           ).url()}
+    //         />
+    //       </div>
+    //     </div>
+    //     <div
+    //       style={{
+    //         width: "70%",
+    //         // padding: "1rem",
+    //       }}
+    //       className="w-[70%] px-4 py-4"
+    //     >
+    //       {props.value.title && (
+    //         <span className="text-2xl font-semibold mb-4 block">
+    //           {props.value.title}
+    //         </span>
+    //       )}
+
+    //       <PortableText
+    //         value={props.value.description}
+    //       />
+    //     </div>
+    //   </div>
+    // </div>
   );
 };
 const titleBlock = (props) => {

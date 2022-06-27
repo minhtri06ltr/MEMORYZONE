@@ -18,3 +18,4 @@ export { default as Interest } from "./Interest";
 export { default as ProductDescription } from "./ProductDescription";
 export { default as NewComment } from "./NewComment";
 export { default as AddressItem } from "./AddressItem";
+export { default as PaymentNotFound } from "./PaymentNotFound";

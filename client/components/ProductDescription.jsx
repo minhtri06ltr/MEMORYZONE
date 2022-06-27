@@ -8,7 +8,7 @@ const ProductDescription = ({
 }) => {
   const [expand, setExpand] = useState(false);
   const [tab, setTab] = useState("description");
-  console.log(specificationTable);
+
   return (
     <div className="my-14">
       <div>
