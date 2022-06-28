@@ -27,7 +27,7 @@ const Layout = ({
           href="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/favicon.png?1653451447357"
         />
       </Head>
-      {/* <Notify /> */}
+      <Notify />
       <header>
         {!removeLayout && <Header />}
       </header>

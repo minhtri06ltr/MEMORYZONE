@@ -8,16 +8,18 @@ import { ShieldCheckIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { client, urlFor } from "../../lib/client";
-import { useEffect } from "react";
-import { updateOrder } from "../../utils/update";
 
 const OrderDetail = ({
   oldOrderList,
   orderList,
   orderDetail,
-  check,
+  totalPrice,
 }) => {
-  console.log(oldOrderList, orderList, check);
+  console.log(
+    oldOrderList,
+    orderList,
+    totalPrice,
+  );
   if (!orderDetail) return <PaymentNotFound />;
   return (
     <Layout
@@ -39,7 +41,13 @@ const OrderDetail = ({
                 </div>
               </a>
             </Link>
-            <div className="relative text-[#000000]">
+            <div
+              className={`relative text-[#000000] ${
+                totalPrice ===
+                  orderDetail.totalPrice &&
+                "invisible"
+              }`}
+            >
               <div className="absolute top-[10%] left-0 -translate-x-[120%]">
                 <ShieldCheckIcon
                   width={70}
@@ -62,41 +70,36 @@ const OrderDetail = ({
               <span>Quantity</span>
             </div>
             <div className="border-y border-[#ddd]  divide-y divide-[#ddd]">
-              {orderDetail.orderList.map(
-                (item, index) => (
-                  <div
-                    className="flex items-center space-x-6 py-4 justify-between"
-                    key={index}
-                  >
-                    <div className="relative border rounded-md overflow-hidden border-[#e5e5e5] min-w-[50px] min-h-[50px]">
-                      <Link
-                        href={`/product/${item.slug}`}
-                      >
-                        <a>
-                          <Image
-                            layout="fill"
-                            src={urlFor(
-                              orderDetail
-                                .productImage[
-                                index
-                              ].image.image,
-                            ).url()}
-                          />
-                        </a>
-                      </Link>
-                    </div>
-                    <span className="w-[70%] block text-sm text-[#333333]">
-                      {item.productName}
-                    </span>
-                    <span className="block text-sm text-[#000000]">
-                      x{" "}
-                      {item.quantity === 0
-                        ? "Out of stock"
-                        : item.quantity}
-                    </span>
+              {orderList.map((item, index) => (
+                <div
+                  className="flex items-center space-x-6 py-4 justify-between"
+                  key={index}
+                >
+                  <div className="relative border rounded-md overflow-hidden border-[#e5e5e5] min-w-[50px] min-h-[50px]">
+                    <Link
+                      href={`/product/${item.slug}`}
+                    >
+                      <a>
+                        <Image
+                          layout="fill"
+                          src={urlFor(
+                            item.image,
+                          ).url()}
+                        />
+                      </a>
+                    </Link>
                   </div>
-                ),
-              )}
+                  <span className="w-[70%] block text-sm text-[#333333]">
+                    {item.productName}
+                  </span>
+                  <span className="whitespace-nowrap block text-sm text-[#000000]">
+                    x{" "}
+                    {item.quantity === 0
+                      ? "Out of stock"
+                      : item.quantity}
+                  </span>
+                </div>
+              ))}
             </div>
             <div className="flex items-center justify-between my-6 ">
               <Link href="/cart">
@@ -122,54 +125,58 @@ const OrderDetail = ({
             </div>
             <Term />
           </div>
-          <div className="flex-1 pl-6 pr-28 bg-[#f8f8f8] border-l border-[#ddd] opacity-70">
+          <div
+            className={`flex-1 pl-6 pr-28 bg-[#f8f8f8] border-l border-[#ddd] ${
+              totalPrice === 0 &&
+              "opacity-70 pointer-events-none"
+            }`}
+          >
             <div className="max-h-[calc(100vh-480px)] scroll-smooth  overflow-y-auto py-4 ">
               <table>
                 <tbody className="space-y-2">
-                  {orderDetail.orderList.map(
-                    (item, index) => (
-                      <tr
-                        key={index}
-                        className="flex items-center"
-                      >
-                        <td>
-                          <div className="relative">
-                            <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md border border-[#e5e5e5]">
-                              <Link
-                                href={`/product/${item.slug}`}
-                              >
-                                <a>
-                                  <Image
-                                    src={urlFor(
-                                      orderDetail
-                                        .productImage[
-                                        index
-                                      ].image
-                                        .image,
-                                    ).url()}
-                                    layout="fill"
-                                    quality={100}
-                                  />
-                                </a>
-                              </Link>
+                  {orderList.map(
+                    (item, index) =>
+                      item.quantity !== 0 && (
+                        <tr
+                          key={index}
+                          className="flex items-center"
+                        >
+                          <td>
+                            <div className="relative">
+                              <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md border border-[#e5e5e5]">
+                                <Link
+                                  href={`/product/${item.slug}`}
+                                >
+                                  <a>
+                                    <Image
+                                      src={urlFor(
+                                        item.image,
+                                      ).url()}
+                                      layout="fill"
+                                      quality={
+                                        100
+                                      }
+                                    />
+                                  </a>
+                                </Link>
+                              </div>
+                              <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
+                                {item.quantity}
+                              </span>
                             </div>
-                            <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
-                              {item.quantity}
+                          </td>
+                          <td>
+                            <span className="text-[#333333] text-sm text-left flex-1 block pl-4">
+                              {item.productName}
                             </span>
-                          </div>
-                        </td>
-                        <td>
-                          <span className="text-[#333333] text-sm text-left flex-1 block pl-4">
-                            {item.productName}
-                          </span>
-                        </td>
-                        <td>
-                          <span className="text-[#717171] text-sm text-right flex-1 pl-4">
-                            {item.price}$
-                          </span>
-                        </td>
-                      </tr>
-                    ),
+                          </td>
+                          <td>
+                            <span className="text-[#717171] text-sm text-right flex-1 pl-4">
+                              {item.price}$
+                            </span>
+                          </td>
+                        </tr>
+                      ),
                   )}
                 </tbody>
               </table>
@@ -196,8 +203,9 @@ const OrderDetail = ({
               <span className="text-[16px] text-[#717171] font-light">
                 Total
               </span>
+
               <span className="text-primary text-xl">
-                {orderDetail.totalPrice}$
+                {totalPrice}$
               </span>
             </div>
           </div>
@@ -241,52 +249,42 @@ export const getStaticProps = async ({
       `,
       { orderId: id },
     );
-    let check = false;
 
-    const orderList = [];
+    let orderList = [];
     for (
       let i = 0;
-      i < orderDetail.orderList.length - 1;
+      i < orderDetail.orderList.length;
       i++
     ) {
       let res = await client.fetch(
-        `*[_type=='product' && slug.current ==$slug]{countInStock}`,
+        `*[_type=='product' && slug.current ==$slug][0]{countInStock}`,
         { slug: orderDetail.orderList[i].slug },
       );
-      if (res.countInStock === 0) {
-        check = true;
-        orderList.push({
-          image: productImage[i].image.image,
-          productName:
-            orderDetail.orderList[i].productName,
-          quantity: 0,
-          price: 0,
-        });
-      } else {
-        if (
-          res.countInStock <
-          orderDetail.orderList[i].quantity
-        )
-          check = true;
-        orderList.push({
-          image: productImage[i].image.image,
-          productName:
-            orderDetail.orderList[i].productName,
-          quantity:
-            orderDetail.orderList[i].quantity >
-            res.countInStock
-              ? res.countInStock
-              : orderDetail.orderList[i].quantity,
-          price:
-            orderDetail.orderList[i].productName,
-        });
-      }
+
+      orderList.push({
+        image:
+          orderDetail.productImage[i].image.image,
+        productName:
+          orderDetail.orderList[i].productName,
+        quantity:
+          orderDetail.orderList[i].quantity >
+          res.countInStock
+            ? res.countInStock
+            : orderDetail.orderList[i].quantity,
+        price: orderDetail.orderList[i].price,
+        slug: orderDetail.orderList[i].slug,
+      });
     }
+    let totalPrice = 0;
+    orderList.map((item) => {
+      totalPrice += item.price * item.quantity;
+    });
+
     return {
       props: {
         oldOrderList: orderDetail.orderList,
         orderList,
-        check,
+        totalPrice,
         orderDetail,
       },
       revalidate: 60,

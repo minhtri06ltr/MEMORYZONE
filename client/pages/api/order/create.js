@@ -57,6 +57,7 @@ const createOrder = async (req, res) => {
       totalPrice: total,
       orderList: products.map((item) => {
         return {
+          _type: "orderItem",
           _key: item.id,
           productName: item.name,
           price: item.price,
@@ -75,7 +76,7 @@ const createOrder = async (req, res) => {
         _ref: userId,
       },
     });
-   
+
     //key,quantity, _id,ispay ,orderAt,orderstatus,shipaddress,total
     return res.status(200).json({
       success: true,
