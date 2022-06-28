@@ -1,7 +1,8 @@
 import Image from "next/image";
+
 import { normalDateTime } from "../utils/format";
 
-const PDF = ({ wrapRef, datetime = null }) => {
+const PDF = ({ wrapRef, datetime }) => {
   return (
     <div className="min-h-screen" ref={wrapRef}>
       <div className="flex justify-between items-center text-[#000000] px-10 pt-6 pb-10">
@@ -19,8 +20,8 @@ const PDF = ({ wrapRef, datetime = null }) => {
       >
         <div className="relative w-[225px] cursor-pointer h-[60px] mx-auto">
           <Image
-            priority={true}
             layout="fill"
+            priority={true}
             src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/checkout_logo.png?1656064578646"
           />
         </div>
@@ -57,6 +58,7 @@ const PDF = ({ wrapRef, datetime = null }) => {
                           src="https://bizweb.sapocdn.net/thumb/thumb/100/329/122/products/laptop-dell-vostro-13-5310-yv5wy5.png?v=1642587230870"
                           layout="fill"
                           quality={100}
+                          priority={true}
                         />
                       </div>
                     </div>

@@ -10,16 +10,15 @@ import {
   PrinterIcon,
 } from "@heroicons/react/outline";
 import ReactToPrint from "react-to-print";
-import { useRef, useState } from "react";
+import { useState, useRef } from "react";
+import { normalDateTime } from "../../../utils/format";
 import { useEffect } from "react";
 
 const OrderSuccess = () => {
   const componentRef = useRef();
-  const [currentDatetime, setCurrentDatetime] =
-    useState();
-  console.log(currentDatetime);
+  const [datetime, setDatetime] = useState(null);
   useEffect(() => {
-    setCurrentDatetime(new Date());
+    setDatetime(new Date());
   }, []);
   return (
     <Layout
@@ -223,14 +222,14 @@ const OrderSuccess = () => {
             }}
             documentTitle="Memoryzone - Thank for your purchase"
             content={() => {
-              setCurrentDatetime(new Date());
+              setDatetime(new Date());
               return componentRef.current;
             }}
           />
           <div className="hidden">
             <PDF
               wrapRef={componentRef}
-              datetime={currentDatetime}
+              datetime={datetime}
             />
           </div>
         </div>
