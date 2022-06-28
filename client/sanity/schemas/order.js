@@ -51,7 +51,7 @@ export default {
       type: "string",
       options: {
         list: [
-          { title: "Paypal", value: "paypal" },
+          { title: "Paypal", value: "Paypal" },
           {
             title: "Standard",
             value: "standard",

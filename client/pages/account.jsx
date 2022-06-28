@@ -15,6 +15,7 @@ import {
   orderStatus,
 } from "../utils/format";
 
+
 const account = () => {
   const router = useRouter();
   const account = useSelector(
@@ -104,7 +105,11 @@ const account = () => {
                     >
                       <td className="itemOrderTable cursor-pointer hover:text-primary">
                         <Link
-                          href={`/checkout/${item._id}`}
+                          href={`/checkout/${
+                            item.isPaid
+                              ? `success/${item._id}`
+                              : `${item._id}`
+                          }`}
                         >
                           {item._id}
                         </Link>

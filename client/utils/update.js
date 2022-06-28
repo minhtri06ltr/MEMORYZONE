@@ -46,3 +46,6 @@ export const updateCartHandle = (
     updateCartHandle();
   }
 };
+export const updateOrder = (array) => {
+  console.log(array);
+};

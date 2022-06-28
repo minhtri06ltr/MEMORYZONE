@@ -7,9 +7,18 @@ import {
 import { ShieldCheckIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
+import { client, urlFor } from "../../lib/client";
+import { useEffect } from "react";
+import { updateOrder } from "../../utils/update";
 
-const OrderDetail = () => {
-  // return <PaymentNotFound />;
+const OrderDetail = ({
+  oldOrderList,
+  orderList,
+  orderDetail,
+  check,
+}) => {
+  console.log(oldOrderList, orderList, check);
+  if (!orderDetail) return <PaymentNotFound />;
   return (
     <Layout
       removeLayout={true}
@@ -38,7 +47,7 @@ const OrderDetail = () => {
                   color="#cccccc"
                 />
               </div>
-              <span className="block my-4  text-lg font-semibold ">
+              <span className="block mt-4 mb-2  text-lg font-semibold ">
                 Announce
               </span>
               <span className="mb-6 block text-sm">
@@ -53,23 +62,41 @@ const OrderDetail = () => {
               <span>Quantity</span>
             </div>
             <div className="border-y border-[#ddd]  divide-y divide-[#ddd]">
-              <div className="flex items-center space-x-6 py-4">
-                <div className="relative border rounded-md overflow-hidden border-[#e5e5e5] min-w-[50px] min-h-[50px]">
-                  <Image
-                    layout="fill"
-                    src="https://bizweb.sapocdn.net/thumb/thumb/100/329/122/products/laptop-dell-vostro-13-5310-yv5wy5.png?v=1642587230870"
-                  />
-                </div>
-                <span className="block text-sm text-[#333333]">
-                  Laptop Dell Vostro 13 5310
-                  YV5WY5 (i5-11320H EVO, Iris Xe
-                  Graphics, Ram 8GB DDR4, SSD
-                  512GB, 13.3 Inch FHD)
-                </span>
-                <span className="block text-sm text-[#000000]">
-                  Out of stock
-                </span>
-              </div>
+              {orderDetail.orderList.map(
+                (item, index) => (
+                  <div
+                    className="flex items-center space-x-6 py-4 justify-between"
+                    key={index}
+                  >
+                    <div className="relative border rounded-md overflow-hidden border-[#e5e5e5] min-w-[50px] min-h-[50px]">
+                      <Link
+                        href={`/product/${item.slug}`}
+                      >
+                        <a>
+                          <Image
+                            layout="fill"
+                            src={urlFor(
+                              orderDetail
+                                .productImage[
+                                index
+                              ].image.image,
+                            ).url()}
+                          />
+                        </a>
+                      </Link>
+                    </div>
+                    <span className="w-[70%] block text-sm text-[#333333]">
+                      {item.productName}
+                    </span>
+                    <span className="block text-sm text-[#000000]">
+                      x{" "}
+                      {item.quantity === 0
+                        ? "Out of stock"
+                        : item.quantity}
+                    </span>
+                  </div>
+                ),
+              )}
             </div>
             <div className="flex items-center justify-between my-6 ">
               <Link href="/cart">
@@ -99,66 +126,51 @@ const OrderDetail = () => {
             <div className="max-h-[calc(100vh-480px)] scroll-smooth  overflow-y-auto py-4 ">
               <table>
                 <tbody className="space-y-2">
-                  <tr className="flex items-center">
-                    <td>
-                      <div className="relative">
-                        <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md border border-[#e5e5e5]">
-                          <Image
-                            src="https://bizweb.sapocdn.net/thumb/thumb/100/329/122/products/laptop-dell-vostro-13-5310-yv5wy5.png?v=1642587230870"
-                            layout="fill"
-                            quality={100}
-                          />
-                        </div>
-                        <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
-                          12
-                        </span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className="text-[#333333] text-sm text-left flex-1 block pl-4">
-                        Laptop Dell Vostro 13 5310
-                        YV5WY5 (i5-11320H EVO,
-                        Iris Xe Graphics, Ram 8GB
-                        DDR4, SSD 512GB, 13.3 Inch
-                        FHD)
-                      </span>
-                    </td>
-                    <td>
-                      <span className="text-[#717171] text-sm text-right flex-1 pl-4">
-                        23$
-                      </span>
-                    </td>
-                  </tr>
-                  <tr className="flex items-center">
-                    <td>
-                      <div className="relative">
-                        <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md border border-[#e5e5e5]">
-                          <Image
-                            src="https://bizweb.sapocdn.net/thumb/thumb/100/329/122/products/laptop-dell-vostro-13-5310-yv5wy5.png?v=1642587230870"
-                            layout="fill"
-                            quality={100}
-                          />
-                        </div>
-                        <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
-                          12
-                        </span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className="text-[#333333] text-sm text-left flex-1 block pl-4">
-                        Laptop Dell Vostro 13 5310
-                        YV5WY5 (i5-11320H EVO,
-                        Iris Xe Graphics, Ram 8GB
-                        DDR4, SSD 512GB, 13.3 Inch
-                        FHD)
-                      </span>
-                    </td>
-                    <td>
-                      <span className="text-[#717171] text-sm text-right flex-1 pl-4">
-                        23$
-                      </span>
-                    </td>
-                  </tr>
+                  {orderDetail.orderList.map(
+                    (item, index) => (
+                      <tr
+                        key={index}
+                        className="flex items-center"
+                      >
+                        <td>
+                          <div className="relative">
+                            <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md border border-[#e5e5e5]">
+                              <Link
+                                href={`/product/${item.slug}`}
+                              >
+                                <a>
+                                  <Image
+                                    src={urlFor(
+                                      orderDetail
+                                        .productImage[
+                                        index
+                                      ].image
+                                        .image,
+                                    ).url()}
+                                    layout="fill"
+                                    quality={100}
+                                  />
+                                </a>
+                              </Link>
+                            </div>
+                            <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
+                              {item.quantity}
+                            </span>
+                          </div>
+                        </td>
+                        <td>
+                          <span className="text-[#333333] text-sm text-left flex-1 block pl-4">
+                            {item.productName}
+                          </span>
+                        </td>
+                        <td>
+                          <span className="text-[#717171] text-sm text-right flex-1 pl-4">
+                            {item.price}$
+                          </span>
+                        </td>
+                      </tr>
+                    ),
+                  )}
                 </tbody>
               </table>
             </div>
@@ -185,7 +197,7 @@ const OrderDetail = () => {
                 Total
               </span>
               <span className="text-primary text-xl">
-                0$
+                {orderDetail.totalPrice}$
               </span>
             </div>
           </div>
@@ -195,3 +207,96 @@ const OrderDetail = () => {
   );
 };
 export default OrderDetail;
+export const getStaticPaths = async () => {
+  const orderIds = await client.fetch(
+    `*[_type=="order"]{
+      _id
+  }`,
+  );
+
+  return {
+    paths:
+      orderIds?.map((orderId) => ({
+        params: {
+          id: orderId._id,
+        },
+      })) || [],
+    fallback: false,
+  };
+};
+export const getStaticProps = async ({
+  params: { id },
+}) => {
+  //get product data by slug param
+  try {
+    const orderDetail = await client.fetch(
+      `*[_type=="order" && _id==$orderId && isPaid==false][0]
+      {
+       totalPrice,paymentMethod,orderList,_id,
+        "productImage": 
+      orderList[]{
+        "image": *[_type=='product' && slug.current == ^.slug][0]{image[0]}
+      }
+      }
+      `,
+      { orderId: id },
+    );
+    let check = false;
+
+    const orderList = [];
+    for (
+      let i = 0;
+      i < orderDetail.orderList.length - 1;
+      i++
+    ) {
+      let res = await client.fetch(
+        `*[_type=='product' && slug.current ==$slug]{countInStock}`,
+        { slug: orderDetail.orderList[i].slug },
+      );
+      if (res.countInStock === 0) {
+        check = true;
+        orderList.push({
+          image: productImage[i].image.image,
+          productName:
+            orderDetail.orderList[i].productName,
+          quantity: 0,
+          price: 0,
+        });
+      } else {
+        if (
+          res.countInStock <
+          orderDetail.orderList[i].quantity
+        )
+          check = true;
+        orderList.push({
+          image: productImage[i].image.image,
+          productName:
+            orderDetail.orderList[i].productName,
+          quantity:
+            orderDetail.orderList[i].quantity >
+            res.countInStock
+              ? res.countInStock
+              : orderDetail.orderList[i].quantity,
+          price:
+            orderDetail.orderList[i].productName,
+        });
+      }
+    }
+    return {
+      props: {
+        oldOrderList: orderDetail.orderList,
+        orderList,
+        check,
+        orderDetail,
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        orderDetail: null,
+      },
+    };
+  }
+};

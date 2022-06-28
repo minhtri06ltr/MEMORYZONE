@@ -47,7 +47,6 @@ const checkout = ({ provinceList }) => {
       fullName: "",
       address: "",
       phoneNumber: "",
-      paymentMethod: 0,
     });
 
   useEffect(() => {
@@ -145,7 +144,7 @@ const checkout = ({ provinceList }) => {
           products: cart.products,
           total: cart.total,
           isPaid: false,
-          paymentMethod: "paypal",
+          paymentMethod: "Paypal",
           orderAt: new Date(),
         },
         account.accessToken,
