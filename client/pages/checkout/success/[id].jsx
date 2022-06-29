@@ -1,5 +1,6 @@
 import {
   Layout,
+  PaymentNotFound,
   PDF,
   Term,
 } from "../../../components";
@@ -25,6 +26,7 @@ const OrderSuccess = ({ orderDetail }) => {
   useEffect(() => {
     setDatetime(new Date());
   }, []);
+  if (!orderDetail) return <PaymentNotFound />;
   return (
     <Layout
       title="Memoryzone | Thank you for your purchase at Memoryzone"
@@ -81,10 +83,14 @@ const OrderSuccess = ({ orderDetail }) => {
                   Purchase information
                 </span>
                 <span>
-                  {orderDetail.user.fullName}
+                  {orderDetail.user
+                    ? orderDetail.user.fullName
+                    : orderDetail.guestName}
                 </span>
                 <span>
-                  {orderDetail.user.email}
+                  {orderDetail.user
+                    ? orderDetail.user.email
+                    : orderDetail.guestEmail}
                 </span>
                 <span>
                   {
@@ -98,7 +104,9 @@ const OrderSuccess = ({ orderDetail }) => {
                   Delivery address
                 </span>
                 <span>
-                  {orderDetail.user.fullName}
+                  {orderDetail.user
+                    ? orderDetail.user.fullName
+                    : orderDetail.guestName}
                 </span>
                 <span>
                   {
@@ -220,9 +228,11 @@ const OrderSuccess = ({ orderDetail }) => {
           </div>
         </div>
         <div className="flex items-center space-x-8 justify-center my-6">
-          <button className="bg-primary hover:bg-[#006533] text-lg text-white px-8 py-3 rounded-md">
-            Continue shopping
-          </button>
+          <Link href="/">
+            <button className="bg-primary hover:bg-[#006533] text-lg text-white px-8 py-3 rounded-md">
+              Continue shopping
+            </button>
+          </Link>
           <ReactToPrint
             trigger={() => {
               return (
@@ -285,10 +295,9 @@ export const getStaticProps = async ({
     const orderDetail = await client.fetch(
       `*[_type=="order" && _id==$orderId && isPaid==true][0]
       {
-       totalPrice,paymentMethod,orderList,_id,shippingAddress,_createdAt,
-        "user":*[_type=='user' && _ref== user._ref][0]{
-        email,"fullName":firstName+" " +lastName
-      },
+       totalPrice,paymentMethod,orderList,_id,shippingAddress,_createdAt,guestName,guestEmail,
+       "user": *[_type=='user' && _id == ^.user._ref ][0]{
+        email,"fullName":firstName + " " + lastName},
         "productImage": 
       orderList[]{
         "image": *[_type=='product' && slug.current == ^.slug][0]{image[0]}

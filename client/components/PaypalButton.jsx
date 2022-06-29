@@ -4,13 +4,12 @@ import {
   PayPalButtons,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-import { postData } from "../utils/requestMethod";
-import { useSelector } from "react-redux";
-import { client } from "../lib/client";
-import { clearCart } from "../redux/cartSlice";
 
+import { client } from "../lib/client";
 import { useRouter } from "next/router";
-import { productSold } from "../middlewares/product";
+import { useSelector } from "react-redux";
+import { patchData } from "../utils/requestMethod";
+import { updateOrder } from "../redux/orderSlice";
 
 // This values are the props in the UI
 
@@ -22,17 +21,16 @@ const ButtonWrapper = ({
   currency,
   showSpinner,
   amount,
-  form,
-  dispatchProp,
+  orderList,
+  dispatchAction,
+  token,
+  orderId,
 }) => {
   // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
   // This is the main reason to wrap the PayPalButtons in a new component
   const [{ options, isPending }, dispatch] =
     usePayPalScriptReducer();
-  const token = useSelector(
-    (state) => state.account.accessToken,
-  );
-
+  const router = useRouter();
   useEffect(() => {
     dispatch({
       type: "resetOptions",
@@ -79,95 +77,37 @@ const ButtonWrapper = ({
             .then(async function () {
               // Your code here after capture the order
               try {
+                console.log(
+                  orderList,
+                  token,
+                  amount,
+                );
                 if (
-                  token == null ||
-                  token === "" ||
-                  token === undefined
+                  token !== "" &&
+                  token !== undefined &&
+                  token !== null
                 ) {
-                  client
-                    .create({
-                      role: "guest", // --
-                      guestEmail: form.email, //--
-                      guestName: form.fullName,
-                      _type: "order",
-                      shippingAddress: {
-                        _type: "shippingAddress",
-
-                        address: form.address,
-                        phoneNumber:
-                          form.phoneNumber,
-                        province: form.province,
-                        district: form.district,
-                        ward: form.ward,
-                        note: form.note,
-                      },
-                      orderStatus: 0,
-                      paymentMethod: "paypal",
-                      orderAt: new Date(),
-                      totalPrice: amount,
-                      orderList:
-                        form.products.map(
-                          (item) => {
-                            return {
-                              _key: item.id,
-                              productName:
-                                item.name,
-                              price: item.price,
-                              slug: item.slug,
-                              quantity:
-                                item.quantity,
-                            };
-                          },
-                        ),
-                    })
-                    .then((res) => {
-                      //  router.push("/checkout/success");
-                      dispatchProp(clearCart());
-                      res.orderList.filter(
-                        (item) => {
-                          return productSold(
-                            item._key,
-                            item.quantity,
-                          );
-                        },
-                      );
-                      alert("buy success");
-                    })
-                    .catch((error) => {
-                      console.log(error.message);
-                      alert(error.message);
-                    });
-                } else {
-                  //buy with account
-                  const res = await postData(
-                    "order/create",
-                    {
-                      ...form,
-                      total: amount,
-                      paymentMethod: "paypal",
-                      orderAt: new Date(),
-                    },
+                  const res = await patchData(
+                    `/order/payment/${orderId}`,
+                    { orderList, amount },
                     token,
                   );
-                  if (!res.success) {
-                    console.log(res.error);
-                    alert(res.error);
-                  } else {
-                    dispatchProp(clearCart());
-                    //  router.push("/checkout/success");
-                    res.returnOrder.orderList.filter(
-                      (item) => {
-                        return productSold(
-                          item._key,
-                          item.quantity,
-                        );
-                      },
+                  console.log(res);
+                  if (res.success) {
+                    dispatchAction(
+                      updateOrder(orderId),
                     );
-                    alert("buy success");
+                    router.push(
+                      `/checkout/success/${orderId}`,
+                    );
                   }
+                } else {
+                  console.log(error);
+                  alert(error);
                 }
               } catch (error) {
-                console.log(error.message);
+                console.log(error);
+
                 alert(error.message);
               }
             });
@@ -179,9 +119,13 @@ const ButtonWrapper = ({
 
 const PaypalButton = ({
   dispatch,
-  data,
+  orderList,
   total,
+  orderId,
 }) => {
+  const token = useSelector(
+    (state) => state.account.accessToken,
+  );
   return (
     <div className="max-w-full min-h-[148px]">
       <PayPalScriptProvider
@@ -196,9 +140,11 @@ const PaypalButton = ({
         <ButtonWrapper
           currency={currency}
           amount={total}
-          form={data}
+          token={token}
+          orderList={orderList}
           showSpinner={true}
-          dispatchProp={dispatch}
+          dispatchAction={dispatch}
+          orderId={orderId}
         />
       </PayPalScriptProvider>
     </div>

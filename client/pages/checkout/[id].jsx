@@ -2,12 +2,14 @@ import Image from "next/image";
 import {
   Layout,
   PaymentNotFound,
+  PaypalButton,
   Term,
 } from "../../components";
 import { ShieldCheckIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { client, urlFor } from "../../lib/client";
+import { useDispatch } from "react-redux";
 
 const OrderDetail = ({
   oldOrderList,
@@ -15,6 +17,8 @@ const OrderDetail = ({
   orderDetail,
   totalPrice,
 }) => {
+  const dispatch = useDispatch();
+
   console.log(
     oldOrderList,
     orderList,
@@ -118,7 +122,12 @@ const OrderDetail = ({
                 </div>
               </Link>
               <Link href="/cart">
-                <button className="rounded-md bg-primary text-white px-6 py-3 text-sm hover:bg-[#006533]">
+                <button
+                  className={`rounded-md bg-primary text-white px-6 py-3 text-sm hover:bg-[#006533] ${
+                    totalPrice !== 0 &&
+                    "invisible"
+                  }`}
+                >
                   Continue
                 </button>
               </Link>
@@ -208,6 +217,18 @@ const OrderDetail = ({
                 {totalPrice}$
               </span>
             </div>
+            <div>
+              <PaypalButton
+                total={totalPrice}
+                orderList={orderList.filter(
+                  (item) => {
+                    return item.quantity !== 0;
+                  },
+                )}
+                dispatch={dispatch}
+                orderId={orderDetail._id}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -273,6 +294,7 @@ export const getStaticProps = async ({
             : orderDetail.orderList[i].quantity,
         price: orderDetail.orderList[i].price,
         slug: orderDetail.orderList[i].slug,
+        id: orderDetail.orderList[i]._key,
       });
     }
     let totalPrice = 0;

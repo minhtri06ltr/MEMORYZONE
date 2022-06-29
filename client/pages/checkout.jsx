@@ -24,7 +24,7 @@ import { updateCartHandle } from "../utils/update";
 import { postData } from "../utils/requestMethod";
 import { addOrder } from "../redux/orderSlice";
 import { clearCart } from "../redux/cartSlice";
-import { productSold } from "../middlewares/product";
+
 import { useRouter } from "next/router";
 
 const checkout = ({ provinceList }) => {
@@ -136,56 +136,104 @@ const checkout = ({ provinceList }) => {
       localStorage.getItem("__memoryzone__cart"),
     );
     updateCartHandle(dispatch, cartLocal);
-    try {
-      const res = await postData(
-        "order/create",
-        {
-          ...checkoutForm,
-          products: cart.products,
-          total: cart.total,
-          isPaid: false,
+    console.log(account.accessToken);
+    if (
+      account.accessToken !== "" &&
+      account.accessToken !== undefined &&
+      account.accessToken !== null
+    ) {
+      try {
+        const res = await postData(
+          "order/create",
+          {
+            ...checkoutForm,
+            products: cart.products,
+            total: cart.total,
+            isPaid: false,
+            paymentMethod: "Paypal",
+            orderAt: new Date(),
+          },
+          account.accessToken,
+        );
+        if (!res.success) {
+          console.log(res.error);
+          alert(res.error);
+        } else {
+          router.push(
+            `/checkout/${res.returnOrder._id}`,
+          );
+          dispatch(clearCart());
+
+          // res.returnOrder.orderList.filter(
+          //   (item) => {
+          //     return productSold(
+          //       item._key,
+          //       item.quantity,
+          //     );
+          //   },
+          // );
+          dispatch(
+            addOrder({
+              _id: res.returnOrder._id,
+              orderAt: res.returnOrder.orderAt,
+              orderStatus:
+                res.returnOrder.orderStatus,
+              shippingAddress:
+                res.returnOrder.shippingAddress,
+              totalPrice:
+                res.returnOrder.totalPrice,
+              isPaid: res.returnOrder.isPaid,
+            }),
+          );
+        }
+      } catch (error) {
+        console.log(error);
+        alert(error.message);
+      }
+    } else {
+      await client
+        .create({
+          role: "guest", // --
+          guestEmail: checkoutForm.email, //--
+          guestName: checkoutForm.fullName,
+          _type: "order",
+          shippingAddress: {
+            _type: "shippingAddress",
+
+            address: checkoutForm.address,
+            phoneNumber: checkoutForm.phoneNumber,
+            province: checkoutForm.province,
+            district: checkoutForm.district,
+            ward: checkoutForm.ward,
+            note: checkoutForm.note,
+          },
+          orderStatus: 0,
           paymentMethod: "Paypal",
           orderAt: new Date(),
-        },
-        account.accessToken,
-      );
-      if (!res.success) {
-        console.log(res.error);
-        alert(res.error);
-      } else {
-        dispatch(clearCart());
-        //  router.push("/checkout/success");
-        res.returnOrder.orderList.filter(
-          (item) => {
-            return productSold(
-              item._key,
-              item.quantity,
-            );
-          },
-        );
-        dispatch(
-          addOrder({
-            _id: res.returnOrder._id,
-            orderAt: res.returnOrder.orderAt,
-            orderStatus:
-              res.returnOrder.orderStatus,
-            shippingAddress:
-              res.returnOrder.shippingAddress,
-            totalPrice:
-              res.returnOrder.totalPrice,
-            isPaid: res.returnOrder.isPaid,
+          totalPrice: cart.total,
+          isPaid: false,
+          orderList: cart.products.map((item) => {
+            return {
+              _type: "orderItem",
+              _key: item.id,
+              productName: item.name,
+              price: item.price,
+              slug: item.slug,
+              quantity: item.quantity,
+            };
           }),
-        );
-        router.push(
-          `/checkout/${res.returnOrder._id}`,
-        );
-      }
-    } catch (error) {
-      console.log(error);
-      alert(error.message);
+        })
+        .then((res) => {
+          router.push(
+            `/checkout/success/${res._id}`,
+          );
+          dispatch(clearCart());
+        })
+        .catch((error) => {
+          console.log(error.message);
+          alert(error.message);
+        });
     }
-
-    // setInfo(true);
   };
   useEffect(() => {
     if (Object.keys(account.user).length !== 0) {
@@ -304,7 +352,11 @@ const checkout = ({ provinceList }) => {
                     />
                     <input
                       required
-                      type="text"
+                      type={`${
+                        account.user.length === 0
+                          ? "hidden"
+                          : "text"
+                      }`}
                       onChange={
                         checkoutFormHandle
                       }
@@ -313,10 +365,7 @@ const checkout = ({ provinceList }) => {
                       value={
                         checkoutForm.fullName
                       }
-                      className={`checkoutInput ${
-                        account.user.length !==
-                          0 && "hidden"
-                      }`}
+                      className="checkoutInput"
                     />
                     <input
                       type="tel"
@@ -674,7 +723,7 @@ const checkout = ({ provinceList }) => {
                     value="checkout"
                     className="rounded-md text-white text-sm bg-primary py-3 px-8"
                   >
-                    ORDER WITH PAYPAL
+                    ORDER
                   </button>
                 </div>
                 <div className="mt-8 space-y-4">

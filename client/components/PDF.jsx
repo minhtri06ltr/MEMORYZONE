@@ -121,13 +121,21 @@ const PDF = ({
           </div>
         </div>
       </div>
-      <div className="grid border text-sm border-[#e1e1e1] mx-14 px-4 py-6 mb-6 grid-cols-2 grid-rows-2 gap-y-6 gap-x-8">
+      <div className="grid border text-sm border-[#e1e1e1] mx-14 px-12 py-8 mb-6 grid-cols-2 grid-rows-2 gap-y-6 gap-x-8">
         <div className="flex flex-col  space-y-4 text-[#595959]">
           <span className="text-xl text-[#000000]">
             Purchase information
           </span>
-          <span>{orderDetail.user.fullName}</span>
-          <span>{orderDetail.user.email}</span>
+          <span>
+            {orderDetail.user
+              ? orderDetail.user.fullName
+              : orderDetail.guestName}
+          </span>
+          <span>
+            {orderDetail.user
+              ? orderDetail.user.email
+              : orderDetail.guestEmail}
+          </span>
           <span>
             {
               orderDetail.shippingAddress
@@ -139,7 +147,11 @@ const PDF = ({
           <span className="text-xl text-[#000000]">
             Delivery address
           </span>
-          <span>{orderDetail.user.fullName}</span>
+          <span>
+            {orderDetail.user
+              ? orderDetail.user.fullName
+              : orderDetail.guestName}
+          </span>
           <span>
             {orderDetail.shippingAddress.address}
           </span>
@@ -171,7 +183,7 @@ const PDF = ({
           </span>
           <span>{orderDetail.paymentMethod}</span>
         </div>
-        <div className="flex flex-col  space-y-4 text-[#595959]">
+        <div className="flex flex-col   space-y-4 text-[#595959]">
           <span className="text-xl text-[#000000]">
             Shipping method
           </span>
