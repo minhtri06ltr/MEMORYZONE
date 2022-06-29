@@ -1,8 +1,13 @@
 import Image from "next/image";
+import { urlFor } from "../lib/client";
 
 import { normalDateTime } from "../utils/format";
 
-const PDF = ({ wrapRef, datetime }) => {
+const PDF = ({
+  wrapRef,
+  datetime,
+  orderDetail,
+}) => {
   return (
     <div className="min-h-screen" ref={wrapRef}>
       <div className="flex justify-between items-center text-[#000000] px-10 pt-6 pb-10">
@@ -45,83 +50,61 @@ const PDF = ({ wrapRef, datetime }) => {
       <div className="px-14  my-8">
         <div className="border border-[#e1e1e1] bg-[#fff] divide-y divide-[#e1e1e1]">
           <span className="px-6  text-[#000000] font-semibold block my-3">
-            Order 226020
+            Order [{orderDetail._id}]
           </span>
           <div className=" scroll-smooth ">
             <table className="w-full table table-fixed">
               <tbody className="block  px-4  w-full divide-y divide-[#e1e1e1]">
-                <tr className="flex items-center w-full  space-x-4 py-4 ">
-                  <td>
-                    <div className="relative">
-                      <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md border border-[#e5e5e5]">
-                        <Image
-                          src="https://bizweb.sapocdn.net/thumb/thumb/100/329/122/products/laptop-dell-vostro-13-5310-yv5wy5.png?v=1642587230870"
-                          layout="fill"
-                          quality={100}
-                          priority={true}
-                        />
-                      </div>
-                    </div>
-                  </td>
-                  <td className="w-[80%]">
-                    <span className="text-[#333333]  text-left  block ">
-                      Laptop Dell Vostro 13 5310
-                      YV5WY5 (i5-11320H EVO, Iris
-                      Xe Graphics, Ram 8GB DDR4,
-                      SSD 512GB, 13.3 Inch
-                      FHD)asdasdasdas asd asd asd
-                      asd asd
-                    </span>
-                  </td>
-                  <td className="w-[5%]">
-                    <span className="text-[#000000] whitespace-nowrap   block text-right ">
-                      x 13
-                    </span>
-                  </td>
-                  <td className="w-[15%]">
-                    <span className="text-[#000000]  whitespace-nowrap  block text-right  ">
-                      223$
-                    </span>
-                  </td>
-                </tr>
-                <tr className="flex items-center w-full  space-x-4 py-4 ">
-                  <td>
-                    <div className="relative">
-                      <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md border border-[#e5e5e5]">
-                        <Image
-                          src="https://bizweb.sapocdn.net/thumb/thumb/100/329/122/products/laptop-dell-vostro-13-5310-yv5wy5.png?v=1642587230870"
-                          layout="fill"
-                          quality={100}
-                        />
-                      </div>
-                    </div>
-                  </td>
-                  <td className="w-[80%]">
-                    <span className="text-[#333333]  text-left  block ">
-                      Laptop Dell Vostro 13 5310
-                      YV5WY5 (i5-11320H EVO, Iris
-                      Xe Graphics, Ram 8GB DDR4,
-                      SSD 512GB, 13.3 Inch FHD)
-                    </span>
-                  </td>
-                  <td className="w-[5%]">
-                    <span className="text-[#000000] whitespace-nowrap   block text-right ">
-                      x 13
-                    </span>
-                  </td>
-                  <td className="w-[15%]">
-                    <span className="text-[#000000]  whitespace-nowrap  block text-right  ">
-                      223$
-                    </span>
-                  </td>
-                </tr>
+                {orderDetail.orderList.map(
+                  (item, index) => (
+                    <tr
+                      key={index}
+                      className="flex items-center w-full  space-x-4 py-4 "
+                    >
+                      <td>
+                        <div className="relative">
+                          <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md border border-[#e5e5e5]">
+                            <Image
+                              src={urlFor(
+                                orderDetail
+                                  .productImage[
+                                  index
+                                ].image.image,
+                              ).url()}
+                              layout="fill"
+                              quality={100}
+                              priority={true}
+                            />
+                          </div>
+                        </div>
+                      </td>
+                      <td className="w-[80%]">
+                        <span className="text-[#333333]  text-left  block ">
+                          {item.productName}
+                        </span>
+                      </td>
+                      <td className="w-[5%]">
+                        <span className="text-[#000000] whitespace-nowrap   block text-right ">
+                          x {item.quantity}
+                        </span>
+                      </td>
+                      <td className="w-[15%]">
+                        <span className="text-[#000000]  whitespace-nowrap  block text-right  ">
+                          {item.price}$
+                        </span>
+                      </td>
+                    </tr>
+                  ),
+                )}
               </tbody>
             </table>
           </div>
           <div className=" text-[#000000] py-4 space-y-4">
             <div className="flex items-center justify-between px-4">
               <span>Provisional</span>
-              <span>341$</span>
+              <span>
+                {orderDetail.totalPrice}$
+              </span>
             </div>
             <div className="flex items-center justify-between px-4">
               <span>Transport fee</span>
@@ -133,7 +116,7 @@ const PDF = ({ wrapRef, datetime }) => {
               Total
             </span>
             <span className=" text-2xl">
-              341$
+              {orderDetail.totalPrice}$
             </span>
           </div>
         </div>
@@ -143,26 +126,50 @@ const PDF = ({ wrapRef, datetime }) => {
           <span className="text-xl text-[#000000]">
             Purchase information
           </span>
-          <span>JohnSchima</span>
-          <span>jhon123@gmail.com</span>
-          <span>0367907374</span>
+          <span>{orderDetail.user.fullName}</span>
+          <span>{orderDetail.user.email}</span>
+          <span>
+            {
+              orderDetail.shippingAddress
+                .phoneNumber
+            }
+          </span>
         </div>
         <div className="flex flex-col  space-y-4 text-[#595959]">
           <span className="text-xl text-[#000000]">
             Delivery address
           </span>
-          <span>JohnSchima</span>
-          <span>2/19</span>
+          <span>{orderDetail.user.fullName}</span>
           <span>
-            Phường Vĩnh Phúc, Quận Ba Đình, Hà Nội
+            {orderDetail.shippingAddress.address}
           </span>
-          <span>0367907374</span>
+          <span>
+            {`${
+              orderDetail.shippingAddress.ward.split(
+                "|",
+              )[1]
+            }, ${
+              orderDetail.shippingAddress.district.split(
+                "|",
+              )[1]
+            }, ${
+              orderDetail.shippingAddress.province.split(
+                "|",
+              )[1]
+            }`}
+          </span>
+          <span>
+            {
+              orderDetail.shippingAddress
+                .phoneNumber
+            }
+          </span>
         </div>
         <div className="flex flex-col  space-y-4 text-[#595959]">
           <span className="text-xl text-[#000000]">
             Payment methods
           </span>
-          <span>Paypal</span>
+          <span>{orderDetail.paymentMethod}</span>
         </div>
         <div className="flex flex-col  space-y-4 text-[#595959]">
           <span className="text-xl text-[#000000]">
@@ -173,7 +180,7 @@ const PDF = ({ wrapRef, datetime }) => {
       </div>
       <span className="block cursor-pointer px-10 text-sm pb-6 text-[#000000]">
         {process.env.NEXT_PUBLIC_CLIENT_URL}
-        /checkout/success/id
+        /checkout/success/{orderDetail._id}
       </span>
     </div>
   );

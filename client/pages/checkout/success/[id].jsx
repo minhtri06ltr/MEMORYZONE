@@ -13,8 +13,13 @@ import ReactToPrint from "react-to-print";
 import { useState, useRef } from "react";
 import { normalDateTime } from "../../../utils/format";
 import { useEffect } from "react";
+import {
+  client,
+  urlFor,
+} from "../../../lib/client";
 
-const OrderSuccess = () => {
+const OrderSuccess = ({ orderDetail }) => {
+  console.log(orderDetail);
   const componentRef = useRef();
   const [datetime, setDatetime] = useState(null);
   useEffect(() => {
@@ -75,27 +80,61 @@ const OrderSuccess = () => {
                 <span className="text-xl text-[#000000]">
                   Purchase information
                 </span>
-                <span>JohnSchima</span>
-                <span>jhon123@gmail.com</span>
-                <span>0367907374</span>
+                <span>
+                  {orderDetail.user.fullName}
+                </span>
+                <span>
+                  {orderDetail.user.email}
+                </span>
+                <span>
+                  {
+                    orderDetail.shippingAddress
+                      .phoneNumber
+                  }
+                </span>
               </div>
               <div className="flex flex-col text-sm space-y-4 text-[#595959]">
                 <span className="text-xl text-[#000000]">
                   Delivery address
                 </span>
-                <span>JohnSchima</span>
-                <span>2/19</span>
                 <span>
-                  Phường Vĩnh Phúc, Quận Ba Đình,
-                  Hà Nội
+                  {orderDetail.user.fullName}
                 </span>
-                <span>0367907374</span>
+                <span>
+                  {
+                    orderDetail.shippingAddress
+                      .address
+                  }
+                </span>
+                <span>
+                  {`${
+                    orderDetail.shippingAddress.ward.split(
+                      "|",
+                    )[1]
+                  }, ${
+                    orderDetail.shippingAddress.district.split(
+                      "|",
+                    )[1]
+                  }, ${
+                    orderDetail.shippingAddress.province.split(
+                      "|",
+                    )[1]
+                  }`}
+                </span>
+                <span>
+                  {
+                    orderDetail.shippingAddress
+                      .phoneNumber
+                  }
+                </span>
               </div>
               <div className="flex flex-col text-sm space-y-4 text-[#595959]">
                 <span className="text-xl text-[#000000]">
                   Payment methods
                 </span>
-                <span>Paypal</span>
+                <span>
+                  {orderDetail.paymentMethod}
+                </span>
               </div>
               <div className="flex flex-col text-sm space-y-4 text-[#595959]">
                 <span className="text-xl text-[#000000]">
@@ -110,78 +149,59 @@ const OrderSuccess = () => {
           <div className="flex-1">
             <div className="border border-[#e1e1e1] bg-[#fafafa] divide-y divide-[#e1e1e1]">
               <span className="px-4  text-[#000000] text-sm font-semibold block my-2">
-                Order 226020 (5)
+                Order [{orderDetail._id}] (
+                {orderDetail.orderList.length})
               </span>
               <div className="max-h-[calc(100vh-480px)] scroll-smooth  overflow-y-auto p-4 ">
                 <table>
                   <tbody className="space-y-2">
-                    <tr className="flex items-center">
-                      <td>
-                        <div className="relative">
-                          <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md border border-[#e5e5e5]">
-                            <Image
-                              src="https://bizweb.sapocdn.net/thumb/thumb/100/329/122/products/laptop-dell-vostro-13-5310-yv5wy5.png?v=1642587230870"
-                              layout="fill"
-                              quality={100}
-                            />
-                          </div>
-                          <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
-                            12
-                          </span>
-                        </div>
-                      </td>
-                      <td>
-                        <span className="text-[#333333] text-sm text-left flex-1 block pl-4">
-                          Laptop Dell Vostro 13
-                          5310 YV5WY5 (i5-11320H
-                          EVO, Iris Xe Graphics,
-                          Ram 8GB DDR4, SSD 512GB,
-                          13.3 Inch FHD)
-                        </span>
-                      </td>
-                      <td>
-                        <span className="text-[#717171] text-sm text-right flex-1 pl-4">
-                          23$
-                        </span>
-                      </td>
-                    </tr>
-                    <tr className="flex items-center">
-                      <td>
-                        <div className="relative">
-                          <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md border border-[#e5e5e5]">
-                            <Image
-                              src="https://bizweb.sapocdn.net/thumb/thumb/100/329/122/products/laptop-dell-vostro-13-5310-yv5wy5.png?v=1642587230870"
-                              layout="fill"
-                              quality={100}
-                            />
-                          </div>
-                          <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
-                            12
-                          </span>
-                        </div>
-                      </td>
-                      <td>
-                        <span className="text-[#333333] text-sm text-left flex-1 block pl-4">
-                          Laptop Dell Vostro 13
-                          5310 YV5WY5 (i5-11320H
-                          EVO, Iris Xe Graphics,
-                          Ram 8GB DDR4, SSD 512GB,
-                          13.3 Inch FHD)
-                        </span>
-                      </td>
-                      <td>
-                        <span className="text-[#717171] text-sm text-right flex-1 pl-4">
-                          23$
-                        </span>
-                      </td>
-                    </tr>
+                    {orderDetail.orderList.map(
+                      (item, index) => (
+                        <tr
+                          key={index}
+                          className="flex items-center"
+                        >
+                          <td>
+                            <div className="relative">
+                              <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md border border-[#e5e5e5]">
+                                <Image
+                                  src={urlFor(
+                                    orderDetail
+                                      .productImage[
+                                      index
+                                    ].image.image,
+                                  ).url()}
+                                  layout="fill"
+                                  quality={100}
+                                />
+                              </div>
+                              <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
+                                {item.quantity}
+                              </span>
+                            </div>
+                          </td>
+                          <td>
+                            <span className="text-[#333333] text-sm text-left flex-1 block pl-4">
+                              {item.productName}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="text-[#717171] text-sm text-right flex-1 pl-4">
+                              {item.price}$
+                            </span>
+                          </td>
+                        </tr>
+                      ),
+                    )}
                   </tbody>
                 </table>
               </div>
               <div className="text-sm text-[#000000]">
                 <div className="flex items-center justify-between p-4">
                   <span>Provisional</span>
-                  <span>341$</span>
+                  <span>
+                    {orderDetail.totalPrice}$
+                  </span>
                 </div>
                 <div className="flex items-center justify-between p-4">
                   <span>Transport fee</span>
@@ -193,7 +213,7 @@ const OrderSuccess = () => {
                   Total
                 </span>
                 <span className="text-primary text-xl">
-                  341$
+                  {orderDetail.totalPrice}$
                 </span>
               </div>
             </div>
@@ -230,6 +250,7 @@ const OrderSuccess = () => {
             <PDF
               wrapRef={componentRef}
               datetime={datetime}
+              orderDetail={orderDetail}
             />
           </div>
         </div>
@@ -239,3 +260,56 @@ const OrderSuccess = () => {
   );
 };
 export default OrderSuccess;
+export const getStaticPaths = async () => {
+  const orderIds = await client.fetch(
+    `*[_type=="order"]{
+      _id
+  }`,
+  );
+
+  return {
+    paths:
+      orderIds?.map((orderId) => ({
+        params: {
+          id: orderId._id,
+        },
+      })) || [],
+    fallback: false,
+  };
+};
+export const getStaticProps = async ({
+  params: { id },
+}) => {
+  //get product data by slug param
+  try {
+    const orderDetail = await client.fetch(
+      `*[_type=="order" && _id==$orderId && isPaid==true][0]
+      {
+       totalPrice,paymentMethod,orderList,_id,shippingAddress,_createdAt,
+        "user":*[_type=='user' && _ref== user._ref][0]{
+        email,"fullName":firstName+" " +lastName
+      },
+        "productImage": 
+      orderList[]{
+        "image": *[_type=='product' && slug.current == ^.slug][0]{image[0]}
+      }
+      }
+      `,
+      { orderId: id },
+    );
+
+    return {
+      props: {
+        orderDetail,
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        orderDetail: null,
+      },
+    };
+  }
+};

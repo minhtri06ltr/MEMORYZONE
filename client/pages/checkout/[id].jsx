@@ -240,7 +240,7 @@ export const getStaticProps = async ({
     const orderDetail = await client.fetch(
       `*[_type=="order" && _id==$orderId && isPaid==false][0]
       {
-       totalPrice,paymentMethod,orderList,_id,
+       totalPrice,orderList,_id,
         "productImage": 
       orderList[]{
         "image": *[_type=='product' && slug.current == ^.slug][0]{image[0]}
