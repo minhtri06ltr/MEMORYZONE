@@ -19,6 +19,7 @@ import Cookies from "js-cookie";
 import { logout } from "../redux/accountSlice";
 import { useRouter } from "next/router";
 import { clearOrder } from "../redux/orderSlice";
+import { useState } from "react";
 
 const Header = () => {
   const user = useSelector(
@@ -29,6 +30,8 @@ const Header = () => {
   const productQuantity = useSelector(
     (state) => state.cart.quantity,
   );
+  const [searchTerm, setSearchTerm] =
+    useState("");
   const router = useRouter();
   const handleLogout = () => {
     dispatch(logout());
@@ -37,6 +40,17 @@ const Header = () => {
     });
     localStorage.setItem("isLogin", false);
     dispatch(clearOrder());
+  };
+  const searchHandle = (e) => {
+    e.preventDefault();
+
+    if (searchTerm === "") {
+      alert(
+        "Please let me know what you want to search",
+      );
+      return;
+    }
+    router.push(`/search?key=${searchTerm}`);
   };
   return (
     <div className="w-full">
@@ -127,19 +141,32 @@ const Header = () => {
             </Link>
           </div>
           <div className=" px-6 flex-1">
-            <div className="p-1 bg-white rounded-md  flex items-center">
-              <input
-                placeholder="Product you want to find..."
-                type="text"
-                className=" text-black w-full text-sm outline-none border-none px-4"
-                name="search"
-              />
-              <button className="bg-secondary px-6 py-2 rounded-md">
-                <SearchIcon
-                  width={18}
-                  color="white"
+            <div>
+              <form
+                onSubmit={searchHandle}
+                className="p-1 bg-white rounded-md  flex items-center"
+              >
+                <input
+                  placeholder="Product you want to find..."
+                  type="text"
+                  required
+                  value={searchTerm}
+                  onChange={(e) =>
+                    setSearchTerm(e.target.value)
+                  }
+                  className=" text-black w-full h-full   text-sm outline-none border-none px-4"
+                  name="search"
                 />
-              </button>
+                <button
+                  className="bg-secondary px-6 py-2 rounded-md"
+                  type="submit"
+                >
+                  <SearchIcon
+                    width={18}
+                    color="white"
+                  />
+                </button>
+              </form>
             </div>
           </div>
           <div className="flex ml-2">
