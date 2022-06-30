@@ -1,5 +1,6 @@
 import { client } from "../../../lib/client";
 import { auth } from "../../../middlewares/auth";
+import { formatOrderList } from "../../../utils/format";
 import { validateOrder } from "../../../utils/validate";
 
 export default async (req, res) => {
@@ -55,16 +56,7 @@ const createOrder = async (req, res) => {
       orderAt,
       orderStatus: 0,
       totalPrice: total,
-      orderList: products.map((item) => {
-        return {
-          _type: "orderItem",
-          _key: item.id,
-          productName: item.name,
-          price: item.price,
-          slug: item.slug,
-          quantity: item.quantity,
-        };
-      }),
+      orderList: formatOrderList(products),
     };
     const userId = await auth(req, res);
 

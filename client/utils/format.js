@@ -113,3 +113,15 @@ export const normalDateTime = (datetime) => {
     strTime
   );
 };
+export const formatOrderList = (orderList) => {
+  return orderList.map((item) => {
+    return {
+      _type: "orderItem",
+      _key: item.id,
+      productName: item.productName ?? item.name,
+      price: item.price,
+      slug: item.slug,
+      quantity: item.quantity,
+    };
+  });
+};

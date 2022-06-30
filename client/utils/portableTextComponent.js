@@ -59,11 +59,7 @@ const seoImageBlock = (props) => {
     const appPage = props.value.url.startsWith(
       process.env.NEXT_PUBLIC_CLIENT_URL,
     );
-    console.log(
-      props.value.blank,
-      props.value.url,
-      appPage,
-    );
+
     if (appPage && !props.value.blank) {
       return (
         <div className="my-6 mx-auto w-full">
@@ -142,10 +138,10 @@ const seoImageBlock = (props) => {
   );
 };
 const productDetailBlock = (props) => {
-  console.log(props);
   const { height } = getImageDimensions(
     props.value.image.image,
   );
+
   return (
     <div>
       <div
@@ -158,22 +154,25 @@ const productDetailBlock = (props) => {
         }`}
         style={{
           flexDirection:
-            props.value.position === "center" &&
-            "column-reverse",
+            props.value.position === "center"
+              ? "column-reverse"
+              : null,
         }}
       >
         <div
           style={{
             width:
-              props.value.position !== "center" &&
-              "30%",
+              props.value.position !== "center"
+                ? "30%"
+                : null,
             paddingBottom:
-              props.value.position === "center" &&
-              "2rem",
+              props.value.position === "center"
+                ? "2rem"
+                : null,
             paddingTop:
-              props.value.position === "center" &&
-              "1rem",
-            // padding: "1rem",
+              props.value.position === "center"
+                ? "1rem"
+                : null,
           }}
           className={`w-[30%] flex justify-center items-center   ${
             props.value.position !== "center"
@@ -189,11 +188,13 @@ const productDetailBlock = (props) => {
             className="relative w-full h-full"
             style={{
               maxHeight:
-                props.value.position ===
-                  "center" && "550px",
+                props.value.position === "center"
+                  ? "550px"
+                  : null,
               height:
-                props.value.position ===
-                  "center" && height,
+                props.value.position === "center"
+                  ? height
+                  : null,
             }}
           >
             <Image
@@ -209,15 +210,18 @@ const productDetailBlock = (props) => {
         <div
           style={{
             width:
-              props.value.position !== "center" &&
-              "70%",
-            // padding: "1rem",
+              props.value.position !== "center"
+                ? "70%"
+                : null,
+
             paddingBottom:
-              props.value.position === "center" &&
-              "0.5rem",
+              props.value.position === "center"
+                ? "0.5rem"
+                : null,
             paddingTop:
-              props.value.position === "center" &&
-              "1.5rem",
+              props.value.position === "center"
+                ? "1.5rem"
+                : null,
           }}
           className={`w-[70%] ${
             props.value.position === "center"
@@ -244,54 +248,6 @@ const productDetailBlock = (props) => {
         </div>
       </div>
     </div>
-    // <div>
-    //   <div
-    //     className={`flex border my-6 border-[#e5e5e5] ${
-    //       props.value.position === "right" &&
-    //       "flex-row-reverse"
-    //     }`}
-    //   >
-    //     <div
-    //       style={{
-    //         width: "30%",
-    //         // padding: "1rem",
-    //       }}
-    //       className={`w-[30%]  px-4 py-4 ${
-    //         props.value.reverse
-    //           ? "border-l"
-    //           : "border-r"
-    //       }  border-[#e5e5e5]`}
-    //     >
-    //       <div className="relative w-full h-full">
-    //         <Image
-    //           objectFit="contain"
-    //           layout="fill"
-    //           priority={true}
-    //           src={urlFor(
-    //             props.value.image.image,
-    //           ).url()}
-    //         />
-    //       </div>
-    //     </div>
-    //     <div
-    //       style={{
-    //         width: "70%",
-    //         // padding: "1rem",
-    //       }}
-    //       className="w-[70%] px-4 py-4"
-    //     >
-    //       {props.value.title && (
-    //         <span className="text-2xl font-semibold mb-4 block">
-    //           {props.value.title}
-    //         </span>
-    //       )}
-
-    //       <PortableText
-    //         value={props.value.description}
-    //       />
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 const titleBlock = (props) => {

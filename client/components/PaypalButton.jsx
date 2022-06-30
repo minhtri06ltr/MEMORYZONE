@@ -4,12 +4,13 @@ import {
   PayPalButtons,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-
+import { productSold } from "../middlewares/product";
 import { client } from "../lib/client";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { patchData } from "../utils/requestMethod";
 import { updateOrder } from "../redux/orderSlice";
+import { formatOrderList } from "../utils/format";
 
 // This values are the props in the UI
 
@@ -77,11 +78,6 @@ const ButtonWrapper = ({
             .then(async function () {
               // Your code here after capture the order
               try {
-                console.log(
-                  orderList,
-                  token,
-                  amount,
-                );
                 if (
                   token !== "" &&
                   token !== undefined &&
@@ -92,22 +88,59 @@ const ButtonWrapper = ({
                     { orderList, amount },
                     token,
                   );
-                  console.log(res);
+
                   if (res.success) {
                     dispatchAction(
                       updateOrder(orderId),
                     );
+                    res.returnOrder.orderList.filter(
+                      (item) => {
+                        return productSold(
+                          item._key,
+                          item.quantity,
+                        );
+                      },
+                    );
                     router.push(
                       `/checkout/success/${orderId}`,
                     );
+                  } else {
+                    console.log(res.error);
+                    alert(res.error);
                   }
                 } else {
-                  console.log(error);
-                  alert(error);
+                  await client
+                    .patch(orderId) // Document ID to patch
+                    .set({
+                      isPaid: true,
+                      totalPrice: amount,
+                      paidAt: new Date(),
+                      orderList:
+                        formatOrderList(
+                          orderList,
+                        ),
+                    }) // Shallow merge
+                    .commit() // Perform the patch and return a promise
+                    .then((res) => {
+                      res.orderList.filter(
+                        (item) => {
+                          return productSold(
+                            item._key,
+                            item.quantity,
+                          );
+                        },
+                      );
+                      router.push(
+                        `/checkout/success/${res._id}`,
+                      );
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                      alert(error.message);
+                    });
                 }
               } catch (error) {
                 console.log(error);
-
                 alert(error.message);
               }
             });

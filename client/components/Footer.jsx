@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
+import { client } from "../lib/client";
 import { postData } from "../utils/requestMethod";
 
 const Footer = () => {

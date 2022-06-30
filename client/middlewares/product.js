@@ -1,6 +1,9 @@
 import { client } from "../lib/client";
 
-export const productSold = async (productId, quantity) => {
+export const productSold = async (
+  productId,
+  quantity,
+) => {
   await client
     .patch(productId)
     .inc({
@@ -9,5 +12,7 @@ export const productSold = async (productId, quantity) => {
     .dec({
       countInStock: quantity,
     })
-    .commit();
+    .commit()
+    .then((res) => console.log(res))
+    .catch((error) => console.log(error));
 };

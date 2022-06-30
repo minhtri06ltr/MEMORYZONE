@@ -13,9 +13,8 @@ export const updateCartHandle = (
           `*[_type=='product' && _id ==$id][0]{countInStock}`,
           { id: i.id },
         );
-        console.log(res);
+
         if (res.countInStock === 0) {
-          console.log("alert");
           alert(
             `Sorry, ${i.name} is out of stock please we have to remove it from your cart`,
           );
@@ -40,12 +39,9 @@ export const updateCartHandle = (
           });
         }
       }
-      console.log(newCart);
+
       dispatch(updateCart(newCart));
     };
     updateCartHandle();
   }
-};
-export const updateOrder = (array) => {
-  console.log(array);
 };

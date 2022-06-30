@@ -143,13 +143,15 @@ const Review = ({
         );
         return;
       }
+
       if (
         e.target.files[0].type === "image/png" ||
         e.target.files[0].type ===
           "image/svg+xml" ||
         e.target.files[0].type === "image/jpeg" ||
         e.target.files[0].type === "image/gif" ||
-        e.target.files[0].type === "image/tiff"
+        e.target.files[0].type === "image/tiff" ||
+        e.target.files[0].type === "image/webp"
       ) {
         await client.assets
           .upload("image", e.target.files[0], {

@@ -1,7 +1,6 @@
 export const calculateRate = (
   statisticalReviews,
 ) => {
-  console.log("running calculateRate");
   const totalReview =
     statisticalReviews[0] +
     statisticalReviews[1] +

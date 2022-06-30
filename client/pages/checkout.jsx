@@ -14,7 +14,10 @@ import {
   useSelector,
 } from "react-redux";
 import { client, urlFor } from "../lib/client";
-import { numberWithCommas } from "../utils/format";
+import {
+  formatOrderList,
+  numberWithCommas,
+} from "../utils/format";
 import { useEffect, useState } from "react";
 
 import { LogoutIcon } from "@heroicons/react/outline";
@@ -29,7 +32,9 @@ import { useRouter } from "next/router";
 
 const checkout = ({ provinceList }) => {
   const router = useRouter();
+
   const cart = useSelector((state) => state.cart);
+
   const [allow, setAllow] = useState(true);
   const account = useSelector(
     (state) => state.account,
@@ -136,7 +141,7 @@ const checkout = ({ provinceList }) => {
       localStorage.getItem("__memoryzone__cart"),
     );
     updateCartHandle(dispatch, cartLocal);
-    console.log(account.accessToken);
+
     if (
       account.accessToken !== "" &&
       account.accessToken !== undefined &&
@@ -164,14 +169,6 @@ const checkout = ({ provinceList }) => {
           );
           dispatch(clearCart());
 
-          // res.returnOrder.orderList.filter(
-          //   (item) => {
-          //     return productSold(
-          //       item._key,
-          //       item.quantity,
-          //     );
-          //   },
-          // );
           dispatch(
             addOrder({
               _id: res.returnOrder._id,
@@ -199,7 +196,6 @@ const checkout = ({ provinceList }) => {
           _type: "order",
           shippingAddress: {
             _type: "shippingAddress",
-
             address: checkoutForm.address,
             phoneNumber: checkoutForm.phoneNumber,
             province: checkoutForm.province,
@@ -212,21 +208,12 @@ const checkout = ({ provinceList }) => {
           orderAt: new Date(),
           totalPrice: cart.total,
           isPaid: false,
-          orderList: cart.products.map((item) => {
-            return {
-              _type: "orderItem",
-              _key: item.id,
-              productName: item.name,
-              price: item.price,
-              slug: item.slug,
-              quantity: item.quantity,
-            };
-          }),
+          orderList: formatOrderList(
+            cart.products,
+          ),
         })
         .then((res) => {
-          router.push(
-            `/checkout/success/${res._id}`,
-          );
+          router.push(`/checkout/${res._id}`);
           dispatch(clearCart());
         })
         .catch((error) => {

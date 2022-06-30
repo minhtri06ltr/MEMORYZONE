@@ -20,7 +20,6 @@ import {
 } from "../../../lib/client";
 
 const OrderSuccess = ({ orderDetail }) => {
-  console.log(orderDetail);
   const componentRef = useRef();
   const [datetime, setDatetime] = useState(null);
   useEffect(() => {

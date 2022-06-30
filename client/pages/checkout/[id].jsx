@@ -19,11 +19,6 @@ const OrderDetail = ({
 }) => {
   const dispatch = useDispatch();
 
-  console.log(
-    oldOrderList,
-    orderList,
-    totalPrice,
-  );
   if (!orderDetail) return <PaymentNotFound />;
   return (
     <Layout
@@ -270,7 +265,7 @@ export const getStaticProps = async ({
       `,
       { orderId: id },
     );
-
+    console.log(orderDetail);
     let orderList = [];
     for (
       let i = 0;

@@ -23,7 +23,7 @@ const address = () => {
     zipCode: "",
     phoneNumber: "",
   });
-  console.log(addressForm);
+
   const router = useRouter();
   const user = useSelector(
     (state) => state.account.user,
