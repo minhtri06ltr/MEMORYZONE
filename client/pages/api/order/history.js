@@ -22,7 +22,7 @@ const getOrderHistory = async (req, res) => {
          isPaid,
           orderAt,
 
-      } | order(_createdAt)`,
+      } | order(orderAt desc)`,
       {
         userId,
       },

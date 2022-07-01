@@ -73,16 +73,16 @@ const ProductDetails = ({
       setSlideNumber(slideNumber - 1);
     }
   };
-  const handleAddToCart = (product) => {
+  const handleAddToCart = () => {
     dispatch(
       addToCart({
-        name: product.name,
-        id: product._id,
-        img: product.image[0],
-        price: product.price,
+        name: productBySlug.name,
+        id: productBySlug._id,
+        img: productBySlug.image[0],
+        price: productBySlug.price,
         quantity: quantity,
-        slug: product.slug.current,
-        countInStock: product.countInStock,
+        slug: productBySlug.slug.current,
+        countInStock: productBySlug.countInStock,
       }),
     );
     router.push("/cart");
@@ -423,10 +423,8 @@ const ProductDetails = ({
                         <div className="flex space-x-2 ">
                           <button
                             className="flex-1 bg-primary rounded-sm py-2"
-                            onClick={() =>
-                              handleAddToCart(
-                                productBySlug,
-                              )
+                            onClick={
+                              handleAddToCart
                             }
                           >
                             <span className="block text-white font-bold leading-5">

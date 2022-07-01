@@ -1,6 +1,6 @@
 import { client } from "../../../../lib/client";
 import { verifyActivateToken } from "../../../../middlewares/auth";
-import bcrypt from "bcryptjs";
+
 import {
   createAccessToken,
   createRefreshToken,

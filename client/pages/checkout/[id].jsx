@@ -10,16 +10,94 @@ import Link from "next/link";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { client, urlFor } from "../../lib/client";
 import { useDispatch } from "react-redux";
+import { VNPayURL } from "../../utils/format";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const OrderDetail = ({
-  oldOrderList,
   orderList,
   orderDetail,
   totalPrice,
 }) => {
   const dispatch = useDispatch();
-
+  const router = useRouter();
+  console.log(router);
   if (!orderDetail) return <PaymentNotFound />;
+  const VNPayCheckoutHandle = async () => {
+    const res = await fetch(
+      `https://geolocation-db.com/json/`,
+    );
+    const data = await res.json();
+
+    window.location.href = VNPayURL(
+      totalPrice,
+      data.IPv4,
+      orderDetail._id,
+    );
+  };
+  const PaymentButton = ({ type }) => {
+    switch (type) {
+      case "Paypal":
+        return (
+          <PaypalButton
+            total={totalPrice}
+            orderList={orderList.filter(
+              (item) => {
+                return item.quantity !== 0;
+              },
+            )}
+            dispatch={dispatch}
+            orderId={orderDetail._id}
+          />
+        );
+        break;
+      case "VNPay":
+        return (
+          <div className="w-full">
+            <button
+              onClick={VNPayCheckoutHandle}
+              className="rounded-sm w-full  hover:bg-white hover:text-primary transition ease-linear text-white text-md bg-primary  border border-primary  py-2 px-6"
+            >
+              Pay with VNPay
+            </button>
+          </div>
+        );
+    }
+  };
+  useEffect(() => {
+    const checkPayment = async () => {
+      const res = await fetch(
+        `https://geolocation-db.com/json/`,
+      );
+      const data = await res.json();
+      if (
+        VNPayURL(
+          totalPrice,
+          data.IPv4,
+          orderDetail._id,
+        ) === router.query.vnp_SecureHash
+      ) {
+        if (
+          router.query.vnp_TransactionStatus ===
+          "00"
+        ) {
+          alert("payment success");
+          // change order in database + push
+        } else if (
+          router.query.vnp_TransactionStatus ===
+          "02"
+        ) {
+          alert("Customer cancel payment");
+        }
+      } else {
+        alert("Invalid VNPay secure hash");
+        return;
+      }
+    };
+    if (router.query.vnp_TransactionStatus) {
+      checkPayment();
+    }
+  }, [router]);
   return (
     <Layout
       removeLayout={true}
@@ -41,11 +119,12 @@ const OrderDetail = ({
               </a>
             </Link>
             <div
-              className={`relative text-[#000000] ${
-                totalPrice ===
-                  orderDetail.totalPrice &&
-                "invisible"
-              }`}
+              className={`relative invisible text-[#000000] 
+             ${
+               router.query
+                 ?.vnp_TransactionStatus ===
+                 "02" && "visible"
+             }`}
             >
               <div className="absolute top-[10%] left-0 -translate-x-[120%]">
                 <ShieldCheckIcon
@@ -212,16 +291,9 @@ const OrderDetail = ({
                 {totalPrice}$
               </span>
             </div>
-            <div>
-              <PaypalButton
-                total={totalPrice}
-                orderList={orderList.filter(
-                  (item) => {
-                    return item.quantity !== 0;
-                  },
-                )}
-                dispatch={dispatch}
-                orderId={orderDetail._id}
+            <div className="mt-8">
+              <PaymentButton
+                type={orderDetail.paymentMethod}
               />
             </div>
           </div>
@@ -256,7 +328,7 @@ export const getStaticProps = async ({
     const orderDetail = await client.fetch(
       `*[_type=="order" && _id==$orderId && isPaid==false][0]
       {
-       totalPrice,orderList,_id,
+       totalPrice,orderList,_id,paymentMethod,
         "productImage": 
       orderList[]{
         "image": *[_type=='product' && slug.current == ^.slug][0]{image[0]}

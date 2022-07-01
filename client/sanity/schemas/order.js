@@ -53,8 +53,12 @@ export default {
         list: [
           { title: "Paypal", value: "Paypal" },
           {
-            title: "Standard",
-            value: "standard",
+            title: "COD",
+            value: "COD",
+          },
+          {
+            title: "VNPay",
+            value: "VNPay",
           },
         ],
 

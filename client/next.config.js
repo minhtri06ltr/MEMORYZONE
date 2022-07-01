@@ -10,8 +10,9 @@ const nextConfig = {
       "bizweb.dktcdn.net",
       "ui-avatars.com",
       "images.unsplash.com",
-
+      "thumbs.dreamstime.com",
       "api.multiavatar.com",
+      "soneku.com",
     ],
   },
 };

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import {
   Layout,
-  PaypalButton,
+
   Term,
 } from "../components";
 import Link from "next/link";
@@ -52,8 +52,9 @@ const checkout = ({ provinceList }) => {
       fullName: "",
       address: "",
       phoneNumber: "",
+      paymentMethod: "",
     });
-
+  console.log(checkoutForm);
   useEffect(() => {
     try {
       const getDistrict = async () => {
@@ -155,7 +156,7 @@ const checkout = ({ provinceList }) => {
             products: cart.products,
             total: cart.total,
             isPaid: false,
-            paymentMethod: "Paypal",
+
             orderAt: new Date(),
           },
           account.accessToken,
@@ -204,7 +205,8 @@ const checkout = ({ provinceList }) => {
             note: checkoutForm.note,
           },
           orderStatus: 0,
-          paymentMethod: "Paypal",
+          paymentMethod:
+            checkoutForm.paymentMethod,
           orderAt: new Date(),
           totalPrice: cart.total,
           isPaid: false,
@@ -264,337 +266,351 @@ const checkout = ({ provinceList }) => {
                   </div>
                 </Link>
               </div>
-              <div className="flex space-x-6 py-6 ">
-                <div className="flex-1 ">
-                  <div className="flex w-full justify-between items-center mb-3">
-                    <span className="font-semibold text-[#000000] text-lg">
-                      Delivery information
-                    </span>
-                    <div>
-                      {allow ? (
-                        <Link
-                          href={{
-                            pathname:
-                              "/account/login",
-                            query: {
-                              return: "checkout",
-                            },
-                          }}
-                        >
-                          <div className="flex cursor-pointer items-center">
-                            <UserCircleIcon
+              <div>
+                <form
+                  id="checkout"
+                  onSubmit={checkoutHandle}
+                  className="flex space-x-6 py-6 "
+                >
+                  <div className="flex-1 ">
+                    <div className="flex w-full justify-between items-center mb-3">
+                      <span className="font-semibold text-[#000000] text-lg">
+                        Delivery information
+                      </span>
+                      <div>
+                        {allow ? (
+                          <Link
+                            href={{
+                              pathname:
+                                "/account/login",
+                              query: {
+                                return:
+                                  "checkout",
+                              },
+                            }}
+                          >
+                            <div className="flex cursor-pointer items-center">
+                              <UserCircleIcon
+                                className="text-primary mr-1"
+                                width={22}
+                                height={22}
+                              />
+                              <span className="text-sm text-primary translate-y-[0.5px] ">
+                                Login
+                              </span>
+                            </div>
+                          </Link>
+                        ) : (
+                          <div
+                            onClick={() => {
+                              dispatch(logout());
+                              setAllow(true);
+                              localStorage.setItem(
+                                "isLogin",
+                                false,
+                              );
+                            }}
+                            className="flex cursor-pointer items-center"
+                          >
+                            <LogoutIcon
                               className="text-primary mr-1"
                               width={22}
                               height={22}
                             />
                             <span className="text-sm text-primary translate-y-[0.5px] ">
-                              Login
+                              Logout
                             </span>
                           </div>
-                        </Link>
-                      ) : (
-                        <div
-                          onClick={() => {
-                            dispatch(logout());
-                            setAllow(true);
-                            localStorage.setItem(
-                              "isLogin",
-                              false,
-                            );
-                          }}
-                          className="flex cursor-pointer items-center"
-                        >
-                          <LogoutIcon
-                            className="text-primary mr-1"
-                            width={22}
-                            height={22}
-                          />
-                          <span className="text-sm text-primary translate-y-[0.5px] ">
-                            Logout
-                          </span>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <form
-                    id="checkout"
-                    onSubmit={checkoutHandle}
-                    className="flex flex-col space-y-3 "
-                  >
-                    <input
-                      onChange={
-                        checkoutFormHandle
-                      }
-                      name="email"
-                      required
-                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                      type="email"
-                      value={checkoutForm.email}
-                      placeholder="Email"
-                      disabled={!allow && true}
-                      className={`checkoutInput ${
-                        !allow &&
-                        "cursor-not-allowed bg-[#eee]"
-                      }`}
-                    />
-                    <input
-                      required
-                      type={`${
-                        account.user.length === 0
-                          ? "hidden"
-                          : "text"
-                      }`}
-                      onChange={
-                        checkoutFormHandle
-                      }
-                      name="fullName"
-                      placeholder="Full Name"
-                      value={
-                        checkoutForm.fullName
-                      }
-                      className="checkoutInput"
-                    />
-                    <input
-                      type="tel"
-                      onChange={
-                        checkoutFormHandle
-                      }
-                      name="phoneNumber"
-                      placeholder="Phone Number"
-                      className="checkoutInput"
-                      pattern="(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b"
-                      value={
-                        checkoutForm.phoneNumber
-                      }
-                      required
-                    />
-                    <input
-                      onChange={
-                        checkoutFormHandle
-                      }
-                      name="address"
-                      type="text"
-                      required
-                      value={checkoutForm.address}
-                      placeholder="Address"
-                      className="checkoutInput"
-                    />
-                    <div className="checkoutInput  checkoutSelectWrapper">
-                      <label
-                        htmlFor="province"
-                        className="absolute border-r-1 border-red-500 block text-xs top-1 text-[#999999]"
-                      >
-                        Province
-                      </label>
-                      <select
+
+                    <div className="flex flex-col space-y-3 ">
+                      <input
+                        onChange={
+                          checkoutFormHandle
+                        }
+                        name="email"
+                        required
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                        type="email"
+                        value={checkoutForm.email}
+                        placeholder="Email"
+                        disabled={!allow && true}
+                        className={`checkoutInput ${
+                          !allow &&
+                          "cursor-not-allowed bg-[#eee]"
+                        }`}
+                      />
+                      <input
+                        required
+                        type={`${
+                          account.user.length ===
+                          0
+                            ? "hidden"
+                            : "text"
+                        }`}
+                        onChange={
+                          checkoutFormHandle
+                        }
+                        name="fullName"
+                        placeholder="Full Name"
+                        value={
+                          checkoutForm.fullName
+                        }
+                        className="checkoutInput"
+                      />
+                      <input
+                        type="tel"
+                        onChange={
+                          checkoutFormHandle
+                        }
+                        name="phoneNumber"
+                        placeholder="Phone Number"
+                        className="checkoutInput"
+                        pattern="(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b"
+                        value={
+                          checkoutForm.phoneNumber
+                        }
+                        required
+                      />
+                      <input
+                        onChange={
+                          checkoutFormHandle
+                        }
+                        name="address"
+                        type="text"
                         required
                         value={
-                          checkoutForm.province
+                          checkoutForm.address
                         }
-                        name="province"
-                        id="province"
-                        className="checkoutSelect required"
-                        onChange={
-                          checkoutFormHandle
-                        }
-                      >
-                        {checkoutForm.province ===
-                          "" && (
-                          <option
-                            value=""
-                            disabled
-                          >
-                            ---
-                          </option>
-                        )}
-                        {provinceList.results.map(
-                          (item, index) => (
+                        placeholder="Address"
+                        className="checkoutInput"
+                      />
+                      <div className="checkoutInput  checkoutSelectWrapper">
+                        <label
+                          htmlFor="province"
+                          className="absolute border-r-1 border-red-500 block text-xs top-1 text-[#999999]"
+                        >
+                          Province
+                        </label>
+                        <select
+                          required
+                          value={
+                            checkoutForm.province
+                          }
+                          name="province"
+                          id="province"
+                          className="checkoutSelect required"
+                          onChange={
+                            checkoutFormHandle
+                          }
+                        >
+                          {checkoutForm.province ===
+                            "" && (
                             <option
-                              key={index}
-                              value={`${item.province_id} | ${item.province_name}`}
+                              value=""
+                              disabled
                             >
-                              {item.province_name}
+                              ---
                             </option>
-                          ),
-                        )}
-                      </select>
-                    </div>
-                    <div
-                      className={`checkoutInput checkoutSelectWrapper ${
-                        checkoutForm.district ===
-                          "" && "bg-[#eee]"
-                      }`}
-                    >
-                      <label
-                        htmlFor="district"
-                        className="absolute z-10 text-xs top-1 text-[#999999]"
-                      >
-                        District
-                      </label>
-                      <select
-                        value={
-                          checkoutForm.district
-                        }
-                        disabled={
-                          checkoutForm.province ===
-                            "" && true
-                        }
-                        className="checkoutSelect  bg-inherit required"
-                        name="district"
-                        id="district"
-                        onChange={
-                          checkoutFormHandle
-                        }
-                      >
-                        {districtList.map(
-                          (item, index) => (
-                            <option
-                              key={index}
-                              value={`${item.district_id} | ${item.district_name}`}
-                            >
-                              {item.district_name}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </div>
-                    <div
-                      className={`checkoutInput  checkoutSelectWrapper ${
-                        checkoutForm.district ===
-                          "" && "bg-[#eee]"
-                      }`}
-                    >
-                      <label className="absolute z-10 text-xs top-1 text-[#999999]">
-                        Wards
-                      </label>
-                      <select
-                        value={checkoutForm.ward}
-                        disabled={
+                          )}
+                          {provinceList.results.map(
+                            (item, index) => (
+                              <option
+                                key={index}
+                                value={`${item.province_id} | ${item.province_name}`}
+                              >
+                                {
+                                  item.province_name
+                                }
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </div>
+                      <div
+                        className={`checkoutInput checkoutSelectWrapper ${
                           checkoutForm.district ===
-                            "" && true
-                        }
-                        className="checkoutSelect bg-inherit"
-                        id="ward"
-                        name="ward"
-                        onChange={
-                          checkoutFormHandle
-                        }
+                            "" && "bg-[#eee]"
+                        }`}
                       >
-                        {wardList.map(
-                          (item, index) => (
-                            <option
-                              key={index}
-                              value={`${item.ward_id} | ${item.ward_name}`}
-                            >
-                              {item.ward_name}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </div>
-                    <textarea
-                      type="text"
-                      className="checkoutInput min-h-[44px] overflow-y-hidden"
-                      placeholder="Note (Option)"
-                    ></textarea>
-                  </form>
-                </div>
-                <div className="flex-1">
-                  <span className="font-semibold block mb-3 text-[#000000] text-lg">
-                    Shipping
-                  </span>
-                  <div className="bg-[#d1ecf1] h-[44px] px-6 py-2 rounded-md">
-                    <span className="text-sm text-primary">
-                      Please enter shipping
-                      information
-                    </span>
-                  </div>
-                  <div>
-                    <span className="font-semibold block mb-3 mt-12 text-[#000000] text-lg">
-                      Payment
-                    </span>
-                    <div className="rounded-md border bg-white border-[#cecdcd] divide-y divide-[#cecdcd]">
-                      <div className="checkoutInfo">
-                        <div className="space-x-3 flex items-center">
-                          <input
-                            type="radio"
-                            className=" block"
-                          />
-                          <span className="text-sm text-[#545454]">
-                            Bank Transfer (VietQR)
-                            (Free of charge)
-                          </span>
-                        </div>
-                        <Image
-                          atl="Memoryzone Bank Transfer (VietQR) (Free of charge)"
-                          src="https://bizweb.dktcdn.net/100/329/122/files/01icon-vietqr.png?v=1639481626593"
-                          width={48}
-                          height={32}
-                        />
+                        <label
+                          htmlFor="district"
+                          className="absolute z-10 text-xs top-1 text-[#999999]"
+                        >
+                          District
+                        </label>
+                        <select
+                          value={
+                            checkoutForm.district
+                          }
+                          disabled={
+                            checkoutForm.province ===
+                              "" && true
+                          }
+                          className="checkoutSelect  bg-inherit required"
+                          name="district"
+                          id="district"
+                          onChange={
+                            checkoutFormHandle
+                          }
+                        >
+                          {districtList.map(
+                            (item, index) => (
+                              <option
+                                key={index}
+                                value={`${item.district_id} | ${item.district_name}`}
+                              >
+                                {
+                                  item.district_name
+                                }
+                              </option>
+                            ),
+                          )}
+                        </select>
                       </div>
-                      <div className="checkoutInfo">
-                        <div className="space-x-3 flex items-center">
-                          <input
-                            type="radio"
-                            className=" block "
-                          />
-                          <span className="text-sm text-[#545454]">
-                            Payment on Delivery
-                            (COD)
-                          </span>
-                        </div>
-                        <Image
-                          atl="Memoryzone  Payment on Delivery (COD)"
-                          src="https://bizweb.dktcdn.net/100/329/122/files/02icon-cod.png?v=1639559673947"
-                          width={48}
-                          height={32}
-                        />
+                      <div
+                        className={`checkoutInput  checkoutSelectWrapper ${
+                          checkoutForm.district ===
+                            "" && "bg-[#eee]"
+                        }`}
+                      >
+                        <label className="absolute z-10 text-xs top-1 text-[#999999]">
+                          Wards
+                        </label>
+                        <select
+                          value={
+                            checkoutForm.ward
+                          }
+                          disabled={
+                            checkoutForm.district ===
+                              "" && true
+                          }
+                          className="checkoutSelect bg-inherit"
+                          id="ward"
+                          name="ward"
+                          onChange={
+                            checkoutFormHandle
+                          }
+                        >
+                          {wardList.map(
+                            (item, index) => (
+                              <option
+                                key={index}
+                                value={`${item.ward_id} | ${item.ward_name}`}
+                              >
+                                {item.ward_name}
+                              </option>
+                            ),
+                          )}
+                        </select>
                       </div>
-                      <div className="checkoutInfo">
-                        <div className="space-x-3 flex items-center">
-                          <input
-                            type="radio"
-                            className=" block "
-                          />
-                          <span className="text-sm text-[#545454]">
-                            0% interest
-                            installment payment
-                            via Visa, Master, JCB
-                            cards (Order from 150
-                            $)
-                          </span>
-                        </div>
-                        <Image
-                          atl="Memoryzone  0% interest installment payment via Visa, Master, JCB
-               cards (Order from 150 $)"
-                          src="https://bizweb.dktcdn.net/100/329/122/files/03icon-tragop-0.png?v=1639481630773"
-                          width={48}
-                          height={32}
-                        />
-                      </div>
-                      <div className="checkoutInfo">
-                        <div className="space-x-3 flex items-center">
-                          <input
-                            type="radio"
-                            className=" block "
-                          />
-                          <span className="text-sm text-[#545454]">
-                            Online payment via
-                            Visa, Master, JCB
-                            cards (Free payment)
-                          </span>
-                        </div>
-                        <Image
-                          alt="Memoryzone Online payment via Visa, Master, JCB cards (Free
-                 payment)"
-                          src="https://bizweb.dktcdn.net/100/329/122/files/04icon-visamaster.png?v=1639481634747"
-                          width={48}
-                          height={32}
-                        />
-                      </div>
+                      <textarea
+                        type="text"
+                        className="checkoutInput min-h-[44px] overflow-y-hidden"
+                        placeholder="Note (Option)"
+                      ></textarea>
                     </div>
                   </div>
-                </div>
+                  <div className="flex-1">
+                    <span className="font-semibold block mb-3 text-[#000000] text-lg">
+                      Shipping
+                    </span>
+                    <div className="bg-[#d1ecf1] h-[44px] px-6 py-2 rounded-md">
+                      <span className="text-sm text-primary">
+                        Please enter shipping
+                        information
+                      </span>
+                    </div>
+                    <div>
+                      <span className="font-semibold block mb-3 mt-12 text-[#000000] text-lg">
+                        Payment
+                      </span>
+
+                      <div className="rounded-md border bg-white border-[#cecdcd] divide-y divide-[#cecdcd]">
+                        <div className="checkoutInfo">
+                          <div className="space-x-3 flex items-center">
+                            <input
+                              type="radio"
+                              className=" block"
+                              name="paymentMethod"
+                              required
+                              value="Paypal"
+                              onChange={
+                                checkoutFormHandle
+                              }
+                            />
+                            <span className="text-sm text-[#545454]">
+                              Pay using Paypal
+                              (Fast, easy and
+                              secure)
+                            </span>
+                          </div>
+                          <Image
+                            atl="Memoryzone  Pay using Paypal
+                            (Fast, easy and
+                            secure)"
+                            src="https://thumbs.dreamstime.com/b/paypal-logo-printed-paper-chisinau-moldova-september-internet-based-digital-money-transfer-service-128373487.jpg"
+                            width={48}
+                            height={32}
+                            objectFit="contain"
+                          />
+                        </div>
+                        <div className="checkoutInfo">
+                          <div className="space-x-3 flex items-center">
+                            <input
+                              type="radio"
+                              className=" block "
+                              name="paymentMethod"
+                              onChange={
+                                checkoutFormHandle
+                              }
+                              value="COD"
+                            />
+                            <span className="text-sm text-[#545454]">
+                              Payment on Delivery
+                              (COD)
+                            </span>
+                          </div>
+                          <Image
+                            atl="Memoryzone  Payment on Delivery (COD)"
+                            src="https://bizweb.dktcdn.net/100/329/122/files/02icon-cod.png?v=1639559673947"
+                            width={48}
+                            height={32}
+                            objectFit="contain"
+                          />
+                        </div>
+                        <div className="checkoutInfo">
+                          <div className="space-x-3 flex items-center">
+                            <input
+                              type="radio"
+                              className=" block "
+                              name="paymentMethod"
+                              onChange={
+                                checkoutFormHandle
+                              }
+                              value="VNPay"
+                            />
+                            <span className="text-sm text-[#545454]">
+                              VNPay Family wallet
+                              (Make life simpler)
+                            </span>
+                          </div>
+                          <Image
+                            atl="Memoryzone  VNPay Family wallet
+                            (Make life simpler)"
+                            src="https://soneku.com/wp-content/uploads/2021/11/vi-vnpay.png"
+                            width={48}
+                            height={32}
+                            objectFit="contain"
+                            quality={100}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
               </div>
               <Term />
             </div>
@@ -712,21 +728,6 @@ const checkout = ({ provinceList }) => {
                   >
                     ORDER
                   </button>
-                </div>
-                <div className="mt-8 space-y-4">
-                  <div>
-                    {/* {info && (
-                      <PaypalButton
-                        total={cart.total}
-                        data={{
-                          ...checkoutForm,
-                          products: cart.products,
-                        }}
-                        dispatch={dispatch}
-                      />
-                    )} */}
-                  </div>
-                  <div>stripe</div>
                 </div>
               </div>
             </div>
