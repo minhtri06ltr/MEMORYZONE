@@ -23,6 +23,7 @@ import address from "./address";
 import category from "./category";
 import brand from "./brand";
 import coupon from "./coupon";
+import test from "./test";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -52,5 +53,6 @@ export default createSchema({
     category,
     brand,
     coupon,
+    test,
   ]),
 });

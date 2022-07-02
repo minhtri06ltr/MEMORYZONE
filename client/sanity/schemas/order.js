@@ -3,6 +3,7 @@ import {
   TruckIcon,
   GiftIcon,
   CurrencyDollarIcon,
+  ClipboardListIcon,
   BellIcon,
 } from "@heroicons/react/outline";
 import React from "react";
@@ -11,7 +12,7 @@ export default {
   name: "order",
   title: "Order",
   type: "document",
-
+  icon: ClipboardListIcon,
   fields: [
     {
       name: "guestName",

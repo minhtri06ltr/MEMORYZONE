@@ -16,7 +16,10 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { updateOrder } from "../../redux/orderSlice";
 import { productSold } from "../../middlewares/product";
-import { patchData } from "../../utils/requestMethod";
+import {
+  getData,
+  patchData,
+} from "../../utils/requestMethod";
 import { validateVNPayHash } from "../../utils/validate";
 import { formatOrderList } from "../../utils/format";
 
@@ -44,6 +47,7 @@ const OrderDetail = ({
       orderDetail._id,
     );
   };
+
   const PaymentButton = ({ type }) => {
     switch (type) {
       case "Paypal":
@@ -421,7 +425,7 @@ export const getStaticProps = async ({
       `,
       { orderId: id },
     );
-    console.log(orderDetail);
+
     let orderList = [];
     for (
       let i = 0;

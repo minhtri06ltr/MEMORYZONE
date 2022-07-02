@@ -20,7 +20,9 @@
     "media",
     "asset-source-unsplash",
     "asset-source-cloudinary",
-    "@sanity/scheduled-publishing"
+    "mux-input",
+    "groq-list"
+   
   ],
   "env": {
     "development": {

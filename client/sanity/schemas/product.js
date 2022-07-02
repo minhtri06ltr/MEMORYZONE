@@ -1,7 +1,9 @@
+import { CubeIcon } from "@heroicons/react/outline";
 export default {
   name: "product",
   title: "Product",
   type: "document",
+  icon: CubeIcon,
 
   initialValue: {
     price: 0,

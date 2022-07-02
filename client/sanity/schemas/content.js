@@ -125,6 +125,11 @@ export default {
       type: "table",
       icon: () => "📰",
     },
+
+    {
+      type: "mux.video",
+      icon: () => "🎬",
+    },
     {
       type: "blockTitle",
       icon: () => "⛳️",

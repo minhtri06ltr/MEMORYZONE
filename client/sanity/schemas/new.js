@@ -1,7 +1,10 @@
+import { NewspaperIcon } from "@heroicons/react/outline";
+
 export default {
   name: "new",
   title: "New",
   type: "document",
+  icon: NewspaperIcon,
 
   fields: [
     {

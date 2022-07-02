@@ -1,7 +1,10 @@
+import { TicketIcon } from "@heroicons/react/outline";
+
 export default {
   title: "Coupon",
   name: "coupon",
   type: "document",
+  icon: TicketIcon,
 
   fields: [
     {
@@ -19,5 +22,28 @@ export default {
       title: "Quantity",
       type: "number",
     },
+    {
+      name: "salePercent",
+      title: "Sale Percent",
+      type: "number",
+    },
+    {
+      name: "endTime",
+      title: "End Time",
+      type: "datetime",
+    },
   ],
+  preview: {
+    select: {
+      title: "couponID",
+      subtitle: "couponDescription",
+    },
+    prepare: (selection) => {
+      return {
+        title: selection.title,
+        subtitle: selection.subtitle,
+        media: TicketIcon,
+      };
+    },
+  },
 };

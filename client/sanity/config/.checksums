@@ -8,5 +8,11 @@
   "sanity-plugin-table": "e56785cc6cecbacf8ebe6bb99ffae32b973e233503c0714497ac7df3042863f1",
   "table": "e56785cc6cecbacf8ebe6bb99ffae32b973e233503c0714497ac7df3042863f1",
   "sanity-plugin-asset-source-cloudinary": "90a9bd123778d4a589a7875d9bbc5a9b713f39084be79987a076da2f6d1d0161",
-  "asset-source-cloudinary": "90a9bd123778d4a589a7875d9bbc5a9b713f39084be79987a076da2f6d1d0161"
+  "asset-source-cloudinary": "90a9bd123778d4a589a7875d9bbc5a9b713f39084be79987a076da2f6d1d0161",
+  "sanity-plugin-intl-input": "836769499d9d622e2bab7ec2729c2aa94d04e642f6f6352ce04e6dfc9f5f23cb",
+  "intl-input": "836769499d9d622e2bab7ec2729c2aa94d04e642f6f6352ce04e6dfc9f5f23cb",
+  "sanity-plugin-mux-input": "595f2707bb80b1584160b3e4aa64454d9f89d1c5ce0f40b4de718d02fd1b3744",
+  "mux-input": "595f2707bb80b1584160b3e4aa64454d9f89d1c5ce0f40b4de718d02fd1b3744",
+  "sanity-plugin-groq-list": "593a2b6dea67475c9c49f525bfa98a8b4161a10dfd0833fa9b3856f80a75d7ee",
+  "groq-list": "593a2b6dea67475c9c49f525bfa98a8b4161a10dfd0833fa9b3856f80a75d7ee"
 }

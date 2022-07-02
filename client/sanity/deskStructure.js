@@ -39,12 +39,7 @@ export default () =>
                 .child(
                   createSuperPane("category", S),
                 ),
-              S.listItem()
-                .title("Coupons")
-                .icon(TicketIcon)
-                .child(
-                  createSuperPane("coupon", S),
-                ),
+
               S.listItem()
                 .title("Brands")
                 .icon(BeakerIcon)
@@ -94,6 +89,12 @@ export default () =>
                 .icon(NewspaperIcon)
                 .child(createSuperPane("new", S)),
               S.listItem()
+                .title("Coupons")
+                .icon(TicketIcon)
+                .child(
+                  createSuperPane("coupon", S),
+                ),
+              S.listItem()
                 .title("Media Tags")
                 .icon(TagIcon)
                 .child(
@@ -101,4 +102,6 @@ export default () =>
                 ),
             ]),
         ),
+      S.divider(),
+      ...S.documentTypeListItems(),
     ]);

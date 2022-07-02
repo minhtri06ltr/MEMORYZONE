@@ -1,9 +1,11 @@
+import { UserIcon } from "@heroicons/react/outline";
 import React from "react";
 
 export default {
   name: "user",
   title: "User",
   type: "document",
+  icon: UserIcon,
 
   initialValue: {
     isAdmin: false,
