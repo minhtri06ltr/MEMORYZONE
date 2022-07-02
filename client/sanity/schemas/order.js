@@ -1,5 +1,4 @@
 import {
-  ClipboardListIcon,
   BadgeCheckIcon,
   TruckIcon,
   GiftIcon,
@@ -12,7 +11,7 @@ export default {
   name: "order",
   title: "Order",
   type: "document",
-  icon: ClipboardListIcon,
+
   fields: [
     {
       name: "guestName",

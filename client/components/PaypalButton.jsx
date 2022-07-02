@@ -7,7 +7,7 @@ import {
 import { productSold } from "../middlewares/product";
 import { client } from "../lib/client";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+
 import { patchData } from "../utils/requestMethod";
 import { updateOrder } from "../redux/orderSlice";
 import { formatOrderList } from "../utils/format";
@@ -155,10 +155,8 @@ const PaypalButton = ({
   orderList,
   total,
   orderId,
+  token,
 }) => {
-  const token = useSelector(
-    (state) => state.account.accessToken,
-  );
   return (
     <div className="max-w-full min-h-[148px]">
       <PayPalScriptProvider

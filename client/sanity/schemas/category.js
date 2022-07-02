@@ -1,10 +1,8 @@
-import { CollectionIcon } from "@heroicons/react/outline";
-
 export default {
   name: "category",
   type: "document",
   title: "Category",
-  icon: CollectionIcon,
+
   fields: [
     {
       name: "categoryName",

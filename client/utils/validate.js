@@ -1,3 +1,5 @@
+import { VNPaySigned } from "./generateToken";
+
 export const isNumber = (n) => {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
@@ -48,4 +50,19 @@ export const validateOrder = (
     return "Missing required fields";
   if (products.length === 0)
     return "Can't find any product in your order";
+};
+
+export const validateVNPayHash = (
+  params,
+  hash,
+) => {
+  console.log(params.split("?")[1]);
+  var signData = params.split("?")[1];
+
+  var signed = VNPaySigned(signData);
+  if (signed === hash) {
+    console.log("ok");
+  } else {
+    console.log("false");
+  }
 };

@@ -19,7 +19,8 @@
     "table",
     "media",
     "asset-source-unsplash",
-    "asset-source-cloudinary"
+    "asset-source-cloudinary",
+    "@sanity/scheduled-publishing"
   ],
   "env": {
     "development": {
@@ -40,6 +41,10 @@
     {
       "implements": "part:@sanity/form-builder/input/file/asset-sources",
       "path": "./parts/assetSources.js"
+    },
+    {
+      "name": "part:@sanity/desk-tool/structure",
+      "path": "./deskStructure.js"
     }
   ]
 }

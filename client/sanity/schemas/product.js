@@ -1,12 +1,8 @@
-import Webcam from "part:sanity-plugin-asset-source-webcam/image-asset-source";
-import { CubeIcon } from "@heroicons/react/outline";
-import MediaAssetSource from "part:sanity-plugin-media/asset-source";
-
 export default {
   name: "product",
   title: "Product",
   type: "document",
-  icon: CubeIcon,
+
   initialValue: {
     price: 0,
     countInStock: 0,

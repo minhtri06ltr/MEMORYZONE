@@ -5,6 +5,7 @@ import {
   PaypalButton,
   Term,
 } from "../../components";
+import { useSelector } from "react-redux";
 import { ShieldCheckIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
@@ -13,12 +14,20 @@ import { useDispatch } from "react-redux";
 import { VNPayURL } from "../../utils/format";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { updateOrder } from "../../redux/orderSlice";
+import { productSold } from "../../middlewares/product";
+import { patchData } from "../../utils/requestMethod";
+import { validateVNPayHash } from "../../utils/validate";
+import { formatOrderList } from "../../utils/format";
 
 const OrderDetail = ({
   orderList,
   orderDetail,
   totalPrice,
 }) => {
+  const token = useSelector(
+    (state) => state.account.accessToken,
+  );
   const dispatch = useDispatch();
   const router = useRouter();
   console.log(router);
@@ -41,6 +50,7 @@ const OrderDetail = ({
         return (
           <PaypalButton
             total={totalPrice}
+            token={token}
             orderList={orderList.filter(
               (item) => {
                 return item.quantity !== 0;
@@ -66,34 +76,92 @@ const OrderDetail = ({
   };
   useEffect(() => {
     const checkPayment = async () => {
-      const res = await fetch(
-        `https://geolocation-db.com/json/`,
-      );
-      const data = await res.json();
       if (
-        VNPayURL(
-          totalPrice,
-          data.IPv4,
-          orderDetail._id,
-        ) === router.query.vnp_SecureHash
+        router.query.vnp_TransactionStatus ===
+        "02"
       ) {
-        if (
-          router.query.vnp_TransactionStatus ===
-          "00"
-        ) {
-          alert("payment success");
-          // change order in database + push
-        } else if (
-          router.query.vnp_TransactionStatus ===
-          "02"
-        ) {
-          alert("Customer cancel payment");
-        }
-      } else {
-        alert("Invalid VNPay secure hash");
+        alert("Customer cancel payment");
         return;
       }
+      if (
+        router.query.vnp_TransactionStatus ===
+        "00"
+      ) {
+        try {
+          if (
+            token !== "" &&
+            token !== undefined &&
+            token !== null
+          ) {
+            const res = await patchData(
+              `/order/payment/${orderDetail._id}`,
+              {
+                orderList: orderList.filter(
+                  (item) => {
+                    return item.quantity !== 0;
+                  },
+                ),
+                totalPrice,
+              },
+              token,
+            );
+
+            if (res.success) {
+              dispatch(
+                updateOrder(orderDetail._id),
+              );
+              res.returnOrder.orderList.filter(
+                (item) => {
+                  return productSold(
+                    item._key,
+                    item.quantity,
+                  );
+                },
+              );
+              router.push(
+                `/checkout/success/${orderDetail._id}`,
+              );
+            } else {
+              console.log(res.error);
+              alert(res.error);
+            }
+          } else {
+            await client
+              .patch(orderDetail._id) // Document ID to patch
+              .set({
+                isPaid: true,
+                totalPrice: totalPrice,
+                paidAt: new Date(),
+                orderList: formatOrderList(
+                  orderList.filter((item) => {
+                    return item.quantity !== 0;
+                  }),
+                ),
+              }) // Shallow merge
+              .commit() // Perform the patch and return a promise
+              .then((res) => {
+                res.orderList.filter((item) => {
+                  return productSold(
+                    item._key,
+                    item.quantity,
+                  );
+                });
+                router.push(
+                  `/checkout/success/${res._id}`,
+                );
+              })
+              .catch((error) => {
+                console.log(error);
+                alert(error.message);
+              });
+          }
+        } catch (error) {
+          console.log(error);
+          alert(error.message);
+        }
+      }
     };
+
     if (router.query.vnp_TransactionStatus) {
       checkPayment();
     }
@@ -119,12 +187,16 @@ const OrderDetail = ({
               </a>
             </Link>
             <div
-              className={`relative invisible text-[#000000] 
-             ${
-               router.query
-                 ?.vnp_TransactionStatus ===
-                 "02" && "visible"
-             }`}
+              className={` ${
+                router.query
+                  .vnp_TransactionStatus ===
+                  "02" ||
+                orderDetail.totalPrice !==
+                  totalPrice
+                  ? "visible"
+                  : "invisible"
+              } relative  text-[#000000] 
+            `}
             >
               <div className="absolute top-[10%] left-0 -translate-x-[120%]">
                 <ShieldCheckIcon
@@ -137,10 +209,22 @@ const OrderDetail = ({
                 Announce
               </span>
               <span className="mb-6 block text-sm">
-                Some of the products in the cart
+                {orderDetail.totalPrice !==
+                  totalPrice &&
+                  `Some of the products in the cart
                 are no longer available to order.
                 We apologize for this
-                inconvenience.
+                inconvenience.`}
+                {router.query
+                  .vnp_TransactionStatus ===
+                  "02" && (
+                  <span>
+                    Cancel the payment!
+                    <br />
+                    Comeback and pay whenever you
+                    like, have a good day
+                  </span>
+                )}
               </span>
             </div>
             <div className="text-sm text-[#000000] flex justify-between items-center my-4">
