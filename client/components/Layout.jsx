@@ -22,6 +22,10 @@ const Layout = ({
           name="viewport"
           content="initial-scale=1.0, width=device-width"
         />
+        <meta
+          httpEquiv="Content-Type"
+          content="text/html; charset=utf-8"
+        />
         <link
           rel="icon"
           href="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/favicon.png?1653451447357"
