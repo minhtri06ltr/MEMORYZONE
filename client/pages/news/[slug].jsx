@@ -72,6 +72,7 @@ const NewDetailsPage = ({ newBySlug }) => {
       })
       .catch((error) => alert(error.message));
   };
+  if (!newBySlug) return <h1>not thing here</h1>;
   return (
     <Layout
       title="Memoryzone | News"
