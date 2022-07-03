@@ -22,9 +22,11 @@ const PDF = ({
       <a
         href={process.env.NEXT_PUBLIC_CLIENT_URL}
         target="_blank"
+        rel="noreferrer"
       >
         <div className="relative w-[225px] cursor-pointer h-[60px] mx-auto">
           <Image
+            alt="Memoryzone logo"
             layout="fill"
             priority={true}
             src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/checkout_logo.png?1656064578646"
@@ -65,6 +67,7 @@ const PDF = ({
                         <div className="relative">
                           <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md border border-[#e5e5e5]">
                             <Image
+                              alt="Memoryzone user's order products image"
                               src={urlFor(
                                 orderDetail
                                   .productImage[

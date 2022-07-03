@@ -12,14 +12,14 @@ import {
 } from "@heroicons/react/outline";
 import ReactToPrint from "react-to-print";
 import { useState, useRef } from "react";
-import { normalDateTime } from "../../../utils/format";
+
 import { useEffect } from "react";
 import {
   client,
   urlFor,
 } from "../../../lib/client";
 
-const OrderSuccess = ({ orderDetail }) => {
+const OrderSuccessPage = ({ orderDetail }) => {
   const componentRef = useRef();
   const [datetime, setDatetime] = useState(null);
   useEffect(() => {
@@ -268,7 +268,7 @@ const OrderSuccess = ({ orderDetail }) => {
     </Layout>
   );
 };
-export default OrderSuccess;
+export default OrderSuccessPage;
 export const getStaticPaths = async () => {
   const orderIds = await client.fetch(
     `*[_type=="order"]{

@@ -7,7 +7,7 @@ import {
 import { Ads, Interest } from "../components";
 import Image from "next/image";
 
-const Home = ({ products }) => {
+const HomePage = ({ products }) => {
   return (
     <Layout
       title="Memoryzone | Profession in Memory - Laptop - PC and other accessories "
@@ -160,7 +160,7 @@ const Home = ({ products }) => {
   );
 };
 
-export default Home;
+export default HomePage;
 
 export const getStaticProps = async () => {
   try {

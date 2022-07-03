@@ -16,7 +16,7 @@ import {
 import Cookies from "js-cookie";
 import { loginSuccess } from "../../../redux/accountSlice";
 
-const ResetPassword = () => {
+const ResetPasswordPage = () => {
   const user = useSelector(
     (state) => state.account.user,
   );
@@ -206,4 +206,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default ResetPasswordPage;

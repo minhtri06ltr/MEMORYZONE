@@ -11,9 +11,12 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
 
-const search = ({ path, productList }) => {
+const SearchProductNamePage = ({
+  path,
+  productList,
+}) => {
   const dispatch = useDispatch();
-  console.log(productList);
+
   const router = useRouter();
   const [searchTag, setSearchTag] = useState("");
   const handleAddToCart = (product) => {
@@ -101,6 +104,7 @@ const search = ({ path, productList }) => {
                         >
                           <a>
                             <Image
+                              alt={`Memoryzone ${item.name} thumbnail `}
                               src={urlFor(
                                 item.image,
                               ).url()}
@@ -189,7 +193,7 @@ const search = ({ path, productList }) => {
   );
 };
 
-export default search;
+export default SearchProductNamePage;
 export const getServerSideProps = async (
   context,
 ) => {

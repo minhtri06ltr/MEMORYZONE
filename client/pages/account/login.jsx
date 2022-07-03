@@ -11,7 +11,7 @@ import { loginSuccess } from "../../redux/accountSlice";
 import { useRouter } from "next/router";
 import { validateEmail } from "../../utils/validate";
 
-const login = () => {
+const LoginPage = () => {
   const router = useRouter();
   const user = useSelector(
     (state) => state.account.user,
@@ -98,7 +98,7 @@ const login = () => {
       Object.keys(user).length !== 0
     ) {
       if (router.query?.return === "checkout") {
-        router.push("/checkout/standard");
+        router.push("/checkout");
       } else router.push("/");
     }
   }, [Object.keys(user).length, router]);
@@ -246,4 +246,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default LoginPage;

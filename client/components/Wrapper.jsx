@@ -38,7 +38,7 @@ const Wrapper = ({ children }) => {
         },
       );
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const __memoryzone__cart = JSON.parse(
@@ -52,7 +52,7 @@ const Wrapper = ({ children }) => {
           __memoryzone__cart,
         ),
       );
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     localStorage.setItem(
       "__memoryzone__cart",
@@ -79,7 +79,7 @@ const Wrapper = ({ children }) => {
 
       getOrderHistory();
     }
-  }, [accessToken]);
+  }, [accessToken, dispatch]);
   return <>{children}</>;
 };
 

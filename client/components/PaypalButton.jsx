@@ -40,7 +40,7 @@ const ButtonWrapper = ({
         currency: currency,
       },
     });
-  }, [currency, showSpinner]);
+  }, [currency, showSpinner, options, dispatch]);
 
   return (
     <>

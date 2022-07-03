@@ -16,14 +16,11 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { updateOrder } from "../../redux/orderSlice";
 import { productSold } from "../../middlewares/product";
-import {
-  getData,
-  patchData,
-} from "../../utils/requestMethod";
-import { validateVNPayHash } from "../../utils/validate";
+import { patchData } from "../../utils/requestMethod";
+
 import { formatOrderList } from "../../utils/format";
 
-const OrderDetail = ({
+const OrderDetailsPage = ({
   orderList,
   orderDetail,
   totalPrice,
@@ -185,6 +182,7 @@ const OrderDetail = ({
                   <Image
                     priority={true}
                     layout="fill"
+                    alt="Memoryzone logo"
                     src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/checkout_logo.png?1656064578646"
                   />
                 </div>
@@ -247,6 +245,7 @@ const OrderDetail = ({
                     >
                       <a>
                         <Image
+                          alt={`Memoryzone order's ${item.productName} image`}
                           layout="fill"
                           src={urlFor(
                             item.image,
@@ -320,6 +319,7 @@ const OrderDetail = ({
                                 >
                                   <a>
                                     <Image
+                                      alt={`Memoryzone order's ${item.productName} image`}
                                       src={urlFor(
                                         item.image,
                                       ).url()}
@@ -390,7 +390,7 @@ const OrderDetail = ({
     </Layout>
   );
 };
-export default OrderDetail;
+export default OrderDetailsPage;
 export const getStaticPaths = async () => {
   const orderIds = await client.fetch(
     `*[_type=="order"]{

@@ -1,11 +1,15 @@
-import { Layout, Path, ProductCard } from "../../components";
+import {
+  Layout,
+  Path,
+  ProductCard,
+} from "../../components";
 import {
   SearchIcon,
   TemplateIcon,
   ViewBoardsIcon,
 } from "@heroicons/react/solid";
 
-const ProductKey = () => {
+const SearchCategoryPages = () => {
   return (
     <Layout title="Test" description="">
       <Path
@@ -32,13 +36,22 @@ const ProductKey = () => {
               className="outline-none flex-1 bg-white py-2 px-4 text-sm border border-[#ebebeb]"
             />
             <button className="bg-primary py-2 px-3">
-              <SearchIcon width={18} color="white" height={18} />
+              <SearchIcon
+                width={18}
+                color="white"
+                height={18}
+              />
             </button>
           </div>
           <div className="mb-10 space-y-3 text-text">
             <div className=" cursor-pointer hover:text-primary ">
-              <input type="checkbox" className="translate-y-[1px]" />
-              <label className="text-sm ml-2 ">Apple</label>
+              <input
+                type="checkbox"
+                className="translate-y-[1px]"
+              />
+              <label className="text-sm ml-2 ">
+                Apple
+              </label>
             </div>
           </div>
           <div>
@@ -46,7 +59,10 @@ const ProductKey = () => {
               PRODUCT PRICE
             </span>
             <div className="py-3">
-              <input type="range" className="w-full" />
+              <input
+                type="range"
+                className="w-full"
+              />
               <div className="flex items-center space-x-4 my-4">
                 <input
                   disabled={true}
@@ -69,36 +85,76 @@ const ProductKey = () => {
                   </span>
                   <div className="space-y-3 text-text max-h-[240px] overflow-y-auto">
                     <div className=" cursor-pointer hover:text-primary ">
-                      <input type="checkbox" className="translate-y-[1px]" />
-                      <label className="text-sm ml-2 ">Ryzen 5</label>
+                      <input
+                        type="checkbox"
+                        className="translate-y-[1px]"
+                      />
+                      <label className="text-sm ml-2 ">
+                        Ryzen 5
+                      </label>
                     </div>
                     <div className=" cursor-pointer hover:text-primary ">
-                      <input type="checkbox" className="translate-y-[1px]" />
-                      <label className="text-sm ml-2 ">Intel Core I3</label>
+                      <input
+                        type="checkbox"
+                        className="translate-y-[1px]"
+                      />
+                      <label className="text-sm ml-2 ">
+                        Intel Core I3
+                      </label>
                     </div>
                     <div className=" cursor-pointer hover:text-primary ">
-                      <input type="checkbox" className="translate-y-[1px]" />
-                      <label className="text-sm ml-2 ">Ryzen 5</label>
+                      <input
+                        type="checkbox"
+                        className="translate-y-[1px]"
+                      />
+                      <label className="text-sm ml-2 ">
+                        Ryzen 5
+                      </label>
                     </div>
                     <div className=" cursor-pointer hover:text-primary ">
-                      <input type="checkbox" className="translate-y-[1px]" />
-                      <label className="text-sm ml-2 ">Intel Core I3</label>
+                      <input
+                        type="checkbox"
+                        className="translate-y-[1px]"
+                      />
+                      <label className="text-sm ml-2 ">
+                        Intel Core I3
+                      </label>
                     </div>
                     <div className=" cursor-pointer hover:text-primary ">
-                      <input type="checkbox" className="translate-y-[1px]" />
-                      <label className="text-sm ml-2 ">Ryzen 5</label>
+                      <input
+                        type="checkbox"
+                        className="translate-y-[1px]"
+                      />
+                      <label className="text-sm ml-2 ">
+                        Ryzen 5
+                      </label>
                     </div>
                     <div className=" cursor-pointer hover:text-primary ">
-                      <input type="checkbox" className="translate-y-[1px]" />
-                      <label className="text-sm ml-2 ">Intel Core I3</label>
+                      <input
+                        type="checkbox"
+                        className="translate-y-[1px]"
+                      />
+                      <label className="text-sm ml-2 ">
+                        Intel Core I3
+                      </label>
                     </div>
                     <div className=" cursor-pointer hover:text-primary ">
-                      <input type="checkbox" className="translate-y-[1px]" />
-                      <label className="text-sm ml-2 ">Ryzen 5</label>
+                      <input
+                        type="checkbox"
+                        className="translate-y-[1px]"
+                      />
+                      <label className="text-sm ml-2 ">
+                        Ryzen 5
+                      </label>
                     </div>
                     <div className=" cursor-pointer hover:text-primary ">
-                      <input type="checkbox" className="translate-y-[1px]" />
-                      <label className="text-sm ml-2 ">Intel Core I3</label>
+                      <input
+                        type="checkbox"
+                        className="translate-y-[1px]"
+                      />
+                      <label className="text-sm ml-2 ">
+                        Intel Core I3
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -164,4 +220,4 @@ const ProductKey = () => {
   );
 };
 
-export default ProductKey;
+export default SearchCategoryPages;

@@ -16,6 +16,7 @@ const PaymentNotFound = () => {
             <a>
               <div className="relative w-[225px] cursor-pointer h-[60px]">
                 <Image
+                  alt="Memoryzone logo"
                   priority={true}
                   layout="fill"
                   src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/checkout_logo.png?1656064578646"

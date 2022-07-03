@@ -13,7 +13,7 @@ import { newDescriptionComponents } from "../../utils/portableTextComponent";
 import { useState } from "react";
 import { validateEmail } from "../../utils/validate";
 
-const NewsDetail = ({ newBySlug }) => {
+const NewDetailsPage = ({ newBySlug }) => {
   const [commentSuccess, setCommentSuccess] =
     useState(false);
   const [commentForm, setCommentForm] = useState({
@@ -228,6 +228,7 @@ const NewsDetail = ({ newBySlug }) => {
                 quality={100}
                 height={90}
                 width={90}
+                alt="Memoryzone related news thumbnail"
               />
               <span className="ml-5 text-sm text-[#707070] cursor-pointer hover:text-primary">
                 April Boom - Buy Victus Get Omen
@@ -239,6 +240,7 @@ const NewsDetail = ({ newBySlug }) => {
                 quality={100}
                 height={90}
                 width={90}
+                alt="Memoryzone related news thumbnail"
               />
               <span className="ml-5 text-sm text-[#707070] cursor-pointer hover:text-primary">
                 April Boom - Buy Victus Get Omen
@@ -250,6 +252,7 @@ const NewsDetail = ({ newBySlug }) => {
                 quality={100}
                 height={90}
                 width={90}
+                alt="Memoryzone related news thumbnail"
               />
               <span className="ml-5 text-sm text-[#707070] cursor-pointer hover:text-primary">
                 April Boom - Buy Victus Get Omen
@@ -262,7 +265,7 @@ const NewsDetail = ({ newBySlug }) => {
   );
 };
 
-export default NewsDetail;
+export default NewDetailsPage;
 export const getStaticPaths = async () => {
   const newSlugs = await client.fetch(
     `*[_type=="new"]{

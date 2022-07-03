@@ -11,7 +11,7 @@ import {
 } from "../utils/format";
 import { newSummaryComponents } from "../utils/portableTextComponent";
 
-const newsPage = ({ news }) => {
+const NewsPage = ({ news }) => {
   return (
     <Layout
       title="Memoryzone | News"
@@ -45,7 +45,7 @@ const newsPage = ({ news }) => {
                 >
                   <div className="w-[40%] cursor-pointer h-[345px] relative">
                     <Image
-                      alt=""
+                      alt={`Memoryzone ${item.title} new thumbnail`}
                       objectFit="contain"
                       layout="fill"
                       quality={100}
@@ -121,6 +121,7 @@ const newsPage = ({ news }) => {
           <div className="space-y-6 divide-y divide-[#e5e5e5]">
             <div className="pt-5 flex items-start">
               <Image
+                alt="Memoryzone related news thumbnail"
                 src="https://bizweb.sapocdn.net/thumb/small/100/329/122/articles/1200x1200.jpg?v=1649059004967"
                 quality={100}
                 height={90}
@@ -132,6 +133,7 @@ const newsPage = ({ news }) => {
             </div>
             <div className="pt-5 flex items-start">
               <Image
+                alt="Memoryzone related news thumbnail"
                 src="https://bizweb.sapocdn.net/thumb/small/100/329/122/articles/1200x1200.jpg?v=1649059004967"
                 quality={100}
                 height={90}
@@ -143,6 +145,7 @@ const newsPage = ({ news }) => {
             </div>
             <div className="pt-5 flex items-start">
               <Image
+                alt="Memoryzone related news thumbnail"
                 src="https://bizweb.sapocdn.net/thumb/small/100/329/122/articles/1200x1200.jpg?v=1649059004967"
                 quality={100}
                 height={90}
@@ -159,7 +162,7 @@ const newsPage = ({ news }) => {
   );
 };
 
-export default newsPage;
+export default NewsPage;
 export const getStaticProps = async () => {
   try {
     const news = await client.fetch(

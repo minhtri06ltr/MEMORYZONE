@@ -15,8 +15,7 @@ import {
   orderStatus,
 } from "../utils/format";
 
-
-const account = () => {
+const AccountPage = () => {
   const router = useRouter();
   const account = useSelector(
     (state) => state.account,
@@ -216,4 +215,4 @@ const account = () => {
   );
 };
 
-export default account;
+export default AccountPage;

@@ -2,6 +2,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/outline";
+import Image from "next/image";
 import Link from "next/link";
 import { Error, ProductCard } from ".";
 
@@ -63,14 +64,28 @@ const Sell = ({ products }) => {
           </div>
           {/*sell banner */}
           <div className="flex-1 ml-8 ">
-            <div className="mb-8 ">
+            <div className="mb-8 relative w-full min-h-[240px]">
               <Link href="#">
-                <img src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_1_fashion.png?1651552159868" />
+                <a>
+                  <Image
+                    src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_1_fashion.png?1651552159868"
+                    layout="fill"
+                    alt="Memoryzone laptop banner 1"
+                    objectFit="contain"
+                  />
+                </a>
               </Link>
             </div>
-            <div className="relative">
+            <div className="relative w-full min-h-[240px]">
               <Link href="#">
-                <img src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_2_fashion.png?1651552159868" />
+                <a>
+                  <Image
+                    src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_2_fashion.png?1651552159868"
+                    layout="fill"
+                    objectFit="contain"
+                    alt="Memoryzone laptop banner 2"
+                  />
+                </a>
               </Link>
             </div>
           </div>

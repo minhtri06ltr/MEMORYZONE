@@ -10,9 +10,9 @@ import Cookies from "js-cookie";
 
 import { loginSuccess } from "../../../redux/accountSlice";
 
-const activate = () => {
+const ActiveAccountPage = () => {
   const router = useRouter();
-  const { query } = useRouter();
+  const { query } = router;
   const dispatch = useDispatch();
   const user = useSelector(
     (state) => state.account,
@@ -62,15 +62,11 @@ const activate = () => {
         );
         localStorage.setItem("isLogin", true);
         alert("Verify your email success");
-        router.push('/')
+        router.push("/");
       }
     };
     query.token && verifyAccount();
-  }, [
-    query.token,
-    Object.keys(user).length,
-    router,
-  ]);
+  }, [query.token, user, router, dispatch]);
   return (
     <Layout
       title="Memoryzone | Activate account"
@@ -80,4 +76,4 @@ const activate = () => {
   );
 };
 
-export default activate;
+export default ActiveAccountPage;

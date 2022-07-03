@@ -19,6 +19,7 @@ const Interest = () => {
               src="https://app2.jeoway.net/35/icon_catagory_mmz/the_nho_icon.png"
               layout="fill"
               quality={100}
+              alt="Memoryzone interesting memory stick "
             />
           </div>
           <span className="text-primary mt-2 block font-semibold">
@@ -31,6 +32,7 @@ const Interest = () => {
               src="https://app2.jeoway.net/35/icon_catagory_mmz/ram_icon.png"
               layout="fill"
               quality={100}
+              alt="Memoryzone interesting ram"
             />
           </div>
           <span className="text-primary mt-2 block font-semibold">
@@ -43,6 +45,7 @@ const Interest = () => {
               src="https://app2.jeoway.net/35/icon_catagory_mmz/ssd_icon.png"
               layout="fill"
               quality={100}
+              alt="Memoryzone interesting memory SSD "
             />
           </div>
           <span className="text-primary mt-2 block font-semibold">
@@ -55,6 +58,7 @@ const Interest = () => {
               src="https://app2.jeoway.net/35/icon_catagory_mmz/o_cung_di_dong_icon.png"
               layout="fill"
               quality={100}
+              alt="Memoryzone interesting memory portable hard drive "
             />
           </div>
           <span className="text-primary mt-2 block font-semibold">
@@ -67,6 +71,7 @@ const Interest = () => {
               src="https://app2.jeoway.net/35/icon_catagory_mmz/phu_kien_icon.png"
               layout="fill"
               quality={100}
+              alt="Memoryzone interesting memory accessory "
             />
           </div>
           <span className="text-primary mt-2 block font-semibold">
@@ -79,6 +84,7 @@ const Interest = () => {
               src="https://app2.jeoway.net/35/icon_catagory_mmz/o_cung_ssd_di_dong_icon.png"
               layout="fill"
               quality={100}
+              alt="Memoryzone interesting memory stick portable SSD hard drive"
             />
           </div>
           <span className="text-primary mt-2 block font-semibold">

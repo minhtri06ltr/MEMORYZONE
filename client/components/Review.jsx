@@ -28,7 +28,7 @@ const ReplyItem = ({
                 )}&font-size=0.42&color=ffffff&background=666&bold=true`}
                 width={32}
                 height={32}
-                atl={`Memoryzone reply: ${item.fullName} avatar`}
+                alt={`Memoryzone reply: ${item.fullName} avatar`}
               />
             </div>
             <span className="font-semibold text-base ml-3 text-[#505050]">
@@ -363,7 +363,7 @@ const Review = ({
             <div className="py-6 space-y-5">
               <span className="block text-2xl text-[#323c3f]">
                 Rate and comment on{" "}
-                <b>"{productName}"</b>
+                <b>&quot;{productName}&quot;</b>
               </span>
               <div>
                 <label
@@ -605,7 +605,7 @@ const Review = ({
                       )}&font-size=0.42&color=ffffff&background=666&bold=true`}
                       width={32}
                       height={32}
-                      atl={`Memoryzone review: ${item.fullName} avatar`}
+                      alt={`Memoryzone review: ${item.fullName} avatar`}
                     />
                   </div>
                   <span className="font-semibold text-base ml-3 pb-1 text-[#505050]">
@@ -632,6 +632,7 @@ const Review = ({
                           className="relative cursor-pointer scaleAnimation h-[180px] w-[180px]"
                         >
                           <Image
+                            alt="Memoryzone user's review picture"
                             quantity={100}
                             objectFit="contain"
                             layout="fill"

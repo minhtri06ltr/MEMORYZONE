@@ -8,16 +8,13 @@ import {
 } from "react-redux";
 import { postData } from "../../utils/requestMethod";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";
-import { loginSuccess } from "../../redux/accountSlice";
 
-const register = () => {
+const RegisterPage = () => {
   const account = useSelector(
     (state) => state.account,
   );
   const router = useRouter();
 
-  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] =
     useState("");
   const [registerForm, setRegisterForm] =
@@ -208,4 +205,4 @@ const register = () => {
   );
 };
 
-export default register;
+export default RegisterPage;

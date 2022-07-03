@@ -10,7 +10,7 @@ import { ArrowLeftIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useState } from "react";
 
-const address = () => {
+const AddressPage = () => {
   const [openAddressForm, setOpenAddressForm] =
     useState(false);
   const [addressForm, setAddressForm] = useState({
@@ -269,4 +269,4 @@ const address = () => {
   );
 };
 
-export default address;
+export default AddressPage;

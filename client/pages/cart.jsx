@@ -19,7 +19,7 @@ import { isNumber } from "../utils/validate";
 
 import { updateCartHandle } from "../utils/update";
 
-const cart = () => {
+const CartPage = () => {
   const dispatch = useDispatch();
 
   const cartItems = useSelector(
@@ -32,7 +32,7 @@ const cart = () => {
       localStorage.getItem("__memoryzone__cart"),
     );
     updateCartHandle(dispatch, cartLocal);
-  }, []);
+  }, [dispatch]);
   return (
     <Layout
       title="Memoryzone | Cart"
@@ -312,4 +312,4 @@ const cart = () => {
   );
 };
 
-export default cart;
+export default CartPage;

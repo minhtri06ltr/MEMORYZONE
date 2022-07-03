@@ -1,9 +1,5 @@
 import Image from "next/image";
-import {
-  Layout,
-
-  Term,
-} from "../components";
+import { Layout, Term } from "../components";
 import Link from "next/link";
 import {
   UserCircleIcon,
@@ -30,7 +26,7 @@ import { clearCart } from "../redux/cartSlice";
 
 import { useRouter } from "next/router";
 
-const checkout = ({ provinceList }) => {
+const CheckoutPage = ({ provinceList }) => {
   const router = useRouter();
 
   const cart = useSelector((state) => state.cart);
@@ -54,7 +50,7 @@ const checkout = ({ provinceList }) => {
       phoneNumber: "",
       paymentMethod: "",
     });
-  console.log(checkoutForm);
+
   useEffect(() => {
     try {
       const getDistrict = async () => {
@@ -81,7 +77,7 @@ const checkout = ({ provinceList }) => {
     } catch (error) {
       alert(error.message);
     }
-  }, [checkoutForm.province]);
+  }, [provinceList, checkoutForm.province]);
   useEffect(() => {
     try {
       const getWard = async () => {
@@ -109,7 +105,7 @@ const checkout = ({ provinceList }) => {
     } catch (error) {
       alert(error.message);
     }
-  }, [checkoutForm.district]);
+  }, [districtList, checkoutForm.district]);
   const checkoutFormHandle = (e) => {
     setCheckoutForm({
       ...checkoutForm,
@@ -233,7 +229,10 @@ const checkout = ({ provinceList }) => {
       });
       setAllow(false);
     }
-  }, [Object.keys(account.user).length]);
+  }, [
+    Object.keys(account.user).length,
+    account.user,
+  ]);
 
   return (
     <Layout
@@ -244,8 +243,8 @@ const checkout = ({ provinceList }) => {
       {cart.quantity === 0 ? (
         <Link href="/">
           <span className="mt-12 cursor-pointer hover:text-primary block text-center text-text text-md ">
-            You don't have any product in cart
-            yet! Please choose at least one
+            You don&apos;t have any product in
+            cart yet! Please choose at least one
             product at shop
           </span>
         </Link>
@@ -548,7 +547,7 @@ const checkout = ({ provinceList }) => {
                             </span>
                           </div>
                           <Image
-                            atl="Memoryzone  Pay using Paypal
+                            alt="Memoryzone  Pay using Paypal
                             (Fast, easy and
                             secure)"
                             src="https://thumbs.dreamstime.com/b/paypal-logo-printed-paper-chisinau-moldova-september-internet-based-digital-money-transfer-service-128373487.jpg"
@@ -574,7 +573,7 @@ const checkout = ({ provinceList }) => {
                             </span>
                           </div>
                           <Image
-                            atl="Memoryzone  Payment on Delivery (COD)"
+                            alt="Memoryzone  Payment on Delivery (COD)"
                             src="https://bizweb.dktcdn.net/100/329/122/files/02icon-cod.png?v=1639559673947"
                             width={48}
                             height={32}
@@ -598,7 +597,7 @@ const checkout = ({ provinceList }) => {
                             </span>
                           </div>
                           <Image
-                            atl="Memoryzone  VNPay Family wallet
+                            alt="Memoryzone  VNPay Family wallet
                             (Make life simpler)"
                             src="https://soneku.com/wp-content/uploads/2021/11/vi-vnpay.png"
                             width={48}
@@ -644,7 +643,7 @@ const checkout = ({ provinceList }) => {
                                   ).url()}
                                   layout="fill"
                                   quality={100}
-                                  atl={`Memoryzone checkout products: ${item.name}`}
+                                  alt={`Memoryzone order's products ${item.name}`}
                                 />
                               </div>
                               <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
@@ -738,7 +737,7 @@ const checkout = ({ provinceList }) => {
   );
 };
 
-export default checkout;
+export default CheckoutPage;
 export async function getStaticProps() {
   try {
     const resProvince = await fetch(

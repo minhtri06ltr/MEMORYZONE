@@ -23,13 +23,13 @@ import Link from "next/link";
 import { calculateRate } from "../../utils/calculate";
 import { PortableText } from "@portabletext/react";
 
-const ProductDetails = ({
+const ProductDetailsPage = ({
   productBySlug,
   statisticalReviews,
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  console.log(productBySlug);
+
   if (!productBySlug)
     return (
       <Layout
@@ -567,7 +567,7 @@ const ProductDetails = ({
     </Layout>
   );
 };
-export default ProductDetails;
+export default ProductDetailsPage;
 
 //set path for nextjs
 export const getStaticPaths = async () => {
