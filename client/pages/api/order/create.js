@@ -76,7 +76,7 @@ const createOrder = async (req, res) => {
     });
   }
 };
-const handler async (req, res) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case "POST":
       await createOrder(req, res);
