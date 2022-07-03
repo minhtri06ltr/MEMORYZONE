@@ -77,7 +77,7 @@ const ProductDescription = ({
             <div className="border-x border-[#2c2c2c]">
               <table className="w-full border  border-[#e5e5e5]">
                 <tbody>
-                  {specificationTable.map(
+                  {specificationTable?.map(
                     (item, index) => (
                       <tr
                         key={index}

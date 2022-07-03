@@ -6,6 +6,7 @@ import { PortableText } from "@portabletext/react";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import React from "react";
 import Link from "next/link";
+import SanityMuxPlayer from "sanity-mux-player";
 
 const centerBlock = ({ children }) => {
   return (
@@ -174,7 +175,11 @@ const productDetailBlock = (props) => {
                 ? "1rem"
                 : null,
           }}
-          className={`w-[30%] flex justify-center items-center   ${
+          className={`${
+            props.value.position === "center"
+              ? "w-full"
+              : "w-[30%]"
+          } flex justify-center items-center   ${
             props.value.position !== "center"
               ? "border-l"
               : "border-r"
@@ -209,11 +214,6 @@ const productDetailBlock = (props) => {
         </div>
         <div
           style={{
-            width:
-              props.value.position !== "center"
-                ? "70%"
-                : null,
-
             paddingBottom:
               props.value.position === "center"
                 ? "0.5rem"
@@ -223,7 +223,11 @@ const productDetailBlock = (props) => {
                 ? "1.5rem"
                 : null,
           }}
-          className={`w-[70%] ${
+          className={`${
+            props.value.position === "center"
+              ? "w-full"
+              : "w-[70%]"
+          } ${
             props.value.position === "center"
               ? "px-6"
               : "px-4 py-4"
@@ -317,6 +321,21 @@ const checkMarkItemBlock = ({ children }) => {
     </span>
   );
 };
+const muxVideoBlock = (props) => {
+  console.log(props);
+  return (
+    <div className="my-6 w-full">
+      <SanityMuxPlayer
+        assetDocument={props.value.video}
+        autoload={props.value.autoLoad}
+        autoplay={props.value.autoPlay}
+        showControls={props.value.showControls}
+        loop={props.value.loop}
+        muted={props.value.muted}
+      />
+    </div>
+  );
+};
 export const productDescriptionComponents = {
   types: {
     seoImage: seoImageBlock,
@@ -324,6 +343,7 @@ export const productDescriptionComponents = {
     youtube: (props) =>
       youtubeBlock(props, "100%", 616.5),
     table: tableBlock,
+    muxVideo: muxVideoBlock,
     // Any other custom types you have in your content
     // Examples: mapLocation, contactForm, code, featuredProjects, latestNews, etc.
   },
@@ -345,6 +365,7 @@ export const newDescriptionComponents = {
   types: {
     seoImage: seoImageBlock,
     blockTitle: titleBlock,
+    muxVideo: muxVideoBlock,
     youtube: (props) =>
       youtubeBlock(props, "100%", 666),
     productDetail: productDetailBlock,
@@ -414,6 +435,7 @@ export const newSummaryComponents = {
     productDetail: (props) => (
       <span>{props.children}</span>
     ),
+    muxVideo: () => <></>,
     seoImage: () => <></>,
     youtube: () => <></>,
     table: (props) => (

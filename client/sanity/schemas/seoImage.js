@@ -36,4 +36,23 @@ export default {
       type: "boolean",
     },
   ],
+  preview: {
+    select: {
+      title: "imageAlt",
+      media: "image",
+      subtitle: "url",
+    },
+    prepare: (selection) => {
+      console.log(selection);
+      return {
+        title: selection.title
+          ? selection.title
+          : "Missing Alternative text for image",
+        subtitle: selection.subtitle
+          ? selection.subtitle
+          : "This image don't have url",
+        media: selection.media,
+      };
+    },
+  },
 };

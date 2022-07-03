@@ -289,8 +289,14 @@ export const getStaticProps = async ({
   try {
     const newBySlug = await client.fetch(
       `*[_type=="new" && slug.current==$slug][0]{
-        _id,description,title,author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
-      }`,
+        _id, description[]{
+    ...,
+    _type=='muxVideo'=>{
+    ...,"video": video.asset->
+  }
+  },title,author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
+      }
+      `,
       { slug },
     );
 

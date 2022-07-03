@@ -127,7 +127,7 @@ export default {
     },
 
     {
-      type: "mux.video",
+      type: "muxVideo",
       icon: () => "🎬",
     },
     {

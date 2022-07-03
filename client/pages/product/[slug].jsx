@@ -29,7 +29,7 @@ const ProductDetails = ({
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-
+  console.log(productBySlug);
   if (!productBySlug)
     return (
       <Layout
@@ -604,10 +604,15 @@ export const getStaticProps = async ({
         coalesce(count(reviews[rating==4 && isApprove==true]),0), 
            coalesce(count(reviews[rating==5 && isApprove==true]),0)], 
         "productDetails":*[_type=="product" && slug.current==$slug][0]{
-        image,name,countInStock,description,specifications,specificationTable,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
+  description[]{
+    ...,
+    _type=='muxVideo'=>{
+    ...,"video": video.asset->
+  }
+  },
+        image,name,countInStock,specifications,specificationTable,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
       }
       }
-      
     `,
       { slug },
     );
