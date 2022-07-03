@@ -65,10 +65,11 @@ const login = async (req, res) => {
     });
   }
 };
-export default async (req, res) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case "POST":
       await login(req, res);
       break;
   }
 };
+export default handler;

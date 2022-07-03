@@ -3,7 +3,7 @@ import { client } from "../../../lib/client";
 import { createAccessToken } from "../../../utils/generateToken";
 import jwt from "jsonwebtoken";
 
-export default async (req, res) => {
+const handler = async (req, res) => {
   try {
     const rfToken = req.cookies.refreshToken;
     if (!rfToken)
@@ -12,15 +12,22 @@ export default async (req, res) => {
         error: "Please login to continue",
       });
     //verify
-    const result = jwt.verify(rfToken, process.env.NEXT_PUBLIC_REFRESH_TOKEN);
+    const result = jwt.verify(
+      rfToken,
+      process.env.NEXT_PUBLIC_REFRESH_TOKEN,
+    );
     if (!result)
       return res.status(400).json({
         success: false,
-        error: "Your token is incorrect or has expired",
+        error:
+          "Your token is incorrect or has expired",
       });
-    const existUser = await client.fetch(`*[_type=='user' && _id==$id][0]`, {
-      id: result.id,
-    });
+    const existUser = await client.fetch(
+      `*[_type=='user' && _id==$id][0]`,
+      {
+        id: result.id,
+      },
+    );
 
     if (!existUser) {
       return res.status(400).json({
@@ -28,7 +35,9 @@ export default async (req, res) => {
         error: "User doest not exist",
       });
     }
-    const accessToken = createAccessToken({ id: existUser._id });
+    const accessToken = createAccessToken({
+      id: existUser._id,
+    });
     return res.status(200).json({
       success: true,
       accessToken: accessToken,
@@ -48,3 +57,4 @@ export default async (req, res) => {
     });
   }
 };
+export default handler;

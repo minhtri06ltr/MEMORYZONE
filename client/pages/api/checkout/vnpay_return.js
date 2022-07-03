@@ -9,10 +9,11 @@ const checkVNPayHash = async (req, res) => {
   }
 };
 
-export default async (req, res) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case "GET":
       await checkVNPayHash(req, res);
       break;
   }
 };
+export default handler;

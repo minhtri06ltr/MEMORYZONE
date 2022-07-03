@@ -32,10 +32,11 @@ const getOrderHistory = async (req, res) => {
     });
   }
 };
-export default async (req, res) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case "GET":
       await getOrderHistory(req, res);
       break;
   }
 };
+export default handler;

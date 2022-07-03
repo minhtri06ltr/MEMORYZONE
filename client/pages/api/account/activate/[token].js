@@ -54,10 +54,11 @@ const verifyAccount = async (req, res) => {
     });
   }
 };
-export default async (req, res) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case "GET":
       await verifyAccount(req, res);
       break;
   }
 };
+export default handler;

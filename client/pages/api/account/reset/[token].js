@@ -62,7 +62,7 @@ const resetPassword = async (req, res) => {
   }
 };
 
-export default async (req, res) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case "GET":
       await verifyToken(req, res);
@@ -72,3 +72,4 @@ export default async (req, res) => {
       break;
   }
 };
+export default handler;

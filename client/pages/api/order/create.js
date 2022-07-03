@@ -76,10 +76,11 @@ const createOrder = async (req, res) => {
     });
   }
 };
-export default async (req, res) => {
+const handler async (req, res) => {
   switch (req.method) {
     case "POST":
       await createOrder(req, res);
       break;
   }
 };
+export default handler;

@@ -48,10 +48,11 @@ const forgotPasswordRequest = async (
     });
   }
 };
-export default async (req, res) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case "POST":
       await forgotPasswordRequest(req, res);
       break;
   }
 };
+export default handler;

@@ -70,10 +70,11 @@ const register = async (req, res) => {
     });
   }
 };
-export default async (req, res) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case "POST":
       await register(req, res);
       break;
   }
 };
+export default handler;
