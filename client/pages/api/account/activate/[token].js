@@ -6,13 +6,6 @@ import {
   createRefreshToken,
 } from "../../../../utils/generateToken";
 
-export default async (req, res) => {
-  switch (req.method) {
-    case "GET":
-      await verifyAccount(req, res);
-      break;
-  }
-};
 const verifyAccount = async (req, res) => {
   try {
     const newUser = await verifyActivateToken(
@@ -59,5 +52,12 @@ const verifyAccount = async (req, res) => {
       success: false,
       error: error.message,
     });
+  }
+};
+export default async (req, res) => {
+  switch (req.method) {
+    case "GET":
+      await verifyAccount(req, res);
+      break;
   }
 };

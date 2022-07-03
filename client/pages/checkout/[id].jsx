@@ -30,51 +30,7 @@ const OrderDetailsPage = ({
   );
   const dispatch = useDispatch();
   const router = useRouter();
-  console.log(router);
-  if (!orderDetail) return <PaymentNotFound />;
-  const VNPayCheckoutHandle = async () => {
-    const res = await fetch(
-      `https://geolocation-db.com/json/`,
-    );
-    const data = await res.json();
 
-    window.location.href = VNPayURL(
-      totalPrice,
-      data.IPv4,
-      orderDetail._id,
-    );
-  };
-
-  const PaymentButton = ({ type }) => {
-    switch (type) {
-      case "Paypal":
-        return (
-          <PaypalButton
-            total={totalPrice}
-            token={token}
-            orderList={orderList.filter(
-              (item) => {
-                return item.quantity !== 0;
-              },
-            )}
-            dispatch={dispatch}
-            orderId={orderDetail._id}
-          />
-        );
-        break;
-      case "VNPay":
-        return (
-          <div className="w-full">
-            <button
-              onClick={VNPayCheckoutHandle}
-              className="rounded-sm w-full  hover:bg-white hover:text-primary transition ease-linear text-white text-md bg-primary  border border-primary  py-2 px-6"
-            >
-              Pay with VNPay
-            </button>
-          </div>
-        );
-    }
-  };
   useEffect(() => {
     const checkPayment = async () => {
       if (
@@ -166,7 +122,52 @@ const OrderDetailsPage = ({
     if (router.query.vnp_TransactionStatus) {
       checkPayment();
     }
-  }, [router]);
+  }, [router, dispatch]);
+  if (!orderDetail) return <PaymentNotFound />;
+  const VNPayCheckoutHandle = async () => {
+    const res = await fetch(
+      `https://geolocation-db.com/json/`,
+    );
+    const data = await res.json();
+
+    window.location.href = VNPayURL(
+      totalPrice,
+      data.IPv4,
+      orderDetail._id,
+    );
+  };
+
+  const PaymentButton = ({ type }) => {
+    switch (type) {
+      case "Paypal":
+        return (
+          <PaypalButton
+            total={totalPrice}
+            token={token}
+            orderList={orderList.filter(
+              (item) => {
+                return item.quantity !== 0;
+              },
+            )}
+            dispatch={dispatch}
+            orderId={orderDetail._id}
+          />
+        );
+        break;
+      case "VNPay":
+        return (
+          <div className="w-full">
+            <button
+              onClick={VNPayCheckoutHandle}
+              className="rounded-sm w-full  hover:bg-white hover:text-primary transition ease-linear text-white text-md bg-primary  border border-primary  py-2 px-6"
+            >
+              Pay with VNPay
+            </button>
+          </div>
+        );
+    }
+  };
+
   return (
     <Layout
       removeLayout={true}

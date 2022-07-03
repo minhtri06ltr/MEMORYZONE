@@ -29,7 +29,13 @@ const ProductDetailsPage = ({
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [pixel, setPixel] = useState(0);
+  const [slideNumber, setSlideNumber] =
+    useState(0);
+  const [index, setIndex] = useState(1);
+  const [quantity, setQuantity] = useState(1);
 
+  const listRef = useRef();
   if (!productBySlug)
     return (
       <Layout
@@ -47,13 +53,6 @@ const ProductDetailsPage = ({
       </Layout>
     );
 
-  const [pixel, setPixel] = useState(0);
-  const [slideNumber, setSlideNumber] =
-    useState(0);
-  const [index, setIndex] = useState(1);
-  const [quantity, setQuantity] = useState(1);
-
-  const listRef = useRef();
   const handleSlide = (direction) => {
     if (
       direction === "right" &&

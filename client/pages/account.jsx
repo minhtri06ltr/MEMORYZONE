@@ -31,7 +31,11 @@ const AccountPage = () => {
     ) {
       router.push("/account/login");
     }
-  }, [Object.keys(account.user).length, router]);
+  }, [
+    Object.keys(account.user).length,
+    router,
+    account.user,
+  ]);
 
   return (
     <Layout

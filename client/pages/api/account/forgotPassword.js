@@ -3,14 +3,6 @@ import { sendEmailHandle } from "../../../middlewares/mailer";
 
 import { createAccessToken } from "../../../utils/generateToken";
 
-export default async (req, res) => {
-  switch (req.method) {
-    case "POST":
-      await forgotPasswordRequest(req, res);
-      break;
-  }
-};
-
 const forgotPasswordRequest = async (
   req,
   res,
@@ -54,5 +46,12 @@ const forgotPasswordRequest = async (
       success: false,
       error: error.message,
     });
+  }
+};
+export default async (req, res) => {
+  switch (req.method) {
+    case "POST":
+      await forgotPasswordRequest(req, res);
+      break;
   }
 };

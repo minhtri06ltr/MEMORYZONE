@@ -2,14 +2,6 @@ import { client } from "../../../../lib/client";
 import { auth } from "../../../../middlewares/auth";
 import { formatOrderList } from "../../../../utils/format";
 
-export default async (req, res) => {
-  switch (req.method) {
-    case "PATCH":
-      await orderPayment(req, res);
-      break;
-  }
-};
-
 const orderPayment = async (req, res) => {
   try {
     const result = await auth(req, res);
@@ -41,5 +33,13 @@ const orderPayment = async (req, res) => {
       success: false,
       error: error.message,
     });
+  }
+};
+
+export default async (req, res) => {
+  switch (req.method) {
+    case "PATCH":
+      await orderPayment(req, res);
+      break;
   }
 };

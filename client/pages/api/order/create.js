@@ -3,14 +3,6 @@ import { auth } from "../../../middlewares/auth";
 import { formatOrderList } from "../../../utils/format";
 import { validateOrder } from "../../../utils/validate";
 
-export default async (req, res) => {
-  switch (req.method) {
-    case "POST":
-      await createOrder(req, res);
-      break;
-  }
-};
-
 const createOrder = async (req, res) => {
   try {
     const {
@@ -82,5 +74,12 @@ const createOrder = async (req, res) => {
       success: false,
       error: error.message,
     });
+  }
+};
+export default async (req, res) => {
+  switch (req.method) {
+    case "POST":
+      await createOrder(req, res);
+      break;
   }
 };

@@ -124,6 +124,7 @@ const ResetPasswordPage = () => {
     query.token,
     Object.keys(user).length,
     router,
+    user,
   ]);
 
   return (

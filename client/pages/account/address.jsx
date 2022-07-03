@@ -35,7 +35,7 @@ const AddressPage = () => {
     ) {
       router.push("/account/login");
     }
-  }, [Object.keys(user).length, router]);
+  }, [router, user]);
   const addressFormHandle = (e) => {
     setAddressForm({
       ...addressForm,

@@ -93,7 +93,7 @@ const RegisterPage = () => {
           >
             <div className="w-1/2">
               <span className="text-text text-sm pb-4  block">
-                If you don't have an account,
+                If you don&apos;t have an account,
                 please register here
               </span>
               {errorMessage && (

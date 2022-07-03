@@ -38,6 +38,7 @@ const OrderSuccessPage = ({ orderDetail }) => {
             <a>
               <div className="relative w-[225px] cursor-pointer h-[60px]">
                 <Image
+                  alt="Memoryzone logo"
                   priority={true}
                   layout="fill"
                   src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/checkout_logo.png?1656064578646"
@@ -180,6 +181,7 @@ const OrderSuccessPage = ({ orderDetail }) => {
                                   ).url()}
                                   layout="fill"
                                   quality={100}
+                                  alt={`Memoryzone success order's ${item.productName} image`}
                                 />
                               </div>
                               <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">

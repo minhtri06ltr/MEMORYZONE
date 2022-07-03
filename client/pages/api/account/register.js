@@ -4,13 +4,6 @@ import { client } from "../../../lib/client";
 import { validRegister } from "../../../utils/validate";
 import { sendEmailHandle } from "../../../middlewares/mailer";
 
-export default async (req, res) => {
-  switch (req.method) {
-    case "POST":
-      await register(req, res);
-      break;
-  }
-};
 const register = async (req, res) => {
   try {
     const {
@@ -75,5 +68,12 @@ const register = async (req, res) => {
       success: false,
       error: error.message,
     });
+  }
+};
+export default async (req, res) => {
+  switch (req.method) {
+    case "POST":
+      await register(req, res);
+      break;
   }
 };

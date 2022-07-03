@@ -101,7 +101,7 @@ const LoginPage = () => {
         router.push("/checkout");
       } else router.push("/");
     }
-  }, [Object.keys(user).length, router]);
+  }, [Object.keys(user).length, router, user]);
 
   return (
     <Layout

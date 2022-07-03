@@ -6,16 +6,6 @@ import {
   createRefreshToken,
 } from "../../../../utils/generateToken";
 
-export default async (req, res) => {
-  switch (req.method) {
-    case "GET":
-      await verifyToken(req, res);
-      break;
-    case "POST":
-      await resetPassword(req, res);
-      break;
-  }
-};
 const verifyToken = async (req, res) => {
   try {
     const userId = await auth(req, res);
@@ -69,5 +59,16 @@ const resetPassword = async (req, res) => {
       success: false,
       error: error.message,
     });
+  }
+};
+
+export default async (req, res) => {
+  switch (req.method) {
+    case "GET":
+      await verifyToken(req, res);
+      break;
+    case "POST":
+      await resetPassword(req, res);
+      break;
   }
 };
