@@ -155,6 +155,9 @@ a {
       #fff
     );
   }
+  .collapseButton{
+    box-shadow: inset 0 3px 5px rgb(0 0 0 / 13%);
+  }
   .returnCart:hover:first-child {
     transform: translateX(-0.5rem);
   }

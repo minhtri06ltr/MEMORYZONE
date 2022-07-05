@@ -169,3 +169,14 @@ export const VNPayURL = (
   const url = `${process.env.NEXT_PUBLIC_VNP_URL}?${params}&vnp_SecureHash=${signed}`;
   return url;
 };
+export const formatTagToSlug = (tag) => {
+  return (
+    tag
+      .toLowerCase()
+      //Remove spaces
+      .replace(/\s+/g, "-")
+      //Remove special characters
+      .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "")
+      .slice(0, 95)
+  );
+};

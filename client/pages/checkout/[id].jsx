@@ -122,7 +122,7 @@ const OrderDetailsPage = ({
     if (router.query.vnp_TransactionStatus) {
       checkPayment();
     }
-  }, [router, dispatch]);
+  }, [router.query.vnp_TransactionStatus]);
   if (!orderDetail) return <PaymentNotFound />;
   const VNPayCheckoutHandle = async () => {
     const res = await fetch(
@@ -392,27 +392,12 @@ const OrderDetailsPage = ({
   );
 };
 export default OrderDetailsPage;
-export const getStaticPaths = async () => {
-  const orderIds = await client.fetch(
-    `*[_type=="order"]{
-      _id
-  }`,
-  );
 
-  return {
-    paths:
-      orderIds?.map((orderId) => ({
-        params: {
-          id: orderId._id,
-        },
-      })) || [],
-    fallback: false,
-  };
-};
-export const getStaticProps = async ({
-  params: { id },
-}) => {
+export const getServerSideProps = async (
+  context,
+) => {
   //get product data by slug param
+
   try {
     const orderDetail = await client.fetch(
       `*[_type=="order" && _id==$orderId && isPaid==false][0]
@@ -424,7 +409,7 @@ export const getStaticProps = async ({
       }
       }
       `,
-      { orderId: id },
+      { orderId: context.query.id },
     );
 
     let orderList = [];
@@ -465,7 +450,6 @@ export const getStaticProps = async ({
         totalPrice,
         orderDetail,
       },
-      revalidate: 60,
     };
   } catch (error) {
     console.log(error);

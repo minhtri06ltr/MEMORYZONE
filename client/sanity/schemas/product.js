@@ -9,6 +9,7 @@ export default {
     price: 0,
     countInStock: 0,
     reviews: [],
+    viewCount: 0,
     sold: 0,
     rating: 0,
   },
@@ -36,7 +37,20 @@ export default {
       name: "productTag",
       title: "Product Tag",
       type: "array",
-      of: [{ type: "string" }],
+      of: [
+        {
+          type: "reference",
+          title: "Category Tag",
+          name: "categoryTag",
+          to: [{ type: "category" }],
+        },
+        {
+          type: "reference",
+          title: "Related Product Tag",
+          name: "relatedProductTag",
+          to: [{ type: "product" }],
+        },
+      ],
       options: {
         layout: "tags",
       },
@@ -51,6 +65,11 @@ export default {
       },
     },
     {
+      name: "rating",
+      title: "Rating",
+      type: "number",
+    },
+    {
       name: "price",
       title: "Price",
       type: "number",
@@ -62,17 +81,7 @@ export default {
       type: "reference",
       to: [{ type: "brand" }],
     },
-    {
-      name: "categoryList",
-      title: "Category List",
-      type: "array",
-      of: [
-        {
-          type: "reference",
-          to: [{ type: "category" }],
-        },
-      ],
-    },
+
     {
       name: "countInStock",
       title: "Count InStock",
@@ -108,6 +117,12 @@ export default {
       title: "Specification Table",
       type: "array",
       of: [{ type: "specification" }],
+    },
+    {
+      title: "View Count",
+      name: "viewCount",
+      type: "number",
+      readOnly: true,
     },
   ],
   preview: {

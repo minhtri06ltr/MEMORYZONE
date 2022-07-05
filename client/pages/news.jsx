@@ -9,6 +9,7 @@ import {
   formatDateName,
   formatDateTime,
 } from "../utils/format";
+import { getImgDimension } from "../utils/getDimensions";
 import { newSummaryComponents } from "../utils/portableTextComponent";
 
 const NewsPage = ({ news }) => {
@@ -34,6 +35,7 @@ const NewsPage = ({ news }) => {
           <span className="block text-[#323c3f] text-3xl  font-semibold">
             News
           </span>
+
           <div className="divide-y space-y-8 divide-[#e5e5e5]">
             {news.map((item, index) => (
               <div
@@ -43,10 +45,17 @@ const NewsPage = ({ news }) => {
                 <Link
                   href={`/news/${item.slug.current}`}
                 >
-                  <div className="w-[40%] cursor-pointer h-[345px] relative">
+                  <div
+                    className={`w-[40%] cursor-pointer relative`}
+                    style={{
+                      height: getImgDimension(
+                        item.thumbnail.image,
+                      ).height,
+                    }}
+                  >
                     <Image
                       alt={`Memoryzone ${item.title} new thumbnail`}
-                      objectFit="contain"
+                      objectFit="cover"
                       layout="fill"
                       quality={100}
                       src={urlFor(
@@ -87,7 +96,7 @@ const NewsPage = ({ news }) => {
                       Posted by {item.author}
                     </span>
                   </div>
-                  <div className="text-sm limit-4-line text-[#707070]">
+                  <div className="text-sm limit-4-line  text-[#707070]">
                     <PortableText
                       value={item.description}
                       components={

@@ -21,7 +21,16 @@ export default {
         isHighlighted: true, // <-- make this field easily accessible
       },
     },
-
+    {
+      name: "title",
+      title: "Image Title",
+      type: "string",
+      description:
+        "Don't forget to make it SEO friendly!",
+      options: {
+        isHighlighted: true, // <-- make this field easily accessible
+      },
+    },
     {
       name: "url",
       title: "Link URL",
@@ -43,7 +52,6 @@ export default {
       subtitle: "url",
     },
     prepare: (selection) => {
-      console.log(selection);
       return {
         title: selection.title
           ? selection.title

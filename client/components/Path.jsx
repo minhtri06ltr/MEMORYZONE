@@ -4,9 +4,12 @@ import Link from "next/link";
 const Path = ({ path }) => {
   return (
     <section>
-      <div className="border-b border-[#e5e5e5] py-3.5 flex justify-start items-center px-10">
+      <div className="border-b border-[#e5e5e5] py-4 flex justify-start items-center px-10">
         {path.map((item, index) => (
-          <div key={index} className="flex  items-center">
+          <div
+            key={index}
+            className="flex  items-center"
+          >
             {path.length !== 1 ? (
               <>
                 <Link href={item.pathName}>
@@ -20,9 +23,14 @@ const Path = ({ path }) => {
                     {item.title}
                   </span>
                 </Link>
-                {index >= 0 && index !== path.length - 1 && (
-                  <ChevronRightIcon width={13} height={13} className=" mx-2" />
-                )}
+                {index >= 0 &&
+                  index !== path.length - 1 && (
+                    <ChevronRightIcon
+                      width={13}
+                      height={13}
+                      className=" mx-2"
+                    />
+                  )}
               </>
             ) : (
               <span className=" text-primary  text-sm  limit-1-line block">

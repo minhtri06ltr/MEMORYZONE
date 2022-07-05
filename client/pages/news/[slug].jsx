@@ -89,7 +89,7 @@ const NewDetailsPage = ({ newBySlug }) => {
             pathName: "/news",
           },
           {
-            title: "Test",
+            title: newBySlug.title,
             pathName: "/test",
           },
         ]}
@@ -123,7 +123,7 @@ const NewDetailsPage = ({ newBySlug }) => {
               Posted by {newBySlug.author}
             </span>
           </div>
-          <div className="text-text text-sm">
+          <div className="text-text text-sm leading-6">
             <PortableText
               value={newBySlug.description}
               components={

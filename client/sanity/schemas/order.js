@@ -91,6 +91,10 @@ export default {
             title: "Successful delivery",
             value: 4,
           },
+          {
+            title: "Cancel",
+            value: 5,
+          },
         ],
         layout: "radio",
       },
@@ -112,6 +116,18 @@ export default {
       name: "totalPrice",
       title: "Total Price",
       type: "number",
+    },
+    {
+      name: "coupon",
+      title: "Coupon",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "coupon" }],
+        },
+      ],
+      hidden: ({ value }) => !value,
     },
     {
       name: "isPaid",

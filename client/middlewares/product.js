@@ -14,5 +14,8 @@ export const productSold = async (
     })
     .commit()
     .then((res) => console.log(res))
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log(error);
+      alert(error.message);
+    });
 };

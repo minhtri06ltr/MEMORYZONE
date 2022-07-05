@@ -6,7 +6,8 @@ import { PortableText } from "@portabletext/react";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import React from "react";
 import Link from "next/link";
-import SanityMuxPlayer from "sanity-mux-player";
+import SanityMuxPlayer from "sanity-mux-player/build";
+import { getImgDimension } from "./getDimensions";
 
 const centerBlock = ({ children }) => {
   return (
@@ -50,9 +51,10 @@ const colorBlock = (props) => {
   );
 };
 const seoImageBlock = (props) => {
-  const { width, height } = getImageDimensions(
+  const { width, height } = getImgDimension(
     props.value.image,
   );
+
   if (props.value.url) {
     const rel = !props.value.url?.startsWith("/")
       ? "noreferrer noopener"
@@ -65,6 +67,7 @@ const seoImageBlock = (props) => {
       return (
         <div className="my-6 mx-auto w-full">
           <Link
+            as="image"
             href={
               props.value.url.split(
                 process.env
@@ -74,6 +77,11 @@ const seoImageBlock = (props) => {
           >
             <a>
               <Image
+                alt={
+                  props.value.imageAlt
+                    ? props.value.imageAlt
+                    : "Memoryzone thumbnail"
+                }
                 src={urlFor(
                   props.value.image,
                 ).url()}
@@ -94,8 +102,14 @@ const seoImageBlock = (props) => {
             href={props.value.url}
             target="_blank"
             rel={rel}
+            as="image"
           >
             <Image
+              alt={
+                props.value.imageAlt
+                  ? props.value.imageAlt
+                  : "Memoryzone thumbnail"
+              }
               src={urlFor(
                 props.value.image,
               ).url()}
@@ -109,8 +123,17 @@ const seoImageBlock = (props) => {
         </div>
       ) : (
         <div className="my-6 mx-auto w-full">
-          <a href={props.value.url} rel={rel}>
+          <a
+            href={props.value.url}
+            as="image"
+            rel={rel}
+          >
             <Image
+              alt={
+                props.value.imageAlt
+                  ? props.value.imageAlt
+                  : "Memoryzone thumbnail"
+              }
               src={urlFor(
                 props.value.image,
               ).url()}
@@ -139,7 +162,7 @@ const seoImageBlock = (props) => {
   );
 };
 const productDetailBlock = (props) => {
-  const { height } = getImageDimensions(
+  const { height } = getImgDimension(
     props.value.image.image,
   );
 
@@ -180,7 +203,7 @@ const productDetailBlock = (props) => {
               ? "w-full"
               : "w-[30%]"
           } flex justify-center items-center   ${
-            props.value.position !== "center"
+            props.value.position === "right"
               ? "border-l"
               : "border-r"
           }  border-[#e5e5e5]  ${
@@ -244,7 +267,12 @@ const productDetailBlock = (props) => {
             </span>
           )}
 
-          <div>
+          <div
+            className={`${
+              props.value.position === "center" &&
+              "text-center"
+            }`}
+          >
             <PortableText
               value={props.value.description}
             />
@@ -322,7 +350,7 @@ const checkMarkItemBlock = ({ children }) => {
   );
 };
 const muxVideoBlock = (props) => {
-  console.log(props);
+
   return (
     <div className="my-6 w-full">
       <SanityMuxPlayer
@@ -410,13 +438,19 @@ export const newDescriptionComponents = {
   },
   block: {
     h1: ({ children }) => (
-      <h1 className="text-3xl">{children}</h1>
+      <h1 className="text-3xl block my-4">
+        {children}
+      </h1>
     ),
     h3: ({ children }) => (
-      <h3 className="text-2xl">{children}</h3>
+      <h3 className="text-2xl block my-4">
+        {children}
+      </h3>
     ),
     h4: ({ children }) => (
-      <h4 className="text-lg">{children}</h4>
+      <h4 className="text-lg block  my-4">
+        {children}
+      </h4>
     ),
     h2: ({ children }) => (
       <h2
@@ -424,6 +458,7 @@ export const newDescriptionComponents = {
           fontSize: "28px",
           lineHeight: "43.5px",
         }}
+        className="block my-4"
       >
         {children}
       </h2>

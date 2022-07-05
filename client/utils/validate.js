@@ -56,7 +56,7 @@ export const validateVNPayHash = (
   params,
   hash,
 ) => {
-  console.log(params.split("?")[1]);
+  
   var signData = params.split("?")[1];
 
   var signed = VNPaySigned(signData);

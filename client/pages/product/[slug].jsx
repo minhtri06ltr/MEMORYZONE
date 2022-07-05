@@ -27,6 +27,7 @@ const ProductDetailsPage = ({
   productBySlug,
   statisticalReviews,
 }) => {
+  console.log(productBySlug);
   const router = useRouter();
   const dispatch = useDispatch();
   const [pixel, setPixel] = useState(0);
@@ -460,6 +461,7 @@ const ProductDetailsPage = ({
               </div>
             </div>
             <ProductDescription
+              tags={productBySlug.productTag}
               description={
                 productBySlug.description
               }
@@ -580,7 +582,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths:
-      productSlugs?.map((product) => ({
+      productSlugs.map((product) => ({
         params: {
           slug: product.slug.current,
         },
@@ -609,7 +611,7 @@ export const getStaticProps = async ({
     ...,"video": video.asset->
   }
   },
-        image,name,countInStock,specifications,specificationTable,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
+        image,name,productTag,countInStock,specifications,specificationTable,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
       }
       }
     `,

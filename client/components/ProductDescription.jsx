@@ -1,10 +1,13 @@
 import { PortableText } from "@portabletext/react";
 import { productDescriptionComponents } from "../utils/portableTextComponent";
 import { useState } from "react";
+import Link from "next/link";
+import { formatTagToSlug } from "../utils/format";
 
 const ProductDescription = ({
   description,
   specificationTable,
+  tags,
 }) => {
   const [expand, setExpand] = useState(false);
   const [tab, setTab] = useState("description");
@@ -46,13 +49,32 @@ const ProductDescription = ({
                 : "max-h-[440px]"
             } flex flex-col    w-full border px-8 pt-8 pb-[80px] border-[#e5e5e5]`}
           >
-            <div className="text-[#000000] text-sm overflow-hidden h-inherit mb-10 ">
+            <div className="text-[#000000] leading-6 text-sm overflow-hidden h-inherit mb-10 ">
               <PortableText
                 value={description}
                 components={
                   productDescriptionComponents
                 }
               />
+              <div>
+                {/* <span>
+                  Tag:{" "}
+                  {tags.map((item, index) => {
+                    return (
+                      <Link
+                        href={formatTagToSlug(
+                          item,
+                        )}
+                        key={index}
+                      >
+                        <span className="hover:text-primary cursor-pointer">
+                          {item},{" "}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </span> */}
+              </div>
             </div>
             <div
               className={`relative ${
@@ -61,7 +83,9 @@ const ProductDescription = ({
             >
               <button
                 onClick={() => setExpand(!expand)}
-                className=" border border-primary  bg-white text-primary text-sm px-6 py-1.5 rounded-sm"
+                className={`border border-primary  bg-white text-primary text-sm px-6 py-1.5 rounded-sm ${
+                  expand && "collapseButton"
+                }`}
               >
                 {expand ? "Collapse" : "See all"}
               </button>
@@ -86,7 +110,7 @@ const ProductDescription = ({
                         <td className="text-sm text-right p-3 border w-1/2 border-[#e5e5e5] font-semibold  ">
                           {item.title}
                         </td>
-                        <td className="text-sm text-left p-3 border w-1/2 border-[#e5e5e5] ">
+                        <td className="text-sm text-left p-3 border w-1/2  border-[#e5e5e5] ">
                           <PortableText
                             value={
                               item.description

@@ -25,6 +25,7 @@ import brand from "./brand";
 import coupon from "./coupon";
 import test from "./test";
 import muxVideo from "./muxVideo";
+import specifitationTemplate from "./specifitationTemplate";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -56,5 +57,6 @@ export default createSchema({
     coupon,
     test,
     muxVideo,
+    specifitationTemplate,
   ]),
 });

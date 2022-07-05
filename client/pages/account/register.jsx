@@ -8,12 +8,14 @@ import {
 } from "react-redux";
 import { postData } from "../../utils/requestMethod";
 import { useRouter } from "next/router";
+import { loadingNotify } from "../../redux/notifySlice";
 
 const RegisterPage = () => {
   const account = useSelector(
     (state) => state.account,
   );
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [errorMessage, setErrorMessage] =
     useState("");
@@ -44,7 +46,7 @@ const RegisterPage = () => {
       alert(`${errorMessage}`);
       return;
     }
-
+    dispatch(loadingNotify(true));
     const res = await postData(
       "account/register",
       registerForm,
@@ -54,6 +56,7 @@ const RegisterPage = () => {
     } else {
       alert(res.message);
     }
+    dispatch(loadingNotify(false));
   };
   useEffect(() => {
     if (

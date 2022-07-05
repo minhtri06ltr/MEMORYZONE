@@ -88,8 +88,12 @@ const SearchProductNamePage = ({
           {productList.length !== 0 && (
             <div>
               <span className="block text-text text-lg font-medium">
-                There are 72 matching search
-                results
+                There{" "}
+                {productList.length > 1
+                  ? "are"
+                  : "is"}{" "}
+                {productList.length} matching
+                search results
               </span>
               <div className="grid grid-cols-5 gap-x-7 gap-y-12 mt-4">
                 {productList.map(

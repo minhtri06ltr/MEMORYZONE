@@ -12,7 +12,7 @@ const NewComment = ({ data }) => {
               layout="responsive"
               width="100%"
               height="100%"
-              alt="Memoryzone user's comment avatar"
+              alt="Memoryzone user's comment on new avatar"
             />
           </div>
           <div className="flex-1 space-y-2">

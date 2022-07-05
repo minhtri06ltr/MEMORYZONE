@@ -6,12 +6,7 @@ export default {
     {
       title: "Title",
       name: "title",
-      type: "string",
-    },
-    {
-      title: "Video file",
-      name: "video",
-      type: "mux.video",
+      type: "specificationTemplate",
     },
   ],
 };

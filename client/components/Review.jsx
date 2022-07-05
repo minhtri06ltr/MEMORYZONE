@@ -5,6 +5,7 @@ import { StarList } from ".";
 import { useRef, useState } from "react";
 import { client, urlFor } from "../lib/client";
 import { useDispatch } from "react-redux";
+import { loadingNotify } from "../redux/notifySlice";
 
 const ReplyItem = ({
   data,
@@ -153,6 +154,7 @@ const Review = ({
         e.target.files[0].type === "image/tiff" ||
         e.target.files[0].type === "image/webp"
       ) {
+        dispatch(loadingNotify(true));
         await client.assets
           .upload("image", e.target.files[0], {
             contentType: e.target.files[0].type,
@@ -167,6 +169,7 @@ const Review = ({
           .catch((error) => {
             alert(error.message);
           });
+        dispatch(loadingNotify(false));
       } else {
         alert("Image format is incorrect");
         return;
@@ -190,7 +193,7 @@ const Review = ({
       alert("Please add required fields");
       return;
     }
-
+    dispatch(loadingNotify(true));
     await client
       .patch(productId)
       // Ensure that the `reviews` arrays exists before attempting to add items to it
@@ -235,7 +238,7 @@ const Review = ({
       .catch((error) => {
         alert(error.message);
       });
-
+    dispatch(loadingNotify(false));
     setOpenReviewForm(false);
   };
   const replyHandle = async (reviewId, e) => {
