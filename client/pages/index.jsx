@@ -10,7 +10,7 @@ import Image from "next/image";
 const HomePage = ({ products }) => {
   return (
     <Layout
-      title="Memoryzone | Profession in Memory - Laptop - PC and other accessories "
+      title="Memoryzone | Profession in Technology - Hardware and other accessories"
       keywords="
       Phone memory card, genuine camera, USB, USB 3.0, portable hard drive, external hard drive, SSD hard drive, wireless device"
       description="MemoryZone is a brand that specializes in providing Laptops, PCs, storage devices, monitors and other accessories."
