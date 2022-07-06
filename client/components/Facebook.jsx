@@ -9,7 +9,10 @@ export const Facebook = () => {
         id="fb-customer-chat"
         className="fb-customerchat"
       ></div>
-      <Script strategy="lazyOnload">
+      <Script
+        strategy="lazyOnload"
+        id="facebookChatPlugin"
+      >
         {`
                  var chatbox = document.getElementById('fb-customer-chat');
                  chatbox.setAttribute("page_id", "112406981526811");
