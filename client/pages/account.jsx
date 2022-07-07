@@ -5,18 +5,25 @@ import {
   LocationMarkerIcon,
   GlobeIcon,
   CodeIcon,
+  XIcon,
 } from "@heroicons/react/outline";
 import Link from "next/link";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from "react-redux";
 import { useRouter } from "next/router";
 import {
   formatDateTime,
   orderStatus,
 } from "../utils/format";
+import { client } from "../lib/client";
+import { cancelOrder } from "../redux/orderSlice";
 
 const AccountPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const account = useSelector(
     (state) => state.account,
   );
@@ -36,6 +43,27 @@ const AccountPage = () => {
     router,
     account.user,
   ]);
+  const cancelOrderHandle = async (orderId) => {
+    if (
+      confirm(
+        "Are you sure you want to cancel this order?",
+      )
+    ) {
+      // Save it!
+
+      await client
+        .patch(orderId)
+        .set({ orderStatus: 5 })
+        .commit()
+        .then((res) => {
+          dispatch(cancelOrder(orderId));
+          alert("Cancel order success");
+        });
+    } else {
+      // Do nothing!
+      return;
+    }
+  };
 
   return (
     <Layout
@@ -87,6 +115,9 @@ const AccountPage = () => {
                   </td>
                   <td className="headerOrderTable">
                     Status
+                  </td>
+                  <td className="headerOrderTable">
+                    Action
                   </td>
                 </tr>
                 {orderList.length === 0 ? (
@@ -154,6 +185,20 @@ const AccountPage = () => {
                           item.orderStatus,
                         )}
                       </td>
+                      <td>
+                        <div className=" itemOrderTable text-primary">
+                          <XIcon
+                            onClick={(e) =>
+                              cancelOrderHandle(
+                                item._id,
+                              )
+                            }
+                            width={20}
+                            height={20}
+                            className="cursor-pointer translate-x-1/4 hover:text-[#d92b1f]"
+                          />
+                        </div>
+                      </td>
                     </tr>
                   ))
                 )}
@@ -172,8 +217,7 @@ const AccountPage = () => {
                 height={15}
                 className="text-primary mr-2.5 mb-[0.25px]"
               />
-              <span>Phone Number:</span>{" "}
-              <span></span>
+              <span>Phone Number:</span>
             </div>
             <div className="flex items-center">
               <LocationMarkerIcon
@@ -181,7 +225,7 @@ const AccountPage = () => {
                 height={15}
                 className="text-primary mr-2.5 mb-[0.25px]"
               />
-              <span>Address</span> <span></span>
+              <span>Address</span>
             </div>
             <div className="flex items-center">
               <OfficeBuildingIcon
@@ -189,7 +233,7 @@ const AccountPage = () => {
                 height={15}
                 className="text-primary mr-2.5 mb-[0.25px]"
               />
-              <span>Company:</span> <span></span>
+              <span>Company:</span>
             </div>
             <div className="flex items-center">
               <GlobeIcon
@@ -197,7 +241,7 @@ const AccountPage = () => {
                 height={15}
                 className="text-primary mr-2.5 "
               />
-              <span>Country:</span> <span></span>
+              <span>Country:</span>
             </div>
             <div className="flex items-center">
               <CodeIcon
@@ -205,7 +249,7 @@ const AccountPage = () => {
                 height={15}
                 className="text-primary mr-2.5 mb-[0.25px]"
               />
-              <span>Zip Code:</span> <span></span>
+              <span>Zip Code:</span>
             </div>
           </div>
           <Link href="/account/address">

@@ -1,5 +1,3 @@
-import bcrypt from "bcryptjs";
-import crypto from "crypto";
 import { VNPaySigned } from "./generateToken";
 
 export const numberWithCommas = (x) => {
@@ -97,13 +95,13 @@ export const orderStatus = (number) => {
 export const normalDateTime = (datetime) => {
   var hours = datetime.getHours();
   var minutes = datetime.getMinutes();
-  var ampm = hours >= 12 ? "PM" : "AM";
+  var AMPM = hours >= 12 ? "PM" : "AM";
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
   minutes =
     minutes < 10 ? "0" + minutes : minutes;
   var strTime =
-    hours + ":" + minutes + " " + ampm;
+    hours + ":" + minutes + " " + AMPM;
 
   return (
     ("0" + datetime.getUTCDate()).slice(-2) +
@@ -179,4 +177,26 @@ export const formatTagToSlug = (tag) => {
       .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "")
       .slice(0, 95)
   );
+};
+
+export const formatSourceLink = (tag) => {
+  const imgTags = tag.match(
+    /<img [^>]*src="[^"]*"[^>]*>/gm,
+  );
+  if (imgTags) {
+    const sources = imgTags[0]
+      .match(/<img [^>]*src="[^"]*"[^>]*>/gm)
+      .map((x) =>
+        x.replace(/.*src="([^"]*)".*/, "$1"),
+      );
+    return sources[0];
+  }
+
+  return "https://bizweb.dktcdn.net/thumb/1024x1024/assets/themes_support/noimage.gif";
+};
+
+export const formatRSSFeedDatetime = (
+  datetime,
+) => {
+  return datetime.split(" +")[0];
 };

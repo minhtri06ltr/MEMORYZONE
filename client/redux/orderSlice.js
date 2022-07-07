@@ -21,6 +21,12 @@ const orderSlice = createSlice({
           item.isPaid = true;
       });
     },
+    cancelOrder(state, action) {
+      state.orderList.filter((item) => {
+        if (item._id === action.payload)
+          item.paymentProcess = "Cancel";
+      });
+    },
   },
   extraReducers: {},
 });
@@ -28,6 +34,7 @@ export default orderSlice.reducer;
 export const {
   addOrder,
   addOrderList,
+  cancelOrder,
   clearOrder,
   updateOrder,
 } = orderSlice.actions;

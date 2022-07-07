@@ -21,3 +21,7 @@ export { default as AddressItem } from "./AddressItem";
 export { default as PaymentNotFound } from "./PaymentNotFound";
 export { default as Term } from "./Term";
 export { default as PDF } from "./PDF";
+export { default as Facebook } from "./Facebook";
+export { default as TawkTo } from "./TawkTo";
+export { default as RelatedNews } from "./RelatedNews";
+export { default as RSSFeed } from "./RSSFeed";

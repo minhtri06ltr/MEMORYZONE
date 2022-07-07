@@ -151,7 +151,7 @@ const ProductDetailsPage = ({
                                 setIndex(i)
                               }
                               key={i}
-                              className={`relative duration-700 ease-in-out  aspect-square mx-1.5  cursor-pointer hover:border-primary h-20 w-20 border ${
+                              className={`relative   aspect-square mx-1.5  cursor-pointer hover:border-primary h-20 w-20 border ${
                                 i === index
                                   ? "border-primary"
                                   : "border-[#ccc]"

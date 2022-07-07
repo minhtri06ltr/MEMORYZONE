@@ -87,11 +87,15 @@ const Footer = () => {
                 </li>
                 <li className="footerItem">
                   Sales Department:{" "}
-                  <b>sales@memoryzone.com.vn</b>
+                  <b>
+                    laptopdienthoai1@gmail.com
+                  </b>
                 </li>
                 <li className="footerItem">
                   Customer Support Department:{" "}
-                  <b>support@memoryzone.com.vn</b>
+                  <b>
+                    laptopdienthoai1@gmail.com
+                  </b>
                 </li>
               </ul>
             </div>

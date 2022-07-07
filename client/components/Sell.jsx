@@ -34,14 +34,17 @@ const Sell = ({ products }) => {
               Laptop Dell
             </li>
             <li className="sellItem">See All</li>
-            <div className="text-[#d5d5d5] ml-2 relative flex items-center">
+            <div className="space-x-1  flex items-center">
               <ChevronLeftIcon
-                width={30}
-                className="cursor-pointer mr-6"
+                width={18}
+                height={18}
+                className="cursor-pointer "
+                color="#d5d5d5"
               />
               <ChevronRightIcon
-                width={30}
-                className="cursor-pointer absolute right-0"
+                width={18}
+                height={18}
+                className="cursor-pointer "
                 color="#c4c4c4"
               />
             </div>
