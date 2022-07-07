@@ -123,7 +123,17 @@ const OrderDetailsPage = ({
       checkPayment();
     }
   }, [router.query.vnp_TransactionStatus]);
-  if (!orderDetail) return <PaymentNotFound />;
+  if (!orderDetail)
+    return (
+      <PaymentNotFound
+        title="Payment page does not exist"
+        description="The URL you entered may be expired,
+  deleted, or invalid. Return to home
+  page to continue shopping."
+        layoutTitle="Memoryzone |   Payment page does not exist"
+        layoutDescription="Sorry we can not find this payment in our data please check your order ID again or contact with admin"
+      />
+    );
   const VNPayCheckoutHandle = async () => {
     const res = await fetch(
       `https://geolocation-db.com/json/`,
