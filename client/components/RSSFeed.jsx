@@ -87,7 +87,11 @@ const RSSFeed = ({ data }) => {
             style={{ width: "254px" }}
             key={index}
           >
-            <a href={item.link} rel="noreferrer noopener" target="_blank">
+            <a
+              href={item.link}
+              rel="noreferrer noopener"
+              target="_blank"
+            >
               <div className="relative h-[156px] cursor-pointer">
                 <Image
                   objectFit="cover"
@@ -104,6 +108,7 @@ const RSSFeed = ({ data }) => {
               )}
             </span>
             <a
+              rel="noreferrer noopener"
               href={item.link}
               target="_blank"
               className="block"
