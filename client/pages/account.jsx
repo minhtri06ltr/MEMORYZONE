@@ -185,19 +185,22 @@ const AccountPage = () => {
                           item.orderStatus,
                         )}
                       </td>
-                      <td>
-                        <div className=" itemOrderTable text-primary">
-                          <XIcon
-                            onClick={(e) =>
-                              cancelOrderHandle(
-                                item._id,
-                              )
-                            }
-                            width={20}
-                            height={20}
-                            className="cursor-pointer translate-x-1/4 hover:text-[#d92b1f]"
-                          />
-                        </div>
+                      <td className="itemOrderTable">
+                        {item.orderStatus !== 5 &&
+                          !item.isPaid && (
+                            <div className="  text-primary">
+                              <XIcon
+                                onClick={(e) =>
+                                  cancelOrderHandle(
+                                    item._id,
+                                  )
+                                }
+                                width={20}
+                                height={20}
+                                className="cursor-pointer translate-x-1/4 hover:text-[#d92b1f]"
+                              />
+                            </div>
+                          )}
                       </td>
                     </tr>
                   ))

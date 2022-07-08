@@ -37,7 +37,7 @@ const RSSFeed = ({ data }) => {
     }
   };
   return (
-    <div className="mt-12 border bg-[#f7f7f7] overflow-hidden border-[#e5e5e5] px-4 pt-6 pb-12">
+    <div className="mt-12 border bg-[#f7f7f7] overflow-hidden border-[#e5e5e5] px-4 py-6">
       <div className="flex items-center justify-between ">
         <span className="block underline decoration-primary underline-offset-[6px]">
           Other news
@@ -95,6 +95,7 @@ const RSSFeed = ({ data }) => {
               <div className="relative h-[156px] cursor-pointer">
                 <Image
                   objectFit="cover"
+                  alt={`Memoryzone other news ${item.title}`}
                   layout="fill"
                   src={formatSourceLink(
                     item.content,

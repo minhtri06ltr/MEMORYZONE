@@ -1,7 +1,7 @@
 import Image from "next/image";
 import {
   Layout,
-  PaymentNotFound,
+  NotFound,
   PaypalButton,
   Term,
 } from "../../components";
@@ -125,7 +125,7 @@ const OrderDetailsPage = ({
   }, [router.query.vnp_TransactionStatus]);
   if (!orderDetail)
     return (
-      <PaymentNotFound
+      <NotFound
         title="Payment page does not exist"
         description="The URL you entered may be expired,
   deleted, or invalid. Return to home

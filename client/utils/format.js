@@ -89,6 +89,7 @@ export const orderStatus = (number) => {
     "Wait for pick up",
     "Delivering",
     "Successful delivery",
+    "Cancel",
   ];
   return array[number];
 };

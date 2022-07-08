@@ -27,4 +27,17 @@ export default {
       type: "number",
     },
   ],
+  preview: {
+    select: {
+      title: "productName",
+      subtitle: "price",
+      slug: "slug",
+    },
+    prepare: (selection) => {
+      return {
+        title: selection.title,
+        subtitle: selection.subtitle,
+      };
+    },
+  },
 };

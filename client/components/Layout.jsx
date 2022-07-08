@@ -17,7 +17,23 @@ const Layout = ({
           name="description"
           content={description}
         />
+        <meta
+          name="keywords"
+          content={`Memoryzone shop, memoryzone, hardware shop, shop, ram, laptop, pc, cpu, vga, main board, psu, case, fan, ssd, technology, news, technology review, accessories ${keywords}`}
+        />
+        <meta
+          name="author"
+          content="Memoryzone shop"
+        />
         <meta charSet="utf-8" />
+        <meta
+          name="theme-color"
+          content="#008744"
+        />
+        <meta
+          name="facebook-domain-verification"
+          content="zyllkw8s56j1qi735d91jq5sd4tzob"
+        />
         <meta
           name="viewport"
           content="initial-scale=1.0, width=device-width"

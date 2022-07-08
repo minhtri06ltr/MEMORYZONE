@@ -1,6 +1,6 @@
 import {
   Layout,
-  PaymentNotFound,
+  NotFound,
   PDF,
   Term,
 } from "../../../components";
@@ -25,7 +25,18 @@ const OrderSuccessPage = ({ orderDetail }) => {
   useEffect(() => {
     setDatetime(new Date());
   }, []);
-  if (!orderDetail) return <PaymentNotFound />;
+  if (!orderDetail)
+    return (
+      <NotFound
+        title="Payment page does not exist"
+        description="The URL you entered may be expired,
+deleted, or invalid. Return to home
+page to continue shopping."
+        layoutTitle="Memoryzone | Payment page does not exist"
+        layoutDescription="Sorry we can not find this payment in our data please check your order ID again or contact with admin"
+      />
+    );
+
   return (
     <Layout
       title="Memoryzone | Thank you for your purchase at Memoryzone"
@@ -271,26 +282,10 @@ const OrderSuccessPage = ({ orderDetail }) => {
   );
 };
 export default OrderSuccessPage;
-export const getStaticPaths = async () => {
-  const orderIds = await client.fetch(
-    `*[_type=="order"]{
-      _id
-  }`,
-  );
 
-  return {
-    paths:
-      orderIds?.map((orderId) => ({
-        params: {
-          id: orderId._id,
-        },
-      })) || [],
-    fallback: false,
-  };
-};
-export const getStaticProps = async ({
-  params: { id },
-}) => {
+export const getServerSideProps = async (
+  context,
+) => {
   //get product data by slug param
   try {
     const orderDetail = await client.fetch(
@@ -305,14 +300,13 @@ export const getStaticProps = async ({
       }
       }
       `,
-      { orderId: id },
+      { orderId: context.query.id },
     );
 
     return {
       props: {
         orderDetail,
       },
-      revalidate: 60,
     };
   } catch (error) {
     console.log(error);

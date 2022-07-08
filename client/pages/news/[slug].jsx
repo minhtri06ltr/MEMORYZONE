@@ -1,7 +1,9 @@
 import {
   Layout,
+  NotFound,
   Path,
   RelatedNews,
+  RSSFeed,
 } from "../../components";
 import { ClockIcon } from "@heroicons/react/outline";
 import { UserIcon } from "@heroicons/react/solid";
@@ -9,7 +11,7 @@ import {
   formatDateName,
   formatDateTime,
 } from "../../utils/format";
-import Image from "next/image";
+import { getFeed } from "../../lib/rss";
 import { NewComment } from "../../components";
 import { client } from "../../lib/client";
 import { PortableText } from "@portabletext/react";
@@ -17,7 +19,10 @@ import { newDescriptionComponents } from "../../utils/portableTextComponent";
 import { useState } from "react";
 import { validateEmail } from "../../utils/validate";
 
-const NewDetailsPage = ({ newBySlug }) => {
+const NewDetailsPage = ({
+  newBySlug,
+  rssFeed,
+}) => {
   const [commentSuccess, setCommentSuccess] =
     useState(false);
   const [commentForm, setCommentForm] = useState({
@@ -76,7 +81,15 @@ const NewDetailsPage = ({ newBySlug }) => {
       })
       .catch((error) => alert(error.message));
   };
-  if (!newBySlug) return <h1>not thing here</h1>;
+  if (!newBySlug)
+    return (
+      <NotFound
+        title="Oops! Look like we don't have this new in our shop"
+        description="Please consider to find other new"
+        layoutTitle="Memoryzone | New not found"
+        layoutDescription="Sorry look like we don't have this new in our shop please looking for other new"
+      />
+    );
   return (
     <Layout
       title="Memoryzone | News"
@@ -137,6 +150,9 @@ const NewDetailsPage = ({ newBySlug }) => {
           </div>
           <div className="mt-8 mb-6">
             share section
+          </div>
+          <div className="mt-8 mb-6">
+            <RSSFeed data={rssFeed.items} />
           </div>
           <div className="border-b mb-6 border-[#e5e5e5] ">
             <span className="block font-semibold text-lg text-[#323c3f] mb-4">
@@ -265,10 +281,12 @@ export const getStaticProps = async ({
       `,
       { slug },
     );
+    const rssFeed = await getFeed();
 
     return {
       props: {
         newBySlug,
+        rssFeed,
       },
       revalidate: 60,
     };

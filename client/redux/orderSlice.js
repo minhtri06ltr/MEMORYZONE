@@ -24,7 +24,7 @@ const orderSlice = createSlice({
     cancelOrder(state, action) {
       state.orderList.filter((item) => {
         if (item._id === action.payload)
-          item.paymentProcess = "Cancel";
+          item.orderStatus = 5;
       });
     },
   },

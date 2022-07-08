@@ -34,21 +34,21 @@ const Sell = ({ products }) => {
               Laptop Dell
             </li>
             <li className="sellItem">See All</li>
-            <div className="space-x-1  flex items-center">
-              <ChevronLeftIcon
-                width={18}
-                height={18}
-                className="cursor-pointer "
-                color="#d5d5d5"
-              />
-              <ChevronRightIcon
-                width={18}
-                height={18}
-                className="cursor-pointer "
-                color="#c4c4c4"
-              />
-            </div>
           </ul>
+          <div className="space-x-1  flex items-center">
+            <ChevronLeftIcon
+              width={18}
+              height={18}
+              className="cursor-pointer "
+              color="#d5d5d5"
+            />
+            <ChevronRightIcon
+              width={18}
+              height={18}
+              className="cursor-pointer "
+              color="#c4c4c4"
+            />
+          </div>
         </div>
       </section>
       {/*Main sell */}

@@ -1,8 +1,8 @@
-import { PaymentNotFound } from "../components";
+import { NotFound } from "../components";
 
 const Custom404 = () => {
   return (
-    <PaymentNotFound
+    <NotFound
       title="Page not found"
       description="We can not found the URL you entered may be it
 deleted, or invalid. Return to home

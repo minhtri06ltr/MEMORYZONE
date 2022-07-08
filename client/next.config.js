@@ -2,6 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   nextScriptWorkers: true,
+  i18n: {
+    locales: ["en"],
+    defaultLocale: "en",
+  },
   images: {
     domains: [
       "app2.jeoway.net",

@@ -178,14 +178,16 @@ const Header = () => {
                 />
               </div>
               <div className="flex font-bold  flex-col">
-                <a className="text-white hover:text-secondary cursor-pointer  text-sm">
-                  (028) 7301 3878 (10 line)
+                <a
+                  href="tel:84367907374"
+                  className="text-white hover:text-secondary cursor-pointer  text-sm"
+                >
+                  (84) 3679 0 7374
                 </a>
                 <span className="text-[#ffdada] font-normal text-xs">
                   Phone:
                   <b className="text-secondary">
-                    {" "}
-                    0909 305 350
+                    036 790 7374
                   </b>
                 </span>
               </div>

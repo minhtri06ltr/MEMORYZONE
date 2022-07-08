@@ -39,19 +39,12 @@ const ProductDetailsPage = ({
   const listRef = useRef();
   if (!productBySlug)
     return (
-      <Layout
-        title={"Memoryzone | Product not found"}
-        description={
-          "Memoryzone Product not found"
-        }
-        removeLayout={true}
-      >
-        <NotFound
-          message={
-            "Oops Look like product don't exist in our shop"
-          }
-        />
-      </Layout>
+      <NotFound
+        title="Oops! Look like we don't have this product"
+        description="Please consider to find other product"
+        layoutTitle="Memoryzone | Product not found"
+        layoutDescription="Sorry look like we don't have this product in our shop please looking for other product"
+      />
     );
 
   const handleSlide = (direction) => {

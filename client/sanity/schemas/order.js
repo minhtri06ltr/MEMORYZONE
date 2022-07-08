@@ -5,6 +5,7 @@ import {
   CurrencyDollarIcon,
   ClipboardListIcon,
   BellIcon,
+  ExclamationIcon,
 } from "@heroicons/react/outline";
 import React from "react";
 
@@ -176,6 +177,7 @@ export default {
         <GiftIcon />,
         <TruckIcon />,
         <CurrencyDollarIcon />,
+        <ExclamationIcon />,
       ];
 
       return {
