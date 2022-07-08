@@ -136,7 +136,7 @@ export const activateTemplate = (url) => {
     <td align="center" style="padding:0;Margin:0;padding-bottom:10px;padding-top:25px"><h2 style="Margin:0;line-height:29px;mso-line-height-rule:exactly;font-family:Arial, sans-serif;font-size:24px;font-style:normal;font-weight:normal;color:#333333">We are glad you were registered!</h2></td>
     </tr>
     <tr style="border-collapse:collapse">
-    <td align="center" style="Margin:0;padding-top:5px;padding-bottom:15px;padding-left:15px;padding-right:15px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#333333;font-size:14px">Welcome to Memoryzone Family<br>Please join your shopping at our shop</p></td>
+    <td align="center" style="Margin:0;padding-top:5px;padding-bottom:15px;padding-left:15px;padding-right:15px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#333333;font-size:14px">Welcome to Memoryzone Family<br>Please in join your shopping at our shop</p></td>
     </tr>
     </table></td>
     </tr>
