@@ -1,5 +1,5 @@
 import getYoutubeId from "get-youtube-id";
-import { getImageDimensions } from "@sanity/asset-utils";
+
 import Image from "next/image";
 import { urlFor } from "../lib/client";
 import { PortableText } from "@portabletext/react";
@@ -20,24 +20,38 @@ const linkBlock = (props) => {
   const rel = !props.value.href.startsWith("/")
     ? "noreferrer noopener"
     : undefined;
-  return props.value.blank ? (
-    <a
-      style={{ color: props.value.linkColor }}
-      href={props.value.href}
-      target="_blank"
-      rel={rel}
-    >
-      {props.children}
-    </a>
-  ) : (
-    <a
-      href={props.value.href}
-      rel={rel}
-      style={{ color: props.value.linkColor }}
-    >
-      {props.children}
-    </a>
+  const appPage = props.value.href.startsWith(
+    process.env.NEXT_PUBLIC_CLIENT_URL,
   );
+
+  if (appPage && !props.value.blank) {
+    return (
+      <Link href={props.value.href}>
+        <a style={{ color: props.value.color }}>
+          {props.children}
+        </a>
+      </Link>
+    );
+  } else {
+    return props.value.blank ? (
+      <a
+        rel={rel}
+        target="_blank"
+        href={props.value.href}
+        style={{ color: props.value.color }}
+      >
+        {props.children}
+      </a>
+    ) : (
+      <a
+        rel={rel}
+        href={props.value.href}
+        style={{ color: props.value.color }}
+      >
+        {props.children}
+      </a>
+    );
+  }
 };
 const colorBlock = (props) => {
   return (
@@ -350,7 +364,6 @@ const checkMarkItemBlock = ({ children }) => {
   );
 };
 const muxVideoBlock = (props) => {
-
   return (
     <div className="my-6 w-full">
       <SanityMuxPlayer
@@ -463,28 +476,5 @@ export const newDescriptionComponents = {
         {children}
       </h2>
     ),
-  },
-};
-export const newSummaryComponents = {
-  types: {
-    productDetail: (props) => (
-      <span>{props.children}</span>
-    ),
-    muxVideo: () => <></>,
-    seoImage: () => <></>,
-    youtube: () => <></>,
-    table: (props) => (
-      <span>{props.children}</span>
-    ),
-    blockTitle: (props) => (
-      <span>{props.children}</span>
-    ),
-  },
-  marks: {
-    strong: (props) => <>{props.children}</>,
-    color: (props) => <>{props.children}</>,
-  },
-  list: {
-    checkMark: (props) => <>{props.children}</>,
   },
 };

@@ -1,6 +1,6 @@
 import Head from "next/head";
-
 import { Header, Footer, Notify } from ".";
+import { urlFor } from "../lib/client";
 
 const Layout = ({
   children,
@@ -8,6 +8,8 @@ const Layout = ({
   description,
   keywords = "",
   removeLayout = false,
+  id,
+  image,
 }) => {
   return (
     <>
@@ -45,6 +47,77 @@ const Layout = ({
         <link
           rel="icon"
           href="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/favicon.png?1653451447357"
+        />
+
+        {/* Facebook Meta Tags */}
+        <meta
+          property="og:url"
+          content={
+            id
+              ? `${process.env.NEXT_PUBLIC_CLIENT_URL}/${id}`
+              : process.env.NEXT_PUBLIC_CLIENT_URL
+          }
+        />
+        <meta
+          property="og:type"
+          content="website"
+        />
+        <meta
+          property="og:title"
+          content={title}
+        />
+        <meta
+          property="og:description"
+          content={description}
+        />
+        <meta
+          property="og:image"
+          content={
+            image
+              ? urlFor(image)
+                  .width(1200)
+                  .height(630)
+                  .url()
+              : "https://cf.shopee.vn/file/9d68d0464992af12a564ca3fdbb05d0c"
+          }
+        />
+        {/* Twitter Meta Tags */}
+        <meta
+          name="twitter:card"
+          content="summary_large_image"
+        />
+        <meta
+          property="twitter:domain"
+          content={
+            process.env.NEXT_PUBLIC_CLIENT_URL
+          }
+        />
+        <meta
+          property="twitter:url"
+          content={
+            id
+              ? `${process.env.NEXT_PUBLIC_CLIENT_URL}/${id}`
+              : process.env.NEXT_PUBLIC_CLIENT_URL
+          }
+        />
+        <meta
+          name="twitter:title"
+          content={title}
+        />
+        <meta
+          name="twitter:description"
+          content={description}
+        />
+        <meta
+          name="twitter:image"
+          content={
+            image
+              ? urlFor(image)
+                  .width(1200)
+                  .height(630)
+                  .url()
+              : "https://cf.shopee.vn/file/9d68d0464992af12a564ca3fdbb05d0c"
+          }
         />
       </Head>
       <Notify />

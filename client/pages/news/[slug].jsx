@@ -13,7 +13,7 @@ import {
 } from "../../utils/format";
 import { getFeed } from "../../lib/rss";
 import { NewComment } from "../../components";
-import { client } from "../../lib/client";
+import { client, urlFor } from "../../lib/client";
 import { PortableText } from "@portabletext/react";
 import { newDescriptionComponents } from "../../utils/portableTextComponent";
 import { useState } from "react";
@@ -81,6 +81,7 @@ const NewDetailsPage = ({
       })
       .catch((error) => alert(error.message));
   };
+
   if (!newBySlug)
     return (
       <NotFound
@@ -92,8 +93,11 @@ const NewDetailsPage = ({
     );
   return (
     <Layout
-      title="Memoryzone | News"
-      description="Catch up all news technology with Memoryzone"
+      title={newBySlug.title}
+      image={newBySlug.thumbnail.image}
+      description={newBySlug.metaDescription}
+      id={`/news/${newBySlug.slug.current}`}
+      keywords="Memoryzone news, technology news, memoryzone product review"
     >
       <Path
         path={[
@@ -276,7 +280,7 @@ export const getStaticProps = async ({
     _type=='muxVideo'=>{
     ...,"video": video.asset->
   }
-  },title,author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
+  },title,slug,thumbnail,"metaDescription": pt::text(description[_type=='block'][0...3]),author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
       }
       `,
       { slug },

@@ -104,6 +104,11 @@ export default {
                 name: "blank",
                 type: "boolean",
               },
+              {
+                name: "color",
+                title: "Link Color",
+                type: "string",
+              },
             ],
           },
         ],

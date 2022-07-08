@@ -84,7 +84,10 @@ const ProductDetailsPage = ({
   return (
     <Layout
       title={productBySlug.name}
-      description={productBySlug.name}
+      description={productBySlug.metaDescription}
+      image={productBySlug.image[0]}
+      keywords="Memoryzone product, sell, hardware"
+      id={`/product/${productBySlug.slug.current}`}
     >
       <div>
         <Path path={[productBySlug.name]} />
@@ -604,7 +607,8 @@ export const getStaticProps = async ({
     ...,"video": video.asset->
   }
   },
-        image,name,productTag,countInStock,specifications,specificationTable,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
+  "metaDescription": pt::text(description)
+        ,image,name,productTag,countInStock,specifications,specificationTable,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
       }
       }
     `,

@@ -8,14 +8,12 @@ import Image from "next/image";
 import { ClockIcon } from "@heroicons/react/outline";
 import { UserIcon } from "@heroicons/react/solid";
 import { client, urlFor } from "../lib/client";
-import { PortableText } from "@portabletext/react";
 import Link from "next/link";
 import {
   formatDateName,
   formatDateTime,
 } from "../utils/format";
 import { getImgDimension } from "../utils/getDimensions";
-import { newSummaryComponents } from "../utils/portableTextComponent";
 import { getFeed } from "../lib/rss";
 
 const NewsPage = ({ news, rssFeed }) => {
@@ -58,6 +56,7 @@ const NewsPage = ({ news, rssFeed }) => {
                       height: getImgDimension(
                         item.thumbnail.image,
                       ).height,
+                      maxHeight: "336px",
                     }}
                   >
                     <Image
@@ -104,12 +103,7 @@ const NewsPage = ({ news, rssFeed }) => {
                     </span>
                   </div>
                   <div className="text-sm limit-4-line  text-[#707070]">
-                    <PortableText
-                      value={item.description}
-                      components={
-                        newSummaryComponents
-                      }
-                    />
+                    {item.metaDescription}
                   </div>
                 </div>
               </div>
@@ -141,7 +135,9 @@ export default NewsPage;
 export const getStaticProps = async () => {
   try {
     const news = await client.fetch(
-      ` *[_type=="new"]`,
+      ` *[_type=='new' ]{_createdAt,author,title,thumbnail,slug,
+        "metaDescription": pt::text(description[_type=='block'][0...3])
+      }`,
     );
     const rssFeed = await getFeed();
     return {
