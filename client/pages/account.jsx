@@ -18,8 +18,9 @@ import {
   formatDateTime,
   orderStatus,
 } from "../utils/format";
-import { client } from "../lib/client";
+
 import { cancelOrder } from "../redux/orderSlice";
+import { postData } from "../utils/requestMethod";
 
 const AccountPage = () => {
   const router = useRouter();
@@ -51,14 +52,15 @@ const AccountPage = () => {
     ) {
       // Save it!
 
-      await client
-        .patch(orderId)
-        .set({ orderStatus: 5 })
-        .commit()
-        .then((res) => {
-          dispatch(cancelOrder(orderId));
-          alert("Cancel order success");
-        });
+      const res = await postData('order/cancel',orderId,account.accessToken);
+      if(res.success){
+        dispatch(cancelOrder(orderId));
+        alert(res.message);
+        
+      }else{
+        alert(res.error);
+        
+      }
     } else {
       // Do nothing!
       return;
@@ -185,7 +187,7 @@ const AccountPage = () => {
                           item.orderStatus,
                         )}
                       </td>
-                      <td className="itemOrderTable">
+                      <td className="itemOrderTable align-middle">
                         {item.orderStatus !== 5 &&
                           !item.isPaid && (
                             <div className="  text-primary">

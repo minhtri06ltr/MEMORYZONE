@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
-import { client } from "../lib/client";
+
 import { postData } from "../utils/requestMethod";
 
 const Footer = () => {
@@ -24,9 +24,9 @@ const Footer = () => {
         <div className="flex   pt-8 pb-14  ">
           <div className="flex  justify-between w-[65%] pr-16">
             <div className="flex-1">
-              <h4 className="footerHeaderText mb-6">
+              <span className="footerHeaderText mb-6">
                 INTRODUCE
-              </h4>
+              </span>
               <ul className="list-none text-[#898989] text-sm space-y-2">
                 <li className="footerItem">
                   Home
@@ -46,9 +46,9 @@ const Footer = () => {
               </ul>
             </div>
             <div className="flex-1">
-              <h4 className="footerHeaderText mb-6">
+              <span className="footerHeaderText mb-6">
                 COMPANY POLICY
-              </h4>
+              </span>
               <ul className="list-none text-[#898989] text-sm space-y-2">
                 <li className="footerItem">
                   Delivery policy
@@ -68,9 +68,9 @@ const Footer = () => {
               </ul>
             </div>
             <div className="flex-1">
-              <h4 className="footerHeaderText mb-6">
+              <span className="footerHeaderText mb-6">
                 CUSTOMER SUPPORT
-              </h4>
+              </span>
               <ul className="list-none text-[#898989] text-sm space-y-2">
                 <li className="footerItem">
                   Warranty: <b>(028) 7301 3879</b>
@@ -102,10 +102,10 @@ const Footer = () => {
           </div>
           <div className="space-y-6 flex-1">
             <div>
-              <h4 className="footerHeaderText">
+              <span className="footerHeaderText">
                 SUPER SPEED INFORMATION SERVICES
                 CO., LTD
-              </h4>
+              </span>
               <span className="text-sm text-text block">
                 Head office: No. 91-93 Road No. 5,
                 An Phu Ward, City. Thu Duc, Ho Chi
@@ -119,9 +119,9 @@ const Footer = () => {
               </span>
             </div>
             <div>
-              <h4 className="footerHeaderText">
+              <span className="footerHeaderText">
                 SHOWROOM HO CHI MINH:
-              </h4>
+              </span>
               <span className="text-sm text-text block">
                 Address: 4C Dong Xoai, Ward 13,
                 Tan Binh District
@@ -139,9 +139,9 @@ const Footer = () => {
               </span>
             </div>
             <div>
-              <h4 className="footerHeaderText">
+              <span className="footerHeaderText">
                 SHOWROOM HANOI:
-              </h4>
+              </span>
               <span className="text-sm text-text block">
                 Address: 60 Dich Vong Hau Street,
                 Dich Vong Hau, Cau Giay District
@@ -182,9 +182,9 @@ const Footer = () => {
       <div className="px-10 ">
         <div className="py-8 flex  ">
           <div className="flex-1 ">
-            <h4 className="footerHeaderText mb-6">
+            <span className="footerHeaderText mb-6">
               SIGN UP TO RECEIVE PROMOTION NEWS
-            </h4>
+            </span>
             <div>
               <form
                 onSubmit={contactHandle}
@@ -214,9 +214,9 @@ const Footer = () => {
             </div>
           </div>
           <div className=" ml-28 mr-14">
-            <h4 className="footerHeaderText mb-6">
+            <span className="footerHeaderText mb-6">
               PAYMENT METHODS
-            </h4>
+            </span>
             <div className="cursor-pointer">
               <Image
                 alt="Memoryzone payment methods"
@@ -227,9 +227,9 @@ const Footer = () => {
             </div>
           </div>
           <div>
-            <h4 className="footerHeaderText mb-6">
+            <span className="footerHeaderText mb-6">
               CONNECT WITH US
-            </h4>
+            </span>
             <div className="flex space-x-4">
               <div className="cursor-pointer">
                 <Image

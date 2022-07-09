@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
@@ -23,6 +24,7 @@
     "jsonwebtoken": "^8.5.1",
     "next": "12.1.6",
     "next-sanity": "^0.5.2",
+    "next-sitemap": "^3.1.10",
     "nodemailer": "^6.7.5",
     "npm": "^8.11.0",
     "react": "18.1.0",

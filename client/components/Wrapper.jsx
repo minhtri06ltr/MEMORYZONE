@@ -24,6 +24,7 @@ const Wrapper = ({ children }) => {
         (res) => {
           //token expire or incorrect or user delete
           if (!res.success) {
+            alert('Your session is expired please login again')
             return localStorage.setItem(
               "isLogin",
               false,

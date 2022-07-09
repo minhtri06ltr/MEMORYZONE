@@ -18,12 +18,26 @@ import {
   client,
   urlFor,
 } from "../../../lib/client";
+import { getData, postData } from "../../../utils/requestMethod";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 const OrderSuccessPage = ({ orderDetail }) => {
   const componentRef = useRef();
   const [datetime, setDatetime] = useState(null);
+  const router = useRouter()
+  const token = useSelector(state=>state.account.accessToken)
   useEffect(() => {
+    const checkUser = async ()=>{
+      const res = await postData("order/verifyUser",orderDetail._id,token);
+      if(!res.success){
+      
+       router.push('/')
+      }
+     }
+     if(orderDetail.user) checkUser();
     setDatetime(new Date());
+
   }, []);
   if (!orderDetail)
     return (

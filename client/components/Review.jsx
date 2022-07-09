@@ -92,15 +92,15 @@ const RateBar = ({ index, percent }) => {
   return (
     <div className="flex items-center space-x-2 text-sm text-text">
       <span className="whitespace-nowrap">
-        {index} ★
+        {index + 1} ★
       </span>
-      <div className="rounded-full bg-[#efefef]  w-full h-3 ">
+      <div className="rounded-full bg-[#efefef] w-[236px]  h-3 ">
         <div
           className={`rounded-full bg-[#5cb85c]   h-3 `}
           style={{ width: `${percent}%` }}
         ></div>
       </div>
-      <span> {percent}%</span>
+      <span className="block "> {percent}%</span>
     </div>
   );
 };

@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { updateOrder } from "../../redux/orderSlice";
 import { productSold } from "../../middlewares/product";
-import { patchData } from "../../utils/requestMethod";
+import { getData, patchData, postData } from "../../utils/requestMethod";
 
 import { formatOrderList } from "../../utils/format";
 
@@ -25,9 +25,11 @@ const OrderDetailsPage = ({
   orderDetail,
   totalPrice,
 }) => {
+  console.log(orderDetail);
   const token = useSelector(
     (state) => state.account.accessToken,
   );
+  
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -123,6 +125,16 @@ const OrderDetailsPage = ({
       checkPayment();
     }
   }, [router.query.vnp_TransactionStatus]);
+  useEffect(()=>{
+    const checkUser = async ()=>{
+     const res = await postData("order/verifyUser",orderDetail._id,token);
+     if(!res.success){
+     
+      router.push('/')
+     }
+    }
+    if(orderDetail.user) checkUser();
+  },[])
   if (!orderDetail)
     return (
       <NotFound
@@ -201,11 +213,12 @@ const OrderDetailsPage = ({
             </Link>
             <div
               className={` ${
-                router.query
+                (router.query
                   .vnp_TransactionStatus ===
-                  "02" ||
+                  "02" && router.query
+                  .vnp_TransactionStatus ) ||
                 orderDetail.totalPrice !==
-                  totalPrice
+                  totalPrice || orderDetail.orderStatus === 5
                   ? "visible"
                   : "invisible"
               } relative  text-[#000000] 
@@ -238,6 +251,11 @@ const OrderDetailsPage = ({
                     like, have a good day
                   </span>
                 )}
+                {orderDetail.orderStatus === 5 && (<span >
+                    Order have been cancel!
+                    <br />
+                    Please take a look at other products
+                  </span>) }
               </span>
             </div>
             <div className="text-sm text-[#000000] flex justify-between items-center my-4">
@@ -391,9 +409,9 @@ const OrderDetailsPage = ({
               </span>
             </div>
             <div className="mt-8">
-              <PaymentButton
+             { orderDetail.orderStatus !== 5 && <PaymentButton
                 type={orderDetail.paymentMethod}
-              />
+              />}
             </div>
           </div>
         </div>
@@ -412,7 +430,7 @@ export const getServerSideProps = async (
     const orderDetail = await client.fetch(
       `*[_type=="order" && _id==$orderId && isPaid==false][0]
       {
-       totalPrice,orderList,_id,paymentMethod,
+       totalPrice,orderList,_id,paymentMethod,orderStatus,user,
         "productImage": 
       orderList[]{
         "image": *[_type=='product' && slug.current == ^.slug][0]{image[0]}
