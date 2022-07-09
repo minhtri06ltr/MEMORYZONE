@@ -44,6 +44,7 @@ const Layout = ({
           httpEquiv="Content-Type"
           content="text/html; charset=utf-8"
         />
+        <meta name="google-site-verification" content="mZDS5aigJDqHQPC24hoh9MtPkjwQBXKw4i0OEmEHbEk" />
         <link
           rel="icon"
           href="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/favicon.png?1653451447357"
