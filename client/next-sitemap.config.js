@@ -4,4 +4,7 @@
 module.exports ={
     siteUrl: process.env.NEXT_PUBLIC_CLIENT_URL,
     generateRobotsTxt: true,
+    robotsTxtOptions:{
+        additionalSitemaps:[`${process.env.NEXT_PUBLIC_CLIENT_URL}/server-sitemap.xml`,`${process.env.NEXT_PUBLIC_CLIENT_URL}/sitemap.xml`]
+    }
 }
