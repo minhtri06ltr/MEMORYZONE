@@ -50,6 +50,7 @@ const CheckoutPage = ({ provinceList }) => {
       phoneNumber: "",
       paymentMethod: "",
     });
+    console.log(checkoutForm);
 
   useEffect(() => {
     try {

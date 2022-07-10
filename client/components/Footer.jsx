@@ -14,9 +14,9 @@ const Footer = () => {
       );
       return;
     }
-    const res = await postData("contact", {
-      email: contactEmail,
-    });
+    // const res = await postData("contact", {
+    //   email: contactEmail,
+    // });
   };
   return (
     <>
