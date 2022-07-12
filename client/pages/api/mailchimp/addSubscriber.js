@@ -38,9 +38,7 @@ const addSubscriber = async (req, res) => {
           body: JSON.stringify(mailChimpFormat),
         },
       )
-        .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           client.create({
             _type: "newsLetter",
             email: contactEmail,

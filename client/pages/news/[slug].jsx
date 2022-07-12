@@ -93,6 +93,7 @@ const NewDetailsPage = ({
     );
   return (
     <Layout
+      metaType="article"
       title={newBySlug.title}
       image={newBySlug.thumbnail.image}
       description={newBySlug.metaDescription}

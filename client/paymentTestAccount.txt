@@ -12,15 +12,15 @@ alwayssmile1Q
 https://www.sanity.io/plugins/autocomplete-input - clear specification table
 https://www.npmjs.com/package/@sanity/export
 chuyen sang crypto
-chinh vnpay verify code
-export user
+chinh vnpay verify code xxxx
+export user xxxx
 using owned verify mailchimp
-responsive
+responsive xxxx
 pagination
 logout button
 category/filter
 multiple category
 google map
-
+share on social media product with button xxxx
 
 

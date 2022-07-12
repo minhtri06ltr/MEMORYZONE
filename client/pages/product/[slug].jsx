@@ -84,6 +84,7 @@ const ProductDetailsPage = ({
   return (
     <Layout
       title={productBySlug.name}
+      metaType="product"
       description={productBySlug.metaDescription}
       image={productBySlug.image[0]}
       keywords="Memoryzone product, sell, hardware"
