@@ -1,11 +1,11 @@
 import {
-  BadgeCheckIcon,
   TruckIcon,
   GiftIcon,
   CurrencyDollarIcon,
   ClipboardListIcon,
   BellIcon,
   ExclamationIcon,
+  ClipboardCheckIcon,
 } from "@heroicons/react/outline";
 import React from "react";
 
@@ -173,7 +173,7 @@ export default {
     prepare: (selection) => {
       const iconArray = [
         <BellIcon />,
-        <BadgeCheckIcon />,
+        <ClipboardCheckIcon />,
         <GiftIcon />,
         <TruckIcon />,
         <CurrencyDollarIcon />,

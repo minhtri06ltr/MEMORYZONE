@@ -1,8 +1,10 @@
 import Image from "next/image";
+import { useEffect } from "react";
 import { useState } from "react";
-
-import { postData } from "../utils/requestMethod";
-
+import {
+  getData,
+  postData,
+} from "../utils/requestMethod";
 const Footer = () => {
   const [contactEmail, setContactEmail] =
     useState("");
@@ -14,10 +16,17 @@ const Footer = () => {
       );
       return;
     }
-    // const res = await postData("contact", {
-    //   email: contactEmail,
-    // });
+    const res = await postData(
+      "mailchimp/addSubscriber",
+      contactEmail,
+    );
+    if (res.success) {
+      alert(res.message);
+    } else {
+      alert(res.error);
+    }
   };
+
   return (
     <>
       <div className="px-10 border-y border-[#ebebeb]">
@@ -189,6 +198,8 @@ const Footer = () => {
               <form
                 onSubmit={contactHandle}
                 className="space-x-2 flex items-center"
+                method="POST"
+                action={`https://us10.api.mailchimp.com/3.0/lists/${process.env.NEXT_PUBLIC_MAIL_CHIMP_AUDIENCE_ID}`}
               >
                 <input
                   id="contactEmail"

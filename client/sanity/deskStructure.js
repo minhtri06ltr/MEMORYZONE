@@ -4,10 +4,11 @@ import { createSuperPane } from "sanity-super-pane";
 import {
   CubeIcon,
   TicketIcon,
-  NewspaperIcon,
+  BookOpenIcon,
   UserIcon,
   BeakerIcon,
   HomeIcon,
+  NewspaperIcon,
   CollectionIcon,
   ClipboardListIcon,
   ColorSwatchIcon,
@@ -86,7 +87,7 @@ export default () =>
                 ),
               S.listItem()
                 .title("News")
-                .icon(NewspaperIcon)
+                .icon(BookOpenIcon)
                 .child(createSuperPane("new", S)),
               S.listItem()
                 .title("Coupons")
@@ -99,6 +100,15 @@ export default () =>
                 .icon(TagIcon)
                 .child(
                   createSuperPane("media.tag", S),
+                ),
+              S.listItem()
+                .title("Newsletter")
+                .icon(NewspaperIcon)
+                .child(
+                  createSuperPane(
+                    "newsLetter",
+                    S,
+                  ),
                 ),
             ]),
         ),
