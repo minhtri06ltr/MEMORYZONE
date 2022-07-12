@@ -37,21 +37,14 @@ const addSubscriber = async (req, res) => {
           },
           body: JSON.stringify(mailChimpFormat),
         },
-      )
-        .then((data) => {
-          client.create({
-            _type: "newsLetter",
-            email: contactEmail,
-            status: 1,
-            subscribeTime: new Date(),
-          });
-        })
-        .catch((error) => {
-          return res.status(500).json({
-            success: false,
-            error: error.message,
-          });
+      ).then((data) => {
+        client.create({
+          _type: "newsLetter",
+          email: contactEmail,
+          status: 1,
+          subscribeTime: new Date(),
         });
+      });
     } else if (
       existEmail.email === contactEmail &&
       existEmail.status === 1
