@@ -57,23 +57,27 @@ const ProductDescription = ({
                 }
               />
               <div>
-                {/* <span>
-                  Tag:{" "}
-                  {tags.map((item, index) => {
-                    return (
-                      <Link
-                        href={formatTagToSlug(
-                          item,
-                        )}
-                        key={index}
-                      >
-                        <span className="hover:text-primary cursor-pointer">
-                          {item},{" "}
-                        </span>
-                      </Link>
-                    );
-                  })}
-                </span> */}
+                <span>
+                  <b>Tags:</b>{" "}
+                  {tags &&
+                    tags.map((item, index) => {
+                      return (
+                        <Link
+                          href={formatTagToSlug(
+                            item,
+                          )}
+                          key={index}
+                        >
+                          <span className="hover:text-primary cursor-pointer">
+                            {item}
+                            {index <
+                              tags.length - 1 &&
+                              ", "}
+                          </span>
+                        </Link>
+                      );
+                    })}
+                </span>
               </div>
             </div>
             <div

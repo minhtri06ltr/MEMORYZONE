@@ -35,8 +35,12 @@ const SearchProductNamePage = ({
   };
   return (
     <Layout
-      title={`Memoryzone | ${path}`}
-      description={`Memoryzone search results with key ${path}`}
+      title={`Memoryzone | ${
+        path || "All product"
+      }`}
+      description={`Memoryzone search results with key ${
+        path || "all product"
+      }`}
     >
       <Path
         path={[
@@ -45,7 +49,9 @@ const SearchProductNamePage = ({
             pathName: "/",
           },
           {
-            title: `Search results for ${path}`,
+            title: `Search results for ${
+              path || "all product"
+            }`,
             pathName: `/search?=${path}`,
           },
         ]}
@@ -202,8 +208,10 @@ export const getServerSideProps = async (
   context,
 ) => {
   console.log(context.query.key);
-  const path = context.query.key;
-  const query = path.toLowerCase() + "*";
+  const path = context.query.key || null;
+  const query = path
+    ? path.toLowerCase() + "*"
+    : "*";
 
   try {
     const productList = await client.fetch(

@@ -10,19 +10,30 @@ import { UserIcon } from "@heroicons/react/solid";
 import {
   formatDateName,
   formatDateTime,
+  formatTagToSlug,
 } from "../../utils/format";
+import Link from "next/link";
 import { getFeed } from "../../lib/rss";
 import { NewComment } from "../../components";
-import { client, urlFor } from "../../lib/client";
+import { client } from "../../lib/client";
 import { PortableText } from "@portabletext/react";
 import { newDescriptionComponents } from "../../utils/portableTextComponent";
 import { useState } from "react";
 import { validateEmail } from "../../utils/validate";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  LineShareButton,
+  LineIcon,
+} from "next-share";
 
 const NewDetailsPage = ({
   newBySlug,
   rssFeed,
 }) => {
+  console.log(newBySlug);
   const [commentSuccess, setCommentSuccess] =
     useState(false);
   const [commentForm, setCommentForm] = useState({
@@ -112,7 +123,7 @@ const NewDetailsPage = ({
           },
           {
             title: newBySlug.title,
-            pathName: "/test",
+            pathName: `/${newBySlug.slug.current}`,
           },
         ]}
       />
@@ -153,8 +164,63 @@ const NewDetailsPage = ({
               }
             />
           </div>
-          <div className="mt-8 mb-6">
-            share section
+          <div className="flex text-sm text-text items-center pt-8 pb-6 justify-between  border-b border-[#e5e5e5]">
+            <span className="block w-1/2">
+              <b>Tags: </b>
+              {newBySlug.newTag &&
+                newBySlug.newTag.map(
+                  (item, index) => {
+                    return (
+                      <Link
+                        href={`/product/${formatTagToSlug(
+                          item,
+                        )}`}
+                        key={index}
+                      >
+                        <span className="hover:text-primary cursor-pointer">
+                          {item}
+                          {index <
+                            newBySlug.newTag
+                              .length -
+                              1 && ", "}
+                        </span>
+                      </Link>
+                    );
+                  },
+                )}
+            </span>
+            <div className="flex w-1/2 justify-end items-center space-x-2">
+              <FacebookShareButton
+                url={`
+                ${process.env.NEXT_PUBLIC_CLIENT_URL}/news/${newBySlug.slug.current} `}
+                quote={
+                  "Look I just found this very interesting article on Memoryzone Shop website! You can take a glance. Memoryzone Website: `https://memoryzone.vercel.app`"
+                }
+                hashtag={
+                  "#memoryzone #memoryzoneNews #memoryzoneArticle #memoryzoneReviews #memoryzoneShop #memoryzoneTechnology #memoryzoneProduct #memoryzoneWebsite #memoryzoneE-commerce"
+                }
+              >
+                <FacebookIcon size={32} round />
+              </FacebookShareButton>
+              <TwitterShareButton
+                url={`
+              ${process.env.NEXT_PUBLIC_CLIENT_URL}/news/${newBySlug.slug.current} `}
+                title={
+                  "Look I just found this very interesting article on Memoryzone Shop website! You can take a glance. Memoryzone Website: `https://memoryzone.vercel.app`"
+                }
+              >
+                <TwitterIcon size={32} round />
+              </TwitterShareButton>
+              <LineShareButton
+                url={`
+              ${process.env.NEXT_PUBLIC_CLIENT_URL}/news/${newBySlug.slug.current} `}
+                title={
+                  "Look I just found this very interesting article on Memoryzone Shop website! You can take a glance. Memoryzone Website: `https://memoryzone.vercel.app`"
+                }
+              >
+                <LineIcon size={32} round />
+              </LineShareButton>
+            </div>
           </div>
           <div className="mt-8 mb-6">
             <RSSFeed data={rssFeed.items} />
@@ -281,7 +347,7 @@ export const getStaticProps = async ({
     _type=='muxVideo'=>{
     ...,"video": video.asset->
   }
-  },title,slug,thumbnail,"metaDescription": pt::text(description[_type=='block'][0...3]),author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
+  },title,slug,newTag,thumbnail,"metaDescription": pt::text(description[_type=='block'][0...3]),author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
       }
       `,
       { slug },

@@ -2,6 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   nextScriptWorkers: true,
+  async redirects() {
+    return [
+      {
+        source: "/product",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
   i18n: {
     locales: ["en"],
     defaultLocale: "en",

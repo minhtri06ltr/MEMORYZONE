@@ -37,24 +37,15 @@ export default {
       name: "productTag",
       title: "Product Tag",
       type: "array",
-      of: [
-        {
-          type: "reference",
-          title: "Category Tag",
-          name: "categoryTag",
-          to: [{ type: "category" }],
-        },
-        {
-          type: "reference",
-          title: "Related Product Tag",
-          name: "relatedProductTag",
-          to: [{ type: "product" }],
-        },
-      ],
+      description:
+        "Add tags that describe this product.",
+      of: [{ type: "string" }],
       options: {
         layout: "tags",
+        isHighlighted: true,
       },
     },
+
     {
       name: "slug",
       title: "Slug",

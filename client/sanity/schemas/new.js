@@ -37,6 +37,18 @@ export default {
       type: "content",
     },
     {
+      name: "newTag",
+      title: "New Tag",
+      type: "array",
+      description:
+        "Add tags that describe this new.",
+      of: [{ type: "string" }],
+      options: {
+        layout: "tags",
+        isHighlighted: true,
+      },
+    },
+    {
       name: "comments",
       title: "New Comments",
       type: "array",

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Layout, Term } from "../components";
+import { Layout, Term } from "../../components";
 import Link from "next/link";
 import {
   UserCircleIcon,
@@ -9,20 +9,20 @@ import {
   useDispatch,
   useSelector,
 } from "react-redux";
-import { client, urlFor } from "../lib/client";
+import { client, urlFor } from "../../lib/client";
 import {
   formatOrderList,
   numberWithCommas,
-} from "../utils/format";
+} from "../../utils/format";
 import { useEffect, useState } from "react";
 
 import { LogoutIcon } from "@heroicons/react/outline";
-import { logout } from "../redux/accountSlice";
-import { validateEmail } from "../utils/validate";
-import { updateCartHandle } from "../utils/update";
-import { postData } from "../utils/requestMethod";
-import { addOrder } from "../redux/orderSlice";
-import { clearCart } from "../redux/cartSlice";
+import { logout } from "../../redux/accountSlice";
+import { validateEmail } from "../../utils/validate";
+import { updateCartHandle } from "../../utils/update";
+import { postData } from "../../utils/requestMethod";
+import { addOrder } from "../../redux/orderSlice";
+import { clearCart } from "../../redux/cartSlice";
 
 import { useRouter } from "next/router";
 
@@ -50,7 +50,7 @@ const CheckoutPage = ({ provinceList }) => {
       phoneNumber: "",
       paymentMethod: "",
     });
-    console.log(checkoutForm);
+  console.log(checkoutForm);
 
   useEffect(() => {
     try {

@@ -174,6 +174,7 @@ export const formatTagToSlug = (tag) => {
       .toLowerCase()
       //Remove spaces
       .replace(/\s+/g, "-")
+      .replace(/\./g, "-")
       //Remove special characters
       .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "")
       .slice(0, 95)

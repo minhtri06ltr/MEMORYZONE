@@ -3,18 +3,18 @@ import {
   Path,
   RelatedNews,
   RSSFeed,
-} from "../components";
+} from "../../components";
 import Image from "next/image";
 import { ClockIcon } from "@heroicons/react/outline";
 import { UserIcon } from "@heroicons/react/solid";
-import { client, urlFor } from "../lib/client";
+import { client, urlFor } from "../../lib/client";
 import Link from "next/link";
 import {
   formatDateName,
   formatDateTime,
-} from "../utils/format";
-import { getImgDimension } from "../utils/getDimensions";
-import { getFeed } from "../lib/rss";
+} from "../../utils/format";
+import { getImgDimension } from "../../utils/getDimensions";
+import { getFeed } from "../../lib/rss";
 
 const NewsPage = ({ news, rssFeed }) => {
   console.log(rssFeed);

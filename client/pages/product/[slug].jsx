@@ -22,13 +22,21 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { calculateRate } from "../../utils/calculate";
 import { PortableText } from "@portabletext/react";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  LineShareButton,
+  LineIcon,
+} from "next-share";
 
 const ProductDetailsPage = ({
   productBySlug,
   statisticalReviews,
 }) => {
-  console.log(productBySlug);
   const router = useRouter();
+  console.log(productBySlug);
   const dispatch = useDispatch();
   const [pixel, setPixel] = useState(0);
   const [slideNumber, setSlideNumber] =
@@ -260,103 +268,162 @@ const ProductDetailsPage = ({
                     />
                   </div>
                 </div>
+
                 {productBySlug.countInStock >
                   0 && (
                   <>
                     <span className="text-sm block text-gray my-2">
                       Quantity:
                     </span>
-                    <div className="border my-4 flex items-center border-[#ccc] rounded-sm w-fit">
-                      <button
-                        onClick={() =>
-                          quantity > 1 &&
-                          setQuantity(
-                            quantity - 1,
-                          )
-                        }
-                        className="border-r border-[#ccc] font-medium text-3xl px-4 py-1"
-                      >
-                        -
-                      </button>
-                      <input
-                        disabled={
-                          productBySlug.countInStock ===
-                            0 && true
-                        }
-                        value={quantity}
-                        onChange={(e) => {
-                          const re = /^[0-9\b]+$/;
-
-                          if (
-                            e.target.value ===
-                              "" ||
-                            re.test(
-                              e.target.value,
+                    <div className="flex items-center justify-between">
+                      <div className="border my-4 flex items-center border-[#ccc] rounded-sm w-fit">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            quantity > 1 &&
+                            setQuantity(
+                              quantity - 1,
                             )
-                          ) {
+                          }
+                          className="border-r border-[#ccc] font-medium text-3xl px-4 py-1"
+                        >
+                          -
+                        </button>
+                        <input
+                          disabled={
+                            productBySlug.countInStock ===
+                              0 && true
+                          }
+                          value={quantity}
+                          onChange={(e) => {
+                            const re =
+                              /^[0-9\b]+$/;
+
                             if (
-                              isNumber(
-                                parseInt(
-                                  e.target.value,
-                                ),
+                              e.target.value ===
+                                "" ||
+                              re.test(
+                                e.target.value,
                               )
                             ) {
                               if (
-                                e.target.value >
-                                productBySlug.countInStock
-                              ) {
-                                setQuantity(
-                                  productBySlug.countInStock,
-                                );
-                              } else if (
-                                parseInt(
-                                  e.target.value,
-                                ) === 0
-                              ) {
-                                setQuantity(1);
-                              } else
-                                setQuantity(
+                                isNumber(
                                   parseInt(
                                     e.target
                                       .value,
                                   ),
-                                );
-                            } else {
-                              setQuantity(1);
+                                )
+                              ) {
+                                if (
+                                  e.target.value >
+                                  productBySlug.countInStock
+                                ) {
+                                  setQuantity(
+                                    productBySlug.countInStock,
+                                  );
+                                } else if (
+                                  parseInt(
+                                    e.target
+                                      .value,
+                                  ) === 0
+                                ) {
+                                  setQuantity(1);
+                                } else
+                                  setQuantity(
+                                    parseInt(
+                                      e.target
+                                        .value,
+                                    ),
+                                  );
+                              } else {
+                                setQuantity(1);
+                              }
                             }
-                          }
-                        }}
-                        type="text"
-                        className={`w-16 ${
-                          productBySlug.countInStock ===
-                            0 &&
-                          "cursor-not-allowed"
-                        } text-center text-base outline-none border-none px-4`}
-                      />
-                      <button
-                        onClick={() => {
-                          if (
+                          }}
+                          type="text"
+                          className={`w-16 ${
                             productBySlug.countInStock ===
-                            0
-                          ) {
-                            alert(
-                              "This product is out of stock.",
-                            );
-                            return;
+                              0 &&
+                            "cursor-not-allowed"
+                          } text-center text-base outline-none border-none px-4`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (
+                              productBySlug.countInStock ===
+                              0
+                            ) {
+                              alert(
+                                "This product is out of stock.",
+                              );
+                              return;
+                            }
+                            quantity <
+                              productBySlug.countInStock &&
+                              setQuantity(
+                                quantity + 1,
+                              );
+                          }}
+                          className="border-l border-[#ccc] font-medium text-2xl  px-4 py-1.5"
+                        >
+                          +
+                        </button>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <FacebookShareButton
+                          url={
+                            process.env
+                              .NEXT_PUBLIC_CLIENT_URL +
+                            router.asPath
                           }
-                          quantity <
-                            productBySlug.countInStock &&
-                            setQuantity(
-                              quantity + 1,
-                            );
-                        }}
-                        className="border-l border-[#ccc] font-medium text-xl px-4 py-1"
-                      >
-                        +
-                      </button>
+                          quote={
+                            "Look I just found this cool product on Memoryzone Shop website! You can take a glance."
+                          }
+                          hashtag={
+                            "#memoryzone #memoryzoneShop #memoryzoneTechnology #memoryzoneProduct #memoryzoneWebsite #memoryzoneE-commerce"
+                          }
+                        >
+                          <FacebookIcon
+                            size={32}
+                            round
+                          />
+                        </FacebookShareButton>
+                        <TwitterShareButton
+                          url={
+                            process.env
+                              .NEXT_PUBLIC_CLIENT_URL +
+                            router.asPath
+                          }
+                          title={
+                            "Look I just found this cool product on Memoryzone Shop website! You can take a glance."
+                          }
+                        >
+                          <TwitterIcon
+                            size={32}
+                            round
+                          />
+                        </TwitterShareButton>
+                        <LineShareButton
+                          url={
+                            process.env
+                              .NEXT_PUBLIC_CLIENT_URL +
+                            router.asPath
+                          }
+                          title={
+                            "Look I just found this cool product on Memoryzone Shop website! You can take a glance."
+                          }
+                        >
+                          <LineIcon
+                            size={32}
+                            round
+                          />
+                        </LineShareButton>
+                      </div>
                     </div>
                   </>
                 )}
+
                 <div className="space-y-4 pt-1">
                   <div className="flex border-[#e7e7e7] items-center  px-4 py-2 shadow-sm border rounded-md">
                     <div className="flex-1">

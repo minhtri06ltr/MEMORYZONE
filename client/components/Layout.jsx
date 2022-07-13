@@ -25,8 +25,8 @@ const Layout = ({
         />
         <meta
           name="keywords"
-          content={`Memoryzone shop, memoryzone, hardware shop, shop, ram, laptop, pc, cpu, vga, main board, psu, case,
-          phone memory card, main camera, USB, USB 3.0, wireless device, fan, ssd, technology, news, technology review, accessories ${keywords}, ${title}, Memoryzone | Professional in technology `}
+          content={`Memoryzone shop, Memoryzone, Memoryzone Hardware, Memoryzone Ram, Memoryzone Laptop, Memoryzone PC, Memoryzone CPU, Memoryzone VGA, Memoryzone Main board, Memoryzone PSU, Memoryzone Case, Memoryzone
+          Phone memory card, Memoryzone Main camera, Memoryzone USB, Memoryzone USB 3.0, Memoryzone Wireless device, Memoryzone Air fan, Memoryzone Liquid cooler, Memoryzone SSD, Memoryzone Technology, Memoryzone News, Memoryzone Article, Memoryzone Product reviews, Memoryzone Technology review, accessories ${keywords}, ${title}, Memoryzone Website, Memoryzone E-commerce, Memoryzone | Professional in technology `}
         />
         <meta
           name="author"

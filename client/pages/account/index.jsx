@@ -1,4 +1,4 @@
-import { Layout, Path } from "../components";
+import { Layout, Path } from "../../components";
 import {
   DeviceMobileIcon,
   OfficeBuildingIcon,
@@ -17,10 +17,10 @@ import { useRouter } from "next/router";
 import {
   formatDateTime,
   orderStatus,
-} from "../utils/format";
+} from "../../utils/format";
 
-import { cancelOrder } from "../redux/orderSlice";
-import { postData } from "../utils/requestMethod";
+import { cancelOrder } from "../../redux/orderSlice";
+import { postData } from "../../utils/requestMethod";
 
 const AccountPage = () => {
   const router = useRouter();
@@ -52,14 +52,16 @@ const AccountPage = () => {
     ) {
       // Save it!
 
-      const res = await postData('order/cancel',orderId,account.accessToken);
-      if(res.success){
+      const res = await postData(
+        "order/cancel",
+        orderId,
+        account.accessToken,
+      );
+      if (res.success) {
         dispatch(cancelOrder(orderId));
         alert(res.message);
-        
-      }else{
+      } else {
         alert(res.error);
-        
       }
     } else {
       // Do nothing!
