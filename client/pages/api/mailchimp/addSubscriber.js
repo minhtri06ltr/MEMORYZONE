@@ -26,7 +26,7 @@ const addSubscriber = async (req, res) => {
         ],
       };
 
-      const res = await fetch(
+      const mailChimpRes = await fetch(
         `https://${process.env.NEXT_PUBLIC_MAIL_CHIMP_API_SERVER}.api.mailchimp.com/3.0/lists/${process.env.NEXT_PUBLIC_MAIL_CHIMP_AUDIENCE_ID}`,
         {
           method: "POST",
@@ -37,14 +37,9 @@ const addSubscriber = async (req, res) => {
           },
           body: JSON.stringify(mailChimpFormat),
         },
-      ).then((data) => {
-        client.create({
-          _type: "newsLetter",
-          email: contactEmail,
-          status: 1,
-          subscribeTime: new Date(),
-        });
-      });
+      );
+      const data = await mailChimpRes.json();
+      console.log(data);
     } else if (
       existEmail.email === contactEmail &&
       existEmail.status === 1
