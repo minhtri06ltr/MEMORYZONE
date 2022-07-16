@@ -105,7 +105,7 @@ const NewDetailsPage = ({
   return (
     <Layout
       metaType="article"
-      title={newBySlug.title}
+      title={`${newBySlug.title} | Professional in technology`}
       image={newBySlug.thumbnail.image}
       description={newBySlug.metaDescription}
       id={`/news/${newBySlug.slug.current}`}

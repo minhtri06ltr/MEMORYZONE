@@ -11,6 +11,8 @@ const getSubject = (template) => {
     case "activate":
       return "🚀 Activate your Memoryzone account 🚀";
       break;
+      default:
+      break;
   }
 };
 const getTemplate = (template, url) => {
@@ -21,6 +23,8 @@ const getTemplate = (template, url) => {
     case "activate":
       return activateTemplate(url);
       break;
+      default:
+        break;
   }
 };
 export const sendEmailHandle = async (

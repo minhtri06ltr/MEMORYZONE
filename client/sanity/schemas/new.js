@@ -40,8 +40,10 @@ export default {
       name: "newTag",
       title: "New Tag",
       type: "array",
-      description:
-        "Add tags that describe this new.",
+      description: `Please use this tag format to detect which page user will navigate
+      + Use p:["Product name"] for product tag
+      + Use c:["Category name"] for category tag
+      + Use b:["Brand name"] for brand tag `,
       of: [{ type: "string" }],
       options: {
         layout: "tags",

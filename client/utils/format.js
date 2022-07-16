@@ -169,16 +169,65 @@ export const VNPayURL = (
   return url;
 };
 export const formatTagToSlug = (tag) => {
-  return (
-    tag
-      .toLowerCase()
-      //Remove spaces
-      .replace(/\s+/g, "-")
-      .replace(/\./g, "-")
-      //Remove special characters
-      .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "")
-      .slice(0, 95)
-  );
+  const navigate = tag.split(":")[0];
+  switch (navigate) {
+    case "p":
+      return (
+        process.env.NEXT_PUBLIC_CLIENT_URL +
+        "/product/" +
+        tag
+          .split(":")[1]
+          .toLowerCase()
+          //Remove spaces
+          .replace(/\s+/g, "-")
+          .replace(/\./g, "-")
+          //Remove special characters
+          .replace(
+            /[&\/\\#,+()$~%.'":*?<>{}]/g,
+            "",
+          )
+          .slice(0, 95)
+      );
+      break;
+    case "b":
+      return (
+        process.env.NEXT_PUBLIC_CLIENT_URL +
+        "/brand/" +
+        tag
+          .split(":")[1]
+          .toLowerCase()
+          //Remove spaces
+          .replace(/\s+/g, "-")
+          .replace(/\./g, "-")
+          //Remove special characters
+          .replace(
+            /[&\/\\#,+()$~%.'":*?<>{}]/g,
+            "",
+          )
+          .slice(0, 95)
+      );
+      break;
+    case "c":
+      return (
+        process.env.NEXT_PUBLIC_CLIENT_URL +
+        "/category/" +
+        tag
+          .split(":")[1]
+          .toLowerCase()
+          //Remove spaces
+          .replace(/\s+/g, "-")
+          .replace(/\./g, "-")
+          //Remove special characters
+          .replace(
+            /[&\/\\#,+()$~%.'":*?<>{}]/g,
+            "",
+          )
+          .slice(0, 95)
+      );
+      break;
+    default:
+      break;
+  }
 };
 
 export const formatSourceLink = (tag) => {

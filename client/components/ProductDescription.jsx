@@ -69,7 +69,7 @@ const ProductDescription = ({
                           key={index}
                         >
                           <span className="hover:text-primary cursor-pointer">
-                            {item}
+                            {item.split(":")[1]}
                             {index <
                               tags.length - 1 &&
                               ", "}

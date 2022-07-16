@@ -6,7 +6,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/outline";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
   NotFound,
   Layout,
@@ -30,21 +30,23 @@ import {
   LineShareButton,
   LineIcon,
 } from "next-share";
+import Slider from "react-slick";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const ProductDetailsPage = ({
   productBySlug,
   statisticalReviews,
 }) => {
   const router = useRouter();
-  console.log(productBySlug);
-  const dispatch = useDispatch();
-  const [pixel, setPixel] = useState(0);
-  const [slideNumber, setSlideNumber] =
+  const [currentSlide, setCurrentSlide] =
     useState(0);
-  const [index, setIndex] = useState(1);
+
+  const dispatch = useDispatch();
+
   const [quantity, setQuantity] = useState(1);
 
-  const listRef = useRef();
   if (!productBySlug)
     return (
       <NotFound
@@ -55,25 +57,6 @@ const ProductDetailsPage = ({
       />
     );
 
-  const handleSlide = (direction) => {
-    if (
-      direction === "right" &&
-      slideNumber < productBySlug.image.length - 4
-    ) {
-      listRef.current.style.transform = `translateX(-${
-        pixel + 92
-      }px)`;
-      setPixel(pixel + 92);
-      setSlideNumber(slideNumber + 1);
-    }
-    if (direction === "left" && slideNumber > 0) {
-      listRef.current.style.transform = `translateX(-${
-        pixel - 92
-      }px)`;
-      setPixel(pixel - 92);
-      setSlideNumber(slideNumber - 1);
-    }
-  };
   const handleAddToCart = () => {
     dispatch(
       addToCart({
@@ -88,10 +71,40 @@ const ProductDetailsPage = ({
     );
     router.push("/cart");
   };
+  const SampleArrow = (props) => {
+    console.log(props);
+    return <h1>test</h1>;
+    // console.log(direction);
+    // return direction === "left" ? (
+    //   <div>
+    //     <ChevronLeftIcon width={20} height={20} />
+    //   </div>
+    // ) : (
+    //   <div>
+    //     <ChevronRightIcon
+    //       width={20}
+    //       height={20}
+    //     />
+    //   </div>
+    // );
+  };
+
+  const sliderSettings = {
+    beforeChange: (prev, next) => {
+      setCurrentSlide(next);
+    },
+    nextArrow: <SampleArrow direction="right" />,
+    prevArrow: <SampleArrow direction="left" />,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+  };
 
   return (
     <Layout
-      title={productBySlug.name}
+      productPrice={productBySlug.price}
+      title={`${productBySlug.name} | Professional in technology`}
       metaType="product"
       description={productBySlug.metaDescription}
       image={productBySlug.image[0]}
@@ -104,97 +117,24 @@ const ProductDetailsPage = ({
 
         <div className="flex px-10 items-start mt-12 ">
           {/*left */}
-          <div className="   w-9/12">
-            <div className="flex items-start justify-start">
-              <div className="flex-1  overflow-hidden ">
-                <div className="relative aspect-square">
-                  <Image
-                    alt={`Memoryzone product slider: ${
-                      productBySlug.name &&
-                      productBySlug?.name[index]
-                    }`}
-                    layout="fill"
-                    quality={100}
-                    priority
-                    objectFit="cover"
-                    src={urlFor(
-                      productBySlug.image &&
-                        productBySlug?.image[
-                          index
-                        ],
-                    ).url()}
-                  />
-                </div>
-                <div className="flex mt-4 items-center relative justify-center ">
-                  {productBySlug.image.length >
-                    4 && (
-                    <ChevronLeftIcon
-                      width={24}
-                      height={24}
-                      color={
-                        slideNumber < 1
-                          ? "#ccc"
-                          : undefined
-                      }
-                      onClick={() => {
-                        handleSlide("left");
-                      }}
-                      className="cursor-pointer hover:text-primary z-10 top-1/2 left-0 -translate-y-1/2 translate-x-1/2 absolute"
-                    />
+          <div className="w-9/12">
+            <div className="flex w-full items-start justify-start">
+              <div className="flex-1 w-full">
+                <span>test</span>
+                <Slider {...sliderSettings}>
+                  {productBySlug.image.map(
+                    (item, index) => (
+                      <div key={index}>
+                        <Image
+                          src={urlFor(item).url()}
+                          layout="responsive"
+                          width={10}
+                          height={10}
+                        />
+                      </div>
+                    ),
                   )}
-                  <div className="overflow-hidden w-[74%]">
-                    <div
-                      ref={listRef}
-                      className={`flex items-center w-max transition ease-out duration-300
-                  `}
-                    >
-                      {productBySlug.image.map(
-                        (img, i) =>
-                          i > 0 && (
-                            <div
-                              onMouseDownCapture={() =>
-                                setIndex(i)
-                              }
-                              key={i}
-                              className={`relative   aspect-square mx-1.5  cursor-pointer hover:border-primary h-20 w-20 border ${
-                                i === index
-                                  ? "border-primary"
-                                  : "border-[#ccc]"
-                              } `}
-                            >
-                              <Image
-                                src={urlFor(
-                                  img,
-                                ).url()}
-                                alt={`Memoryzone other products image: ${productBySlug.name}`}
-                                layout="fill"
-                                objectFit="cover"
-                              />
-                            </div>
-                          ),
-                      )}
-                    </div>
-                  </div>
-                  {productBySlug.image.length >
-                    4 && (
-                    <ChevronRightIcon
-                      width={24}
-                      height={24}
-                      color={
-                        slideNumber >=
-                        productBySlug.image
-                          .length -
-                          4
-                          ? "#ccc"
-                          : undefined
-                      }
-                      onClick={() => {
-                        handleSlide("right");
-                      }}
-                      className="cursor-pointer hover:text-primary top-1/2 z-10 -translate-y-1/2 -translate-x-1/2 right-0  absolute"
-                    />
-                  )}
-                </div>
+                </Slider>
               </div>
               <div className="w-[58%] pl-8">
                 <span className="block text-text text-2xl">

@@ -37,7 +37,7 @@ export default {
       name: "productTag",
       title: "Product Tag",
       type: "array",
-      description: `Add tags that describe this product.
+      description: `Please use this tag format to detect which page user will navigate
         + Use p:["Product name"] for product tag
         + Use c:["Category name"] for category tag
         + Use b:["Brand name"] for brand tag `,

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { Header, Footer, Notify } from ".";
 import { urlFor } from "../lib/client";
+import { numberWithCommas } from "../utils/format";
 
 const Layout = ({
   children,
@@ -11,6 +12,7 @@ const Layout = ({
   id,
   image,
   metaType = "website",
+  productPrice,
 }) => {
   return (
     <>
@@ -41,6 +43,7 @@ const Layout = ({
           name="facebook-domain-verification"
           content="zyllkw8s56j1qi735d91jq5sd4tzob"
         />
+
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
@@ -62,6 +65,20 @@ const Layout = ({
           content="1 days"
         />
         {/* Facebook Meta Tags */}
+        {productPrice && (
+          <>
+            <meta
+              property="og:price:amount"
+              content={numberWithCommas(
+                productPrice,
+              )}
+            />
+            <meta
+              property="og:price:currency"
+              content="USD"
+            />
+          </>
+        )}
         <meta
           property="og:url"
           content={
@@ -143,10 +160,13 @@ const Layout = ({
         />
       </Head>
       <Notify />
+
       <header>
         {!removeLayout && <Header />}
       </header>
-      <main>{children}</main>
+      <main className="max-w-[1200px] mx-auto ">
+        {children}
+      </main>
       <footer>
         {!removeLayout && <Footer />}
       </footer>

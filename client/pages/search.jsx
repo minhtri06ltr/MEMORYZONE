@@ -35,9 +35,9 @@ const SearchProductNamePage = ({
   };
   return (
     <Layout
-      title={`Memoryzone | ${
+      title={`${
         path || "All product"
-      }`}
+      } | Professional in technology`}
       description={`Memoryzone search results with key ${
         path || "all product"
       }`}
