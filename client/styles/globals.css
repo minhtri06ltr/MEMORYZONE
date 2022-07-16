@@ -161,6 +161,7 @@ a {
   .returnCart:hover:first-child {
     transform: translateX(-0.5rem);
   }
+
 }
 .slick-slide > div {
   display: flex;

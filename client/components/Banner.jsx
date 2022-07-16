@@ -6,8 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Banner = () => {
-  const [currentSlide, setCurrentSlide] =
-    useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const array = [
     "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/slider1_2.jpg?1657861540028",
     "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/slider1_1.jpg?1657861540028",
@@ -28,8 +27,7 @@ const Banner = () => {
         return (
           <span
             className={`bannerSlideItem  ${
-              i === currentSlide &&
-              " border-primary"
+              i === currentSlide && " border-primary"
             } `}
           >
             {items[i]}
@@ -40,8 +38,7 @@ const Banner = () => {
       beforeChange: (prev, next) => {
         setCurrentSlide(next);
       },
-      dotsClass:
-        "w-full !flex list-none flex-row [&>*]:flex-1",
+      dotsClass: "w-full !flex list-none flex-row [&>*]:flex-1",
       dots: true,
       autoplay: true,
       speed: 2000,
