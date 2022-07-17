@@ -56,7 +56,6 @@ export const validateVNPayHash = (
   params,
   hash,
 ) => {
-  
   var signData = params.split("?")[1];
 
   var signed = VNPaySigned(signData);
@@ -65,4 +64,22 @@ export const validateVNPayHash = (
   } else {
     console.log("false");
   }
+};
+export const validateAddress = (
+  lastName,
+  firstName,
+  address,
+  city,
+  country,
+  phoneNumber,
+) => {
+  if (
+    lastName === "" ||
+    firstName === "" ||
+    address === "" ||
+    city === "" ||
+    country === "" ||
+    phoneNumber === ""
+  )
+    return "Missing required fields";
 };

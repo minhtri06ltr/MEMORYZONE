@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useState } from "react";
+import { postData } from "../../utils/requestMethod";
 
 const AddressPage = () => {
   const [openAddressForm, setOpenAddressForm] =
@@ -25,24 +26,25 @@ const AddressPage = () => {
   });
 
   const router = useRouter();
-  const user = useSelector(
-    (state) => state.account.user,
+  const account = useSelector(
+    (state) => state.account,
   );
   useEffect(() => {
     if (
-      Object.keys(user).length === 0 &&
+      Object.keys(account.user).length === 0 &&
       !JSON.parse(localStorage.getItem("isLogin"))
     ) {
       router.push("/account/login");
     }
-  }, [router, user]);
+  }, [router, account.user]);
   const addressFormHandle = (e) => {
     setAddressForm({
       ...addressForm,
       [e.target.name]: e.target.value,
     });
   };
-  const addressHandle = (e) => {
+  console.log(addressForm);
+  const addressHandle = async (e) => {
     e.preventDefault();
     if (
       addressForm.lastName === "" ||
@@ -54,6 +56,26 @@ const AddressPage = () => {
     ) {
       alert("Please fill all required fields");
       return;
+    }
+    const res = await postData(
+      "account/address/create",
+      addressForm,
+      account.accessToken,
+    );
+    if (res.success) {
+      setAddressForm({
+        lastName: "",
+        firstName: "",
+        company: "",
+        address: "",
+        city: "",
+        country: "",
+        zipCode: "",
+        phoneNumber: "",
+      });
+      alert(res.message);
+    } else {
+      alert(res.error);
     }
   };
   return (
