@@ -156,14 +156,14 @@ const NewDetailsPage = ({
               Posted by {newBySlug.author}
             </span>
           </div>
-          <div className="text-text text-sm leading-6">
+          <article className="text-text text-sm leading-6">
             <PortableText
               value={newBySlug.description}
               components={
                 newDescriptionComponents
               }
             />
-          </div>
+          </article>
           <div className="flex text-sm text-text items-center pt-8 pb-6 justify-between  border-b border-[#e5e5e5]">
             <span className="block w-1/2">
               <b>Tags: </b>

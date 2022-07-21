@@ -49,7 +49,7 @@ const ProductDescription = ({
                 : "max-h-[440px]"
             } flex flex-col    w-full border px-8 pt-8 pb-[80px] border-[#e5e5e5]`}
           >
-            <div className="text-[#000000] leading-6 text-sm overflow-hidden h-inherit mb-10 ">
+            <article className="text-[#000000] leading-6 text-sm overflow-hidden h-inherit mb-10 ">
               <PortableText
                 value={description}
                 components={
@@ -69,7 +69,7 @@ const ProductDescription = ({
                           key={index}
                         >
                           <span className="hover:text-primary cursor-pointer">
-                            {item.split(":")[1]}
+                            {item.slice(2)}
                             {index <
                               tags.length - 1 &&
                               ", "}
@@ -79,7 +79,7 @@ const ProductDescription = ({
                     })}
                 </span>
               </div>
-            </div>
+            </article>
             <div
               className={`relative ${
                 !expand && "blurBackground"
@@ -112,7 +112,7 @@ const ProductDescription = ({
                         className="even:bg-[#f9f6d1]"
                       >
                         <td className="text-sm text-right p-3 border w-1/2 border-[#e5e5e5] font-semibold  ">
-                          {item.title}
+                          <h3> {item.title}</h3>
                         </td>
                         <td className="text-sm text-left p-3 border w-1/2  border-[#e5e5e5] ">
                           <PortableText

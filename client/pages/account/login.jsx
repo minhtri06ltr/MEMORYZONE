@@ -121,9 +121,9 @@ const LoginPage = () => {
         ]}
       />
       <div className="m-10">
-        <span className="text-text font- text-lg block">
+        <h1 className="text-text font- text-lg block">
           LOG IN TO ACCOUNT
-        </span>
+        </h1>
         <div className="my-1 flex space-x-8">
           <div className="w-1/2">
             <span className="text-text text-sm pb-4 block">

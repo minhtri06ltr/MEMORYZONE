@@ -26,9 +26,9 @@ const SearchCategoryPages = () => {
       />
       <div className="px-10 my-12 flex space-x-7">
         <div className="w-[24%]">
-          <span className="text-base text-text font-semibold block mb-2">
-            BRAND
-          </span>
+          <h1 className="text-base text-text font-semibold block mb-2">
+            CATEGORY
+          </h1>
           <div className="flex items-stretch py-6 ">
             <input
               type="text"

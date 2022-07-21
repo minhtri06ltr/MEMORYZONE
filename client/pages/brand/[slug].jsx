@@ -1,4 +1,7 @@
-const ProductBrand = () => {
-  return <h1>Coming soon</h1>;
+import React from "react";
+
+const ProductBrandPage = () => {
+  return <div>ProductBrandPage</div>;
 };
-export default ProductBrand;
+
+export default ProductBrandPage;

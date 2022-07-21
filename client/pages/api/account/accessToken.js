@@ -43,7 +43,8 @@ const handler = async (req, res) => {
       accessToken: accessToken,
       user: {
         id: existUser._id,
-        fullName: `${existUser.firstName} ${existUser.lastName}`,
+        firstName: existUser.firstName,
+        lastName: existUser.lastName,
         email: existUser.email,
         _createdAt: existUser._createdAt,
         isAdmin: existUser.isAdmin,

@@ -51,9 +51,9 @@ const CartPage = () => {
         ]}
       />
       <div className="px-10 my-12">
-        <span className="block text-[#323c3f] text-3xl  mb-4 font-semibold">
+        <h1 className="block text-[#323c3f] text-3xl  mb-4 font-semibold">
           Cart
-        </span>
+        </h1>
         {cartItems.products.length > 0 ? (
           <div className="my-8">
             <table className="border m-x-auto m-y-0 border-[#ebebeb] border-collapse w-full">

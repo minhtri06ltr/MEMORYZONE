@@ -95,13 +95,13 @@ const RSSFeed = ({ data }) => {
                 target="_blank"
                 className="block"
               >
-                <span className="block cursor-pointer hover:text-primary">
+                <h2 className="block cursor-pointer hover:text-primary">
                   {item.title}
-                </span>
+                </h2>
               </a>
-              <span className="block text-gray text-sm">
+              <p className="block text-gray text-sm">
                 {item.contentSnippet}
-              </span>
+              </p>
             </div>
           ))}
         </Slider>

@@ -40,7 +40,9 @@ const verifyAccount = async (req, res) => {
       refreshToken,
       user: {
         id: returnUser._id,
-        fullName: `${returnUser.firstName} ${returnUser.lastName}`,
+        firstName: returnUser.firstName,
+        lastName: returnUser.lastName,
+
         email: returnUser.email,
         _createdAt: returnUser._createdAt,
         isAdmin: returnUser.isAdmin,

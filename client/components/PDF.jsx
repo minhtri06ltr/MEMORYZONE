@@ -131,7 +131,7 @@ const PDF = ({
           </span>
           <span>
             {orderDetail.user
-              ? orderDetail.user.fullName
+              ? `${orderDetail.user.firstName} ${orderDetail.user.lastName}`
               : orderDetail.guestName}
           </span>
           <span>
@@ -152,7 +152,7 @@ const PDF = ({
           </span>
           <span>
             {orderDetail.user
-              ? orderDetail.user.fullName
+              ? `${orderDetail.user.firstName} ${orderDetail.user.lastName}`
               : orderDetail.guestName}
           </span>
           <span>
@@ -193,7 +193,7 @@ const PDF = ({
           <span>FAST DELIVERY 24-36 HOURS</span>
         </div>
       </div>
-      <span className="block cursor-pointer px-10 text-sm pb-6 text-[#000000]">
+      <span className="block cursor-pointer px-10 text-xs pb-6 text-[#000000]">
         {process.env.NEXT_PUBLIC_CLIENT_URL}
         /checkout/success/{orderDetail._id}
       </span>

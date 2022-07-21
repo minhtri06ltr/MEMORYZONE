@@ -176,7 +176,7 @@ export const formatTagToSlug = (tag) => {
         process.env.NEXT_PUBLIC_CLIENT_URL +
         "/product/" +
         tag
-          .split(":")[1]
+          .slice(2)
           .toLowerCase()
           //Remove spaces
           .replace(/\s+/g, "-")

@@ -30,7 +30,9 @@ const CheckoutPage = ({ provinceList }) => {
   const router = useRouter();
 
   const cart = useSelector((state) => state.cart);
-
+  const addressList = useSelector(
+    (state) => state.address.addressList,
+  );
   const [allow, setAllow] = useState(true);
   const account = useSelector(
     (state) => state.account,
@@ -50,7 +52,6 @@ const CheckoutPage = ({ provinceList }) => {
       phoneNumber: "",
       paymentMethod: "",
     });
-  console.log(checkoutForm);
 
   useEffect(() => {
     try {
@@ -226,7 +227,7 @@ const CheckoutPage = ({ provinceList }) => {
       setCheckoutForm({
         ...checkoutForm,
         email: account.user.email,
-        fullName: account.user.fullName,
+        fullName: `${account.user.firstName} ${account.user.lastName}`,
       });
       setAllow(false);
     }
@@ -234,7 +235,31 @@ const CheckoutPage = ({ provinceList }) => {
     Object.keys(account.user).length,
     account.user,
   ]);
-
+  const handleAddressList = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === "clearInfo") {
+      setCheckoutForm({
+        ...checkoutForm,
+        province: "",
+        district: "",
+        ward: "",
+        fullName: "",
+        address: "",
+        phoneNumber: "",
+      });
+      return;
+    }
+    setCheckoutForm({
+      ...checkoutForm,
+      fullName: `${
+        addressList[e.target.value].firstName
+      } ${addressList[e.target.value].lastName}`,
+      phoneNumber:
+        addressList[e.target.value].phoneNumber,
+      address:
+        addressList[e.target.value].address,
+    });
+  };
   return (
     <Layout
       removeLayout={true}
@@ -274,9 +299,9 @@ const CheckoutPage = ({ provinceList }) => {
                 >
                   <div className="flex-1 ">
                     <div className="flex w-full justify-between items-center mb-3">
-                      <span className="font-semibold text-[#000000] text-lg">
+                      <h1 className="font-semibold text-[#000000] text-lg">
                         Delivery information
-                      </span>
+                      </h1>
                       <div>
                         {allow ? (
                           <Link
@@ -326,6 +351,44 @@ const CheckoutPage = ({ provinceList }) => {
                     </div>
 
                     <div className="flex flex-col space-y-3 ">
+                      {Object.keys(account.user)
+                        .length !== 0 && (
+                        <div className="checkoutInput  checkoutSelectWrapper">
+                          <label
+                            htmlFor="province"
+                            className="absolute border-r-1 border-red-500 block text-xs top-1 text-[#999999]"
+                          >
+                            Address List
+                          </label>
+                          <select
+                            name="addressList"
+                            id="addressList"
+                            className="checkoutSelect"
+                            defaultValue="clearInfo"
+                            onChange={
+                              handleAddressList
+                            }
+                          >
+                            <option value="clearInfo">
+                              Other address...
+                            </option>
+                            {addressList.map(
+                              (item, index) => (
+                                <option
+                                  key={index}
+                                  value={index}
+                                >
+                                  {item.firstName}
+                                  ,{" "}
+                                  {item.lastName},{" "}
+                                  {item.address}
+                                </option>
+                              ),
+                            )}
+                          </select>
+                        </div>
+                      )}
+
                       <input
                         onChange={
                           checkoutFormHandle

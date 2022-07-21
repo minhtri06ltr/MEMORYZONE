@@ -59,10 +59,10 @@ const SearchProductNamePage = ({
       <div className="px-10">
         <div className="my-12">
           {productList.length === 0 && (
-            <span className="text-text text-lg block ">
+            <h1 className="text-text text-lg block ">
               NO RESULTS FOUNDED WITH THE ABOVE
               KEYWORDS.
-            </span>
+            </h1>
           )}
 
           <div className="my-12">
@@ -93,14 +93,14 @@ const SearchProductNamePage = ({
           </div>
           {productList.length !== 0 && (
             <div>
-              <span className="block text-text text-lg font-medium">
+              <h1 className="block text-text text-lg font-medium">
                 There{" "}
                 {productList.length > 1
                   ? "are"
                   : "is"}{" "}
                 {productList.length} matching
                 search results
-              </span>
+              </h1>
               <div className="grid grid-cols-5 gap-x-7 gap-y-12 mt-4">
                 {productList.map(
                   (item, index) => (

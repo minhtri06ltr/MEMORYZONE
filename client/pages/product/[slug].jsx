@@ -203,9 +203,9 @@ const ProductDetailsPage = ({
                 </div>
               </div>
               <div className="flex-1 pl-6">
-                <span className="block text-text text-2xl">
+                <h1 className="block text-text text-2xl">
                   {productBySlug.name}
-                </span>
+                </h1>
                 <div className="flex py-3 items-center ">
                   <div className="flex ">
                     <StarList

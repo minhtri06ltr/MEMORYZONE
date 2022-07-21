@@ -4,6 +4,7 @@ import {
   useSelector,
 } from "react-redux";
 import { loginSuccess } from "../redux/accountSlice";
+import { addAddressList } from "../redux/addressSlice";
 import { getCartItemsFromLocalStorage } from "../redux/cartSlice";
 import { addOrderList } from "../redux/orderSlice";
 import { getData } from "../utils/requestMethod";
@@ -24,7 +25,9 @@ const Wrapper = ({ children }) => {
         (res) => {
           //token expire or incorrect or user delete
           if (!res.success) {
-            alert('Your session is expired please login again')
+            alert(
+              "Your session is expired please login again",
+            );
             return localStorage.setItem(
               "isLogin",
               false,
@@ -75,9 +78,26 @@ const Wrapper = ({ children }) => {
           dispatch(
             addOrderList(res.orderHistoryList),
           );
+        } else {
+          alert(res.error);
+          return;
         }
       };
-
+      const getUserAddressList = async () => {
+        const res = await getData(
+          "account/address/list",
+          accessToken,
+        );
+        if (res.success) {
+          dispatch(
+            addAddressList(res.addressList),
+          );
+        } else {
+          alert(res.error);
+          return;
+        }
+      };
+      getUserAddressList();
       getOrderHistory();
     }
   }, [accessToken, dispatch]);

@@ -18,26 +18,35 @@ import {
   client,
   urlFor,
 } from "../../../lib/client";
-import { getData, postData } from "../../../utils/requestMethod";
+import {
+  getData,
+  postData,
+} from "../../../utils/requestMethod";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
 const OrderSuccessPage = ({ orderDetail }) => {
+  console.log(orderDetail);
   const componentRef = useRef();
   const [datetime, setDatetime] = useState(null);
-  const router = useRouter()
-  const token = useSelector(state=>state.account.accessToken)
+  const router = useRouter();
+  const token = useSelector(
+    (state) => state.account.accessToken,
+  );
   useEffect(() => {
-    const checkUser = async ()=>{
-      const res = await postData("order/verifyUser",orderDetail._id,token);
-      if(!res.success){
-      
-       router.push('/')
+    const checkUser = async () => {
+      const res = await postData(
+        "order/verifyUser",
+        orderDetail._id,
+        token,
+      );
+      if (!res.success) {
+        router.push("/");
       }
-     }
-     if(orderDetail.user) checkUser();
+    };
+    if (orderDetail.role === "account")
+      checkUser();
     setDatetime(new Date());
-
   }, []);
   if (!orderDetail)
     return (
@@ -83,19 +92,19 @@ page to continue shopping."
                 />
               </div>
               <div className="space-y-4">
-                <span className="block text-lg text-[#000000]  font-semibold">
+                <h1 className="block text-lg text-[#000000]  font-semibold">
                   Thank you for your order
-                </span>
+                </h1>
                 <div className="text-sm text-[#595959]">
-                  <span className="block ">
+                  <h2 className="block ">
                     We hope our product will meet
                     your expectations. Let us know
                     if you have any questions.
-                  </span>
-                  <span className="block ">
+                  </h2>
+                  <h2 className="block ">
                     Hope we can see you again in
                     next buy at Memoryzone
-                  </span>
+                  </h2>
                 </div>
                 <button className="bg-primary hover:bg-[#006533] text-sm text-white px-8 py-3 rounded-md">
                   Show transfer information
@@ -109,7 +118,7 @@ page to continue shopping."
                 </span>
                 <span>
                   {orderDetail.user
-                    ? orderDetail.user.fullName
+                    ? `${orderDetail.user.firstName} ${orderDetail.user.lastName}`
                     : orderDetail.guestName}
                 </span>
                 <span>
@@ -130,7 +139,7 @@ page to continue shopping."
                 </span>
                 <span>
                   {orderDetail.user
-                    ? orderDetail.user.fullName
+                    ? `${orderDetail.user.firstName} ${orderDetail.user.lastName}`
                     : orderDetail.guestName}
                 </span>
                 <span>
@@ -307,7 +316,7 @@ export const getServerSideProps = async (
       {
        totalPrice,paymentMethod,orderList,_id,shippingAddress,_createdAt,guestName,guestEmail,
        "user": *[_type=='user' && _id == ^.user._ref ][0]{
-        email,"fullName":firstName + " " + lastName},
+        email,firstName  , lastName},
         "productImage": 
       orderList[]{
         "image": *[_type=='product' && slug.current == ^.slug][0]{image[0]}

@@ -38,12 +38,12 @@ const NotFound = ({
               color="#e9be33"
             />
           </div>
-          <span className="text-lg block text-[#000000] font-semibold">
+          <h1 className="text-lg block text-[#000000] font-semibold">
             {title}
-          </span>
-          <span className="text-[#000000] block text-sm">
+          </h1>
+          <p className="text-[#000000] block text-sm">
             {description}
-          </span>
+          </p>
           <Link href="/">
             <button className="bg-primary hover:bg-[#006533] rounded-md py-4 px-10 text-white text-lg font-semibold">
               Return homepage

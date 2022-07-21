@@ -1,67 +1,42 @@
 import React from "react";
-import Slider from "react-slick";
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Image from "next/image";
-
-const Test = () => {
-  const array = [
-    "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/slider1_2.jpg?1657861540028",
-    "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/slider1_1.jpg?1657861540028",
-    "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/slider1_3.jpg?1657861540028",
-    "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/slider1_4.jpg?1657861540028",
-    "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/slider1_5.jpg?1657861540028",
-  ];
-  const settings = {
-    customPaging: (i) => (
-      <div
-        style={{
-          width: "30px",
-          color: "blue",
-          border: "1px blue solid",
-        }}
-      >
-        <span>test</span>
-      </div>
-    ),
-    dots: true,
-    dotsClass: "slick-dots slick-thumb",
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    fade: true,
-  };
-  return (
-    <div>
-      <Slider {...settings}>
-        <div>
-          <Image
-            priority
-            src={array[0]}
-            width="100%"
-            height={61}
-            layout="responsive"
-            quality={100}
-            alt="Memoryzone first main slider banner"
-          />
-        </div>
-        <div>
-          <img src={array[1]} />
-        </div>
-        <div>
-          <img src={array[2]} />
-        </div>
-        <div>
-          <img src={array[3]} />
-        </div>
-        <div>
-          <img src={array[4]} />
-        </div>
-      </Slider>
-    </div>
-  );
+const TestPage = ({ data }) => {
+  console.log(data);
+  return <div>TestPage</div>;
 };
 
-export default Test;
+export default TestPage;
+
+export const getStaticProps = async () => {
+  try {
+    const options = {
+      method: "GET",
+
+      headers: {
+        "X-User-Agent": "desktop",
+        "X-Proxy-Location": "EU",
+        "X-RapidAPI-Key":
+          "f47dd1e4cdmshe8fe0655497127ap1eecfdjsn4c1fe5fb5a0b",
+        "X-RapidAPI-Host":
+          "google-search3.p.rapidapi.com",
+      },
+    };
+    const res = await fetch(
+      `https://google-search3.p.rapidapi.com/api/v1/search/q=laptop+lenovo+yoga+slim`,
+      options,
+    );
+    const data = await res.json();
+
+    return {
+      props: { data },
+      revalidate: 60,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        data: null,
+      },
+    };
+  }
+};

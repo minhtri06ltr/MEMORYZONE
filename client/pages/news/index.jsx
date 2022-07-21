@@ -37,9 +37,9 @@ const NewsPage = ({ news, rssFeed }) => {
       />
       <div className="px-10 my-12 flex space-x-7">
         <div className="w-[75%]">
-          <span className="block text-[#323c3f] text-3xl  font-semibold">
+          <h1 className="block text-[#323c3f] text-3xl  font-semibold">
             News
-          </span>
+          </h1>
 
           <div className="divide-y space-y-8 divide-[#e5e5e5]">
             {news.map((item, index) => (
@@ -74,9 +74,9 @@ const NewsPage = ({ news, rssFeed }) => {
                   <Link
                     href={`/news/${item.slug.current}`}
                   >
-                    <span className="text-2xl font-semibold cursor-pointer hover:text-primary text-[#323c3f] block">
+                    <h2 className="text-2xl font-semibold cursor-pointer hover:text-primary text-[#323c3f] block">
                       {item.title}
-                    </span>
+                    </h2>
                   </Link>
                   <div className="text-gray text-xs flex py-3 items-center">
                     <ClockIcon
@@ -102,9 +102,9 @@ const NewsPage = ({ news, rssFeed }) => {
                       Posted by {item.author}
                     </span>
                   </div>
-                  <div className="text-sm limit-4-line  text-[#707070]">
+                  <p className="text-sm limit-4-line  text-[#707070]">
                     {item.metaDescription}
-                  </div>
+                  </p>
                 </div>
               </div>
             ))}

@@ -28,7 +28,7 @@ const createAddress = async (req, res) => {
         success: false,
         error: errorMessage,
       });
-    await client
+    const returnAddressList = await client
       .patch(userId)
       .setIfMissing({
         addressList: [],
@@ -50,16 +50,20 @@ const createAddress = async (req, res) => {
         // Adds a `_key` attribute to array items, unique within the array, to
         // ensure it can be addressed uniquely in a real-time collaboration context
         autoGenerateArrayKeys: true,
-      });
+      })
+      .then((res) => res);
     // console.log(userId);
     return res.status(200).json({
       success: true,
       message: "Add new address success",
+      returnAddressList:
+        returnAddressList.addressList,
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       success: false,
+
       error: error.message,
     });
   }

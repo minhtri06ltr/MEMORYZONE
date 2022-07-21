@@ -24,6 +24,9 @@ import { postData } from "../../utils/requestMethod";
 
 const AccountPage = () => {
   const router = useRouter();
+  const addressList = useSelector(
+    (state) => state.address.addressList,
+  );
   const dispatch = useDispatch();
   const account = useSelector(
     (state) => state.account,
@@ -88,13 +91,14 @@ const AccountPage = () => {
       />
       <div className="px-10 my-12 space-x-6 flex  ">
         <div className="w-3/4 pr-2">
-          <span className="text-text text-lg block font-medium">
+          <h1 className="text-text text-lg block font-medium">
             CUSTOMER
-          </span>
+          </h1>
           <span className="text-sm my-3 block font-semibold text-text ">
             Hello,{" "}
             <span className="text-primary">
-              {account.user.fullName}
+              {`${account.user.firstName} ${account.user.lastName}
+             `}
             </span>{" "}
             !
           </span>
@@ -224,15 +228,28 @@ const AccountPage = () => {
                 height={15}
                 className="text-primary mr-2.5 mb-[0.25px]"
               />
-              <span>Phone Number:</span>
+              <span>
+                Phone Number:{" "}
+                {addressList[0]?.phoneNumber ||
+                  ""}
+              </span>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center ">
               <LocationMarkerIcon
                 width={15}
                 height={15}
-                className="text-primary mr-2.5 mb-[0.25px]"
+                className="text-primary w-1/4 mr-2.5 mb-[0.25px]"
               />
-              <span>Address</span>
+              <span>
+                Address:{" "}
+                {`${
+                  addressList[0]?.address || ""
+                }, ${
+                  addressList[0]?.address || ""
+                }, ${
+                  addressList[0]?.country || ""
+                }` || ""}
+              </span>
             </div>
             <div className="flex items-center">
               <OfficeBuildingIcon
@@ -240,7 +257,10 @@ const AccountPage = () => {
                 height={15}
                 className="text-primary mr-2.5 mb-[0.25px]"
               />
-              <span>Company:</span>
+              <span>
+                Company:{" "}
+                {addressList[0]?.company || ""}
+              </span>
             </div>
             <div className="flex items-center">
               <GlobeIcon
@@ -248,7 +268,10 @@ const AccountPage = () => {
                 height={15}
                 className="text-primary mr-2.5 "
               />
-              <span>Country:</span>
+              <span>
+                Country:{" "}
+                {addressList[0]?.country || ""}
+              </span>
             </div>
             <div className="flex items-center">
               <CodeIcon
@@ -256,12 +279,15 @@ const AccountPage = () => {
                 height={15}
                 className="text-primary mr-2.5 mb-[0.25px]"
               />
-              <span>Zip Code:</span>
+              <span>
+                Zip Code:{" "}
+                {addressList[0]?.zipCode || ""}
+              </span>
             </div>
           </div>
-          <Link href="/account/address">
+          <Link href="/account/addresses">
             <button className="rounded-sm my-4 hover:bg-white hover:text-primary transition ease-linear text-white text-sm bg-primary w-full border border-primary  py-2 px-8">
-              Address list (0)
+              Address list ({addressList.length})
             </button>
           </Link>
         </div>

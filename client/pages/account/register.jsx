@@ -90,9 +90,9 @@ const RegisterPage = () => {
       />
 
       <div className="m-10">
-        <span className="text-text font- text-lg block">
+        <h1 className="text-text font- text-lg block">
           REGISTER AN ACCOUNT
-        </span>
+        </h1>
         <div>
           <form
             onSubmit={registerHandler}
