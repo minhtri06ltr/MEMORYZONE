@@ -165,6 +165,11 @@ const seoImageBlock = (props) => {
   return (
     <div className="my-6 mx-auto w-full">
       <Image
+        alt={
+          props.value.imageAlt
+            ? props.value.imageAlt
+            : "Memoryzone thumbnail"
+        }
         src={urlFor(props.value.image).url()}
         layout="responsive"
         width={width}

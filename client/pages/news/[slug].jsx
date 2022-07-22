@@ -10,12 +10,13 @@ import { UserIcon } from "@heroicons/react/solid";
 import {
   formatDateName,
   formatDateTime,
+  formatDateTimeSchema,
   formatTagToSlug,
 } from "../../utils/format";
 import Link from "next/link";
 import { getFeed } from "../../lib/rss";
 import { NewComment } from "../../components";
-import { client } from "../../lib/client";
+import { client, urlFor } from "../../lib/client";
 import { PortableText } from "@portabletext/react";
 import { newDescriptionComponents } from "../../utils/portableTextComponent";
 import { useState } from "react";
@@ -92,7 +93,55 @@ const NewDetailsPage = ({
       })
       .catch((error) => alert(error.message));
   };
-
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${process.env.NEXT_PUBLIC_CLIENT_URL}/news/${newBySlug.slug.current}`,
+    },
+    headline: newBySlug.title,
+    name: newBySlug.title,
+    description: newBySlug.metaDescription.slice(
+      0,
+      30,
+    ),
+    articleBody: newBySlug.metaDescription,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: 4.5,
+      reviewCount: newBySlug.comments.length,
+    },
+    keywords:
+      "mouse, Logitech Lift Vertical Ergonomic, technology",
+    image: [
+      urlFor(newBySlug.thumbnail.image).url(),
+      newBySlug.description
+        .filter(
+          (item) => item._type === "seoImage",
+        )
+        .map((item) => urlFor(item.image).url()),
+    ],
+    author: {
+      "@type": "Person",
+      name: newBySlug.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      address: "Hokkaido",
+      location: "Japan",
+      url: process.env.NEXT_PUBLIC_CLIENT_URL,
+      identifier: newBySlug.title,
+      name: "Memoryzone",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/logo.png?1657789685905",
+      },
+    },
+    datePublished: formatDateTimeSchema(
+      newBySlug._createdAt,
+    ),
+  };
   if (!newBySlug)
     return (
       <NotFound
@@ -105,9 +154,13 @@ const NewDetailsPage = ({
   return (
     <Layout
       metaType="article"
-      title={`${newBySlug.title} | Professional in technology`}
+      schema={schema}
+      title={`${newBySlug.title} | Memoryzone - Professional in technology`}
       image={newBySlug.thumbnail.image}
-      description={newBySlug.metaDescription}
+      description={newBySlug.metaDescription.slice(
+        0,
+        303,
+      )}
       id={`/news/${newBySlug.slug.current}`}
       keywords="Memoryzone news, technology news, memoryzone product review"
     >
@@ -347,7 +400,7 @@ export const getStaticProps = async ({
     _type=='muxVideo'=>{
     ...,"video": video.asset->
   }
-  },title,slug,newTag,thumbnail,"metaDescription": pt::text(description[_type=='block'][0...3]),author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
+  },title,slug,newTag,thumbnail,"metaDescription": pt::text(description[_type=='block'][0...2]),author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
       }
       `,
       { slug },

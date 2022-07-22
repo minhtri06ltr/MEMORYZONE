@@ -32,6 +32,8 @@ export default {
       name: "name",
       title: "Name",
       type: "string",
+      description:
+        "The most effective name are about 10-70 characters long, including spaces",
     },
     {
       name: "productTag",

@@ -26,9 +26,9 @@ const ProductCard = ({
         </Link>
       </div>
       <Link href={`/product/${slug}`}>
-        <span className="text-text text-sm cursor-pointer font-light leading-none hover:text-primary limit-3-line my-2">
+        <h2 className="text-text text-sm cursor-pointer font-light leading-none hover:text-primary limit-3-line my-2">
           {name}
-        </span>
+        </h2>
       </Link>
       <div className="text-center">
         <span className="text-primary text-base font-bold mr-2">

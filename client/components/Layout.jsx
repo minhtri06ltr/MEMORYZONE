@@ -5,7 +5,7 @@ import { numberWithCommas } from "../utils/format";
 
 const Layout = ({
   children,
-  title = "Memoryzone",
+  title = "Memoryzone | Professional in technology",
   description,
   keywords = "",
   removeLayout = false,
@@ -13,6 +13,7 @@ const Layout = ({
   image,
   metaType = "website",
   productPrice,
+  schema = null,
 }) => {
   return (
     <>
@@ -32,9 +33,17 @@ const Layout = ({
         />
         <meta
           name="author"
-          content="Memoryzone shop"
+          content="Memoryzone"
         />
         <meta charSet="utf-8" />
+        {schema && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(schema),
+            }}
+          />
+        )}
         <meta
           name="theme-color"
           content="#008744"
@@ -46,7 +55,7 @@ const Layout = ({
 
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
+          content="width=device-width, initial-scale=1"
         />
         <meta
           httpEquiv="Content-Type"
@@ -103,7 +112,7 @@ const Layout = ({
           property="og:description"
           content={
             description +
-            ", Memoryzone | Professional in technology"
+            " | Memoryzone - Professional in technology"
           }
         />
         <meta

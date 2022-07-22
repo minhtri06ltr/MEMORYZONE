@@ -1,7 +1,11 @@
 import Image from "next/image";
 import { client, urlFor } from "../../lib/client";
 import { productDescriptionComponents } from "../../utils/portableTextComponent";
-import { numberWithCommas } from "../../utils/format";
+import {
+  detect,
+  formatDateTimeSchema,
+  numberWithCommas,
+} from "../../utils/format";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -130,13 +134,72 @@ const ProductDetailsPage = ({
     slidesToShow: 3,
     slidesToScroll: 1,
   };
+  console.log(productBySlug);
+  const schema = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    name: productBySlug.name,
+    image: urlFor(productBySlug.image[0]).url(),
+    description: productBySlug.metaDescription,
+    category: "Laptop",
+    productID: productBySlug._id,
+    brand: {
+      "@type": "Brand",
+      name: productBySlug.productBrand
+        .productBrand,
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: statisticalReviews.average,
+      bestRating: detect(
+        statisticalReviews.ratingList,
+      ).max,
+      worstRating: detect(
+        statisticalReviews.ratingList,
+      ).min,
+      ratingCount: productBySlug.reviews.length,
+    },
+    review: [
+      productBySlug.reviews.map((item) => {
+        return {
+          "@type": "Review",
+          name: item.fullName,
+          reviewBody: item.comment,
+          datePublished: formatDateTimeSchema(
+            item.createTime,
+          ),
+          url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/product/${productBySlug.slug.current}`,
+          author: {
+            "@type": "Person",
+            name: item.fullName,
+          },
+          publisher: {
+            "@type": "Organization",
+            address: "Hokkaido",
+            location: "Japan",
+            url: process.env
+              .NEXT_PUBLIC_CLIENT_URL,
 
+            name: "Memoryzone",
+            logo: {
+              "@type": "ImageObject",
+              url: "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/logo.png?1657789685905",
+            },
+          },
+        };
+      }),
+    ],
+  };
   return (
     <Layout
       productPrice={productBySlug.price}
       title={`${productBySlug.name} | Professional in technology`}
       metaType="product"
-      description={productBySlug.metaDescription}
+      schema={schema}
+      description={productBySlug.metaDescription.slice(
+        0,
+        303,
+      )}
       image={productBySlug.image[0]}
       keywords="Memoryzone product, sell, hardware"
       id={`/product/${productBySlug.slug.current}`}
@@ -158,6 +221,8 @@ const ProductDetailsPage = ({
               <div className="w-[44%] ">
                 <div>
                   <Image
+                    alt={`Memoryzone ${productBySlug.name} image`}
+                    priority={true}
                     src={urlFor(
                       productBySlug.image[
                         currentImage
@@ -190,6 +255,7 @@ const ProductDetailsPage = ({
                           }`}
                         >
                           <Image
+                            alt="Memoryzone product images slider"
                             src={urlFor(
                               item,
                             ).url()}
@@ -238,7 +304,10 @@ const ProductDetailsPage = ({
                     Trademake:{" "}
                   </span>
                   <span className="text-primary  text-sm">
-                    Gigabyte
+                    {
+                      productBySlug.productBrand
+                        .productBrand
+                    }
                   </span>
                   <div className="w-[1px] h-3.5 -mb-0.5 mx-2 inline-block bg-text"></div>
                   <span className="text-text text-sm ">
@@ -682,7 +751,7 @@ export const getStaticProps = async ({
   }
   },
   "metaDescription": pt::text(description)
-        ,image,name,productTag,countInStock,specifications,specificationTable,brand,price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
+        ,image,name,productTag,countInStock,specifications,specificationTable,"productBrand":*[_type=='brand' && _id==^.productBrand._ref]{productBrand}[0],price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
       }
       }
     `,

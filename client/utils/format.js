@@ -48,6 +48,31 @@ export const formatDateTime = (
       convert.getUTCFullYear()
     );
 };
+export const formatDateTimeSchema = (
+  datetime,
+) => {
+  var b = datetime.split(/\D+/);
+  const convert = new Date(
+    Date.UTC(
+      b[0],
+      --b[1],
+      b[2],
+      b[3],
+      b[4],
+      b[5],
+      b[6],
+    ),
+  );
+  return (
+    convert.getUTCFullYear() +
+    "-" +
+    ("0" + (convert.getUTCMonth() + 1)).slice(
+      -2,
+    ) +
+    "-" +
+    ("0" + convert.getUTCDate()).slice(-2)
+  );
+};
 export const formatProcess = (process) => {
   const string =
     Object.keys(process)[
@@ -250,4 +275,23 @@ export const formatRSSFeedDatetime = (
   datetime,
 ) => {
   return datetime.split(" +")[0];
+};
+export const detect = (ratingList) => {
+  let min = 0;
+  let max = 0;
+
+  ratingList.map((item, index) => {
+    if (item !== 0) min = index + 1;
+  });
+  for (
+    let i = ratingList.length - 1;
+    i >= 0;
+    i--
+  ) {
+    if (ratingList[i] !== 0) max = i + 1;
+  }
+  return {
+    max,
+    min,
+  };
 };

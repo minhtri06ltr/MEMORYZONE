@@ -16,6 +16,8 @@ export default {
       name: "title",
       title: "Title",
       type: "string",
+      description:
+        "The most effective titles are about 10-70 characters long, including spaces",
     },
     {
       name: "slug",
