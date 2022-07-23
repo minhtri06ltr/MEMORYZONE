@@ -1,10 +1,4 @@
-import {
-  Layout,
-  NotFound,
-  Path,
-  RelatedNews,
-  RSSFeed,
-} from "../../components";
+import { Layout, NotFound, Path, RelatedNews, RSSFeed } from "../../components";
 import { ClockIcon } from "@heroicons/react/outline";
 import { UserIcon } from "@heroicons/react/solid";
 import {
@@ -30,13 +24,8 @@ import {
   LineIcon,
 } from "next-share";
 
-const NewDetailsPage = ({
-  newBySlug,
-  rssFeed,
-}) => {
-  console.log(newBySlug);
-  const [commentSuccess, setCommentSuccess] =
-    useState(false);
+const NewDetailsPage = ({ newBySlug, rssFeed }) => {
+  const [commentSuccess, setCommentSuccess] = useState(false);
   const [commentForm, setCommentForm] = useState({
     fullName: "",
     email: "",
@@ -98,28 +87,21 @@ const NewDetailsPage = ({
     "@type": "NewsArticle",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `${process.env.NEXT_PUBLIC_CLIENT_URL}/news/${newBySlug.slug.current}`,
     },
     headline: newBySlug.title,
     name: newBySlug.title,
-    description: newBySlug.metaDescription.slice(
-      0,
-      30,
-    ),
+    description: newBySlug.metaDescription.slice(0, 30),
     articleBody: newBySlug.metaDescription,
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: 4.5,
       reviewCount: newBySlug.comments.length,
     },
-    keywords:
-      "mouse, Logitech Lift Vertical Ergonomic, technology",
+    keywords: "mouse, Logitech Lift Vertical Ergonomic, technology",
     image: [
       urlFor(newBySlug.thumbnail.image).url(),
       newBySlug.description
-        .filter(
-          (item) => item._type === "seoImage",
-        )
+        .filter((item) => item._type === "seoImage")
         .map((item) => urlFor(item.image).url()),
     ],
     author: {
@@ -138,9 +120,7 @@ const NewDetailsPage = ({
         url: "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/logo.png?1657789685905",
       },
     },
-    datePublished: formatDateTimeSchema(
-      newBySlug._createdAt,
-    ),
+    datePublished: formatDateTimeSchema(newBySlug._createdAt),
   };
   if (!newBySlug)
     return (
@@ -157,10 +137,7 @@ const NewDetailsPage = ({
       schema={schema}
       title={`${newBySlug.title} | Memoryzone - Professional in technology`}
       image={newBySlug.thumbnail.image}
-      description={newBySlug.metaDescription.slice(
-        0,
-        303,
-      )}
+      description={newBySlug.metaDescription.slice(0, 303)}
       id={`/news/${newBySlug.slug.current}`}
       keywords="Memoryzone news, technology news, memoryzone product review"
     >
@@ -192,55 +169,39 @@ const NewDetailsPage = ({
               className="text-gray mr-1 mb-0.5"
             />
             <span>
-              {formatDateName(
-                newBySlug._createdAt,
-              )}
-              ,{" "}
-              {formatDateTime(
-                newBySlug._createdAt,
-              )}
+              {formatDateName(newBySlug._createdAt)},{" "}
+              {formatDateTime(newBySlug._createdAt)}
             </span>
             <UserIcon
               width={15}
               height={15}
               className="text-gray ml-14  mr-1 mb-[3px]"
             />
-            <span>
-              Posted by {newBySlug.author}
-            </span>
+            <span>Posted by {newBySlug.author}</span>
           </div>
           <article className="text-text text-sm leading-6">
             <PortableText
               value={newBySlug.description}
-              components={
-                newDescriptionComponents
-              }
+              components={newDescriptionComponents}
             />
           </article>
           <div className="flex text-sm text-text items-center pt-8 pb-6 justify-between  border-b border-[#e5e5e5]">
             <span className="block w-1/2">
               <b>Tags: </b>
               {newBySlug.newTag &&
-                newBySlug.newTag.map(
-                  (item, index) => {
-                    return (
-                      <Link
-                        href={`/product/${formatTagToSlug(
-                          item,
-                        )}`}
-                        key={index}
-                      >
-                        <span className="hover:text-primary cursor-pointer">
-                          {item}
-                          {index <
-                            newBySlug.newTag
-                              .length -
-                              1 && ", "}
-                        </span>
-                      </Link>
-                    );
-                  },
-                )}
+                newBySlug.newTag.map((item, index) => {
+                  return (
+                    <Link
+                      href={`/product/${formatTagToSlug(item)}`}
+                      key={index}
+                    >
+                      <span className="hover:text-primary cursor-pointer">
+                        {item}
+                        {index < newBySlug.newTag.length - 1 && ", "}
+                      </span>
+                    </Link>
+                  );
+                })}
             </span>
             <div className="flex w-1/2 justify-end items-center space-x-2">
               <FacebookShareButton
@@ -282,20 +243,14 @@ const NewDetailsPage = ({
             <span className="block font-semibold text-lg text-[#323c3f] mb-4">
               Comment:
             </span>
-            {newBySlug.comments.map(
-              (item, index) => (
-                <NewComment
-                  key={index}
-                  data={item}
-                />
-              ),
-            )}
+            {newBySlug.comments.map((item, index) => (
+              <NewComment key={index} data={item} />
+            ))}
           </div>
           {commentSuccess && (
             <div className="bg-[#dff0d8] border border-[#d6e9c6] rounded-md px-6 py-3">
               <span className="text-sm text-[#3c763d]">
-                You have successfully posted a
-                review. We will post your review
+                You have successfully posted a review. We will post your review
                 once it is moderated.
               </span>
             </div>
@@ -305,10 +260,7 @@ const NewDetailsPage = ({
               Write comment:
             </span>
             <div>
-              <form
-                onSubmit={commentHandle}
-                className="space-y-6"
-              >
+              <form onSubmit={commentHandle} className="space-y-6">
                 <div className="flex items-center space-x-8 ">
                   <div className="flex-1">
                     <input
@@ -375,7 +327,7 @@ export const getStaticPaths = async () => {
       slug{
         current
       }
-  }`,
+  }`
   );
 
   return {
@@ -385,12 +337,10 @@ export const getStaticPaths = async () => {
           slug: newItem.slug.current,
         },
       })) || [],
-    fallback: true,
+    fallback: "blocking",
   };
 };
-export const getStaticProps = async ({
-  params: { slug },
-}) => {
+export const getStaticProps = async ({ params: { slug } }) => {
   //get product data by slug param
   try {
     const newBySlug = await client.fetch(
@@ -403,7 +353,7 @@ export const getStaticProps = async ({
   },title,slug,newTag,thumbnail,"metaDescription": pt::text(description[_type=='block'][0...2]),author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
       }
       `,
-      { slug },
+      { slug }
     );
     const rssFeed = await getFeed();
 
