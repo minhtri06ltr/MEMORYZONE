@@ -7,7 +7,7 @@ const Custom404 = () => {
       description="We can not found the URL you entered may be it
 deleted, or invalid. Return to home
 page to continue shopping."
-      layoutTitle="Memoryzone |   Page not found"
+      layoutTitle="Page not found | Memoryzone - professional in technology"
       layoutDescription="Sorry we can not find this page please contact to admin for this problem"
     />
   );

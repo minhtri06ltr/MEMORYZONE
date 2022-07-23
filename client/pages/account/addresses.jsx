@@ -1,13 +1,6 @@
-import {
-  AddressItem,
-  Layout,
-  Path,
-} from "../../components";
+import { AddressItem, Layout, Path } from "../../components";
 import { useEffect } from "react";
-import {
-  useDispatch,
-  useSelector,
-} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import Link from "next/link";
@@ -16,8 +9,7 @@ import { postData } from "../../utils/requestMethod";
 import { updateAddressList } from "../../redux/addressSlice";
 
 const AddressPage = () => {
-  const [openAddressForm, setOpenAddressForm] =
-    useState(false);
+  const [openAddressForm, setOpenAddressForm] = useState(false);
   const dispatch = useDispatch();
   const [addressForm, setAddressForm] = useState({
     lastName: "",
@@ -29,13 +21,9 @@ const AddressPage = () => {
     zipCode: "",
     phoneNumber: "",
   });
-  const addressList = useSelector(
-    (state) => state.address.addressList,
-  );
+  const addressList = useSelector((state) => state.address.addressList);
   const router = useRouter();
-  const account = useSelector(
-    (state) => state.account,
-  );
+  const account = useSelector((state) => state.account);
   useEffect(() => {
     if (
       Object.keys(account.user).length === 0 &&
@@ -73,7 +61,7 @@ const AddressPage = () => {
     const res = await postData(
       "account/address/create",
       addressForm,
-      account.accessToken,
+      account.accessToken
     );
     console.log(res);
     if (res.success) {
@@ -87,9 +75,7 @@ const AddressPage = () => {
         zipCode: "",
         phoneNumber: "",
       });
-      dispatch(
-        updateAddressList(res.returnAddressList),
-      );
+      dispatch(updateAddressList(res.returnAddressList));
       setOpenAddressForm(false);
       alert(res.message);
     } else {
@@ -98,7 +84,7 @@ const AddressPage = () => {
   };
   return (
     <Layout
-      title="Memoryzone | Address list"
+      title="Address list | Memoryzone - Professional in technology"
       description="Memoryzone user address list"
     >
       <Path
@@ -119,16 +105,10 @@ const AddressPage = () => {
       />
       <div className="px-10 my-12">
         <div className="flex justify-between mb-6">
-          <h1 className="text-text text-lg block font-medium">
-            YOUR ADDRESS
-          </h1>
+          <h1 className="text-text text-lg block font-medium">YOUR ADDRESS</h1>
           <Link href="/account">
             <div className="flex items-center cursor-pointer">
-              <ArrowLeftIcon
-                width={18}
-                height={18}
-                className="text-primary"
-              />
+              <ArrowLeftIcon width={18} height={18} className="text-primary" />
               <span className="text-sm text-text ml-2 block">
                 Return to account page
               </span>
@@ -136,19 +116,14 @@ const AddressPage = () => {
           </Link>
         </div>
         <button
-          onClick={() =>
-            setOpenAddressForm(!openAddressForm)
-          }
+          onClick={() => setOpenAddressForm(!openAddressForm)}
           className="rounded-sm my-4 hover:bg-white hover:text-primary transition ease-linear text-white text-sm bg-primary  border border-primary  py-2 px-6"
         >
           + Add address
         </button>
         {openAddressForm && (
           <div className="mt-7">
-            <form
-              onSubmit={addressHandle}
-              className="space-y-6"
-            >
+            <form onSubmit={addressHandle} className="space-y-6">
               <div>
                 <label
                   htmlFor="lastName"
@@ -290,9 +265,7 @@ const AddressPage = () => {
                   Add address
                 </button>
                 <button
-                  onClick={() =>
-                    setOpenAddressForm(false)
-                  }
+                  onClick={() => setOpenAddressForm(false)}
                   className="rounded-sm my-4 text-white text-sm bg-[#2a2a2a] border border-[#2a2a2a] py-2 px-6"
                 >
                   Cancel
@@ -303,11 +276,7 @@ const AddressPage = () => {
         )}
         <div className="my-7">
           {addressList?.map((item, index) => (
-            <AddressItem
-              key={index}
-              data={item}
-              token={account.accessToken}
-            />
+            <AddressItem key={index} data={item} token={account.accessToken} />
           ))}
         </div>
       </div>

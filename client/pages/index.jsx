@@ -1,9 +1,5 @@
 import { client } from "../lib/client";
-import {
-  Layout,
-  Sell,
-  Banner,
-} from "../components";
+import { Layout, Sell, Banner } from "../components";
 import { Ads, Interest } from "../components";
 import Image from "next/image";
 
@@ -16,14 +12,13 @@ const HomePage = ({ products }) => {
     potentialAction: {
       "@type": "SearchAction",
       target: `${process.env.NEXT_PUBLIC_CLIENT_URL}/search?key={search_term_string}`,
-      "query-input":
-        "required name=search_term_string",
+      "query-input": "required name=search_term_string",
     },
   };
   return (
     <Layout
       schema={schema}
-      title="Memoryzone | Profession in Technology - Hardware and other accessories"
+      title="Laptop, PC, technology and other accessories | Memoryzone - professional in technology"
       keywords=" Memoryzone Phone memory card, genuine camera, USB, USB 3.0, portable hard drive, external hard drive, SSD hard drive, wireless device"
       description="MemoryZone is a brand that specializes in providing Laptops, PCs, storage devices, monitors and other accessories."
     >
@@ -105,8 +100,8 @@ const HomePage = ({ products }) => {
               Buy super saver
             </span>
             <span className="block text-gray mt-1 text-xs">
-              Products are always sold at the most
-              favorable prices for customers
+              Products are always sold at the most favorable prices for
+              customers
             </span>
           </div>
         </div>
@@ -142,8 +137,7 @@ const HomePage = ({ products }) => {
               Huge promotion
             </span>
             <span className="block text-gray mt-1 text-xs">
-              Enjoy special offers and attractive
-              gifts
+              Enjoy special offers and attractive gifts
             </span>
           </div>
         </div>
@@ -161,8 +155,7 @@ const HomePage = ({ products }) => {
               Easy payment
             </span>
             <span className="block text-gray mt-1 text-xs">
-              Nationwide delivery from 1 to 4
-              days, transfer, payment receipt,
+              Nationwide delivery from 1 to 4 days, transfer, payment receipt,
               etc.
             </span>
           </div>
@@ -179,7 +172,7 @@ export const getStaticProps = async () => {
     const products = await client.fetch(
       `  *[_type=="product"]{
         slug,image[0],name,price
-      }`,
+      }`
     );
 
     return {

@@ -1,20 +1,14 @@
 import { useRouter } from "next/router";
 import { Layout, Path } from "../components";
 import { useState } from "react";
-import {
-  ShoppingCartIcon,
-  EyeIcon,
-} from "@heroicons/react/solid";
+import { ShoppingCartIcon, EyeIcon } from "@heroicons/react/solid";
 import { client, urlFor } from "../lib/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
 
-const SearchProductNamePage = ({
-  path,
-  productList,
-}) => {
+const SearchProductNamePage = ({ path, productList }) => {
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -29,7 +23,7 @@ const SearchProductNamePage = ({
         quantity: 1,
         slug: product.slug.current,
         countInStock: product.countInStock,
-      }),
+      })
     );
     router.push("/cart");
   };
@@ -37,7 +31,7 @@ const SearchProductNamePage = ({
     <Layout
       title={`${
         path || "All product"
-      } | Professional in technology`}
+      } | Memoryzone - professional in technology`}
       description={`Memoryzone search results with key ${
         path || "all product"
       }`}
@@ -49,9 +43,7 @@ const SearchProductNamePage = ({
             pathName: "/",
           },
           {
-            title: `Search results for ${
-              path || "all product"
-            }`,
+            title: `Search results for ${path || "all product"}`,
             pathName: `/search?=${path}`,
           },
         ]}
@@ -60,23 +52,19 @@ const SearchProductNamePage = ({
         <div className="my-12">
           {productList.length === 0 && (
             <h1 className="text-text text-lg block ">
-              NO RESULTS FOUNDED WITH THE ABOVE
-              KEYWORDS.
+              NO RESULTS FOUNDED WITH THE ABOVE KEYWORDS.
             </h1>
           )}
 
           <div className="my-12">
             <span className="block cursor-pointer text-[#575454] hover:text-primary text-2xl">
-              Enter keywords to search for
-              products
+              Enter keywords to search for products
             </span>
             <div className="mt-4">
               <form className="flex items-center">
                 <input
                   type="text"
-                  onChange={(e) =>
-                    setSearchTag(e.target.value)
-                  }
+                  onChange={(e) => setSearchTag(e.target.value)}
                   required
                   value={searchTag}
                   placeholder="Search ..."
@@ -94,92 +82,65 @@ const SearchProductNamePage = ({
           {productList.length !== 0 && (
             <div>
               <h1 className="block text-text text-lg font-medium">
-                There{" "}
-                {productList.length > 1
-                  ? "are"
-                  : "is"}{" "}
-                {productList.length} matching
-                search results
+                There {productList.length > 1 ? "are" : "is"}{" "}
+                {productList.length} matching search results
               </h1>
               <div className="grid grid-cols-5 gap-x-7 gap-y-12 mt-4">
-                {productList.map(
-                  (item, index) => (
-                    <div
-                      key={index}
-                      className=" w-full space-y-2 "
-                    >
-                      <div className="relative h-[210px]">
-                        <Link
-                          href={`/product/${item.slug.current}`}
-                        >
-                          <a>
-                            <Image
-                              alt={`Memoryzone ${item.name} thumbnail `}
-                              src={urlFor(
-                                item.image,
-                              ).url()}
-                              layout="fill"
-                              quality={100}
-                            />
-                          </a>
-                        </Link>
-                      </div>
-                      <Link
-                        href={`/product/${item.slug.current}`}
-                      >
-                        <span className="hover:text-primary cursor-pointer limit-3-line text-sm block text-text">
-                          {item.name}
-                        </span>
+                {productList.map((item, index) => (
+                  <div key={index} className=" w-full space-y-2 ">
+                    <div className="relative h-[210px]">
+                      <Link href={`/product/${item.slug.current}`}>
+                        <a>
+                          <Image
+                            alt={`Memoryzone ${item.name} thumbnail `}
+                            src={urlFor(item.image).url()}
+                            layout="fill"
+                            quality={100}
+                          />
+                        </a>
                       </Link>
-                      <div className="text-center">
-                        <span className="text-md font-semibold mr-2  text-primary">
-                          245$
-                        </span>
-                        <span className="text-sm line-through   text-gray">
-                          275$
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-1.5 justify-center">
-                        <button
-                          onClick={() =>
-                            handleAddToCart(item)
-                          }
-                          className={`bg-primary rounded-sm w-[120px] text-white  text-sm flex items-center justify-center py-2 hover:bg-[#d92b1f]
+                    </div>
+                    <Link href={`/product/${item.slug.current}`}>
+                      <span className="hover:text-primary cursor-pointer limit-3-line text-sm block text-text">
+                        {item.name}
+                      </span>
+                    </Link>
+                    <div className="text-center">
+                      <span className="text-md font-semibold mr-2  text-primary">
+                        245$
+                      </span>
+                      <span className="text-sm line-through   text-gray">
+                        275$
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-1.5 justify-center">
+                      <button
+                        onClick={() => handleAddToCart(item)}
+                        className={`bg-primary rounded-sm w-[120px] text-white  text-sm flex items-center justify-center py-2 hover:bg-[#d92b1f]
                            ${
-                             (item.countInStock ===
-                               0 ||
-                               !item.countInStock) &&
+                             (item.countInStock === 0 || !item.countInStock) &&
                              "opacity-70 pointer-events-none"
                            } `}
-                        >
-                          {item.countInStock !==
-                            0 &&
-                            item.countInStock && (
-                              <ShoppingCartIcon
-                                color="white"
-                                width={20}
-                                height={20}
-                              />
-                            )}
-                          <span className="ml-2 block">
-                            {item.countInStock !==
-                              0 &&
-                            item.countInStock
-                              ? "Buy now"
-                              : "Out of stock"}
-                          </span>
-                        </button>
-                        <button className="bg-primary  p-2 rounded-sm hover:bg-[#d92b1f] text-white flex items-center justify-center">
-                          <EyeIcon
+                      >
+                        {item.countInStock !== 0 && item.countInStock && (
+                          <ShoppingCartIcon
                             color="white"
                             width={20}
                             height={20}
                           />
-                        </button>
-                      </div>
+                        )}
+                        <span className="ml-2 block">
+                          {item.countInStock !== 0 && item.countInStock
+                            ? "Buy now"
+                            : "Out of stock"}
+                        </span>
+                      </button>
+                      <button className="bg-primary  p-2 rounded-sm hover:bg-[#d92b1f] text-white flex items-center justify-center">
+                        <EyeIcon color="white" width={20} height={20} />
+                      </button>
                     </div>
-                  ),
-                )}
+                  </div>
+                ))}
               </div>
               <div className="space-x-1.5 mt-16 flex items-center justify-center text-sm text-text">
                 <button className="rounded-sm h-[40px] w-[40px] ease-linear transition bg-[#f2f2f2] hover:bg-primary  hover:text-white">
@@ -204,21 +165,17 @@ const SearchProductNamePage = ({
 };
 
 export default SearchProductNamePage;
-export const getServerSideProps = async (
-  context,
-) => {
+export const getServerSideProps = async (context) => {
   console.log(context.query.key);
   const path = context.query.key || null;
-  const query = path
-    ? path.toLowerCase() + "*"
-    : "*";
+  const query = path ? path.toLowerCase() + "*" : "*";
 
   try {
     const productList = await client.fetch(
       ` *[_type=="product" && name match $query]{name,price,image[0],slug,countInStock,_id}`,
       {
         query,
-      },
+      }
     );
 
     return {

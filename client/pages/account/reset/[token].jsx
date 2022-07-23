@@ -1,25 +1,14 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {
-  useDispatch,
-  useSelector,
-} from "react-redux";
-import {
-  Layout,
-  Path,
-} from "../../../components";
-import {
-  getData,
-  postData,
-} from "../../../utils/requestMethod";
+import { useDispatch, useSelector } from "react-redux";
+import { Layout, Path } from "../../../components";
+import { getData, postData } from "../../../utils/requestMethod";
 import Cookies from "js-cookie";
 import { loginSuccess } from "../../../redux/accountSlice";
 
 const ResetPasswordPage = () => {
-  const user = useSelector(
-    (state) => state.account.user,
-  );
+  const user = useSelector((state) => state.account.user);
   const router = useRouter();
   const dispatch = useDispatch();
   const { query } = useRouter();
@@ -41,35 +30,24 @@ const ResetPasswordPage = () => {
       alert("Missing user id please reload page");
       return;
     }
-    if (
-      resetForm.cfPassword !== resetForm.password
-    ) {
-      alert(
-        "Password and confirm password is incorrect!",
-      );
+    if (resetForm.cfPassword !== resetForm.password) {
+      alert("Password and confirm password is incorrect!");
       return;
     }
 
     if (query.token) {
-      const res = await postData(
-        `account/reset/${query.token}`,
-        resetForm,
-      );
+      const res = await postData(`account/reset/${query.token}`, resetForm);
       if (res.success) {
-        Cookies.set(
-          "refreshToken",
-          res.refreshToken,
-          {
-            expires: 7,
-            path: "/api/account/accessToken",
-          },
-        );
+        Cookies.set("refreshToken", res.refreshToken, {
+          expires: 7,
+          path: "/api/account/accessToken",
+        });
 
         dispatch(
           loginSuccess({
             accessToken: res.accessToken,
             user: res.user,
-          }),
+          })
         );
         localStorage.setItem("isLogin", true);
       } else {
@@ -78,36 +56,25 @@ const ResetPasswordPage = () => {
         return;
       }
     } else {
-      alert(
-        "Missing validate token please take new one!",
-      );
+      alert("Missing validate token please take new one!");
       return;
     }
   };
 
   useEffect(() => {
     if (
-      JSON.parse(
-        localStorage.getItem("isLogin"),
-      ) &&
+      JSON.parse(localStorage.getItem("isLogin")) &&
       Object.keys(user).length !== 0
     ) {
       router.push("/");
     }
     const validateToken = async () => {
-      const res = await getData(
-        `account/reset/${query.token}`,
-        query.token,
-      );
+      const res = await getData(`account/reset/${query.token}`, query.token);
       if (!res.success) {
         if (res.error === "jwt expired") {
           router.push("/account/login");
-          alert(
-            "Validate token was expired please take new one!",
-          );
-        } else if (
-          res.error === "jwt malformed"
-        ) {
+          alert("Validate token was expired please take new one!");
+        } else if (res.error === "jwt malformed") {
           router.push("/account/login");
           alert("Invalid token");
         } else {
@@ -120,16 +87,11 @@ const ResetPasswordPage = () => {
         });
     };
     query.token && validateToken();
-  }, [
-    query.token,
-    Object.keys(user).length,
-    router,
-    user,
-  ]);
+  }, [query.token, Object.keys(user).length, router, user]);
 
   return (
     <Layout
-      title="Memoryzone | Password retrieval"
+      title="Password retrieval | Memoryzone - Professional in technology"
       description="Memoryzone user reset forgot password"
     >
       <Path
@@ -146,13 +108,8 @@ const ResetPasswordPage = () => {
           <span className="block text-base font-semibold text-text">
             PASSWORD RETRIEVAL
           </span>
-          <span className="block text-sm text-text">
-            Enter new password
-          </span>
-          <form
-            onSubmit={resetHandle}
-            className="space-y-8"
-          >
+          <span className="block text-sm text-text">Enter new password</span>
+          <form onSubmit={resetHandle} className="space-y-8">
             <div>
               <label
                 htmlFor="password"

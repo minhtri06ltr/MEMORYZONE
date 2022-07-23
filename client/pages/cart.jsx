@@ -2,10 +2,7 @@ import { Layout, Path } from "../components";
 import { XIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import { numberWithCommas } from "../utils/format";
-import {
-  useDispatch,
-  useSelector,
-} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { urlFor } from "../lib/client";
 import Link from "next/link";
 import {
@@ -22,20 +19,16 @@ import { updateCartHandle } from "../utils/update";
 const CartPage = () => {
   const dispatch = useDispatch();
 
-  const cartItems = useSelector(
-    (state) => state.cart,
-  );
+  const cartItems = useSelector((state) => state.cart);
   //Update cart
 
   useEffect(() => {
-    const cartLocal = JSON.parse(
-      localStorage.getItem("__memoryzone__cart"),
-    );
+    const cartLocal = JSON.parse(localStorage.getItem("__memoryzone__cart"));
     updateCartHandle(dispatch, cartLocal);
   }, [dispatch]);
   return (
     <Layout
-      title="Memoryzone | Cart"
+      title="Cart | Memoryzone - professional in technology"
       description="Memoryzone personal cart"
     >
       <Path
@@ -68,214 +61,131 @@ const CartPage = () => {
                   <td className=" w-[17%] cartRow text-[#636363]">
                     Unit Price
                   </td>
-                  <td className=" w-[14%] cartRow text-[#636363]">
-                    Quantity
-                  </td>
-                  <td className=" w-[14%] cartRow text-[#636363]">
-                    Amount
-                  </td>
-                  <td className=" w-[8%] cartRow text-[#636363]">
-                    Action
-                  </td>
+                  <td className=" w-[14%] cartRow text-[#636363]">Quantity</td>
+                  <td className=" w-[14%] cartRow text-[#636363]">Amount</td>
+                  <td className=" w-[8%] cartRow text-[#636363]">Action</td>
                 </tr>
               </thead>
               <tbody>
-                {cartItems.products.map(
-                  (item, index) => (
-                    <tr key={index}>
-                      <td className=" cartRow ">
-                        <Link
-                          href={`/product/${item.slug}`}
+                {cartItems.products.map((item, index) => (
+                  <tr key={index}>
+                    <td className=" cartRow ">
+                      <Link href={`/product/${item.slug}`}>
+                        <div>
+                          <Image
+                            alt={`Memoryzone products in cart: ${item.name}`}
+                            className="cursor-pointer"
+                            src={urlFor(item.img).url()}
+                            width={98}
+                            height={98}
+                            priority
+                            layout="responsive"
+                          />
+                        </div>
+                      </Link>
+                    </td>
+                    <td className=" cartRow">{item.name}</td>
+                    <td className="cartPrice cartRow">
+                      {numberWithCommas(item.price)}$
+                    </td>
+                    <td className="  cartRow">
+                      <div className="mx-auto border border-[#ccc] w-fit">
+                        <button
+                          onClick={() => {
+                            item.quantity >= 2 &&
+                              dispatch(decreaseProduct(item.id));
+                          }}
+                          className="border-r border-[#ccc] font-light text-base px-3 "
                         >
-                          <div>
-                            <Image
-                              alt={`Memoryzone products in cart: ${item.name}`}
-                              className="cursor-pointer"
-                              src={urlFor(
-                                item.img,
-                              ).url()}
-                              width={98}
-                              height={98}
-                              priority
-                              layout="responsive"
-                            />
-                          </div>
-                        </Link>
-                      </td>
-                      <td className=" cartRow">
-                        {item.name}
-                      </td>
-                      <td className="cartPrice cartRow">
-                        {numberWithCommas(
-                          item.price,
-                        )}
-                        $
-                      </td>
-                      <td className="  cartRow">
-                        <div className="mx-auto border border-[#ccc] w-fit">
-                          <button
-                            onClick={() => {
-                              item.quantity >=
-                                2 &&
-                                dispatch(
-                                  decreaseProduct(
-                                    item.id,
-                                  ),
-                                );
-                            }}
-                            className="border-r border-[#ccc] font-light text-base px-3 "
-                          >
-                            -
-                          </button>
-                          <input
-                            disabled={
-                              item.countInStock ===
-                                item.quantity &&
-                              true
-                            }
-                            onChange={(e) => {
-                              const re =
-                                /^[0-9\b]+$/;
-                              if (
-                                e.target.value ===
-                                  "" ||
-                                re.test(
-                                  e.target.value,
-                                )
-                              ) {
-                                if (
-                                  isNumber(
-                                    parseInt(
-                                      e.target
-                                        .value,
-                                    ),
-                                  )
-                                ) {
-                                  if (
-                                    parseInt(
-                                      e.target
-                                        .value,
-                                    ) === 0
-                                  ) {
-                                    dispatch(
-                                      onChangeQuantity(
-                                        {
-                                          quantity: 1,
-                                          id: item.id,
-                                        },
-                                      ),
-                                    );
-                                    return;
-                                  }
-                                  if (
-                                    e.target
-                                      .value >
-                                    item.countInStock
-                                  ) {
-                                    dispatch(
-                                      onChangeQuantity(
-                                        {
-                                          quantity:
-                                            item.countInStock,
-                                          id: item.id,
-                                        },
-                                      ),
-                                    );
-                                  } else {
-                                    dispatch(
-                                      onChangeQuantity(
-                                        {
-                                          quantity:
-                                            parseInt(
-                                              e
-                                                .target
-                                                .value,
-                                            ),
-                                          id: item.id,
-                                        },
-                                      ),
-                                    );
-                                  }
+                          -
+                        </button>
+                        <input
+                          disabled={item.countInStock === item.quantity && true}
+                          onChange={(e) => {
+                            const re = /^[0-9\b]+$/;
+                            if (
+                              e.target.value === "" ||
+                              re.test(e.target.value)
+                            ) {
+                              if (isNumber(parseInt(e.target.value))) {
+                                if (parseInt(e.target.value) === 0) {
+                                  dispatch(
+                                    onChangeQuantity({
+                                      quantity: 1,
+                                      id: item.id,
+                                    })
+                                  );
+                                  return;
+                                }
+                                if (e.target.value > item.countInStock) {
+                                  dispatch(
+                                    onChangeQuantity({
+                                      quantity: item.countInStock,
+                                      id: item.id,
+                                    })
+                                  );
                                 } else {
                                   dispatch(
-                                    onChangeQuantity(
-                                      {
-                                        quantity: 1,
-                                        id: item.id,
-                                      },
-                                    ),
+                                    onChangeQuantity({
+                                      quantity: parseInt(e.target.value),
+                                      id: item.id,
+                                    })
                                   );
                                 }
-                              }
-                            }}
-                            value={item.quantity}
-                            type="text"
-                            className={`w-12 text-center outline-none border-none ${
-                              item.quantity ===
-                                item.countInStock &&
-                              "cursor-not-allowed"
-                            }`}
-                          />
-                          <button
-                            onClick={() => {
-                              if (
-                                item.quantity ===
-                                item.countInStock
-                              ) {
-                                alert(
-                                  `We only have ${item.countInStock} of these left in the store`,
-                                );
-                                return;
-                              }
-                              item.quantity <
-                                item.countInStock &&
+                              } else {
                                 dispatch(
-                                  increaseProduct(
-                                    item.id,
-                                  ),
+                                  onChangeQuantity({
+                                    quantity: 1,
+                                    id: item.id,
+                                  })
                                 );
-                            }}
-                            className="border-l border-[#ccc] font-light text-base px-3"
-                          >
-                            +
-                          </button>
-                        </div>
-                      </td>
-                      <td className="cartPrice cartRow">
-                        {numberWithCommas(
-                          item.price *
-                            item.quantity,
-                        )}
-                        $
-                      </td>
-                      <td className=" cartRow">
-                        <XIcon
-                          onClick={() => {
-                            dispatch(
-                              deleteProduct(
-                                item.id,
-                              ),
-                            );
+                              }
+                            }
                           }}
-                          className="inline-block hover:text-[#c92b26] mb-1 cursor-pointer"
-                          width={15}
-                          height={15}
+                          value={item.quantity}
+                          type="text"
+                          className={`w-12 text-center outline-none border-none ${
+                            item.quantity === item.countInStock &&
+                            "cursor-not-allowed"
+                          }`}
                         />
-                      </td>
-                    </tr>
-                  ),
-                )}
+                        <button
+                          onClick={() => {
+                            if (item.quantity === item.countInStock) {
+                              alert(
+                                `We only have ${item.countInStock} of these left in the store`
+                              );
+                              return;
+                            }
+                            item.quantity < item.countInStock &&
+                              dispatch(increaseProduct(item.id));
+                          }}
+                          className="border-l border-[#ccc] font-light text-base px-3"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </td>
+                    <td className="cartPrice cartRow">
+                      {numberWithCommas(item.price * item.quantity)}$
+                    </td>
+                    <td className=" cartRow">
+                      <XIcon
+                        onClick={() => {
+                          dispatch(deleteProduct(item.id));
+                        }}
+                        className="inline-block hover:text-[#c92b26] mb-1 cursor-pointer"
+                        width={15}
+                        height={15}
+                      />
+                    </td>
+                  </tr>
+                ))}
                 <tr>
-                  <td
-                    className="cartRow py-6 text-right"
-                    colSpan="6"
-                  >
+                  <td className="cartRow py-6 text-right" colSpan="6">
                     Total Price:
                     <span className="cartPrice mx-6">
-                      {numberWithCommas(
-                        cartItems.total,
-                      )}
-                      $
+                      {numberWithCommas(cartItems.total)}$
                     </span>
                   </td>
                 </tr>
@@ -297,8 +207,7 @@ const CartPage = () => {
           </div>
         ) : (
           <span className="block text-text text-sm">
-            There are no products in the shopping
-            cart. Return to{" "}
+            There are no products in the shopping cart. Return to{" "}
             <Link href="/">
               <span className="hover:text-primary cursor-pointer">
                 the store

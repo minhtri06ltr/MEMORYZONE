@@ -1,18 +1,10 @@
-import {
-  Layout,
-  Path,
-  RelatedNews,
-  RSSFeed,
-} from "../../components";
+import { Layout, Path, RelatedNews, RSSFeed } from "../../components";
 import Image from "next/image";
 import { ClockIcon } from "@heroicons/react/outline";
 import { UserIcon } from "@heroicons/react/solid";
 import { client, urlFor } from "../../lib/client";
 import Link from "next/link";
-import {
-  formatDateName,
-  formatDateTime,
-} from "../../utils/format";
+import { formatDateName, formatDateTime } from "../../utils/format";
 import { getImgDimension } from "../../utils/getDimensions";
 import { getFeed } from "../../lib/rss";
 
@@ -20,7 +12,7 @@ const NewsPage = ({ news, rssFeed }) => {
   console.log(rssFeed);
   return (
     <Layout
-      title="Memoryzone | News"
+      title="News | Memoryzone professional in technology"
       description="Memoryzone news page - where you can read all the newest information about technology, product, computer tips and trick, software and trending content "
     >
       <Path
@@ -37,25 +29,16 @@ const NewsPage = ({ news, rssFeed }) => {
       />
       <div className="px-10 my-12 flex space-x-7">
         <div className="w-[75%]">
-          <h1 className="block text-[#323c3f] text-3xl  font-semibold">
-            News
-          </h1>
+          <h1 className="block text-[#323c3f] text-3xl  font-semibold">News</h1>
 
           <div className="divide-y space-y-8 divide-[#e5e5e5]">
             {news.map((item, index) => (
-              <div
-                key={index}
-                className="pt-8 flex space-x-8"
-              >
-                <Link
-                  href={`/news/${item.slug.current}`}
-                >
+              <div key={index} className="pt-8 flex space-x-8">
+                <Link href={`/news/${item.slug.current}`}>
                   <div
                     className={`w-[40%] cursor-pointer relative`}
                     style={{
-                      height: getImgDimension(
-                        item.thumbnail.image,
-                      ).height,
+                      height: getImgDimension(item.thumbnail.image).height,
                       maxHeight: "336px",
                     }}
                   >
@@ -64,16 +47,12 @@ const NewsPage = ({ news, rssFeed }) => {
                       objectFit="cover"
                       layout="fill"
                       quality={100}
-                      src={urlFor(
-                        item.thumbnail.image,
-                      ).url()}
+                      src={urlFor(item.thumbnail.image).url()}
                     />
                   </div>
                 </Link>
                 <div className="flex-1">
-                  <Link
-                    href={`/news/${item.slug.current}`}
-                  >
+                  <Link href={`/news/${item.slug.current}`}>
                     <h2 className="text-2xl font-semibold cursor-pointer hover:text-primary text-[#323c3f] block">
                       {item.title}
                     </h2>
@@ -85,22 +64,15 @@ const NewsPage = ({ news, rssFeed }) => {
                       className="text-gray mr-1 mb-0.5"
                     />
                     <span>
-                      {formatDateName(
-                        news[0]._createdAt,
-                      )}
-                      ,{" "}
-                      {formatDateTime(
-                        item._createdAt,
-                      )}
+                      {formatDateName(news[0]._createdAt)},{" "}
+                      {formatDateTime(item._createdAt)}
                     </span>
                     <UserIcon
                       width={15}
                       height={15}
                       className="text-gray ml-14  mr-1 mb-[3px]"
                     />
-                    <span>
-                      Posted by {item.author}
-                    </span>
+                    <span>Posted by {item.author}</span>
                   </div>
                   <p className="text-sm limit-4-line  text-[#707070]">
                     {item.metaDescription}
@@ -137,7 +109,7 @@ export const getStaticProps = async () => {
     const news = await client.fetch(
       ` *[_type=='new' ]{_createdAt,author,title,thumbnail,slug,
         "metaDescription": pt::text(description[_type=='block'][0...3])
-      }`,
+      }`
     );
     const rssFeed = await getFeed();
     return {

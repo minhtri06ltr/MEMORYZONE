@@ -127,7 +127,7 @@ const NewDetailsPage = ({ newBySlug, rssFeed }) => {
       <NotFound
         title="Oops! Look like we don't have this new in our shop"
         description="Please consider to find other new"
-        layoutTitle="Memoryzone | New not found"
+        layoutTitle="New not found | Memoryzone professional in technology"
         layoutDescription="Sorry look like we don't have this new in our shop please looking for other new"
       />
     );

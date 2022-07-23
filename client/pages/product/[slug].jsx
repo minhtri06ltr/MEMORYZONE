@@ -50,7 +50,7 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
       <NotFound
         title="Oops! Look like we don't have this product"
         description="Please consider to find other product"
-        layoutTitle="Memoryzone | Product not found"
+        layoutTitle="Product not found | Memoryzone professional in technology"
         layoutDescription="Sorry look like we don't have this product in our shop please looking for other product"
       />
     );
@@ -172,7 +172,7 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
   return (
     <Layout
       productPrice={productBySlug.price}
-      title={`${productBySlug.name} | Professional in technology`}
+      title={`${productBySlug.name} | Memoryzone - professional in technology`}
       metaType="product"
       schema={schema}
       description={productBySlug.metaDescription.slice(0, 303)}

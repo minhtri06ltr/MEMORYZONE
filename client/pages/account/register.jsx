@@ -2,31 +2,24 @@ import Link from "next/link";
 import { Layout, Path } from "../../components";
 import { useState, useEffect } from "react";
 import { validRegister } from "../../utils/validate";
-import {
-  useDispatch,
-  useSelector,
-} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postData } from "../../utils/requestMethod";
 import { useRouter } from "next/router";
 import { loadingNotify } from "../../redux/notifySlice";
 
 const RegisterPage = () => {
-  const account = useSelector(
-    (state) => state.account,
-  );
+  const account = useSelector((state) => state.account);
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [errorMessage, setErrorMessage] =
-    useState("");
-  const [registerForm, setRegisterForm] =
-    useState({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      isAdmin: false,
-    });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [registerForm, setRegisterForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    isAdmin: false,
+  });
 
   const registerFormHandler = (e) => {
     setRegisterForm({
@@ -40,17 +33,14 @@ const RegisterPage = () => {
       registerForm.firstName,
       registerForm.lastName,
       registerForm.email,
-      registerForm.password,
+      registerForm.password
     );
     if (errorMessage) {
       alert(`${errorMessage}`);
       return;
     }
     dispatch(loadingNotify(true));
-    const res = await postData(
-      "account/register",
-      registerForm,
-    );
+    const res = await postData("account/register", registerForm);
     if (!res.success) {
       setErrorMessage(res.error);
     } else {
@@ -65,15 +55,11 @@ const RegisterPage = () => {
     ) {
       router.push("/");
     }
-  }, [
-    Object.keys(account.user).length,
-    router,
-    account.user,
-  ]);
+  }, [Object.keys(account.user).length, router, account.user]);
 
   return (
     <Layout
-      title="Memoryzone | Register"
+      title="Register | Memoryzone - Professional in technology"
       description="Memoryzone register an account"
     >
       <Path
@@ -90,23 +76,15 @@ const RegisterPage = () => {
       />
 
       <div className="m-10">
-        <h1 className="text-text font- text-lg block">
-          REGISTER AN ACCOUNT
-        </h1>
+        <h1 className="text-text font- text-lg block">REGISTER AN ACCOUNT</h1>
         <div>
-          <form
-            onSubmit={registerHandler}
-            className="my-1 flex space-x-8"
-          >
+          <form onSubmit={registerHandler} className="my-1 flex space-x-8">
             <div className="w-1/2">
               <span className="text-text text-sm pb-4  block">
-                If you don&apos;t have an account,
-                please register here
+                If you don&apos;t have an account, please register here
               </span>
               {errorMessage && (
-                <span className="text-text text-sm block ">
-                  {errorMessage}
-                </span>
+                <span className="text-text text-sm block ">{errorMessage}</span>
               )}
               <div className="my-4">
                 <div className="mb-6">
@@ -162,9 +140,7 @@ const RegisterPage = () => {
               </div>
             </div>
             <div className="w-1/2">
-              <span className="text-text text-sm invisible  block">
-                *
-              </span>
+              <span className="text-text text-sm invisible  block">*</span>
               <div className="my-8">
                 <div className="mb-6">
                   <label
