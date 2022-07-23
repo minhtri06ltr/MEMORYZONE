@@ -37,7 +37,7 @@ a {
     @apply px-3.5 cursor-pointer truncate hover:text-primary;
   }
   .bannerSlideItem {
-    @apply limit-2-line py-1 overflow-hidden border-t-4 text-text border-transparent font-light cursor-pointer text-sm px-2 text-center   flex-1;
+    @apply limit-2-line text-[10px] md:text-sm py-1 overflow-hidden border-t-4 text-text border-transparent font-light cursor-pointer  px-2 text-center   flex-1;
   }
   .sellItem {
     @apply text-sm font-light px-2 cursor-pointer hover:text-primary text-text;

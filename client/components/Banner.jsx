@@ -6,8 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Banner = () => {
-  const [currentSlide, setCurrentSlide] =
-    useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const array = [
     "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/slider1_2.jpg?1657861540028",
     "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/slider1_1.jpg?1657861540028",
@@ -28,8 +27,7 @@ const Banner = () => {
         return (
           <span
             className={`bannerSlideItem  ${
-              i === currentSlide &&
-              " border-primary"
+              i === currentSlide ? "border-primary" : ""
             } `}
           >
             {items[i]}
@@ -40,8 +38,7 @@ const Banner = () => {
       beforeChange: (prev, next) => {
         setCurrentSlide(next);
       },
-      dotsClass:
-        "w-full !flex list-none flex-row [&>*]:flex-1",
+      dotsClass: "w-full !flex list-none flex-row [&>*]:flex-1",
       dots: true,
       lazyLoad: true,
       autoplay: true,
@@ -56,9 +53,9 @@ const Banner = () => {
     };
   };
   return (
-    <div className="px-4 w-full pt-6">
-      <div className="grid lg:gap-2 lg:grid-cols-4 grid-cols-1 grid-rows-1 lg:grid-rows-2">
-        <div className="col-span-3 row-span-2 relative shadow-md">
+    <div className="w-full pt-6">
+      <div className="grid lg:gap-2 gap-y-2 grid-cols-4 grid-rows-2">
+        <div className="col-span-4 row-span-2 lg:col-span-3 lg:row-span-2 relative shadow-md">
           <Slider {...sliderSettings()}>
             {array.map((item, index) => (
               <div key={index}>
@@ -76,7 +73,7 @@ const Banner = () => {
           </Slider>
           <div></div>
         </div>
-        <div>
+        <div className="col-span-4 row-span-2 md:col-span-2 lg:col-span-1 lg:row-span-1">
           <Link href="#">
             <div>
               <Image
@@ -91,7 +88,7 @@ const Banner = () => {
             </div>
           </Link>
         </div>
-        <div>
+        <div className="col-span-4 row-span-2   md:col-span-2 lg:col-span-1 lg:row-span-1">
           <Link href="#">
             <div>
               <Image

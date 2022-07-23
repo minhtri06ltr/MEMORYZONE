@@ -12,7 +12,7 @@ const NewsPage = ({ news, rssFeed }) => {
   console.log(rssFeed);
   return (
     <Layout
-      title="News | Memoryzone professional in technology"
+      title="News | Memoryzone - professional in technology"
       description="Memoryzone news page - where you can read all the newest information about technology, product, computer tips and trick, software and trending content "
     >
       <Path
