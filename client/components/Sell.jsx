@@ -12,30 +12,38 @@ const Sell = ({ products }) => {
       <Error message="Product not found or Internal server error, please contact with owner" />
     );
   return (
-    <div className="p-10 w-full">
+    <div className="py-10 w-full">
       {/*Sell header*/}
       <section>
         <div className="border-b-2 border-primary rounded-l-sm flex items-center justify-between">
           <span className="shadow-2xl block text-white bg-primary text-lg font-bold py-2 px-6 rounded-sm">
             LAPTOP
           </span>
-          <ul className="list-none flex items-center">
-            <li className="sellItem">
-              Laptop brand
-            </li>
-            <li className="sellItem">Trending</li>
-            <li className="sellItem">
-              Laptop Acer
-            </li>
-            <li className="sellItem">
-              Laptop Gigabyte
-            </li>
-            <li className="sellItem">
-              Laptop Dell
-            </li>
-            <li className="sellItem">See All</li>
-          </ul>
+
           <div className="space-x-1  flex items-center">
+            <span className="text-primary md:hidden text-3xl font-bold -translate-y-1/4 cursor-pointer">
+              ...
+            </span>
+            <ul className="list-none hidden md:flex items-center">
+              <li className="sellItem">
+                Laptop brand
+              </li>
+              <li className="sellItem">
+                Trending
+              </li>
+              <li className="sellItem">
+                Laptop Acer
+              </li>
+              <li className="sellItem">
+                Laptop Gigabyte
+              </li>
+              <li className="sellItem">
+                Laptop Dell
+              </li>
+              <li className="sellItem">
+                See All
+              </li>
+            </ul>
             <ChevronLeftIcon
               width={18}
               height={18}
@@ -53,8 +61,8 @@ const Sell = ({ products }) => {
       </section>
       {/*Main sell */}
       <section>
-        <div className="flex mt-10">
-          <div className="w-3/4 grid gap-x-4 h-auto gap-y-6 grid-cols-4">
+        <div className="flex mt-10 lg:flex-row flex-col ">
+          <div className="w-full lg:w-3/4 grid gap-x-4 h-auto gap-y-6 grid-cols-4">
             {products?.map((product, index) => (
               <ProductCard
                 key={index}
@@ -66,7 +74,7 @@ const Sell = ({ products }) => {
             ))}
           </div>
           {/*sell banner */}
-          <div className="flex-1 ml-8 ">
+          <div className="flex-1 mt-12 lg:mt-0 lg:ml-8 ">
             <div className="mb-8 relative w-full min-h-[240px]">
               <Link href="#">
                 <a>

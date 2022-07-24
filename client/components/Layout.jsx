@@ -21,10 +21,7 @@ const Layout = ({
         <title>{title}</title>
         <meta
           name="description"
-          content={
-            description +
-            ", Memoryzone | Professional in technology"
-          }
+          content={description}
         />
         <meta
           name="keywords"

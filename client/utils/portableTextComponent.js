@@ -358,14 +358,14 @@ const youtubeBlock = (props, width, height) => {
 };
 const checkMarkItemBlock = ({ children }) => {
   return (
-    <h2 className="text-gray text-sm flex items-center my-2">
+    <div className="text-gray text-sm flex items-center my-2">
       <CheckCircleIcon
         className="mr-2 text-primary"
         height={20}
         width={20}
       />
-      {children}
-    </h2>
+      <h2>{children}</h2>
+    </div>
   );
 };
 const muxVideoBlock = (props) => {

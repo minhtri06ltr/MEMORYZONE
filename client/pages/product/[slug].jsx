@@ -6,7 +6,10 @@ import {
   formatDateTimeSchema,
   numberWithCommas,
 } from "../../utils/format";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/outline";
 import { useState } from "react";
 import {
   NotFound,
@@ -36,10 +39,15 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
+const ProductDetailsPage = ({
+  productBySlug,
+  statisticalReviews,
+}) => {
   const router = useRouter();
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [currentImage, setCurrentImage] = useState(0);
+  const [currentSlide, setCurrentSlide] =
+    useState(0);
+  const [currentImage, setCurrentImage] =
+    useState(0);
 
   const dispatch = useDispatch();
 
@@ -65,7 +73,7 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
         quantity: quantity,
         slug: productBySlug.slug.current,
         countInStock: productBySlug.countInStock,
-      })
+      }),
     );
     router.push("/cart");
   };
@@ -83,7 +91,11 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
         <ChevronLeftIcon
           width={24}
           height={24}
-          color={props.currentSlide === 0 ? "#717171" : "#414141"}
+          color={
+            props.currentSlide === 0
+              ? "#717171"
+              : "#414141"
+          }
         />
       </div>
     ) : (
@@ -99,7 +111,8 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
           width={24}
           height={24}
           color={
-            props.currentSlide === productBySlug.image.length - 3
+            props.currentSlide ===
+            productBySlug.image.length - 3
               ? "#717171"
               : "#414141"
           }
@@ -129,16 +142,21 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
     image: urlFor(productBySlug.image[0]).url(),
     description: productBySlug.metaDescription,
     category: "Laptop",
-    productID: productBySlug._id,
+    "@id": productBySlug._id,
     brand: {
       "@type": "Brand",
-      name: productBySlug.productBrand.productBrand,
+      name: productBySlug.productBrand
+        .productBrand,
     },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: statisticalReviews.average,
-      bestRating: detect(statisticalReviews.ratingList).max,
-      worstRating: detect(statisticalReviews.ratingList).min,
+      bestRating: detect(
+        statisticalReviews.ratingList,
+      ).max,
+      worstRating: detect(
+        statisticalReviews.ratingList,
+      ).min,
       ratingCount: productBySlug.reviews.length,
     },
     review: [
@@ -147,7 +165,9 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
           "@type": "Review",
           name: item.fullName,
           reviewBody: item.comment,
-          datePublished: formatDateTimeSchema(item.createTime),
+          datePublished: formatDateTimeSchema(
+            item.createTime,
+          ),
           url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/product/${productBySlug.slug.current}`,
           author: {
             "@type": "Person",
@@ -157,7 +177,8 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
             "@type": "Organization",
             address: "Hokkaido",
             location: "Japan",
-            url: process.env.NEXT_PUBLIC_CLIENT_URL,
+            url: process.env
+              .NEXT_PUBLIC_CLIENT_URL,
 
             name: "Memoryzone",
             logo: {
@@ -175,7 +196,10 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
       title={`${productBySlug.name} | Memoryzone - professional in technology`}
       metaType="product"
       schema={schema}
-      description={productBySlug.metaDescription.slice(0, 303)}
+      description={productBySlug.metaDescription.slice(
+        0,
+        303,
+      )}
       image={productBySlug.image[0]}
       keywords="Memoryzone product, sell, hardware"
       id={`/product/${productBySlug.slug.current}`}
@@ -199,7 +223,11 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                   <Image
                     alt={`Memoryzone ${productBySlug.name} image`}
                     priority={true}
-                    src={urlFor(productBySlug.image[currentImage]).url()}
+                    src={urlFor(
+                      productBySlug.image[
+                        currentImage
+                      ],
+                    ).url()}
                     layout="responsive"
                     width={60}
                     objectFit="contain"
@@ -213,24 +241,30 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                   }}
                 >
                   <Slider {...sliderSettings}>
-                    {productBySlug.image.map((item, index) => (
-                      <div
-                        onClick={() => setCurrentImage(index)}
-                        key={index}
-                        className={`slide-item !h-20 cursor-pointer relative mx-1  flex items-center justify-center hover:border-primary border ${
-                          index === currentImage
-                            ? "border-primary"
-                            : "border-[#717171]"
-                        }`}
-                      >
-                        <Image
-                          alt="Memoryzone product images slider"
-                          src={urlFor(item).url()}
-                          layout="fill"
-                          objectFit="cover"
-                        />
-                      </div>
-                    ))}
+                    {productBySlug.image.map(
+                      (item, index) => (
+                        <div
+                          onClick={() =>
+                            setCurrentImage(index)
+                          }
+                          key={index}
+                          className={`slide-item !h-20 cursor-pointer relative mx-1  flex items-center justify-center hover:border-primary border ${
+                            index === currentImage
+                              ? "border-primary"
+                              : "border-[#717171]"
+                          }`}
+                        >
+                          <Image
+                            alt="Memoryzone product images slider"
+                            src={urlFor(
+                              item,
+                            ).url()}
+                            layout="fill"
+                            objectFit="cover"
+                          />
+                        </div>
+                      ),
+                    )}
                   </Slider>
                 </div>
               </div>
@@ -241,17 +275,24 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                 <div className="flex py-3 items-center ">
                   <div className="flex ">
                     <StarList
-                      quantity={Math.round(statisticalReviews.average)}
+                      quantity={Math.round(
+                        statisticalReviews.average,
+                      )}
                       width={30}
                       height={30}
                     />
                   </div>
                   <Link href="#review">
                     <span className="text-[#055eff] cursor-pointer text-sm ml-2">
-                      {productBySlug.reviews.length === 0
+                      {productBySlug.reviews
+                        .length === 0
                         ? "Be the first to review"
-                        : `See ${productBySlug.reviews.length} ${
-                            productBySlug.reviews.length > 1
+                        : `See ${
+                            productBySlug.reviews
+                              .length
+                          } ${
+                            productBySlug.reviews
+                              .length > 1
                               ? "reviews"
                               : "review"
                           }`}
@@ -259,21 +300,32 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                   </Link>
                 </div>
                 <div>
-                  <span className="text-text text-sm">Trademake: </span>
+                  <span className="text-text text-sm">
+                    Trademake:{" "}
+                  </span>
                   <span className="text-primary  text-sm">
-                    {productBySlug.productBrand.productBrand}
+                    {
+                      productBySlug.productBrand
+                        .productBrand
+                    }
                   </span>
                   <div className="w-[1px] h-3.5 -mb-0.5 mx-2 inline-block bg-text"></div>
-                  <span className="text-text text-sm ">Status: </span>
+                  <span className="text-text text-sm ">
+                    Status:{" "}
+                  </span>
                   <span className="text-primary text-sm">
-                    {productBySlug.countInStock > 0
+                    {productBySlug.countInStock >
+                    0
                       ? "In stock"
                       : "Out of stock"}
                   </span>
                 </div>
                 <div className="my-1.5">
                   <span className="text-primary text-3xl font-bold ">
-                    {numberWithCommas(productBySlug.price)}$
+                    {numberWithCommas(
+                      productBySlug.price,
+                    )}
+                    $
                   </span>
                   <span className="ml-4 text-base line-through text-gray">
                     {numberWithCommas(7423)}$
@@ -282,13 +334,18 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                 <div>
                   <div className="my-3">
                     <PortableText
-                      value={productBySlug.specifications}
-                      components={productDescriptionComponents}
+                      value={
+                        productBySlug.specifications
+                      }
+                      components={
+                        productDescriptionComponents
+                      }
                     />
                   </div>
                 </div>
 
-                {productBySlug.countInStock > 0 && (
+                {productBySlug.countInStock >
+                  0 && (
                   <>
                     <span className="text-sm block text-gray my-2">
                       Quantity:
@@ -298,30 +355,61 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                         <button
                           type="button"
                           onClick={() =>
-                            quantity > 1 && setQuantity(quantity - 1)
+                            quantity > 1 &&
+                            setQuantity(
+                              quantity - 1,
+                            )
                           }
                           className="border-r border-[#ccc] font-medium text-3xl px-4 py-1"
                         >
                           -
                         </button>
                         <input
-                          disabled={productBySlug.countInStock === 0 && true}
+                          disabled={
+                            productBySlug.countInStock ===
+                              0 && true
+                          }
                           value={quantity}
                           onChange={(e) => {
-                            const re = /^[0-9\b]+$/;
+                            const re =
+                              /^[0-9\b]+$/;
 
                             if (
-                              e.target.value === "" ||
-                              re.test(e.target.value)
+                              e.target.value ===
+                                "" ||
+                              re.test(
+                                e.target.value,
+                              )
                             ) {
-                              if (isNumber(parseInt(e.target.value))) {
+                              if (
+                                isNumber(
+                                  parseInt(
+                                    e.target
+                                      .value,
+                                  ),
+                                )
+                              ) {
                                 if (
-                                  e.target.value > productBySlug.countInStock
+                                  e.target.value >
+                                  productBySlug.countInStock
                                 ) {
-                                  setQuantity(productBySlug.countInStock);
-                                } else if (parseInt(e.target.value) === 0) {
+                                  setQuantity(
+                                    productBySlug.countInStock,
+                                  );
+                                } else if (
+                                  parseInt(
+                                    e.target
+                                      .value,
+                                  ) === 0
+                                ) {
                                   setQuantity(1);
-                                } else setQuantity(parseInt(e.target.value));
+                                } else
+                                  setQuantity(
+                                    parseInt(
+                                      e.target
+                                        .value,
+                                    ),
+                                  );
                               } else {
                                 setQuantity(1);
                               }
@@ -329,19 +417,28 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                           }}
                           type="text"
                           className={`w-16 ${
-                            productBySlug.countInStock === 0 &&
+                            productBySlug.countInStock ===
+                              0 &&
                             "cursor-not-allowed"
                           } text-center text-base outline-none border-none px-4`}
                         />
                         <button
                           type="button"
                           onClick={() => {
-                            if (productBySlug.countInStock === 0) {
-                              alert("This product is out of stock.");
+                            if (
+                              productBySlug.countInStock ===
+                              0
+                            ) {
+                              alert(
+                                "This product is out of stock.",
+                              );
                               return;
                             }
-                            quantity < productBySlug.countInStock &&
-                              setQuantity(quantity + 1);
+                            quantity <
+                              productBySlug.countInStock &&
+                              setQuantity(
+                                quantity + 1,
+                              );
                           }}
                           className="border-l border-[#ccc] font-medium text-2xl  px-4 py-1.5"
                         >
@@ -351,7 +448,9 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                       <div className="flex items-center space-x-2">
                         <FacebookShareButton
                           url={
-                            process.env.NEXT_PUBLIC_CLIENT_URL + router.asPath
+                            process.env
+                              .NEXT_PUBLIC_CLIENT_URL +
+                            router.asPath
                           }
                           quote={
                             "Look I just found this cool product on Memoryzone Shop website! You can take a glance."
@@ -360,27 +459,40 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                             "#memoryzone #memoryzoneShop #memoryzoneTechnology #memoryzoneProduct #memoryzoneWebsite #memoryzoneE-commerce"
                           }
                         >
-                          <FacebookIcon size={32} round />
+                          <FacebookIcon
+                            size={32}
+                            round
+                          />
                         </FacebookShareButton>
                         <TwitterShareButton
                           url={
-                            process.env.NEXT_PUBLIC_CLIENT_URL + router.asPath
+                            process.env
+                              .NEXT_PUBLIC_CLIENT_URL +
+                            router.asPath
                           }
                           title={
                             "Look I just found this cool product on Memoryzone Shop website! You can take a glance."
                           }
                         >
-                          <TwitterIcon size={32} round />
+                          <TwitterIcon
+                            size={32}
+                            round
+                          />
                         </TwitterShareButton>
                         <LineShareButton
                           url={
-                            process.env.NEXT_PUBLIC_CLIENT_URL + router.asPath
+                            process.env
+                              .NEXT_PUBLIC_CLIENT_URL +
+                            router.asPath
                           }
                           title={
                             "Look I just found this cool product on Memoryzone Shop website! You can take a glance."
                           }
                         >
-                          <LineIcon size={32} round />
+                          <LineIcon
+                            size={32}
+                            round
+                          />
                         </LineShareButton>
                       </div>
                     </div>
@@ -399,8 +511,10 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                       />
                     </div>
                     <span className="text-[#393a44] text-base w-[90%] pl-4 font-bold">
-                      Preferential conversion fee for VISA and Master
-                      installments from only 1.8% for a 6-month term.
+                      Preferential conversion fee
+                      for VISA and Master
+                      installments from only 1.8%
+                      for a 6-month term.
                     </span>
                   </div>
                   <div className="flex border-[#e7e7e7] items-center px-4 py-2 shadow-sm border rounded-md">
@@ -414,12 +528,14 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                       />
                     </div>
                     <span className="text-[#393a44] text-base w-[90%] pl-4 font-bold">
-                      Free payment via Visa, Master, JCB, Union Pay, Amex (No
-                      hidden fees).
+                      Free payment via Visa,
+                      Master, JCB, Union Pay, Amex
+                      (No hidden fees).
                     </span>
                   </div>
                   <div className=" space-y-2">
-                    {productBySlug.countInStock === 0 ? (
+                    {productBySlug.countInStock ===
+                    0 ? (
                       <div className="flex space-x-2 ">
                         <button
                           disabled
@@ -435,7 +551,8 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                           </span>
                           <a href="tel:+84367907374">
                             <span className="block text-white text-xs">
-                              Please call now (84) 3679 0 7374
+                              Please call now (84)
+                              3679 0 7374
                             </span>
                           </a>
                         </button>
@@ -445,7 +562,9 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                         <div className="flex space-x-2 ">
                           <button
                             className="flex-1 bg-primary rounded-sm py-2"
-                            onClick={handleAddToCart}
+                            onClick={
+                              handleAddToCart
+                            }
                           >
                             <span className="block text-white font-bold leading-5">
                               BUY NOW
@@ -459,15 +578,19 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                               INSTALLMENT
                             </span>
                             <span className="block text-white text-sm">
-                              Quick browsing by phone
+                              Quick browsing by
+                              phone
                             </span>
                           </button>
                         </div>
                         <button className="rounded-sm bg-[#f3a20e] py-2 w-full">
                           <span className="text-white font-bold ">
-                            0% INSTALLMENT THROUGH CARDS
+                            0% INSTALLMENT THROUGH
+                            CARDS
                             <br />
-                            Visa, Master, JCB (Order from 150 Dollars)
+                            Visa, Master, JCB
+                            (Order from 150
+                            Dollars)
                           </span>
                         </button>
                       </>
@@ -478,15 +601,23 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
             </div>
             <ProductDescription
               tags={productBySlug.productTag}
-              description={productBySlug.description}
-              specificationTable={productBySlug.specificationTable}
+              description={
+                productBySlug.description
+              }
+              specificationTable={
+                productBySlug.specificationTable
+              }
             />
             <Review
               data={productBySlug.reviews}
               productName={productBySlug.name}
               productId={productBySlug._id}
-              averageRate={statisticalReviews.average}
-              ratingList={statisticalReviews.ratingList}
+              averageRate={
+                statisticalReviews.average
+              }
+              ratingList={
+                statisticalReviews.ratingList
+              }
             />
           </div>
 
@@ -522,7 +653,8 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                     TPHCM
                   </span>
                   <span className="text-gray  text-sm block font-light">
-                    Receive goods from 24 to 72 hours after ordering
+                    Receive goods from 24 to 72
+                    hours after ordering
                   </span>
                 </div>
               </div>
@@ -541,7 +673,8 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                     HÀ NỘI
                   </span>
                   <span className="text-gray  text-sm block font-light">
-                    Receive goods from 24 to 48 hours after ordering
+                    Receive goods from 24 to 48
+                    hours after ordering
                   </span>
                 </div>
               </div>
@@ -560,7 +693,8 @@ const ProductDetailsPage = ({ productBySlug, statisticalReviews }) => {
                     OTHER PROVINCE
                   </span>
                   <span className="text-gray  text-sm block font-light">
-                    Receive goods from 24 to 96 hours after ordering
+                    Receive goods from 24 to 96
+                    hours after ordering
                   </span>
                 </div>
               </div>
@@ -582,7 +716,7 @@ export const getStaticPaths = async () => {
       slug{
         current
       }
-  }`
+  }`,
   );
 
   return {
@@ -596,7 +730,9 @@ export const getStaticPaths = async () => {
   };
 };
 //get data when build
-export const getStaticProps = async ({ params: { slug } }) => {
+export const getStaticProps = async ({
+  params: { slug },
+}) => {
   //get product data by slug param
   try {
     const productBySlug = await client.fetch(
@@ -619,12 +755,15 @@ export const getStaticProps = async ({ params: { slug } }) => {
       }
       }
     `,
-      { slug }
+      { slug },
     );
-    const result = calculateRate(productBySlug.statisticalReviews);
+    const result = calculateRate(
+      productBySlug.statisticalReviews,
+    );
     return {
       props: {
-        productBySlug: productBySlug.productDetails,
+        productBySlug:
+          productBySlug.productDetails,
         statisticalReviews: {
           average: result.average,
           ratingList: result.ratingList,

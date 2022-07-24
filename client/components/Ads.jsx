@@ -3,9 +3,9 @@ import React from "react";
 
 const Ads = () => {
   return (
-    <div className="w-full px-10 mt-16">
-      <div className="grid  grid-cols-3 grid-rows-2 gap-8">
-        <div className="  h-[180px] overflow-hidden">
+    <div className="w-full lg:px-0  mt-10 lg:mt-16">
+      <div className="grid   grid-cols-3 grid-rows-2 gap-y-6  md:gap-4 lg:gap-y-2 lg:gap-x-8">
+        <div className="adsItem">
           <div className="relative scaleAnimation w-full h-full cursor-pointer ">
             <Image
               alt="Memoryzone ads banner"
@@ -15,7 +15,7 @@ const Ads = () => {
             />
           </div>
         </div>
-        <div className="  row-span-2 h-full overflow-hidden">
+        <div className="adsItem md:row-span-2 h-[350px]   md:h-full  ">
           <div className="relative scaleAnimation w-full h-full cursor-pointer ">
             <Image
               alt="Memoryzone ads banner"
@@ -25,7 +25,7 @@ const Ads = () => {
             />
           </div>
         </div>
-        <div className="  h-[180px] overflow-hidden">
+        <div className="adsItem">
           <div className="relative scaleAnimation w-full h-full cursor-pointer ">
             <Image
               alt="Memoryzone ads banner"
@@ -35,7 +35,7 @@ const Ads = () => {
             />
           </div>
         </div>
-        <div className="  h-[180px] overflow-hidden">
+        <div className="adsItem">
           <div className="relative scaleAnimation w-full h-full cursor-pointer ">
             <Image
               alt="Memoryzone ads banner"
@@ -45,7 +45,7 @@ const Ads = () => {
             />
           </div>
         </div>
-        <div className="  h-[180px] overflow-hidden">
+        <div className="adsItem">
           <div className="relative scaleAnimation w-full h-full cursor-pointer ">
             <Image
               alt="Memoryzone ads banner"

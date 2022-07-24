@@ -10,7 +10,7 @@ const ProductCard = ({
   slug,
 }) => {
   return (
-    <div>
+    <div className="col-span-2  md:col-span-1">
       <div>
         <Link href={`/product/${slug}`}>
           <div className="relative aspect-square  ">

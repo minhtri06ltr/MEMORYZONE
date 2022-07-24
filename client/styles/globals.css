@@ -40,7 +40,7 @@ a {
     @apply limit-2-line text-[10px] md:text-sm py-1 overflow-hidden border-t-4 text-text border-transparent font-light cursor-pointer  px-2 text-center   flex-1;
   }
   .sellItem {
-    @apply text-sm font-light px-2 cursor-pointer hover:text-primary text-text;
+    @apply text-xs lg:text-sm font-light px-2 cursor-pointer hover:text-primary text-text;
   }
   .cartRow {
     @apply border border-[#ebebeb] text-base overflow-hidden break-normal p-4 align-middle text-center text-[#363636];
@@ -83,6 +83,12 @@ a {
   }
   .footerItem {
     @apply cursor-pointer hover:text-primary;
+  }
+  .adsItem {
+    @apply col-span-3 row-span-2 md:row-span-1 md:col-span-1 mx-auto w-[370px] md:w-full h-[180px] overflow-hidden;
+  }
+  .interestItem {
+    @apply flex flex-1 flex-col h-full justify-center items-center mb-6 cursor-pointer;
   }
 }
 @layer utilities {
@@ -165,4 +171,8 @@ a {
 .slick-slide > div {
   display: flex;
   align-items: stretch;
+}
+.slick-prev:before,
+.slick-next:before {
+  display: none;
 }
