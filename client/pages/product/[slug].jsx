@@ -81,7 +81,7 @@ const ProductDetailsPage = ({
   const SlideArrow = (props) => {
     return props.direction === "left" ? (
       <div
-        className={`cursor-pointer  hover:text-primary !top-1/4 ${props.className}`}
+        className={`cursor-pointer  hover:text-primary !top-1/2 lg:!top-1/4 ${props.className}`}
         onClick={props.onClick}
         style={{
           ...props.style,
@@ -100,7 +100,7 @@ const ProductDetailsPage = ({
       </div>
     ) : (
       <div
-        className={` hover:text-primary !top-1/4  ${props.className}`}
+        className={` hover:text-primary !top-1/2 lg:!top-1/4  ${props.className}`}
         onClick={props.onClick}
         style={{
           ...props.style,
@@ -142,6 +142,7 @@ const ProductDetailsPage = ({
     image: urlFor(productBySlug.image[0]).url(),
     description: productBySlug.metaDescription,
     category: "Laptop",
+
     "@id": productBySlug._id,
     brand: {
       "@type": "Brand",
@@ -214,11 +215,11 @@ const ProductDetailsPage = ({
         />
         {/*main product details */}
 
-        <div className="flex items-start mt-12 ">
+        <div className="limitScreen flex flex-col xl:flex-row items-start mt-12 ">
           {/*left */}
-          <div className="w-9/12 ">
-            <div className="flex items-start justify-start">
-              <div className="w-[44%] ">
+          <div className="w-full xl:w-9/12 ">
+            <div className="flex flex-col md:flex-row items-start justify-start">
+              <div className="w-full md:w-1/2 lg:w-[44%]">
                 <div>
                   <Image
                     alt={`Memoryzone ${productBySlug.name} image`}
@@ -235,7 +236,7 @@ const ProductDetailsPage = ({
                   />
                 </div>
                 <div
-                  className="mt-4  mx-auto"
+                  className="mt-4  sm:px-10 md:px-0  mx-auto"
                   style={{
                     width: "70%",
                   }}
@@ -248,7 +249,7 @@ const ProductDetailsPage = ({
                             setCurrentImage(index)
                           }
                           key={index}
-                          className={`slide-item !h-20 cursor-pointer relative mx-1  flex items-center justify-center hover:border-primary border ${
+                          className={`slide-item !h-[75px]  cursor-pointer relative mx-2 md:mx-1   flex items-center justify-center hover:border-primary border ${
                             index === currentImage
                               ? "border-primary"
                               : "border-[#717171]"
@@ -260,7 +261,7 @@ const ProductDetailsPage = ({
                               item,
                             ).url()}
                             layout="fill"
-                            objectFit="cover"
+                            objectFit="contain"
                           />
                         </div>
                       ),
@@ -268,7 +269,7 @@ const ProductDetailsPage = ({
                   </Slider>
                 </div>
               </div>
-              <div className="flex-1 pl-6">
+              <div className="flex-1 pl-0 mt-8 md:mt-0 md:pl-4">
                 <h1 className="block text-text text-2xl">
                   {productBySlug.name}
                 </h1>
@@ -559,7 +560,7 @@ const ProductDetailsPage = ({
                       </div>
                     ) : (
                       <>
-                        <div className="flex space-x-2 ">
+                        <div className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-2 ">
                           <button
                             className="flex-1 bg-primary rounded-sm py-2"
                             onClick={
@@ -622,7 +623,7 @@ const ProductDetailsPage = ({
           </div>
 
           {/*right */}
-          <div className="flex-1 ml-7">
+          <div className="hidden xl:block flex-1 ml-7">
             <div className="rounded-sm border px-4 py-2  border-primary">
               <div className="flex  items-center border-b border-[#e5e5e5] py-5">
                 <div className="flex-1 pt-1">
@@ -634,7 +635,7 @@ const ProductDetailsPage = ({
                     alt="Memoryzone free delivery nationwide"
                   />
                 </div>
-                <span className="text-gray leading-4 text-base font-bold w-[80%] ml-3.5">
+                <span className="text-gray leading-4 text-sm font-bold w-[80%] ml-3.5">
                   Free delivery nationwide
                 </span>
               </div>
@@ -648,11 +649,11 @@ const ProductDetailsPage = ({
                     alt="Memoryzone receive goods from 24 to 72 hours after ordering in TP HCM city"
                   />
                 </div>
-                <div className="w-[80%] ml-3.5">
-                  <span className="text-gray leading-4 text-base block font-bold ">
+                <div className="w-[80%] space-y-1 ml-3.5">
+                  <span className="text-gray leading-4 text-sm block font-bold ">
                     TPHCM
                   </span>
-                  <span className="text-gray  text-sm block font-light">
+                  <span className="text-gray text-sm  block font-light">
                     Receive goods from 24 to 72
                     hours after ordering
                   </span>
@@ -668,8 +669,8 @@ const ProductDetailsPage = ({
                     alt="Memoryzone receive goods from 24 to 48 hours after ordering in Ha Noi city"
                   />
                 </div>
-                <div className="w-[80%] ml-3.5">
-                  <span className="text-gray leading-4 text-base block font-bold ">
+                <div className="w-[80%] space-y-1 ml-3.5">
+                  <span className="text-gray leading-4 text-sm block font-bold ">
                     HÀ NỘI
                   </span>
                   <span className="text-gray  text-sm block font-light">
@@ -688,8 +689,8 @@ const ProductDetailsPage = ({
                     alt="Memoryzone receive goods from 24 to 96 hours after ordering in other province"
                   />
                 </div>
-                <div className="w-[80%] ml-3.5">
-                  <span className="text-gray leading-4 text-base block font-bold ">
+                <div className="w-[80%] space-y-1 ml-3.5">
+                  <span className="text-gray leading-4 text-sm block font-bold ">
                     OTHER PROVINCE
                   </span>
                   <span className="text-gray  text-sm block font-light">
@@ -701,8 +702,6 @@ const ProductDetailsPage = ({
             </div>
           </div>
         </div>
-
-        <div className=" w-full pb-96 h-70"></div>
       </div>
     </Layout>
   );

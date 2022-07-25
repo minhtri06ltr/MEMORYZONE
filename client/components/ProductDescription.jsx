@@ -15,12 +15,12 @@ const ProductDescription = ({
   return (
     <div className="my-14">
       <div>
-        <div className="space-x-1">
+        <div className="md:space-x-1">
           <button
             onClick={() => {
               setTab("description");
             }}
-            className={` rounded-sm outline-none px-10 py-3 text-md font-semibold ${
+            className={`w-full md:w-auto text-left rounded-sm outline-none px-4 lg:px-10 py-3 text-md font-semibold ${
               tab === "description"
                 ? "bg-primary text-white"
                 : "bg-[#f2f2f2] text-text"
@@ -32,7 +32,7 @@ const ProductDescription = ({
             onClick={() => {
               setTab("specification");
             }}
-            className={` rounded-sm px-10 outline-none py-3 text-md font-semibold ${
+            className={`w-full md:w-auto text-left rounded-sm px-4 lg:px-10 outline-none py-3 text-md font-semibold ${
               tab === "specification"
                 ? "bg-primary text-white"
                 : "bg-[#f2f2f2] text-text"
@@ -47,7 +47,7 @@ const ProductDescription = ({
               expand
                 ? "min-h-[440px]"
                 : "max-h-[440px]"
-            } flex flex-col    w-full border px-8 pt-8 pb-[80px] border-[#e5e5e5]`}
+            } flex flex-col w-full border px-4 pt-4 md:px-8 md:pt-8 pb-[80px] border-[#e5e5e5]`}
           >
             <article className="text-[#000000] leading-6 text-sm overflow-hidden h-inherit mb-10 ">
               <PortableText
@@ -97,8 +97,8 @@ const ProductDescription = ({
           </div>
         )}
         {tab === "specification" && (
-          <div className="border-[#e5e5e5] border px-8 pt-8 pb-14">
-            <span className="block border border-[#e5e5e5] text-center text-[#800000] py-4 mb-6 text-xl font-semibold">
+          <div className="border-[#e5e5e5] border px-4 pt-4 md:px-8 md:pt-8 pb-14">
+            <span className="block border border-[#e5e5e5] text-center text-[#800000] py-4 mb-6 text-lg lg:text-xl font-semibold">
               Specifications
             </span>
 
@@ -111,10 +111,10 @@ const ProductDescription = ({
                         key={index}
                         className="even:bg-[#f9f6d1]"
                       >
-                        <td className="text-sm text-right p-3 border w-1/2 border-[#e5e5e5] font-semibold  ">
+                        <td className="text-[12px] lg:text-sm text-right p-3 border w-1/2 border-[#e5e5e5] font-semibold  ">
                           <h3> {item.title}</h3>
                         </td>
-                        <td className="text-sm text-left p-3 border w-1/2  border-[#e5e5e5] ">
+                        <td className="text-[12px] lg:text-sm text-left p-3 border w-1/2  border-[#e5e5e5] ">
                           <PortableText
                             value={
                               item.description

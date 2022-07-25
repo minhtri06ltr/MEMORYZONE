@@ -67,7 +67,7 @@ a {
     @apply hover:scale-105 cursor-pointer transition ease-linear;
   }
   .reviewInput {
-    @apply px-4 py-3 border min-w-[270px] text-[#686868] text-sm border-[#dddddd] outline-none focus:border-[#bdbdbd] rounded-md;
+    @apply px-4 py-3 border  text-[#686868] text-sm border-[#dddddd] outline-none focus:border-[#bdbdbd] rounded-md;
   }
   .headerOrderTable {
     @apply p-2 bg-[#acacac] text-center text-sm align-middle;

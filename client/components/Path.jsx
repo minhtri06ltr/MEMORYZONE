@@ -34,7 +34,7 @@ const Path = ({ path }) => {
                     )}
                 </>
               ) : (
-                <span className=" text-primary  text-sm  limit-1-line block">
+                <span className=" text-primary  text-sm   block">
                   {item.title}
                 </span>
               )}

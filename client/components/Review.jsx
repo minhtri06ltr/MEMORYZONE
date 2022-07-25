@@ -94,7 +94,7 @@ const RateBar = ({ index, percent }) => {
       <span className="whitespace-nowrap">
         {index + 1} ★
       </span>
-      <div className="rounded-full bg-[#efefef] w-[236px]  h-3 ">
+      <div className="rounded-full bg-[#efefef] w-[calc(100%-75px)] lg:w-[236px]  h-3 ">
         <div
           className={`rounded-full bg-[#5cb85c]   h-3 `}
           style={{ width: `${percent}%` }}
@@ -309,7 +309,7 @@ const Review = ({
         <span className="block text-text text-2xl">
           CUSTOMER REVIEWS
         </span>
-        <div className="flex  my-6 items-start space-x-8">
+        <div className="flex flex-col lg:flex-row lg:space-y-0 space-y-4 my-6 items-start lg:space-x-8">
           {data.length === 0 ? (
             <div className=" bg-[#fff3cd] flex-1 text-center rounded-md px-6 py-3">
               <span className="text-sm text-[#856404]">
@@ -318,7 +318,7 @@ const Review = ({
               </span>
             </div>
           ) : (
-            <div className="flex  space-y-3 flex-1 flex-col items-center justify-center">
+            <div className="flex w-full mb-6 flex-1 space-y-4 flex-col items-center justify-center">
               <span className="text-text text-sm block">
                 Average rating
               </span>
@@ -333,7 +333,7 @@ const Review = ({
               </span>
             </div>
           )}
-          <div className="flex-1  space-y-4">
+          <div className="flex-1 w-full space-y-4">
             {ratingList.map((item, index) => (
               <RateBar
                 key={index}
@@ -342,7 +342,7 @@ const Review = ({
               />
             ))}
           </div>
-          <div className="flex-1  space-y-3 flex flex-col items-center justify-center">
+          <div className="flex-1 w-full space-y-3 flex flex-col items-center justify-center">
             <span className="text-sm text-text block">
               Share product reviews
             </span>
@@ -352,9 +352,11 @@ const Review = ({
               }
               type="button"
               id="review"
-              className="rounded-sm text-white bg-[#d9534f] px-12 py-3  text-sm "
+              className="rounded-sm  text-white bg-[#d9534f] w-[200px] px-4 py-3  text-sm "
             >
-              Write your review
+              {!openReviewForm
+                ? "Write your review"
+                : "Close"}
             </button>
           </div>
         </div>
@@ -435,8 +437,8 @@ const Review = ({
                   className="w-full mt-2 focus:border-[#bdbdbd] min-h-[115px] pl-5 pt-2 pr-28 text-[#686868] text-sm outline-none rounded-md border border-[#ddd]"
                 ></textarea>
               </div>
-              <div className="pb-2 flex items-center space-x-10">
-                <div>
+              <div className="pb-2 flex flex-col md:flex-row items-center md:space-y-0 space-y-5 md:space-x-10">
+                <div className="w-full">
                   <label
                     htmlFor="fullName"
                     className="block mb-2 text-sm text-[#323c3f]"
@@ -450,10 +452,10 @@ const Review = ({
                     id="fullName"
                     name="fullName"
                     onChange={reviewFormHandle}
-                    className="reviewInput"
+                    className="reviewInput w-full"
                   />
                 </div>
-                <div>
+                <div className="w-full">
                   <label
                     htmlFor="phoneNumber"
                     className="block mb-2 text-sm text-[#323c3f]"
@@ -467,23 +469,23 @@ const Review = ({
                     id="phoneNumber"
                     name="phoneNumber"
                     onChange={reviewFormHandle}
-                    className="reviewInput"
+                    className="reviewInput w-full"
                   />
                 </div>
               </div>
-              <div className="pb-2">
+              <div className="pb-2 ">
                 <label
                   htmlFor="images"
                   onClick={() =>
                     imgRef.current.click()
                   }
-                  className="inline text-sm text-[#323c3f]"
+                  className="inline  text-sm text-[#323c3f]"
                 >
                   Step 5. Add product images if
                   available (Maximum 5 images):{" "}
                   <button
                     type="button"
-                    className="text-sm outline-none bg-white border border-[#007ff0] text-[#007ff0] rounded-md p-2"
+                    className="mt-2 text-sm outline-none bg-white border border-[#007ff0] text-[#007ff0] rounded-md p-2"
                   >
                     Choose image
                   </button>
@@ -698,11 +700,11 @@ const Review = ({
                         placeholder="Enter reply for this review (*)"
                         className="w-full focus:border-[#bdbdbd] mt-2 min-h-[115px] pl-5 pt-2 pr-28 text-[#686868] text-sm outline-none rounded-md border border-[#ddd]"
                       ></textarea>
-                      <div className="space-x-8 flex items-center">
+                      <div className="md:space-x-8 md:flex-row md:space-y-0 space-y-3.5 flex-col flex items-center">
                         <input
                           type="text"
                           placeholder="Full Name (*)"
-                          className="reviewInput"
+                          className="reviewInput md:flex-1 w-full"
                           required
                           onChange={
                             replyFormHandle
@@ -715,7 +717,7 @@ const Review = ({
                         <input
                           type="tel"
                           placeholder="Phone Number"
-                          className="reviewInput"
+                          className="reviewInput md:flex-1 w-full"
                           value={
                             replyForm.phoneNumber
                           }
@@ -727,7 +729,7 @@ const Review = ({
                         />
                         <button
                           type="submit"
-                          className="rounded-md text-white bg-[#ff0000] px-4 py-3  flex-1 text-sm "
+                          className="w-full md:flex-1 rounded-md text-white bg-[#ff0000] px-4 py-3  flex-1 text-sm "
                         >
                           Send reply
                         </button>
