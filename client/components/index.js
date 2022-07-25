@@ -25,3 +25,5 @@ export { default as Facebook } from "./Facebook";
 export { default as TawkTo } from "./TawkTo";
 export { default as RelatedNews } from "./RelatedNews";
 export { default as RSSFeed } from "./RSSFeed";
+export { default as Brand } from "./Brand";
+export { default as Inform } from "./Inform";

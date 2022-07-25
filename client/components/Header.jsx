@@ -19,6 +19,7 @@ import { logout } from "../redux/accountSlice";
 import { useRouter } from "next/router";
 import { clearOrder } from "../redux/orderSlice";
 import { useState } from "react";
+import hotIcon from "../assets/img/hot.svg";
 
 const Header = () => {
   const user = useSelector(
@@ -71,7 +72,7 @@ const Header = () => {
       {/* Top header */}
       <section>
         <div className="border-b border-[#339f69]">
-          <div className="max-w-[1200px] px-4 mx-auto  flex items-center  py-3">
+          <div className="limitScreen  flex items-center  py-3">
             <div className="hidden cursor-pointer lg:block w-1/2 space-x-4">
               <Link href="#">
                 <span className="text-xs text-white relative after:w-[1px] after:bg-white after:absolute after:-right-[20%] after:top-0 after:h-full">
@@ -112,10 +113,12 @@ const Header = () => {
               </div>
 
               <div className="topHeaderItem hidden md:flex">
-                <StarIcon
-                  width={18}
-                  className="mt-0.5 text-inherit"
-                />
+                <div className="relative w-4 h-4 mt-1">
+                  <Image
+                    src={hotIcon}
+                    layout="fill"
+                  />
+                </div>
                 <Link href="/account">
                   <span className="topHeaderText">
                     Hot Promotion
@@ -139,7 +142,7 @@ const Header = () => {
 
       {/*Mid header */}
       <section>
-        <div className="max-w-[1200px] mx-auto px-4  py-6 relative  flex items-center justify-between">
+        <div className="limitScreen py-6 relative  flex items-center justify-between">
           <div className="cursor-pointer lg:hidden">
             <MenuIcon
               color="white"
@@ -235,7 +238,7 @@ const Header = () => {
 
       {/*Bottom header */}
       <section className="lg:bg-[#393a44]">
-        <div className="max-w-[1200px] mx-auto px-4 ">
+        <div className="limitScreen ">
           <div className="lg:bg-[#393a44] bg-inherit    items-center  flex">
             <div className="flex justify-start mt-36 md:mt-16 lg:mt-0 cursor-pointer lg:justify-center items-center shrink-0 py-2.5 mb-4 lg:mb-0 lg:py-3.5 px-4 w-full lg:w-auto   bg-secondary text-white">
               <MenuIcon

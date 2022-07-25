@@ -3,7 +3,7 @@ import React from "react";
 
 const Ads = () => {
   return (
-    <div className="w-full lg:px-0  mt-10 lg:mt-16">
+    <div className="limitScreen  mt-10 lg:mt-16">
       <div className="grid   grid-cols-3 grid-rows-2 gap-y-6  md:gap-4 lg:gap-y-2 lg:gap-x-8">
         <div className="adsItem">
           <div className="relative scaleAnimation w-full h-full cursor-pointer ">

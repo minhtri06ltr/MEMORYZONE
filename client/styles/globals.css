@@ -37,7 +37,7 @@ a {
     @apply px-3.5 cursor-pointer truncate hover:text-primary;
   }
   .bannerSlideItem {
-    @apply limit-2-line text-[10px] md:text-sm py-1 overflow-hidden border-t-4 text-text border-transparent font-light cursor-pointer  px-2 text-center   flex-1;
+    @apply limit-2-line after:content-[''] after:absolute after:bottom-0 after:left-0 relative after:h-0.5 after:w-full after:bg-white text-[10px] md:text-sm py-1 overflow-hidden border-t-4 text-text border-transparent font-light cursor-pointer  px-2 text-center   flex-1;
   }
   .sellItem {
     @apply text-xs lg:text-sm font-light px-2 cursor-pointer hover:text-primary text-text;
@@ -79,7 +79,7 @@ a {
     @apply px-4 py-2 border min-w-[270px] text-[#686868] text-sm border-[#dddddd] outline-none focus:border-[#bdbdbd] rounded-sm w-full;
   }
   .footerHeaderText {
-    @apply text-text text-sm font-bold hover:text-primary cursor-default;
+    @apply text-text text-sm font-bold hover:text-primary block cursor-default;
   }
   .footerItem {
     @apply cursor-pointer hover:text-primary;
@@ -89,6 +89,18 @@ a {
   }
   .interestItem {
     @apply flex flex-1 flex-col h-full justify-center items-center mb-6 cursor-pointer;
+  }
+  .brandItem {
+    @apply relative cursor-pointer w-[170px] h-[100px] mb-10;
+  }
+  .informItem {
+    @apply !flex flex-col sm:flex-row items-center pb-10 lg:pb-5 justify-start space-y-4 sm:space-y-0 sm:space-x-4 flex-1;
+  }
+  .informSliderItem {
+    @apply flex-1 text-center sm:text-left self-start w-full sm:w-[170px];
+  }
+  .limitScreen {
+    @apply max-w-[1200px] mx-auto px-4;
   }
 }
 @layer utilities {

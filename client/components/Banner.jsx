@@ -57,7 +57,7 @@ const Banner = () => {
     };
   };
   return (
-    <div className="w-full pt-6">
+    <div className="limitScreen pt-6">
       <div className="grid lg:gap-2 gap-x-2 gap-y-4 grid-cols-4 grid-rows-2">
         <div className="col-span-4 row-span-2 lg:col-span-3 lg:row-span-2 relative shadow-md">
           <Slider {...sliderSettings()}>

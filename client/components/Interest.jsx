@@ -9,7 +9,6 @@ import "slick-carousel/slick/slick-theme.css";
 
 const Interest = () => {
   const SlideArrow = (props) => {
-    console.log(props);
     return props.direction === "left" ? (
       <div
         className={`  p-0.5 rounded-full slick-arrow   items-center justify-center  ${props.className}`}
@@ -106,7 +105,7 @@ const Interest = () => {
     ],
   };
   return (
-    <div className="mt-10">
+    <div className="mt-10  limitScreen">
       <div className="flex w-full items-center space-x-8">
         <button className="text-white flex-1 py-2.5 text-sm font-semibold px-4 cursor-default bg-primary rounded-md">
           INTEREST LIST
@@ -220,7 +219,10 @@ const Interest = () => {
               "test",
               "test",
             ].map((item, index) => (
-              <div className="px-3 py-2 !w-[100px] h-[68px] justify-center  !flex items-center  bg-primary rounded-md cursor-pointer">
+              <div
+                key={index}
+                className="px-3 py-2 !w-[100px] h-[68px] justify-center  !flex items-center  bg-primary rounded-md cursor-pointer"
+              >
                 <span className="text-white  limit-2-line ">
                   {item}
                 </span>

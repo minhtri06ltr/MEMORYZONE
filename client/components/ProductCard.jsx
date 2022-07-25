@@ -10,7 +10,7 @@ const ProductCard = ({
   slug,
 }) => {
   return (
-    <div className="col-span-2  md:col-span-1">
+    <div className="col-span-4 sm:col-span-2  lg:col-span-1">
       <div>
         <Link href={`/product/${slug}`}>
           <div className="relative aspect-square  ">
@@ -26,11 +26,11 @@ const ProductCard = ({
         </Link>
       </div>
       <Link href={`/product/${slug}`}>
-        <h2 className="text-text text-sm cursor-pointer font-light leading-none hover:text-primary limit-3-line my-2">
+        <h2 className="text-text px-20 sm:px-0 text-center sm:text-left text-sm cursor-pointer font-light leading-none hover:text-primary limit-3-line my-2">
           {name}
         </h2>
       </Link>
-      <div className="text-center">
+      <div className="text-center px-20 sm:px-0">
         <span className="text-primary text-base font-bold mr-2">
           {numberWithCommas(price)}$
         </span>

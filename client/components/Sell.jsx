@@ -12,7 +12,7 @@ const Sell = ({ products }) => {
       <Error message="Product not found or Internal server error, please contact with owner" />
     );
   return (
-    <div className="py-10 w-full">
+    <div className="py-10 limitScreen">
       {/*Sell header*/}
       <section>
         <div className="border-b-2 border-primary rounded-l-sm flex items-center justify-between">
@@ -61,8 +61,8 @@ const Sell = ({ products }) => {
       </section>
       {/*Main sell */}
       <section>
-        <div className="flex mt-10 lg:flex-row flex-col ">
-          <div className="w-full lg:w-3/4 grid gap-x-4 h-auto gap-y-6 grid-cols-4">
+        <div className="flex mt-10 md:flex-row flex-col ">
+          <div className="w-full md:w-[70%] lg:w-3/4 grid gap-x-4 h-auto gap-y-6 grid-cols-4">
             {products?.map((product, index) => (
               <ProductCard
                 key={index}
@@ -74,15 +74,16 @@ const Sell = ({ products }) => {
             ))}
           </div>
           {/*sell banner */}
-          <div className="flex-1 mt-12 lg:mt-0 lg:ml-8 ">
+          <div className="flex-1 hidden md:block  ml-8 ">
             <div className="mb-8 relative w-full min-h-[240px]">
               <Link href="#">
                 <a>
                   <Image
                     src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_1_fashion.png?1651552159868"
-                    layout="fill"
+                    layout="responsive"
                     alt="Memoryzone laptop banner 1"
-                    objectFit="contain"
+                    width="100%"
+                    height="100%"
                   />
                 </a>
               </Link>
@@ -92,8 +93,9 @@ const Sell = ({ products }) => {
                 <a>
                   <Image
                     src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/banner_2_fashion.png?1651552159868"
-                    layout="fill"
-                    objectFit="contain"
+                    layout="responsive"
+                    width="100%"
+                    height="100%"
                     alt="Memoryzone laptop banner 2"
                   />
                 </a>

@@ -170,10 +170,8 @@ const Layout = ({
       <header>
         {!removeLayout && <Header />}
       </header>
-      <main className="max-w-[1200px] mx-auto px-4 ">
-        {children}
-      </main>
-      <footer className="max-w-[1200px] mx-auto px-4 ">
+      <main>{children}</main>
+      <footer>
         {!removeLayout && <Footer />}
       </footer>
     </>
