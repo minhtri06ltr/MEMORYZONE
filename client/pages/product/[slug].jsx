@@ -194,7 +194,7 @@ const ProductDetailsPage = ({
   return (
     <Layout
       productPrice={productBySlug.price}
-      title={`${productBySlug.name} | Memoryzone - professional in technology`}
+      title={`${productBySlug.name} | Memoryzone - Professional in technology`}
       metaType="product"
       schema={schema}
       description={productBySlug.metaDescription.slice(

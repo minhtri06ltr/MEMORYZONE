@@ -25,7 +25,7 @@ const HomePage = ({ products }) => {
   return (
     <Layout
       schema={schema}
-      title="Laptop, PC, technology and other accessories | Memoryzone - professional in technology"
+      title="Laptop, PC, technology and other accessories | Memoryzone - Professional in technology"
       keywords=" Memoryzone Phone memory card, genuine camera, USB, USB 3.0, portable hard drive, external hard drive, SSD hard drive, wireless device"
       description="MemoryZone is a brand that specializes in providing Laptops, PCs, storage devices, monitors and other accessories."
     >
