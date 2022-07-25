@@ -139,7 +139,12 @@ const ProductDetailsPage = ({
     "@context": "https://schema.org/",
     "@type": "Product",
     name: productBySlug.name,
-    image: urlFor(productBySlug.image[0]).url(),
+    image: {
+      "@type": "ImageObject",
+      url: urlFor(productBySlug.image[0]).url(),
+      width: 1200,
+      height: 628,
+    },
     description: productBySlug.metaDescription,
     category: "Laptop",
 
@@ -159,6 +164,20 @@ const ProductDetailsPage = ({
         statisticalReviews.ratingList,
       ).min,
       ratingCount: productBySlug.reviews.length,
+    },
+    publisher: {
+      "@type": "Organization",
+      address: "Hokkaido",
+      location: "Japan",
+      url: process.env.NEXT_PUBLIC_CLIENT_URL,
+
+      name: "Memoryzone - Professional in technology",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/logo.png?1657789685905",
+        width: 60,
+        height: 60,
+      },
     },
     review: [
       productBySlug.reviews.map((item) => {
@@ -181,10 +200,12 @@ const ProductDetailsPage = ({
             url: process.env
               .NEXT_PUBLIC_CLIENT_URL,
 
-            name: "Memoryzone",
+            name: "Memoryzone - Professional in technology",
             logo: {
               "@type": "ImageObject",
               url: "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/logo.png?1657789685905",
+              width: 60,
+              height: 60,
             },
           },
         };

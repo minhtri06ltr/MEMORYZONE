@@ -1,4 +1,10 @@
-import { Layout, NotFound, Path, RelatedNews, RSSFeed } from "../../components";
+import {
+  Layout,
+  NotFound,
+  Path,
+  RelatedNews,
+  RSSFeed,
+} from "../../components";
 import { ClockIcon } from "@heroicons/react/outline";
 import { UserIcon } from "@heroicons/react/solid";
 import {
@@ -24,8 +30,12 @@ import {
   LineIcon,
 } from "next-share";
 
-const NewDetailsPage = ({ newBySlug, rssFeed }) => {
-  const [commentSuccess, setCommentSuccess] = useState(false);
+const NewDetailsPage = ({
+  newBySlug,
+  rssFeed,
+}) => {
+  const [commentSuccess, setCommentSuccess] =
+    useState(false);
   const [commentForm, setCommentForm] = useState({
     fullName: "",
     email: "",
@@ -82,28 +92,41 @@ const NewDetailsPage = ({ newBySlug, rssFeed }) => {
       })
       .catch((error) => alert(error.message));
   };
+  console.log(newBySlug);
   const schema = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
     mainEntityOfPage: {
       "@type": "WebPage",
+      "@id": `${process.env.NEXT_PUBLIC_CLIENT_URL}/news/${newBySlug.slug.current}`,
     },
     headline: newBySlug.title,
     name: newBySlug.title,
-    description: newBySlug.metaDescription.slice(0, 30),
+    url: urlFor(newBySlug.thumbnail.image).url(),
+    thumbnailUrl: urlFor(
+      newBySlug.thumbnail.image,
+    ).url(),
+    articleSection: "News",
+    description: newBySlug.metaDescription.slice(
+      0,
+      30,
+    ),
     articleBody: newBySlug.metaDescription,
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: 4.5,
       reviewCount: newBySlug.comments.length,
     },
-    keywords: "mouse, Logitech Lift Vertical Ergonomic, technology",
-    image: [
-      urlFor(newBySlug.thumbnail.image).url(),
-      newBySlug.description
-        .filter((item) => item._type === "seoImage")
-        .map((item) => urlFor(item.image).url()),
-    ],
+    keywords:
+      "mouse, Logitech Lift Vertical Ergonomic, technology",
+    image: {
+      "@type": "ImageObject",
+      url: urlFor(
+        newBySlug.thumbnail.image,
+      ).url(),
+      width: 1200,
+      height: 628,
+    },
     author: {
       "@type": "Person",
       name: newBySlug.author,
@@ -114,13 +137,18 @@ const NewDetailsPage = ({ newBySlug, rssFeed }) => {
       location: "Japan",
       url: process.env.NEXT_PUBLIC_CLIENT_URL,
       identifier: newBySlug.title,
-      name: "Memoryzone",
+      name: "Memoryzone - Professional in technology",
       logo: {
         "@type": "ImageObject",
         url: "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/logo.png?1657789685905",
       },
     },
-    datePublished: formatDateTimeSchema(newBySlug._createdAt),
+    datePublished: formatDateTimeSchema(
+      newBySlug._createdAt,
+    ),
+    dateModified: formatDateTimeSchema(
+      newBySlug._createdAt,
+    ),
   };
   if (!newBySlug)
     return (
@@ -137,7 +165,10 @@ const NewDetailsPage = ({ newBySlug, rssFeed }) => {
       schema={schema}
       title={`${newBySlug.title} | Memoryzone - Professional in technology`}
       image={newBySlug.thumbnail.image}
-      description={newBySlug.metaDescription.slice(0, 303)}
+      description={newBySlug.metaDescription.slice(
+        0,
+        303,
+      )}
       id={`/news/${newBySlug.slug.current}`}
       keywords="Memoryzone news, technology news, memoryzone product review"
     >
@@ -157,8 +188,8 @@ const NewDetailsPage = ({ newBySlug, rssFeed }) => {
           },
         ]}
       />
-      <div className="px-10 my-12 flex space-x-7">
-        <div className="w-[75%]">
+      <div className="limitScreen my-10 flex flex-col xl:flex-row xl:space-x-7">
+        <div className="w-full xl:w-[75%]">
           <h1 className="text-[#575454] text-3xl cursor-pointer hover:text-primary">
             {newBySlug.title}
           </h1>
@@ -169,39 +200,55 @@ const NewDetailsPage = ({ newBySlug, rssFeed }) => {
               className="text-gray mr-1 mb-0.5"
             />
             <span>
-              {formatDateName(newBySlug._createdAt)},{" "}
-              {formatDateTime(newBySlug._createdAt)}
+              {formatDateName(
+                newBySlug._createdAt,
+              )}
+              ,{" "}
+              {formatDateTime(
+                newBySlug._createdAt,
+              )}
             </span>
             <UserIcon
               width={15}
               height={15}
               className="text-gray ml-14  mr-1 mb-[3px]"
             />
-            <span>Posted by {newBySlug.author}</span>
+            <span>
+              Posted by {newBySlug.author}
+            </span>
           </div>
-          <article className="text-text text-sm leading-6">
+          <article className="text-text text-base leading-6">
             <PortableText
               value={newBySlug.description}
-              components={newDescriptionComponents}
+              components={
+                newDescriptionComponents
+              }
             />
           </article>
           <div className="flex text-sm text-text items-center pt-8 pb-6 justify-between  border-b border-[#e5e5e5]">
             <span className="block w-1/2">
               <b>Tags: </b>
               {newBySlug.newTag &&
-                newBySlug.newTag.map((item, index) => {
-                  return (
-                    <Link
-                      href={`/product/${formatTagToSlug(item)}`}
-                      key={index}
-                    >
-                      <span className="hover:text-primary cursor-pointer">
-                        {item}
-                        {index < newBySlug.newTag.length - 1 && ", "}
-                      </span>
-                    </Link>
-                  );
-                })}
+                newBySlug.newTag.map(
+                  (item, index) => {
+                    return (
+                      <Link
+                        href={`/product/${formatTagToSlug(
+                          item,
+                        )}`}
+                        key={index}
+                      >
+                        <span className="hover:text-primary cursor-pointer">
+                          {item}
+                          {index <
+                            newBySlug.newTag
+                              .length -
+                              1 && ", "}
+                        </span>
+                      </Link>
+                    );
+                  },
+                )}
             </span>
             <div className="flex w-1/2 justify-end items-center space-x-2">
               <FacebookShareButton
@@ -243,14 +290,20 @@ const NewDetailsPage = ({ newBySlug, rssFeed }) => {
             <span className="block font-semibold text-lg text-[#323c3f] mb-4">
               Comment:
             </span>
-            {newBySlug.comments.map((item, index) => (
-              <NewComment key={index} data={item} />
-            ))}
+            {newBySlug.comments.map(
+              (item, index) => (
+                <NewComment
+                  key={index}
+                  data={item}
+                />
+              ),
+            )}
           </div>
           {commentSuccess && (
             <div className="bg-[#dff0d8] border border-[#d6e9c6] rounded-md px-6 py-3">
               <span className="text-sm text-[#3c763d]">
-                You have successfully posted a review. We will post your review
+                You have successfully posted a
+                review. We will post your review
                 once it is moderated.
               </span>
             </div>
@@ -260,9 +313,12 @@ const NewDetailsPage = ({ newBySlug, rssFeed }) => {
               Write comment:
             </span>
             <div>
-              <form onSubmit={commentHandle} className="space-y-6">
-                <div className="flex items-center space-x-8 ">
-                  <div className="flex-1">
+              <form
+                onSubmit={commentHandle}
+                className="space-y-6"
+              >
+                <div className="flex flex-col w-full space-y-6 lg:space-y-0 lg:flex-row items-center lg:space-x-8 ">
+                  <div className="flex-1 w-full ">
                     <input
                       required
                       className="px-4 text-text py-2 w-full outline-none rounded-sm border-[#e5e5e5] border text-sm"
@@ -272,7 +328,7 @@ const NewDetailsPage = ({ newBySlug, rssFeed }) => {
                       onChange={commentFormHandle}
                     />
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 w-full">
                     <input
                       required
                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
@@ -283,7 +339,7 @@ const NewDetailsPage = ({ newBySlug, rssFeed }) => {
                       onChange={commentFormHandle}
                     />
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 w-full">
                     <input
                       required
                       className="text-text px-4 py-2 w-full outline-none rounded-sm border-[#e5e5e5] border text-sm"
@@ -314,7 +370,10 @@ const NewDetailsPage = ({ newBySlug, rssFeed }) => {
             </div>
           </div>
         </div>
-        <RelatedNews />
+        <div className="hidden xl:block">
+          {" "}
+          <RelatedNews />
+        </div>
       </div>
     </Layout>
   );
@@ -327,7 +386,7 @@ export const getStaticPaths = async () => {
       slug{
         current
       }
-  }`
+  }`,
   );
 
   return {
@@ -340,7 +399,9 @@ export const getStaticPaths = async () => {
     fallback: "blocking",
   };
 };
-export const getStaticProps = async ({ params: { slug } }) => {
+export const getStaticProps = async ({
+  params: { slug },
+}) => {
   //get product data by slug param
   try {
     const newBySlug = await client.fetch(
@@ -353,7 +414,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
   },title,slug,newTag,thumbnail,"metaDescription": pt::text(description[_type=='block'][0...2]),author,_createdAt,"comments":coalesce(comments[isApprove==true]{email,fullName,createdTime,comment},[])
       }
       `,
-      { slug }
+      { slug },
     );
     const rssFeed = await getFeed();
 
