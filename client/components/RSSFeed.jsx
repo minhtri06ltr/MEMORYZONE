@@ -19,7 +19,7 @@ const RSSFeed = ({ data }) => {
 
   const sliderRef = useRef();
   const sliderSettings = {
-    //autoplay: true,
+    autoplay: true,
     pauseOnHover: true,
     speed: 500,
     autoplaySpeed: 3500,
@@ -30,7 +30,25 @@ const RSSFeed = ({ data }) => {
     slidesToScroll: 1,
     infinite: true,
     lazyLoad: true,
-    arrow: false,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 880,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 660,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+    ],
   };
   return (
     <div className="mt-12 border bg-[#f7f7f7] overflow-hidden border-[#e5e5e5] px-4 py-6">
@@ -64,7 +82,7 @@ const RSSFeed = ({ data }) => {
         >
           {data.map((item, index) => (
             <div
-              className="space-y-3 mx-2 aspect-square flex-1"
+              className="space-y-3 mx-2  flex-1"
               style={{ width: "254px" }}
               key={index}
             >
@@ -106,53 +124,6 @@ const RSSFeed = ({ data }) => {
           ))}
         </Slider>
       </div>
-      {/* <div
-        ref={listRef}
-        className="my-4 flex items-stretch justify-center space-x-4  transition ease-out duration-300 w-max overflow-hidden"
-      >
-        {data.map((item, index) => (
-          <div
-            className="space-y-3 aspect-square flex-1"
-            style={{ width: "254px" }}
-            key={index}
-          >
-            <a
-              href={item.link}
-              rel="noreferrer noopener"
-              target="_blank"
-            >
-              <div className="relative h-[156px] cursor-pointer">
-                <Image
-                  objectFit="cover"
-                  alt={`Memoryzone other news ${item.title}`}
-                  layout="fill"
-                  src={formatSourceLink(
-                    item.content,
-                  )}
-                />
-              </div>
-            </a>
-            <span className="block text-gray text-xs text-right">
-              {formatRSSFeedDatetime(
-                item.pubDate,
-              )}
-            </span>
-            <a
-              rel="noreferrer noopener"
-              href={item.link}
-              target="_blank"
-              className="block"
-            >
-              <span className="block cursor-pointer hover:text-primary">
-                {item.title}
-              </span>
-            </a>
-            <span className="block text-gray text-sm">
-              {item.contentSnippet}
-            </span>
-          </div>
-        ))}
-      </div> */}
     </div>
   );
 };

@@ -46,7 +46,7 @@ const Banner = () => {
       dots: true,
       lazyLoad: true,
       autoplay: true,
-
+      pauseOnHover: true,
       autoplaySpeed: 3500,
       infinite: true,
       speed: 500,

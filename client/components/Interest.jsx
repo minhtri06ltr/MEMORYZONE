@@ -54,7 +54,7 @@ const Interest = () => {
     autoplay: true,
     autoplaySpeed: 3500,
     cssEase: "linear",
-
+    pauseOnHover: true,
     nextArrow: <SlideArrow direction="right" />,
     prevArrow: <SlideArrow direction="left" />,
     responsive: [

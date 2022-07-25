@@ -5,7 +5,7 @@ const Path = ({ path }) => {
   return (
     <section>
       <div className="border-b border-[#e5e5e5]  ">
-        <div className=" py-4 flex justify-start items-center">
+        <div className="limitScreen py-4 flex justify-start items-center">
           {path.map((item, index) => (
             <div
               key={index}

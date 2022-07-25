@@ -74,7 +74,7 @@ const Sell = ({ products }) => {
             ))}
           </div>
           {/*sell banner */}
-          <div className="flex-1 hidden md:block  ml-8 ">
+          <div className="flex-1 block md:hidden lg:block mt-6 lg:mt-0  lg:ml-8 ">
             <div className="mb-8 relative w-full min-h-[240px]">
               <Link href="#">
                 <a>
@@ -84,6 +84,7 @@ const Sell = ({ products }) => {
                     alt="Memoryzone laptop banner 1"
                     width="100%"
                     height="100%"
+                    objectFit="contain"
                   />
                 </a>
               </Link>
