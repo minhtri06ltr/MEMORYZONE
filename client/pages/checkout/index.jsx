@@ -4,6 +4,10 @@ import Link from "next/link";
 import {
   UserCircleIcon,
   ChevronLeftIcon,
+  ChevronDownIcon,
+  CreditCardIcon,
+  TruckIcon,
+  IdentificationIcon,
 } from "@heroicons/react/solid";
 import {
   useDispatch,
@@ -35,6 +39,7 @@ const CheckoutPage = ({ provinceList }) => {
   const addressList = useSelector(
     (state) => state.address.addressList,
   );
+  const [toggle, setToggle] = useState(false);
   const [allow, setAllow] = useState(true);
   const account = useSelector(
     (state) => state.account,
@@ -344,10 +349,10 @@ const CheckoutPage = ({ provinceList }) => {
           </span>
         </Link>
       ) : (
-        <div className="flex lg:flex-row limitScreen flex-col-reverse min-h-screen">
+        <div className="flex lg:flex-row limitScreen lg:px-4 px-0 flex-col-reverse min-h-screen">
           <div className="bg-[#f4f4f4]  w-full  lg:w-[66%]">
             <div className=" lg:px-8 py-1.5">
-              <div className=" mt-6 cursor-pointer ">
+              <div className="hidden lg:block mt-6 cursor-pointer ">
                 <Link href="/">
                   <div className="relative w-56 h-14">
                     <Image
@@ -364,13 +369,20 @@ const CheckoutPage = ({ provinceList }) => {
                 <form
                   id="checkout"
                   onSubmit={checkoutHandle}
-                  className="flex space-x-6 py-6 "
+                  className="flex flex-col lg:flex-row space-y-10 lg:space-y-0 lg:space-x-6 py-6 "
                 >
-                  <div className="flex-1 ">
+                  <div className="flex-1  px-4 lg:px-0">
                     <div className="flex w-full justify-between items-center mb-3">
-                      <h1 className="font-semibold text-[#000000] text-lg">
-                        Delivery information
-                      </h1>
+                      <div className="flex items-end lg:space-x-0 space-x-2">
+                        <IdentificationIcon
+                          width={30}
+                          height={30}
+                          className="lg:hidden"
+                        />
+                        <h2 className="font-semibold text-[#000000] text-md">
+                          Delivery information
+                        </h2>
+                      </div>
                       <div>
                         {allow ? (
                           <Link
@@ -657,10 +669,18 @@ const CheckoutPage = ({ provinceList }) => {
                       ></textarea>
                     </div>
                   </div>
-                  <div className="flex-1">
-                    <span className="font-semibold block mb-3 text-[#000000] text-lg">
-                      Shipping
-                    </span>
+                  <div className="flex-1 px-4 lg:px-0">
+                    <div className="space-x-2 lg:space-x-0 flex items-end mb-3">
+                      <TruckIcon
+                        width={30}
+                        height={30}
+                        className="lg:hidden -scale-x-100"
+                      />
+                      <span className="font-semibold block  text-[#000000] text-md">
+                        Shipping
+                      </span>
+                    </div>
+
                     <div
                       className={`${
                         shippingPrice
@@ -690,9 +710,16 @@ const CheckoutPage = ({ provinceList }) => {
                       )}
                     </div>
                     <div>
-                      <span className="font-semibold block mb-3 mt-12 text-[#000000] text-lg">
-                        Payment
-                      </span>
+                      <div className="space-x-2 lg:space-x-0 mb-3 mt-12 flex items-end">
+                        <CreditCardIcon
+                          width={30}
+                          height={30}
+                          className="lg:hidden"
+                        />
+                        <span className="font-semibold block  text-[#000000] text-md">
+                          Payment
+                        </span>
+                      </div>
 
                       <div className="rounded-md border bg-white border-[#cecdcd] divide-y divide-[#cecdcd]">
                         <div className="checkoutInfo">
@@ -774,6 +801,34 @@ const CheckoutPage = ({ provinceList }) => {
                           />
                         </div>
                       </div>
+                      <div className="mt-4 flex lg:hidden flex-col-reverse   items-center  justify-between">
+                        <Link href="/cart">
+                          <div className="flex-1">
+                            <div className="text-primary    hover:text-[#006533]  cursor-pointer flex items-center">
+                              <div className="hover:first:-translate-x-2 after:bg-transparent after:absolute after:h-full after:w-24 after:top-0 after:content-[''] relative  mt-0.5 transition ease-linear ">
+                                <ChevronLeftIcon
+                                  width={16}
+                                  height={16}
+                                />
+                              </div>
+                              <div className=" hover:first:-translate-x-2 transition ease-linear  ">
+                                <span className="text-sm text-inherit  ">
+                                  Back to cart
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+
+                        <button
+                          type="submit"
+                          form="checkout"
+                          value="checkout"
+                          className="rounded-md mb-4 flex-1 w-full text-white text-sm bg-primary py-3 px-8"
+                        >
+                          ORDER
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -782,17 +837,45 @@ const CheckoutPage = ({ provinceList }) => {
             </div>
           </div>
           <div className="bg-[#fafafa] border-l border-[#e1e1e1]  flex-1">
-            <div className="px-6 py-4 border-b border-[#e1e1e1]">
-              <span className="font-semibold text-[#000000] text-lg">
-                {`Order (${cart.quantity} ${
-                  cart.quantity > 1
-                    ? "products"
-                    : "product"
-                })`}
+            <Link href="/">
+              <div className="relative lg:hidden my-4 mx-auto w-56 h-14">
+                <Image
+                  alt="Memoryzone checkout page logo"
+                  priority
+                  quality={100}
+                  src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/checkout_logo.png?1653463685615"
+                  layout="fill"
+                />
+              </div>
+            </Link>
+            <div className="px-4 lg:px-6 bg-white lg:bg-inherit flex py-4 items-center justify-between border-b border-t lg:border-t-0 border-[#e1e1e1]">
+              <div className="flex items-center">
+                <span className="font-semibold text-[#000000] text-md">
+                  {`Order (${cart.quantity} ${
+                    cart.quantity > 1
+                      ? "products"
+                      : "product"
+                  })`}
+                </span>
+                <ChevronDownIcon
+                  width={25}
+                  height={25}
+                  className="lg:hidden cursor-pointer"
+                  onClick={() =>
+                    setToggle(!toggle)
+                  }
+                />
+              </div>
+              <span className="text-primary lg:hidden font-semibold text-base">
+                {cart.total}$
               </span>
             </div>
-            <div className=" px-6 ">
-              <div className="max-h-[calc(100vh-480px)] border-b scroll-smooth border-[#e1e1e1] overflow-y-auto py-4 ">
+            <div className="px-4 lg:px-6 border-b lg:border-b-0 border-[#e1e1e1]">
+              <div
+                className={`max-h-[calc(100vh-480px)] border-b  scroll-smooth border-[#e1e1e1] overflow-y-auto py-4 lg:block ${
+                  toggle ? "block" : "hidden"
+                }`}
+              >
                 <table>
                   <tbody className="space-y-2">
                     {cart.products.map(
@@ -844,7 +927,11 @@ const CheckoutPage = ({ provinceList }) => {
                   Apply
                 </button>
               </div>
-              <div className=" border-b border-[#e1e1e1] py-5 space-y-4">
+              <div
+                className={` border-b border-[#e1e1e1] py-5 space-y-4 lg:block ${
+                  toggle ? "block" : "hidden"
+                }`}
+              >
                 <div className="text-[#717171] text-sm flex items-center justify-between">
                   <span>Provisional</span>
                   <span>
@@ -862,7 +949,11 @@ const CheckoutPage = ({ provinceList }) => {
                   </span>
                 </div>
               </div>
-              <div className="py-4">
+              <div
+                className={`py-4 ${
+                  toggle ? "block" : "hidden"
+                } lg:block`}
+              >
                 <div className=" flex items-center justify-between">
                   <span className="text-base text-[#717171]">
                     Total
@@ -879,7 +970,7 @@ const CheckoutPage = ({ provinceList }) => {
                     $
                   </span>
                 </div>
-                <div className="space-y-3 flex items-center  justify-between">
+                <div className="mt-4 hidden lg:flex items-center  justify-between">
                   <Link href="/cart">
                     <div>
                       <div className="text-primary    hover:text-[#006533]  cursor-pointer flex items-center">

@@ -172,7 +172,7 @@ const ProductDetailsPage = ({
       productBySlug.metaDescription
     }, ${
       productBySlug.metaSpecifications
-    }, Tags: ${productBySlug.productTag.map(
+    }, Tags: ${productBySlug.productTag?.map(
       (item) => {
         return item.slice(2, item.length);
       },

@@ -117,6 +117,7 @@ const Header = () => {
                   <Image
                     src={hotIcon}
                     layout="fill"
+                    alt="Memoryzone hot sale icon"
                   />
                 </div>
                 <Link href="/account">
