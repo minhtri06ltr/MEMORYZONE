@@ -140,8 +140,9 @@ const OrderDetailsPage = ({
         router.push("/");
       }
     };
-    if (orderDetail.user) checkUser();
+    // if (orderDetail.user) checkUser();
   }, []);
+  console.log(orderDetail);
   if (!orderDetail)
     return (
       <NotFound
@@ -149,7 +150,7 @@ const OrderDetailsPage = ({
         description="The URL you entered may be expired,
   deleted, or invalid. Return to home
   page to continue shopping."
-        layoutTitle="Payment page does not exist | Memoryzone professional in technology"
+        layoutTitle="Payment page does not exist | Memoryzone - Professional in technology"
         layoutDescription="Sorry we can not find this payment in our data please check your order ID again or contact with admin"
       />
     );
@@ -400,7 +401,9 @@ const OrderDetailsPage = ({
                   Provisional
                 </span>
                 <span className="text-[#717171] text-sm block">
-                  0$
+                  {totalPrice -
+                    orderDetail.shippingPrice}
+                  $
                 </span>
               </div>
               <div className="flex justify-between items-center">
@@ -408,7 +411,10 @@ const OrderDetailsPage = ({
                   Transport fee
                 </span>
                 <span className="text-[#717171] text-sm block">
-                  --
+                  {totalPrice === 0
+                    ? "---"
+                    : orderDetail.shippingPrice}
+                  $
                 </span>
               </div>
             </div>
@@ -445,7 +451,7 @@ export const getServerSideProps = async (
     const orderDetail = await client.fetch(
       `*[_type=="order" && _id==$orderId && isPaid==false][0]
       {
-       totalPrice,orderList,_id,paymentMethod,orderStatus,user,
+       totalPrice,orderList,_id,paymentMethod,shippingPrice,orderStatus,user,
         "productImage": 
       orderList[]{
         "image": *[_type=='product' && slug.current == ^.slug][0]{image[0]}
@@ -490,7 +496,8 @@ export const getServerSideProps = async (
       props: {
         oldOrderList: orderDetail.orderList,
         orderList,
-        totalPrice,
+        totalPrice:
+          totalPrice + orderDetail.shippingPrice,
         orderDetail,
       },
     };

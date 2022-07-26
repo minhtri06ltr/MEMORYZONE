@@ -17,9 +17,51 @@ import { getImgDimension } from "../../utils/getDimensions";
 import { getFeed } from "../../lib/rss";
 
 const NewsPage = ({ news, rssFeed }) => {
-  console.log(rssFeed);
+  const structure1 = {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    name: "Memoryzone - Professional in technology",
+    url: "https://memoryzone.vercel.app",
+    logo: "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/logo.png?1658804872735",
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: "+84(28) 3679 0 7374",
+        contactType: "Customer Service",
+        availableLanguage: ["English"],
+        contactOption: [],
+      },
+    ],
+    sameAs: [],
+  };
+  const structure2 = {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        item: {
+          "@id": "https://memoryzone.vercel.app",
+          name: "Home page",
+        },
+      },
+
+      {
+        "@type": "ListItem",
+        position: 2,
+        item: {
+          "@id":
+            "https://memoryzone.vercel.app/news",
+          name: "News",
+        },
+      },
+    ],
+  };
+
   return (
     <Layout
+      structures={[structure1, structure2]}
       title="News | Memoryzone - Professional in technology"
       description="Memoryzone news page - where you can read all the newest information about technology, product, computer tips and trick, software and trending content "
     >

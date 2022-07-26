@@ -43,6 +43,7 @@ const ProductDetailsPage = ({
   productBySlug,
   statisticalReviews,
 }) => {
+  console.log(productBySlug);
   const router = useRouter();
   const [currentSlide, setCurrentSlide] =
     useState(0);
@@ -134,7 +135,31 @@ const ProductDetailsPage = ({
     slidesToShow: 3,
     slidesToScroll: 1,
   };
-  console.log(productBySlug);
+
+  const structure1 = {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        item: {
+          "@id":
+            process.env.NEXT_PUBLIC_CLIENT_URL,
+          name: "Home page",
+        },
+      },
+
+      {
+        "@type": "ListItem",
+        position: 2,
+        item: {
+          "@id": `${process.env.NEXT_PUBLIC_CLIENT_URL}/product/${productBySlug.slug.current}`,
+          name: productBySlug.name,
+        },
+      },
+    ],
+  };
   const schema = {
     "@context": "https://schema.org/",
     "@type": "Product",
@@ -142,17 +167,40 @@ const ProductDetailsPage = ({
     image: {
       "@type": "ImageObject",
       url: urlFor(productBySlug.image[0]).url(),
-      width: 1200,
-      height: 628,
     },
-    description: productBySlug.metaDescription,
+    description: `${
+      productBySlug.metaDescription
+    }, ${
+      productBySlug.metaSpecifications
+    }, Tags: ${productBySlug.productTag.map(
+      (item) => {
+        return item.slice(2, item.length);
+      },
+    )} `,
     category: "Laptop",
-
-    "@id": productBySlug._id,
+    url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/product/${productBySlug.slug.current}`,
+    "@id": `${process.env.NEXT_PUBLIC_CLIENT_URL}/product/${productBySlug.slug.current}`,
     brand: {
       "@type": "Brand",
       name: productBySlug.productBrand
         .productBrand,
+    },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      price: productBySlug.price,
+      itemCondition:
+        "https://schema.org/NewCondition",
+      availability: "http://schema.org/InStock",
+      url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/product/${productBySlug.slug.current}`,
+      sku: null,
+      priceValidUntil: `${new Date().getFullYear()}-${
+        new Date().getMonth() + 1
+      }-${new Date().getDate()}`,
+      seller: {
+        "@type": "Organization",
+        name: "Memoryzone - Professional in technology",
+      },
     },
     aggregateRating: {
       "@type": "AggregateRating",
@@ -208,6 +256,12 @@ const ProductDetailsPage = ({
               height: 60,
             },
           },
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: item.rating,
+            worstRating: 1,
+            bestRating: 5,
+          },
         };
       }),
     ],
@@ -218,12 +272,10 @@ const ProductDetailsPage = ({
       title={`${productBySlug.name} | Memoryzone - Professional in technology`}
       metaType="product"
       schema={schema}
-      description={productBySlug.metaDescription.slice(
-        0,
-        303,
-      )}
+      structures={[structure1]}
+      description={productBySlug.metaDescription}
       image={productBySlug.image[0]}
-      keywords="Memoryzone product, sell, hardware"
+      keywords="Laptop"
       id={`/product/${productBySlug.slug.current}`}
     >
       <div>
@@ -770,7 +822,7 @@ export const getStaticProps = async ({
     ...,"video": video.asset->
   }
   },
-  "metaDescription": pt::text(description)
+  "metaDescription": pt::text(description),"metaSpecifications":pt::text(specifications)
         ,image,name,productTag,countInStock,specifications,specificationTable,"productBrand":*[_type=='brand' && _id==^.productBrand._ref]{productBrand}[0],price,slug,_id,"reviews":coalesce(reviews[isApprove==true],[])
       }
       }

@@ -295,3 +295,8 @@ export const detect = (ratingList) => {
     min,
   };
 };
+console.log(
+  `${new Date().getFullYear()}-${
+    new Date().getMonth() + 1
+  }-${new Date().getDate()}`,
+);

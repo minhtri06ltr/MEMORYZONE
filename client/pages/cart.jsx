@@ -33,10 +33,35 @@ const CartPage = () => {
     );
     updateCartHandle(dispatch, cartLocal);
   }, [dispatch]);
+  const structure1 = {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        item: {
+          "@id": "https://memoryzone.vercel.app",
+          name: "Home page",
+        },
+      },
+
+      {
+        "@type": "ListItem",
+        position: 2,
+        item: {
+          "@id":
+            "https://memoryzone.vercel.app/cart",
+          name: "Cart",
+        },
+      },
+    ],
+  };
   return (
     <Layout
       title="Cart | Memoryzone - Professional in technology"
       description="Memoryzone personal cart"
+      structures={[structure1]}
     >
       <Path
         path={[

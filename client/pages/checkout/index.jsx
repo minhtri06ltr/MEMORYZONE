@@ -25,10 +25,12 @@ import { addOrder } from "../../redux/orderSlice";
 import { clearCart } from "../../redux/cartSlice";
 
 import { useRouter } from "next/router";
+import { loadingNotify } from "../../redux/notifySlice";
 
 const CheckoutPage = ({ provinceList }) => {
   const router = useRouter();
-
+  const [shippingPrice, setShippingPrice] =
+    useState(null);
   const cart = useSelector((state) => state.cart);
   const addressList = useSelector(
     (state) => state.address.addressList,
@@ -52,25 +54,36 @@ const CheckoutPage = ({ provinceList }) => {
       phoneNumber: "",
       paymentMethod: "",
     });
-
+  console.log(checkoutForm);
   useEffect(() => {
     try {
       const getDistrict = async () => {
         const res = await fetch(
-          `https://vapi.vnappmob.com/api/province/district/${
-            checkoutForm.province.split("|")[0]
-          }`,
+          `https://online-gateway.ghn.vn/shiip/public-api/master-data/district`,
           {
-            method: "GET",
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json",
+              token:
+                process.env.NEXT_PUBLIC_GHN_API,
+            },
+            body: JSON.stringify({
+              province_id: parseInt(
+                checkoutForm.province.split(
+                  " | ",
+                )[0],
+              ),
+            }),
           },
         );
         const formatRes = await res.json();
-        setDistrictList(formatRes.results);
+        console.log(formatRes);
+        setDistrictList(formatRes.data);
         setCheckoutForm({
           ...checkoutForm,
-          district: formatRes.results[0]
-            ? `${formatRes.results[0].district_id} | ${formatRes.results[0].district_name}`
-            : "",
+          district: "",
+          ward: "",
         });
       };
       if (checkoutForm.province !== "") {
@@ -79,27 +92,31 @@ const CheckoutPage = ({ provinceList }) => {
     } catch (error) {
       alert(error.message);
     }
-  }, [provinceList, checkoutForm.province]);
+  }, [checkoutForm.province]);
   useEffect(() => {
     try {
       const getWard = async () => {
         const res = await fetch(
-          `https://vapi.vnappmob.com/api/province/ward/${
-            checkoutForm.district.split("|")[0]
-          }`,
+          `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward`,
           {
-            method: "GET",
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              token:
+                process.env.NEXT_PUBLIC_GHN_API,
+            },
+            body: JSON.stringify({
+              district_id: parseInt(
+                checkoutForm.district.split(
+                  " | ",
+                )[0],
+              ),
+            }),
           },
         );
         const formatRes = await res.json();
 
-        setWardList(formatRes.results);
-        setCheckoutForm({
-          ...checkoutForm,
-          ward: formatRes.results[0]
-            ? `${formatRes.results[0].ward_id} | ${formatRes.results[0].ward_name}`
-            : "",
-        });
+        setWardList(formatRes.data);
       };
       if (checkoutForm.district !== "") {
         getWard();
@@ -107,8 +124,59 @@ const CheckoutPage = ({ provinceList }) => {
     } catch (error) {
       alert(error.message);
     }
-  }, [districtList, checkoutForm.district]);
+  }, [checkoutForm.district]);
+  useEffect(() => {
+    try {
+      const getShippingPrice = async () => {
+        dispatch(loadingNotify(true));
+        console.log("test");
+        const res = await fetch(
+          "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              token:
+                process.env.NEXT_PUBLIC_GHN_API,
+              shop_id:
+                process.env.NEXT_PUBLIC_SHOP_ID,
+            },
+            body: JSON.stringify({
+              service_type_id: 2,
+              insurance_value: cart.total,
+              coupon: null,
+              from_district_id: 1459,
+              to_district_id: parseInt(
+                checkoutForm.district.split(
+                  " | ",
+                )[0],
+              ),
+              to_ward_code:
+                checkoutForm.ward.split(" | ")[0],
+
+              height: 50,
+              length: 20,
+              weight: 1000,
+              width: 20,
+            }),
+          },
+        );
+        const formatRes = await res.json();
+        console.log(formatRes);
+        setShippingPrice(
+          Math.round(formatRes.data.total / 5000),
+        );
+        dispatch(loadingNotify(false));
+      };
+      if (checkoutForm.ward !== "")
+        getShippingPrice();
+    } catch (error) {
+      alert(error.message);
+    }
+  }, [checkoutForm.ward]);
   const checkoutFormHandle = (e) => {
+    console.log(e.target.name);
+
     setCheckoutForm({
       ...checkoutForm,
       [e.target.name]: e.target.value,
@@ -152,9 +220,9 @@ const CheckoutPage = ({ provinceList }) => {
           {
             ...checkoutForm,
             products: cart.products,
-            total: cart.total,
+            total: cart.total + shippingPrice,
             isPaid: false,
-
+            shippingPrice: shippingPrice,
             orderAt: new Date(),
           },
           account.accessToken,
@@ -206,8 +274,9 @@ const CheckoutPage = ({ provinceList }) => {
           paymentMethod:
             checkoutForm.paymentMethod,
           orderAt: new Date(),
-          totalPrice: cart.total,
+          totalPrice: cart.total + shippingPrice,
           isPaid: false,
+          shippingPrice: shippingPrice,
           orderList: formatOrderList(
             cart.products,
           ),
@@ -264,7 +333,7 @@ const CheckoutPage = ({ provinceList }) => {
     <Layout
       removeLayout={true}
       title="Checkout | Memoryzone - Professional in technology"
-      description="Memoryzone - Professional in memory - Checkout - Payment orders "
+      description="Memoryzone - Professional in technology - Checkout - Payment orders "
     >
       {cart.quantity === 0 ? (
         <Link href="/">
@@ -275,9 +344,9 @@ const CheckoutPage = ({ provinceList }) => {
           </span>
         </Link>
       ) : (
-        <div className="flex min-h-screen">
-          <div className="bg-[#f4f4f4]  pl-6  w-[66%]">
-            <div className="px-8 py-1.5">
+        <div className="flex lg:flex-row limitScreen flex-col-reverse min-h-screen">
+          <div className="bg-[#f4f4f4]  w-full  lg:w-[66%]">
+            <div className=" lg:px-8 py-1.5">
               <div className=" mt-6 cursor-pointer ">
                 <Link href="/">
                   <div className="relative w-56 h-14">
@@ -478,14 +547,14 @@ const CheckoutPage = ({ provinceList }) => {
                               ---
                             </option>
                           )}
-                          {provinceList.results.map(
+                          {provinceList.data.map(
                             (item, index) => (
                               <option
                                 key={index}
-                                value={`${item.province_id} | ${item.province_name}`}
+                                value={`${item.ProvinceID} | ${item.ProvinceName}`}
                               >
                                 {
-                                  item.province_name
+                                  item.ProvinceName
                                 }
                               </option>
                             ),
@@ -494,7 +563,7 @@ const CheckoutPage = ({ provinceList }) => {
                       </div>
                       <div
                         className={`checkoutInput checkoutSelectWrapper ${
-                          checkoutForm.district ===
+                          checkoutForm.province ===
                             "" && "bg-[#eee]"
                         }`}
                       >
@@ -519,14 +588,20 @@ const CheckoutPage = ({ provinceList }) => {
                             checkoutFormHandle
                           }
                         >
+                          {checkoutForm.district ===
+                            "" && (
+                            <option value="">
+                              ---
+                            </option>
+                          )}
                           {districtList.map(
                             (item, index) => (
                               <option
                                 key={index}
-                                value={`${item.district_id} | ${item.district_name}`}
+                                value={`${item.DistrictID} | ${item.DistrictName}`}
                               >
                                 {
-                                  item.district_name
+                                  item.DistrictName
                                 }
                               </option>
                             ),
@@ -557,13 +632,19 @@ const CheckoutPage = ({ provinceList }) => {
                             checkoutFormHandle
                           }
                         >
+                          {checkoutForm.ward ===
+                            "" && (
+                            <option value="">
+                              ---
+                            </option>
+                          )}
                           {wardList.map(
                             (item, index) => (
                               <option
                                 key={index}
-                                value={`${item.ward_id} | ${item.ward_name}`}
+                                value={`${item.WardCode} | ${item.WardName}`}
                               >
-                                {item.ward_name}
+                                {item.WardName}
                               </option>
                             ),
                           )}
@@ -580,11 +661,33 @@ const CheckoutPage = ({ provinceList }) => {
                     <span className="font-semibold block mb-3 text-[#000000] text-lg">
                       Shipping
                     </span>
-                    <div className="bg-[#d1ecf1] h-[44px] px-6 py-2 rounded-md">
-                      <span className="text-sm text-primary">
-                        Please enter shipping
-                        information
-                      </span>
+                    <div
+                      className={`${
+                        shippingPrice
+                          ? "bg-white border border-[#d9d9d9] py-3"
+                          : "bg-[#d1ecf1]"
+                      }  px-6 py-2 rounded-md`}
+                    >
+                      {shippingPrice ? (
+                        <div className="text-sm flex justify-between items-center text-[#545454]">
+                          <div>
+                            <span className="block">
+                              Economical delivery
+                            </span>
+                            <span className="block">
+                              (Standard)
+                            </span>
+                          </div>
+                          <span>
+                            {shippingPrice}$
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="text-sm text-primary">
+                          Please enter shipping
+                          information
+                        </span>
+                      )}
                     </div>
                     <div>
                       <span className="font-semibold block mb-3 mt-12 text-[#000000] text-lg">
@@ -751,7 +854,12 @@ const CheckoutPage = ({ provinceList }) => {
                 </div>
                 <div className="text-[#717171] text-sm flex items-center justify-between">
                   <span>Transport fee</span>
-                  <span>0$</span>
+                  <span>
+                    {shippingPrice
+                      ? shippingPrice
+                      : "0"}
+                    $
+                  </span>
                 </div>
               </div>
               <div className="py-4">
@@ -760,7 +868,14 @@ const CheckoutPage = ({ provinceList }) => {
                     Total
                   </span>
                   <span className="text-xl text-primary">
-                    {numberWithCommas(cart.total)}
+                    {shippingPrice
+                      ? numberWithCommas(
+                          cart.total +
+                            shippingPrice,
+                        )
+                      : numberWithCommas(
+                          cart.total,
+                        )}
                     $
                   </span>
                 </div>
@@ -805,7 +920,13 @@ export default CheckoutPage;
 export async function getStaticProps() {
   try {
     const resProvince = await fetch(
-      "https://vapi.vnappmob.com/api/province",
+      "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+      {
+        method: "GET",
+        headers: {
+          token: process.env.NEXT_PUBLIC_GHN_API,
+        },
+      },
     );
     const provinceList = await resProvince.json();
     return {

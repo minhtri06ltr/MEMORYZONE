@@ -150,6 +150,38 @@ const NewDetailsPage = ({
       newBySlug._createdAt,
     ),
   };
+  const structure1 = {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        item: {
+          "@id":
+            process.env.NEXT_PUBLIC_CLIENT_URL,
+          name: "Home page",
+        },
+      },
+
+      {
+        "@type": "ListItem",
+        position: 2,
+        item: {
+          "@id": `${process.env.NEXT_PUBLIC_CLIENT_URL}/news`,
+          name: "News",
+        },
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        item: {
+          "@id": `${process.env.NEXT_PUBLIC_CLIENT_URL}/news/${newBySlug.slug.current}`,
+          name: newBySlug.title,
+        },
+      },
+    ],
+  };
   if (!newBySlug)
     return (
       <NotFound
@@ -163,6 +195,7 @@ const NewDetailsPage = ({
     <Layout
       metaType="article"
       schema={schema}
+      structures={[structure1]}
       title={`${newBySlug.title} | Memoryzone - Professional in technology`}
       image={newBySlug.thumbnail.image}
       description={newBySlug.metaDescription.slice(

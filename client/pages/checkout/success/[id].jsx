@@ -55,7 +55,7 @@ const OrderSuccessPage = ({ orderDetail }) => {
         description="The URL you entered may be expired,
 deleted, or invalid. Return to home
 page to continue shopping."
-        layoutTitle="Payment page does not exist | Memoryzone professional in technology"
+        layoutTitle="Payment page does not exist | Memoryzone - Professional in technology"
         layoutDescription="Sorry we can not find this payment in our data please check your order ID again or contact with admin"
       />
     );

@@ -10,6 +10,24 @@ import { Ads, Interest } from "../components";
 import Image from "next/image";
 
 const HomePage = ({ products }) => {
+  const structure1 = {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    name: "Memoryzone - Professional in technology",
+    url: "https://memoryzone.vercel.app",
+    logo: "https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/logo.png?1658804872735",
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: "+84(28) 3679 0 7374",
+        contactType: "Customer Service",
+        availableLanguage: ["English"],
+        contactOption: [],
+      },
+    ],
+    sameAs: [],
+  };
+
   const schema = {
     "@context": "https://schema.org/",
     "@type": "WebSite",
@@ -25,9 +43,10 @@ const HomePage = ({ products }) => {
   return (
     <Layout
       schema={schema}
+      structures={[structure1]}
       title="Laptop, PC, technology and other accessories | Memoryzone - Professional in technology"
       keywords=" Memoryzone Phone memory card, genuine camera, USB, USB 3.0, portable hard drive, external hard drive, SSD hard drive, wireless device"
-      description="MemoryZone is a brand that specializes in providing Laptops, PCs, storage devices, monitors and other accessories."
+      description="Memoryzone is a brand that specializes in providing Laptops, PCs, storage devices, monitors and other accessories."
     >
       <Banner />
       <Ads />

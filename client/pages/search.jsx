@@ -33,8 +33,33 @@ const SearchProductNamePage = ({
     );
     router.push("/cart");
   };
+  const structure1 = {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        item: {
+          "@id": "https://memoryzone.vercel.app",
+          name: "Home page",
+        },
+      },
+
+      {
+        "@type": "ListItem",
+        position: 2,
+        item: {
+          "@id":
+            "https://memoryzone.vercel.app/search",
+          name: "Search",
+        },
+      },
+    ],
+  };
   return (
     <Layout
+      structures={[structure1]}
       title={`${
         path || "All product"
       } | Memoryzone - Professional in technology`}

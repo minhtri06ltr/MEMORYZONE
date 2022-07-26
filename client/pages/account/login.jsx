@@ -102,11 +102,26 @@ const LoginPage = () => {
       } else router.push("/");
     }
   }, [Object.keys(user).length, router, user]);
+  const structure1 = {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        item: {
+          "@id": "https://memoryzone.vercel.app",
+          name: "Home page",
+        },
+      },
+    ],
+  };
 
   return (
     <Layout
       title="Log in to account | Memoryzone - Professional in technology"
       description="Memoryzone login to account"
+      structures={[structure1]}
     >
       <Path
         path={[

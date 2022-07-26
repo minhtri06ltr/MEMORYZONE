@@ -70,9 +70,23 @@ const RegisterPage = () => {
     router,
     account.user,
   ]);
-
+  const structure1 = {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        item: {
+          "@id": "https://memoryzone.vercel.app",
+          name: "Home page",
+        },
+      },
+    ],
+  };
   return (
     <Layout
+      structures={[structure1]}
       title="Register an account | Memoryzone - Professional in technology"
       description="Memoryzone register an account"
     >
