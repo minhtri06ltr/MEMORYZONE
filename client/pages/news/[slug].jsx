@@ -112,11 +112,7 @@ const NewDetailsPage = ({
       30,
     ),
     articleBody: newBySlug.metaDescription,
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: 4.5,
-      reviewCount: newBySlug.comments.length,
-    },
+
     keywords:
       "mouse, Logitech Lift Vertical Ergonomic, technology",
     image: {
