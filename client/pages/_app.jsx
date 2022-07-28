@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }) {
     <Provider store={store}>
       <Wrapper>
         <Analytics />
-        {/* <Facebook /> */}
+        <Facebook />
         <Component {...pageProps} />
         <TawkTo />
       </Wrapper>

@@ -36,6 +36,13 @@ export default {
         "The most effective name are about 10-70 characters long, including spaces",
     },
     {
+      name: "productCategory",
+      title: "Product Category",
+      type: "reference",
+      to: [{ type: "category" }],
+    },
+
+    {
       name: "productTag",
       title: "Product Tag",
       type: "array",

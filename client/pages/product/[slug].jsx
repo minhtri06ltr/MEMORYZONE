@@ -180,8 +180,11 @@ const ProductDetailsPage = ({
     category: "Laptop",
     url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/product/${productBySlug.slug.current}`,
     "@id": `${process.env.NEXT_PUBLIC_CLIENT_URL}/product/${productBySlug.slug.current}`,
-    brand:
-      productBySlug.productBrand.productBrand,
+    brand: {
+      "@type": "Brand",
+      name: productBySlug.productBrand
+        .productBrand,
+    },
 
     offers: {
       "@type": "Offer",
@@ -257,12 +260,8 @@ const ProductDetailsPage = ({
           reviewRating: {
             "@type": "Rating",
             ratingValue: item.rating,
-            bestRating: detect(
-              statisticalReviews.ratingList,
-            ).max,
-            worstRating: detect(
-              statisticalReviews.ratingList,
-            ).min,
+            bestRating: 1,
+            worstRating: 5,
           },
         };
       }),

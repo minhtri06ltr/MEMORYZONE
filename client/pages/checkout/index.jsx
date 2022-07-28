@@ -311,6 +311,11 @@ const CheckoutPage = ({ provinceList }) => {
   ]);
   const handleAddressList = (e) => {
     console.log(e.target.value);
+    if (e.target.value === "addNewAddress") {
+      router.push("/account/addresses");
+      return;
+    }
+
     if (e.target.value === "clearInfo") {
       setCheckoutForm({
         ...checkoutForm,
@@ -453,18 +458,31 @@ const CheckoutPage = ({ provinceList }) => {
                             <option value="clearInfo">
                               Other address...
                             </option>
-                            {addressList.map(
-                              (item, index) => (
-                                <option
-                                  key={index}
-                                  value={index}
-                                >
-                                  {item.firstName}
-                                  ,{" "}
-                                  {item.lastName},{" "}
-                                  {item.address}
-                                </option>
-                              ),
+                            {addressList ? (
+                              addressList.map(
+                                (item, index) => (
+                                  <option
+                                    key={index}
+                                    value={index}
+                                  >
+                                    {
+                                      item.firstName
+                                    }
+                                    ,{" "}
+                                    {
+                                      item.lastName
+                                    }
+                                    ,{" "}
+                                    {item.address}
+                                  </option>
+                                ),
+                              )
+                            ) : (
+                              <option value="addNewAddress">
+                                (+) Add new
+                                address to your
+                                profile
+                              </option>
                             )}
                           </select>
                         </div>
