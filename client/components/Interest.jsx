@@ -1,8 +1,5 @@
 import Image from "next/image";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -12,7 +9,7 @@ const Interest = () => {
   const SlideArrow = (props) => {
     return props.direction === "left" ? (
       <div
-        className={`  p-0.5 rounded-full slick-arrow   items-center justify-center  ${props.className}`}
+        className={`p-0.5 rounded-full slick-arrow   items-center justify-center  ${props.className}`}
         onClick={props.onClick}
         style={{
           ...props.style,
@@ -21,11 +18,7 @@ const Interest = () => {
           left: "-48px",
         }}
       >
-        <ChevronLeftIcon
-          width={24}
-          height={24}
-          color="white"
-        />
+        <ChevronLeftIcon width={24} height={24} color="white" />
       </div>
     ) : (
       <div
@@ -38,11 +31,7 @@ const Interest = () => {
           right: "-48px",
         }}
       >
-        <ChevronRightIcon
-          width={24}
-          height={24}
-          color="white"
-        />
+        <ChevronRightIcon width={24} height={24} color="white" />
       </div>
     );
   };
@@ -116,19 +105,21 @@ const Interest = () => {
         </button>
       </div>
       <div className="flex items-stretch flex-wrap space-x-2  justify-between  mt-10">
-        <div className="interestItem">
-          <div className="h-[88px] w-[88px] relative">
-            <Image
-              src="https://app2.jeoway.net/35/icon_catagory_mmz/the_nho_icon.png"
-              layout="fill"
-              quality={100}
-              alt="Memoryzone interesting memory stick "
-            />
+        <Link href="/category/memory-stick">
+          <div className="interestItem">
+            <div className="h-[88px] w-[88px] relative">
+              <Image
+                src="https://app2.jeoway.net/35/icon_catagory_mmz/the_nho_icon.png"
+                layout="fill"
+                quality={100}
+                alt="Memoryzone interesting memory stick "
+              />
+            </div>
+            <span className="text-primary text-center mt-2 block font-semibold">
+              Memory Stick
+            </span>
           </div>
-          <span className="text-primary text-center mt-2 block font-semibold">
-            Memory Stick
-          </span>
-        </div>
+        </Link>
         <Link href="/category/ram">
           <div className="interestItem">
             <div className="h-[88px] w-[88px] relative">
@@ -183,37 +174,34 @@ const Interest = () => {
             Accessory
           </span>
         </div>
-        <div className="interestItem">
-          <div className="h-[88px] w-[88px] relative">
-            <Image
-              src="https://app2.jeoway.net/35/icon_catagory_mmz/o_cung_ssd_di_dong_icon.png"
-              layout="fill"
-              quality={100}
-              alt="Memoryzone interesting memory stick portable SSD hard drive"
-            />
+        <Link href="/category/ssd">
+          <div className="interestItem">
+            <div className="h-[88px] w-[88px] relative">
+              <Image
+                src="https://app2.jeoway.net/35/icon_catagory_mmz/o_cung_ssd_di_dong_icon.png"
+                layout="fill"
+                quality={100}
+                alt="Memoryzone interesting memory stick portable SSD hard drive"
+              />
+            </div>
+            <span className="text-primary text-center mt-2 block font-semibold">
+              Portable SSD Hard Drive
+            </span>
           </div>
-          <span className="text-primary text-center mt-2 block font-semibold">
-            Portable SSD Hard Drive
-          </span>
-        </div>
+        </Link>
       </div>
       <div className="mt-4">
-        <span className="text-text font-semibold text-lg">
-          HOT KEYWORDS
-        </span>
+        <span className="text-text font-semibold text-lg">HOT KEYWORDS</span>
 
         <div className="mt-6 px-12 ">
-          <Slider
-            {...sliderSettings}
-            className="flex"
-          >
+          <Slider {...sliderSettings} className="flex">
             {[
-              "test",
-              "test",
-              "test",
-              "test",
-              "test",
-              "test",
+              "laptop",
+              "ssd",
+              "ram",
+              "memory-stick",
+              "pc-gaming",
+              "phone",
               "test",
               "test",
               "test",
@@ -222,14 +210,11 @@ const Interest = () => {
               "test",
               "test",
             ].map((item, index) => (
-              <div
-                key={index}
-                className="px-3 py-2 !w-[100px] h-[68px] justify-center  !flex items-center  bg-primary rounded-md cursor-pointer"
-              >
-                <span className="text-white  limit-2-line ">
-                  {item}
-                </span>
-              </div>
+              <Link href={`/category/${item}`} key={index}>
+                <div className="px-3 py-2 !w-[100px] h-[68px] justify-center  !flex items-center  bg-primary rounded-md cursor-pointer">
+                  <span className="text-white  limit-2-line ">{item}</span>
+                </div>
+              </Link>
             ))}
           </Slider>
         </div>

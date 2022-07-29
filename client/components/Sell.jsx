@@ -1,12 +1,10 @@
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/outline";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from ".";
 
 const Sell = ({ products, title, index }) => {
+  console.log(products);
   return (
     <div className="py-10 limitScreen">
       {/*Sell header*/}
@@ -21,24 +19,12 @@ const Sell = ({ products, title, index }) => {
               ...
             </span>
             <ul className="list-none hidden md:flex items-center">
-              <li className="sellItem">
-                Laptop brand
-              </li>
-              <li className="sellItem">
-                Trending
-              </li>
-              <li className="sellItem">
-                Laptop Acer
-              </li>
-              <li className="sellItem">
-                Laptop Gigabyte
-              </li>
-              <li className="sellItem">
-                Laptop Dell
-              </li>
-              <li className="sellItem">
-                See All
-              </li>
+              <li className="sellItem">Laptop brand</li>
+              <li className="sellItem">Trending</li>
+              <li className="sellItem">Laptop Acer</li>
+              <li className="sellItem">Laptop Gigabyte</li>
+              <li className="sellItem">Laptop Dell</li>
+              <li className="sellItem">See All</li>
             </ul>
             <ChevronLeftIcon
               width={18}
@@ -59,12 +45,10 @@ const Sell = ({ products, title, index }) => {
       <section>
         <div
           className={`flex mt-10 ${
-            index % 2 === 0
-              ? "md:flex-row"
-              : "md:flex-row-reverse"
+            index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
           } flex-col `}
         >
-          <div className="w-full md:w-[70%] lg:w-3/4 grid gap-4 h-auto  grid-cols-4">
+          <div className="w-full  lg:w-3/4 grid gap-4 h-auto md:grid-cols-6 lg:grid-cols-4  grid-cols-4">
             {products?.map((product, index) => (
               <ProductCard
                 key={index}
@@ -72,24 +56,22 @@ const Sell = ({ products, title, index }) => {
                 price={product.price}
                 img={product.image}
                 slug={product.slug}
-                countInStock={
-                  product.countInStock
-                }
+                countInStock={product.countInStock}
                 id={product._id}
+                reviewLength={product.reviews.length}
+                rating={5}
                 hover={true}
-                customClass='col-span-4 sm:col-span-2  lg:col-span-1'
+                customClass="col-span-4 sm:col-span-2  lg:col-span-1"
               />
             ))}
           </div>
           {/*sell banner */}
           <div
             className={`flex-1 block md:hidden lg:block mt-6 lg:mt-0  ${
-              index % 2 === 0
-                ? "lg:ml-8"
-                : "lg:ml-0 lg:mr-8"
+              index % 2 === 0 ? "lg:ml-8" : "lg:ml-0 lg:mr-8"
             } `}
           >
-            <div className="mb-8 relative w-full min-h-[240px]">
+            <div className="mb-8 relative mx-auto w-[370px] lg:w-full">
               <Link href="#">
                 <a>
                   <Image
@@ -98,12 +80,11 @@ const Sell = ({ products, title, index }) => {
                     alt="Memoryzone laptop banner 1"
                     width="100%"
                     height="100%"
-                    objectFit="contain"
                   />
                 </a>
               </Link>
             </div>
-            <div className="relative w-full min-h-[240px]">
+            <div className="relative mx-auto w-[370px] lg:w-full ">
               <Link href="#">
                 <a>
                   <Image

@@ -1,11 +1,5 @@
 import { client } from "../lib/client";
-import {
-  Layout,
-  Sell,
-  Banner,
-  Brand,
-  Inform,
-} from "../components";
+import { Layout, Sell, Banner, Brand, Inform } from "../components";
 import { Ads, Interest } from "../components";
 import Image from "next/image";
 
@@ -36,8 +30,7 @@ const HomePage = ({ categoryList }) => {
     potentialAction: {
       "@type": "SearchAction",
       target: `${process.env.NEXT_PUBLIC_CLIENT_URL}/search?key={search_term_string}`,
-      "query-input":
-        "required name=search_term_string",
+      "query-input": "required name=search_term_string",
     },
   };
 
@@ -61,7 +54,7 @@ const HomePage = ({ categoryList }) => {
               title={item.title}
               products={item.productList}
             />
-          ),
+          )
       )}
       {/*trend brand section*/}
       <Brand />
@@ -77,8 +70,8 @@ export const getStaticProps = async () => {
   try {
     const res = await client.fetch(
       `  *[_type=="product"]{
-        slug,image[0],name,price,productCategory->{categoryName},reviews,countInStock,_id
-      }`,
+        slug,image[0],name,price,productCategory->{categoryName},"reviews":coalesce(reviews,[]),countInStock,_id
+      }`
     );
 
     return {
@@ -87,34 +80,38 @@ export const getStaticProps = async () => {
           {
             title: "PC GAMING",
             productList: res.filter(
-              (item) =>
-                item.productCategory
-                  .categoryName === "PC-GAMING",
+              (item) => item.productCategory.categoryName === "PC-GAMING"
             ),
           },
           {
             title: "LAPTOP",
             productList: res.filter(
-              (item) =>
-                item.productCategory
-                  .categoryName === "Laptop",
+              (item) => item.productCategory.categoryName === "Laptop"
             ),
           },
           {
             title: "RAM",
             productList: res.filter(
-              (item) =>
-                item.productCategory
-                  .categoryName === "Ram",
+              (item) => item.productCategory.categoryName === "Ram"
             ),
           },
 
           {
             title: "PHONE",
             productList: res.filter(
-              (item) =>
-                item.productCategory
-                  .categoryName === "Phone",
+              (item) => item.productCategory.categoryName === "Phone"
+            ),
+          },
+          {
+            title: "MEMORYZONE STICK",
+            productList: res.filter(
+              (item) => item.productCategory.categoryName === "Memory Stick"
+            ),
+          },
+          {
+            title: "SSD",
+            productList: res.filter(
+              (item) => item.productCategory.categoryName === "SSD"
             ),
           },
         ],
