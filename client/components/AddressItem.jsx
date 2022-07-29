@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { editAddress } from "../redux/addressSlice";
 
 const AddressItem = ({ data, token }) => {
-  console.log(data);
   const dispatch = useDispatch();
   const [openEditForm, setOpenEditForm] =
     useState(false);
@@ -33,7 +32,7 @@ const AddressItem = ({ data, token }) => {
       editAddressForm,
       token,
     );
-    console.log(res);
+
     if (res.success) {
       alert(res.message);
       dispatch(

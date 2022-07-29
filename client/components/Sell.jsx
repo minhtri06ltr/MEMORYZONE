@@ -6,18 +6,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Error, ProductCard } from ".";
 
-const Sell = ({ products }) => {
-  if (!products)
-    return (
-      <Error message="Product not found or Internal server error, please contact with owner" />
-    );
+const Sell = ({ products, title, index }) => {
   return (
     <div className="py-10 limitScreen">
       {/*Sell header*/}
       <section>
         <div className="border-b-2 border-primary rounded-l-sm flex items-center justify-between">
           <span className="shadow-2xl block text-white bg-primary text-lg font-bold py-2 px-6 rounded-sm">
-            LAPTOP
+            {title}
           </span>
 
           <div className="space-x-1  flex items-center">
@@ -61,7 +57,13 @@ const Sell = ({ products }) => {
       </section>
       {/*Main sell */}
       <section>
-        <div className="flex mt-10 md:flex-row flex-col ">
+        <div
+          className={`flex mt-10 ${
+            index % 2 === 0
+              ? "md:flex-row"
+              : "md:flex-row-reverse"
+          } flex-col `}
+        >
           <div className="w-full md:w-[70%] lg:w-3/4 grid gap-x-4 h-auto gap-y-6 grid-cols-4">
             {products?.map((product, index) => (
               <ProductCard
@@ -74,7 +76,13 @@ const Sell = ({ products }) => {
             ))}
           </div>
           {/*sell banner */}
-          <div className="flex-1 block md:hidden lg:block mt-6 lg:mt-0  lg:ml-8 ">
+          <div
+            className={`flex-1 block md:hidden lg:block mt-6 lg:mt-0  ${
+              index % 2 === 0
+                ? "lg:ml-8"
+                : "lg:ml-0 lg:mr-8"
+            } `}
+          >
             <div className="mb-8 relative w-full min-h-[240px]">
               <Link href="#">
                 <a>

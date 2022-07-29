@@ -6,6 +6,7 @@ import {
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Link from "next/link";
 
 const Interest = () => {
   const SlideArrow = (props) => {
@@ -128,19 +129,21 @@ const Interest = () => {
             Memory Stick
           </span>
         </div>
-        <div className="interestItem">
-          <div className="h-[88px] w-[88px] relative">
-            <Image
-              src="https://app2.jeoway.net/35/icon_catagory_mmz/ram_icon.png"
-              layout="fill"
-              quality={100}
-              alt="Memoryzone interesting ram"
-            />
+        <Link href="/category/ram">
+          <div className="interestItem">
+            <div className="h-[88px] w-[88px] relative">
+              <Image
+                src="https://app2.jeoway.net/35/icon_catagory_mmz/ram_icon.png"
+                layout="fill"
+                quality={100}
+                alt="Memoryzone interesting ram"
+              />
+            </div>
+            <span className="text-primary text-center mt-2 block font-semibold">
+              Ram
+            </span>
           </div>
-          <span className="text-primary text-center mt-2 block font-semibold">
-            Ram
-          </span>
-        </div>
+        </Link>
         <div className="interestItem">
           <div className="h-[88px] w-[88px] relative">
             <Image

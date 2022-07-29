@@ -9,7 +9,7 @@ import {
 import { Ads, Interest } from "../components";
 import Image from "next/image";
 
-const HomePage = ({ products }) => {
+const HomePage = ({ categoryList }) => {
   const structure1 = {
     "@context": "http://schema.org",
     "@type": "Organization",
@@ -40,6 +40,7 @@ const HomePage = ({ products }) => {
         "required name=search_term_string",
     },
   };
+
   return (
     <Layout
       schema={schema}
@@ -51,7 +52,17 @@ const HomePage = ({ products }) => {
       <Banner />
       <Ads />
       <Interest />
-      <Sell products={products} />
+      {categoryList.map(
+        (item, index) =>
+          item.productList.length > 0 && (
+            <Sell
+              key={index}
+              index={index}
+              title={item.title}
+              products={item.productList}
+            />
+          ),
+      )}
       {/*trend brand section*/}
       <Brand />
       {/*inform section*/}
@@ -64,21 +75,48 @@ export default HomePage;
 
 export const getStaticProps = async () => {
   try {
-    const products = await client.fetch(
+    const res = await client.fetch(
       `  *[_type=="product"]{
-        slug,image[0],name,price
+        slug,image[0],name,price,productCategory->{categoryName}
       }`,
     );
 
     return {
-      props: { products },
+      props: {
+        categoryList: [
+          {
+            title: "RAM",
+            productList: res.filter(
+              (item) =>
+                item.productCategory
+                  .categoryName === "Ram",
+            ),
+          },
+          {
+            title: "PC GAMING",
+            productList: res.filter(
+              (item) =>
+                item.productCategory
+                  .categoryName === "PC-GAMING",
+            ),
+          },
+          {
+            title: "PHONE",
+            productList: res.filter(
+              (item) =>
+                item.productCategory
+                  .categoryName === "Phone",
+            ),
+          },
+        ],
+      },
       revalidate: 60,
     };
   } catch (error) {
     console.log(error);
     return {
       props: {
-        products: null,
+        categoryList: null,
       },
     };
   }

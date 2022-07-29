@@ -7,7 +7,7 @@ import { useState } from "react";
 const Inform = () => {
   const [currentSlide, setCurrentSlide] =
     useState(0);
-  console.log("current", currentSlide);
+
   const sliderSettings = {
     beforeChange: (prev, next) => {
       setCurrentSlide(next);
@@ -25,7 +25,6 @@ const Inform = () => {
       </div>
     ),
     customPaging: (i) => {
-      console.log(i);
       return (
         <div
           className={`w-[10px] h-[10px] rounded-full ${

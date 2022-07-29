@@ -8,8 +8,11 @@ import {
   TemplateIcon,
   ViewBoardsIcon,
 } from "@heroicons/react/solid";
+import { client } from "../../lib/client";
+import Link from "next/link";
 
-const SearchCategoryPages = () => {
+const SearchCategoryPages = ({ productList }) => {
+  console.log(productList);
   return (
     <Layout title="Test" description="">
       <Path
@@ -189,16 +192,19 @@ const SearchCategoryPages = () => {
           </div>
           <div className="grid grid-cols-4 gap-y-12 gap-x-4 my-14">
             {/* product card*/}
-            <div className="h-20 w-full bg-red-500"></div>
-            <div className="h-20 w-full bg-red-500"></div>
-            <div className="h-20 w-full bg-red-500"></div>
-            <div className="h-20 w-full bg-red-500"></div>
-            <div className="h-20 w-full bg-red-500"></div>
-            <div className="h-20 w-full bg-red-500"></div>
-            <div className="h-20 w-full bg-red-500"></div>
-            <div className="h-20 w-full bg-red-500"></div>
-            <div className="h-20 w-full bg-red-500"></div>
-            <div className="h-20 w-full bg-red-500"></div>
+            {productList.map((item, index) => (
+              <Link
+                key={index}
+                href={item.slug.current}
+              >
+                <ProductCard
+                  name={item.name}
+                  price={item.price}
+                  img={item.image}
+                  slug={item.slug.current}
+                />
+              </Link>
+            ))}
           </div>
           <div className="space-x-1.5 flex items-center justify-end text-sm text-text">
             <button className="rounded-sm h-[40px] w-[40px] ease-linear transition bg-[#f2f2f2] hover:bg-primary  hover:text-white">
@@ -221,3 +227,48 @@ const SearchCategoryPages = () => {
 };
 
 export default SearchCategoryPages;
+export const getStaticPaths = async () => {
+  const categorySlugs = await client.fetch(
+    `*[_type=="category"]{
+      categorySlug{
+        current
+      }
+  }`,
+  );
+
+  return {
+    paths:
+      categorySlugs.map((category) => ({
+        params: {
+          slug: category.categorySlug.current,
+        },
+      })) || [],
+    fallback: "blocking",
+  };
+};
+export const getStaticProps = async ({
+  params: { slug },
+}) => {
+  //get product data by slug param
+  try {
+    const res = await client.fetch(
+      `
+   *[_type=='product' && productCategory->.categorySlug.current==$slug]{
+    slug,image[0],name,price
+   }
+   `,
+      {
+        slug,
+      },
+    );
+    console.log(slug);
+    return {
+      props: { productList: res },
+      revalidate: 60,
+    };
+  } catch (error) {
+    return {
+      props: { productList: null },
+    };
+  }
+};
