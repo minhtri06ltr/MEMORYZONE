@@ -1,5 +1,9 @@
 import { useRouter } from "next/router";
-import { Layout, Path } from "../components";
+import {
+  Layout,
+  Path,
+  StarList,
+} from "../components";
 import { useState } from "react";
 import {
   ShoppingCartIcon,
@@ -81,7 +85,7 @@ const SearchProductNamePage = ({
           },
         ]}
       />
-      <div className="px-10">
+      <div className="limitScreen">
         <div className="my-12">
           {productList.length === 0 && (
             <h1 className="text-text text-lg block ">
@@ -131,9 +135,9 @@ const SearchProductNamePage = ({
                   (item, index) => (
                     <div
                       key={index}
-                      className=" w-full space-y-2 "
+                      className="inline-grid self-end w-full space-y-2 "
                     >
-                      <div className="relative h-[210px]">
+                      <div className=" h-[210px]">
                         <Link
                           href={`/product/${item.slug.current}`}
                         >
@@ -143,8 +147,10 @@ const SearchProductNamePage = ({
                               src={urlFor(
                                 item.image,
                               ).url()}
-                              layout="fill"
+                              layout="responsive"
                               quality={100}
+                              height="100%"
+                              width="100%"
                             />
                           </a>
                         </Link>
@@ -156,12 +162,22 @@ const SearchProductNamePage = ({
                           {item.name}
                         </span>
                       </Link>
-                      <div className="text-center">
+                      <div className="text-center ">
                         <span className="text-md font-semibold mr-2  text-primary">
                           245$
                         </span>
                         <span className="text-sm line-through   text-gray">
                           275$
+                        </span>
+                      </div>
+                      <div className="mt-2 flex items-end space-x-2 justify-center ">
+                        <StarList
+                          quantity={5}
+                          width={18}
+                          height={18}
+                        />
+                        <span className="text-xs text-gray">
+                          (34 reviews)
                         </span>
                       </div>
                       <div className="flex items-center space-x-1.5 justify-center">

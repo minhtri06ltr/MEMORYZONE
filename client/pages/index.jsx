@@ -77,21 +77,13 @@ export const getStaticProps = async () => {
   try {
     const res = await client.fetch(
       `  *[_type=="product"]{
-        slug,image[0],name,price,productCategory->{categoryName}
+        slug,image[0],name,price,productCategory->{categoryName},reviews,countInStock,_id
       }`,
     );
 
     return {
       props: {
         categoryList: [
-          {
-            title: "RAM",
-            productList: res.filter(
-              (item) =>
-                item.productCategory
-                  .categoryName === "Ram",
-            ),
-          },
           {
             title: "PC GAMING",
             productList: res.filter(
@@ -100,6 +92,23 @@ export const getStaticProps = async () => {
                   .categoryName === "PC-GAMING",
             ),
           },
+          {
+            title: "LAPTOP",
+            productList: res.filter(
+              (item) =>
+                item.productCategory
+                  .categoryName === "Laptop",
+            ),
+          },
+          {
+            title: "RAM",
+            productList: res.filter(
+              (item) =>
+                item.productCategory
+                  .categoryName === "Ram",
+            ),
+          },
+
           {
             title: "PHONE",
             productList: res.filter(

@@ -4,7 +4,7 @@ import {
 } from "@heroicons/react/outline";
 import Image from "next/image";
 import Link from "next/link";
-import { Error, ProductCard } from ".";
+import { ProductCard } from ".";
 
 const Sell = ({ products, title, index }) => {
   return (
@@ -64,14 +64,20 @@ const Sell = ({ products, title, index }) => {
               : "md:flex-row-reverse"
           } flex-col `}
         >
-          <div className="w-full md:w-[70%] lg:w-3/4 grid gap-x-4 h-auto gap-y-6 grid-cols-4">
+          <div className="w-full md:w-[70%] lg:w-3/4 grid gap-4 h-auto  grid-cols-4">
             {products?.map((product, index) => (
               <ProductCard
                 key={index}
                 name={product.name}
                 price={product.price}
                 img={product.image}
-                slug={product.slug.current}
+                slug={product.slug}
+                countInStock={
+                  product.countInStock
+                }
+                id={product._id}
+                hover={true}
+                customClass='col-span-4 sm:col-span-2  lg:col-span-1'
               />
             ))}
           </div>
