@@ -1,4 +1,9 @@
-import { Layout, NotFound, Path, ProductCard } from "../../components";
+import {
+  Layout,
+  NotFound,
+  Path,
+  ProductCard,
+} from "../../components";
 import {
   SearchIcon,
   TemplateIcon,
@@ -9,7 +14,7 @@ import Image from "next/image";
 
 const SearchCategoryPages = ({ productList }) => {
   console.log(productList);
-  if (!productList)
+  if (productList.length === 0)
     return (
       <NotFound
         title="Category page does not exist "
@@ -32,12 +37,14 @@ const SearchCategoryPages = ({ productList }) => {
             pathName: "/",
           },
           {
-            title: productList[0].productCategory.categoryName,
+            title:
+              productList[0].productCategory
+                .categoryName,
             pathName: `/category/${productList[0].productCategory.categorySlug.current}`,
           },
         ]}
       />
-      <div className="limitScreen my-12">
+      <div className="limitScreen mb-12 mt-6">
         <div className="grid h-[350px] w-full">
           <Image
             alt="Memoryzone category banner"
@@ -61,13 +68,22 @@ const SearchCategoryPages = ({ productList }) => {
                 className="outline-none flex-1 bg-white py-2 px-4 text-sm border border-[#ebebeb]"
               />
               <button className="bg-primary py-2 px-3">
-                <SearchIcon width={18} color="white" height={18} />
+                <SearchIcon
+                  width={18}
+                  color="white"
+                  height={18}
+                />
               </button>
             </div>
             <div className="mb-10 space-y-3 text-text">
               <div className=" cursor-pointer hover:text-primary ">
-                <input type="checkbox" className="translate-y-[1px]" />
-                <label className="text-sm ml-2 ">Apple</label>
+                <input
+                  type="checkbox"
+                  className="translate-y-[1px]"
+                />
+                <label className="text-sm ml-2 ">
+                  Apple
+                </label>
               </div>
             </div>
             <div>
@@ -75,7 +91,10 @@ const SearchCategoryPages = ({ productList }) => {
                 PRODUCT PRICE
               </span>
               <div className="py-3">
-                <input type="range" className="w-full" />
+                <input
+                  type="range"
+                  className="w-full"
+                />
                 <div className="flex items-center space-x-4 my-4">
                   <input
                     disabled={true}
@@ -98,36 +117,76 @@ const SearchCategoryPages = ({ productList }) => {
                     </span>
                     <div className="space-y-3 text-text max-h-[240px] overflow-y-auto">
                       <div className=" cursor-pointer hover:text-primary ">
-                        <input type="checkbox" className="translate-y-[1px]" />
-                        <label className="text-sm ml-2 ">Ryzen 5</label>
+                        <input
+                          type="checkbox"
+                          className="translate-y-[1px]"
+                        />
+                        <label className="text-sm ml-2 ">
+                          Ryzen 5
+                        </label>
                       </div>
                       <div className=" cursor-pointer hover:text-primary ">
-                        <input type="checkbox" className="translate-y-[1px]" />
-                        <label className="text-sm ml-2 ">Intel Core I3</label>
+                        <input
+                          type="checkbox"
+                          className="translate-y-[1px]"
+                        />
+                        <label className="text-sm ml-2 ">
+                          Intel Core I3
+                        </label>
                       </div>
                       <div className=" cursor-pointer hover:text-primary ">
-                        <input type="checkbox" className="translate-y-[1px]" />
-                        <label className="text-sm ml-2 ">Ryzen 5</label>
+                        <input
+                          type="checkbox"
+                          className="translate-y-[1px]"
+                        />
+                        <label className="text-sm ml-2 ">
+                          Ryzen 5
+                        </label>
                       </div>
                       <div className=" cursor-pointer hover:text-primary ">
-                        <input type="checkbox" className="translate-y-[1px]" />
-                        <label className="text-sm ml-2 ">Intel Core I3</label>
+                        <input
+                          type="checkbox"
+                          className="translate-y-[1px]"
+                        />
+                        <label className="text-sm ml-2 ">
+                          Intel Core I3
+                        </label>
                       </div>
                       <div className=" cursor-pointer hover:text-primary ">
-                        <input type="checkbox" className="translate-y-[1px]" />
-                        <label className="text-sm ml-2 ">Ryzen 5</label>
+                        <input
+                          type="checkbox"
+                          className="translate-y-[1px]"
+                        />
+                        <label className="text-sm ml-2 ">
+                          Ryzen 5
+                        </label>
                       </div>
                       <div className=" cursor-pointer hover:text-primary ">
-                        <input type="checkbox" className="translate-y-[1px]" />
-                        <label className="text-sm ml-2 ">Intel Core I3</label>
+                        <input
+                          type="checkbox"
+                          className="translate-y-[1px]"
+                        />
+                        <label className="text-sm ml-2 ">
+                          Intel Core I3
+                        </label>
                       </div>
                       <div className=" cursor-pointer hover:text-primary ">
-                        <input type="checkbox" className="translate-y-[1px]" />
-                        <label className="text-sm ml-2 ">Ryzen 5</label>
+                        <input
+                          type="checkbox"
+                          className="translate-y-[1px]"
+                        />
+                        <label className="text-sm ml-2 ">
+                          Ryzen 5
+                        </label>
                       </div>
                       <div className=" cursor-pointer hover:text-primary ">
-                        <input type="checkbox" className="translate-y-[1px]" />
-                        <label className="text-sm ml-2 ">Intel Core I3</label>
+                        <input
+                          type="checkbox"
+                          className="translate-y-[1px]"
+                        />
+                        <label className="text-sm ml-2 ">
+                          Intel Core I3
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -138,7 +197,10 @@ const SearchCategoryPages = ({ productList }) => {
           <div className="flex-1">
             <div className="flex items-center justify-between">
               <span className="text-lg text-text font-semibold block mb-2">
-                {productList[0].productCategory.categoryName}
+                {
+                  productList[0].productCategory
+                    .categoryName
+                }
               </span>
               <div className="flex items-center">
                 <button className="hover:text-white text-[#acacac]  rotate-90 mr-2 p-2 border rounded-sm border-[#dddddd] bg-white  hover:bg-primary  ">
@@ -169,7 +231,9 @@ const SearchCategoryPages = ({ productList }) => {
                   price={item.price}
                   img={item.image}
                   slug={item.slug}
-                  reviewLength={item.reviews.length}
+                  reviewLength={
+                    item.reviews.length
+                  }
                   id={item._id}
                   rating={5}
                   hover={true}
@@ -206,7 +270,7 @@ export const getStaticPaths = async () => {
       categorySlug{
         current
       }
-  }`
+  }`,
   );
 
   return {
@@ -219,7 +283,9 @@ export const getStaticPaths = async () => {
     fallback: "blocking",
   };
 };
-export const getStaticProps = async ({ params: { slug } }) => {
+export const getStaticProps = async ({
+  params: { slug },
+}) => {
   //get product data by slug param
   try {
     const res = await client.fetch(
@@ -230,7 +296,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
    `,
       {
         slug,
-      }
+      },
     );
     console.log(slug);
     return {

@@ -96,15 +96,15 @@ page to continue shopping."
                   Thank you for your order
                 </h1>
                 <div className="text-sm text-[#595959]">
-                  <h2 className="block ">
+                  <span className="block ">
                     We hope our product will meet
                     your expectations. Let us know
                     if you have any questions.
-                  </h2>
-                  <h2 className="block ">
+                  </span>
+                  <span className="block ">
                     Hope we can see you again in
                     next buy at Memoryzone
-                  </h2>
+                  </span>
                 </div>
                 <button className="bg-primary hover:bg-[#006533] text-sm text-white px-8 py-3 rounded-md">
                   Show transfer information
@@ -113,9 +113,9 @@ page to continue shopping."
             </div>
             <div className="grid ml-16 mt-10 grid-cols-2 grid-rows-2 gap-y-6 gap-x-8">
               <div className="flex flex-col text-sm space-y-4 text-[#595959]">
-                <span className="text-xl text-[#000000]">
+                <h2 className="text-xl text-[#000000]">
                   Purchase information
-                </span>
+                </h2>
                 <span>
                   {orderDetail.user
                     ? `${orderDetail.user.firstName} ${orderDetail.user.lastName}`
@@ -134,9 +134,9 @@ page to continue shopping."
                 </span>
               </div>
               <div className="flex flex-col text-sm space-y-4 text-[#595959]">
-                <span className="text-xl text-[#000000]">
+                <h2 className="text-xl text-[#000000]">
                   Delivery address
-                </span>
+                </h2>
                 <span>
                   {orderDetail.user
                     ? `${orderDetail.user.firstName} ${orderDetail.user.lastName}`
@@ -171,29 +171,29 @@ page to continue shopping."
                 </span>
               </div>
               <div className="flex flex-col text-sm space-y-4 text-[#595959]">
-                <span className="text-xl text-[#000000]">
+                <h2 className="text-xl text-[#000000]">
                   Payment methods
-                </span>
+                </h2>
                 <span>
                   {orderDetail.paymentMethod}
                 </span>
               </div>
               <div className="flex flex-col text-sm space-y-4 text-[#595959]">
-                <span className="text-xl text-[#000000]">
+                <h2 className="text-xl text-[#000000]">
                   Shipping method
-                </span>
+                </h2>
                 <span>
-                  FAST DELIVERY 24-36 HOURS
+                  Economical delivery (Standard)
                 </span>
               </div>
             </div>
           </div>
           <div className="flex-1">
             <div className="border border-[#e1e1e1] bg-[#fafafa] divide-y divide-[#e1e1e1]">
-              <span className="px-4  text-[#000000] text-sm font-semibold block my-2">
+              <h2 className="px-4  text-[#000000] text-sm font-semibold block my-2">
                 Order [{orderDetail._id}] (
                 {orderDetail.orderList.length})
-              </span>
+              </h2>
               <div className="max-h-[calc(100vh-480px)] scroll-smooth  overflow-y-auto p-4 ">
                 <table>
                   <tbody className="space-y-2">
@@ -224,9 +224,9 @@ page to continue shopping."
                             </div>
                           </td>
                           <td>
-                            <span className="text-[#333333] text-sm text-left flex-1 block pl-4">
+                            <h3 className="text-[#333333] text-sm text-left flex-1 block pl-4">
                               {item.productName}
-                            </span>
+                            </h3>
                           </td>
                           <td>
                             <span className="text-[#717171] text-sm text-right flex-1 pl-4">
@@ -243,12 +243,16 @@ page to continue shopping."
                 <div className="flex items-center justify-between p-4">
                   <span>Provisional</span>
                   <span>
-                    {orderDetail.totalPrice}$
+                    {orderDetail.totalPrice -
+                      orderDetail.shippingPrice}
+                    $
                   </span>
                 </div>
                 <div className="flex items-center justify-between p-4">
                   <span>Transport fee</span>
-                  <span>Free</span>
+                  <span>
+                    {orderDetail.shippingPrice}
+                  </span>
                 </div>
               </div>
               <div className="flex items-center justify-between p-4">
@@ -314,7 +318,7 @@ export const getServerSideProps = async (
     const orderDetail = await client.fetch(
       `*[_type=="order" && _id==$orderId && isPaid==true][0]
       {
-       totalPrice,paymentMethod,orderList,_id,shippingAddress,_createdAt,guestName,guestEmail,
+       totalPrice,paymentMethod,orderList,_id,shippingAddress,_createdAt,guestName,guestEmail,shippingPrice,
        "user": *[_type=='user' && _id == ^.user._ref ][0]{
         email,firstName  , lastName},
         "productImage": 

@@ -16,7 +16,9 @@ const createOrder = async (req, res) => {
       paymentMethod,
       orderAt,
       products,
+      shippingPrice,
     } = JSON.parse(req.body);
+    console.log(JSON.parse(req.body));
     const errorMessage = validateOrder(
       province,
       address,
@@ -45,6 +47,7 @@ const createOrder = async (req, res) => {
       },
       isPaid: false,
       paymentMethod,
+      shippingPrice: shippingPrice || 0,
       orderAt,
       orderStatus: 0,
       totalPrice: total,

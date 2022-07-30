@@ -276,14 +276,14 @@ const productDetailBlock = (props) => {
           }  `}
         >
           {props.value.title && (
-            <span
+            <h3
               className={`text-2xl font-semibold ${
                 props.value.position ===
                   "center" && "text-center"
               } mb-6 block`}
             >
               {props.value.title}
-            </span>
+            </h3>
           )}
 
           <div
@@ -400,7 +400,7 @@ export const productDescriptionComponents = {
   },
   list: {
     checkMark: ({ children }) => (
-      <ul className="space-y-1">{children}</ul>
+      <div className="space-y-1">{children}</div>
     ),
   },
   listItem: {

@@ -1,14 +1,25 @@
 import { useRouter } from "next/router";
-import { Layout, Path, ProductCard, StarList } from "../components";
+import {
+  Layout,
+  Path,
+  ProductCard,
+  StarList,
+} from "../components";
 import { useState } from "react";
-import { ShoppingCartIcon, EyeIcon } from "@heroicons/react/solid";
+import {
+  ShoppingCartIcon,
+  EyeIcon,
+} from "@heroicons/react/solid";
 import { client, urlFor } from "../lib/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
 
-const SearchProductNamePage = ({ path, productList }) => {
+const SearchProductNamePage = ({
+  path,
+  productList,
+}) => {
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -23,7 +34,7 @@ const SearchProductNamePage = ({ path, productList }) => {
         quantity: 1,
         slug: product.slug.current,
         countInStock: product.countInStock,
-      })
+      }),
     );
     router.push("/cart");
   };
@@ -44,7 +55,8 @@ const SearchProductNamePage = ({ path, productList }) => {
         "@type": "ListItem",
         position: 2,
         item: {
-          "@id": "https://memoryzone.vercel.app/search",
+          "@id":
+            "https://memoryzone.vercel.app/search",
           name: "Search",
         },
       },
@@ -67,7 +79,9 @@ const SearchProductNamePage = ({ path, productList }) => {
             pathName: "/",
           },
           {
-            title: `Search results for ${path || "all product"}`,
+            title: `Search results for ${
+              path || "all product"
+            }`,
             pathName: `/search?=${path}`,
           },
         ]}
@@ -76,19 +90,23 @@ const SearchProductNamePage = ({ path, productList }) => {
         <div className="my-12">
           {productList.length === 0 && (
             <h1 className="text-text text-lg block ">
-              NO RESULTS FOUNDED WITH THE ABOVE KEYWORDS.
+              NO RESULTS FOUNDED WITH THE ABOVE
+              KEYWORDS.
             </h1>
           )}
 
           <div className="my-12">
             <h2 className="block cursor-pointer text-[#575454] hover:text-primary text-2xl">
-              Enter keywords to search for products
+              Enter keywords to search for
+              products
             </h2>
             <div className="mt-4">
               <form className="flex items-center">
                 <input
                   type="text"
-                  onChange={(e) => setSearchTag(e.target.value)}
+                  onChange={(e) =>
+                    setSearchTag(e.target.value)
+                  }
                   required
                   value={searchTag}
                   placeholder="Search ..."
@@ -105,25 +123,35 @@ const SearchProductNamePage = ({ path, productList }) => {
           </div>
           {productList.length !== 0 && (
             <div>
-              <h1 className="block text-text text-lg font-medium">
-                There {productList.length > 1 ? "are" : "is"}{" "}
-                {productList.length} matching search results
-              </h1>
+              <h2 className="block text-text text-lg font-medium">
+                There{" "}
+                {productList.length > 1
+                  ? "are"
+                  : "is"}{" "}
+                {productList.length} matching
+                search results
+              </h2>
               <div className="grid lg:grid-cols-8 xl:grid-cols-10 grid-cols-6 gap-x-7 gap-y-12 mt-4">
-                {productList.map((item, index) => (
-                  <ProductCard
-                    key={index}
-                    name={item.name}
-                    price={item.price}
-                    img={item.image}
-                    slug={item.slug}
-                    reviewLength={item.reviews.length}
-                    countInStock={item.countInStock}
-                    id={item._id}
-                    rating={5}
-                    customClass="col-span-6 sm:col-span-3 md:col-span-2"
-                  />
-                ))}
+                {productList.map(
+                  (item, index) => (
+                    <ProductCard
+                      key={index}
+                      name={item.name}
+                      price={item.price}
+                      img={item.image}
+                      slug={item.slug}
+                      reviewLength={
+                        item.reviews.length
+                      }
+                      countInStock={
+                        item.countInStock
+                      }
+                      id={item._id}
+                      rating={5}
+                      customClass="col-span-6 sm:col-span-3 md:col-span-2"
+                    />
+                  ),
+                )}
               </div>
               {/* <div className="space-x-1.5 mt-16 flex items-center justify-center text-sm text-text">
                 <button className="rounded-sm h-[40px] w-[40px] ease-linear transition bg-[#f2f2f2] hover:bg-primary  hover:text-white">
@@ -148,17 +176,21 @@ const SearchProductNamePage = ({ path, productList }) => {
 };
 
 export default SearchProductNamePage;
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async (
+  context,
+) => {
   console.log(context.query.key);
   const path = context.query.key || null;
-  const query = path ? path.toLowerCase() + "*" : "*";
+  const query = path
+    ? path.toLowerCase() + "*"
+    : "*";
 
   try {
     const productList = await client.fetch(
       ` *[_type=="product" && name match $query]{name,price,image[0],slug,countInStock,_id,"reviews":coalesce(reviews,[])}`,
       {
         query,
-      }
+      },
     );
 
     return {

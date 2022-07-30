@@ -41,9 +41,9 @@ const NotFound = ({
           <h1 className="text-lg block text-[#000000] font-semibold">
             {title}
           </h1>
-          <p className="text-[#000000] block text-sm">
+          <h2 className="text-[#000000] block text-sm">
             {description}
-          </p>
+          </h2>
           <Link href="/">
             <button className="bg-primary hover:bg-[#006533] rounded-md py-4 px-10 text-white text-lg font-semibold">
               Return homepage

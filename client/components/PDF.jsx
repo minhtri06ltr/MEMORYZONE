@@ -34,9 +34,9 @@ const PDF = ({
         </div>
       </a>
       <div className="mt-6 space-y-4 text-center text-[#000000] ">
-        <span className="block text-2xl font-semibold  ">
+        <h1 className="block text-2xl font-semibold  ">
           Thank you for your order
-        </span>
+        </h1>
         <div className="text-[#595959] ">
           <span className="block ">
             We hope our product will meet your
@@ -51,9 +51,9 @@ const PDF = ({
       </div>
       <div className="px-14  my-8">
         <div className="border border-[#e1e1e1] bg-[#fff] divide-y divide-[#e1e1e1]">
-          <span className="px-6  text-[#000000] font-semibold block my-3">
+          <h2 className="px-6  text-[#000000] font-semibold block my-3">
             Order [{orderDetail._id}]
-          </span>
+          </h2>
           <div className=" scroll-smooth ">
             <table className="w-full table table-fixed">
               <tbody className="block  px-4  w-full divide-y divide-[#e1e1e1]">
@@ -82,9 +82,9 @@ const PDF = ({
                         </div>
                       </td>
                       <td className="w-[80%]">
-                        <span className="text-[#333333]  text-left  block ">
+                        <h3 className="text-[#333333]  text-left  block ">
                           {item.productName}
-                        </span>
+                        </h3>
                       </td>
                       <td className="w-[5%]">
                         <span className="text-[#000000] whitespace-nowrap   block text-right ">
@@ -106,12 +106,16 @@ const PDF = ({
             <div className="flex items-center justify-between px-4">
               <span>Provisional</span>
               <span>
-                {orderDetail.totalPrice}$
+                {orderDetail.totalPrice -
+                  orderDetail.shippingPrice}
+                $
               </span>
             </div>
             <div className="flex items-center justify-between px-4">
               <span>Transport fee</span>
-              <span>Free</span>
+              <span>
+                {orderDetail.shippingPrice}
+              </span>
             </div>
           </div>
           <div className="flex items-center  text-[#000000] justify-between p-4">
@@ -126,9 +130,9 @@ const PDF = ({
       </div>
       <div className="grid border text-sm border-[#e1e1e1] mx-14 px-12 py-8 mb-6 grid-cols-2 grid-rows-2 gap-y-6 gap-x-8">
         <div className="flex flex-col  space-y-4 text-[#595959]">
-          <span className="text-xl text-[#000000]">
+          <h2 className="text-xl text-[#000000]">
             Purchase information
-          </span>
+          </h2>
           <span>
             {orderDetail.user
               ? `${orderDetail.user.firstName} ${orderDetail.user.lastName}`
@@ -147,9 +151,9 @@ const PDF = ({
           </span>
         </div>
         <div className="flex flex-col  space-y-4 text-[#595959]">
-          <span className="text-xl text-[#000000]">
+          <h2 className="text-xl text-[#000000]">
             Delivery address
-          </span>
+          </h2>
           <span>
             {orderDetail.user
               ? `${orderDetail.user.firstName} ${orderDetail.user.lastName}`
@@ -181,16 +185,19 @@ const PDF = ({
           </span>
         </div>
         <div className="flex flex-col  space-y-4 text-[#595959]">
-          <span className="text-xl text-[#000000]">
+          <h2 className="text-xl text-[#000000]">
             Payment methods
-          </span>
+          </h2>
           <span>{orderDetail.paymentMethod}</span>
         </div>
         <div className="flex flex-col   space-y-4 text-[#595959]">
-          <span className="text-xl text-[#000000]">
+          <h2 className="text-xl text-[#000000]">
             Shipping method
+          </h2>
+          <span>
+            {" "}
+            Economical delivery (Standard)
           </span>
-          <span>FAST DELIVERY 24-36 HOURS</span>
         </div>
       </div>
       <span className="block cursor-pointer px-10 text-xs pb-6 text-[#000000]">
