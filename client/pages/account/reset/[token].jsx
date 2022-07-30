@@ -105,9 +105,9 @@ const ResetPasswordPage = () => {
       />
       <div className="w-full flex items-center flex-col  justify-center my-12">
         <div className="space-y-4">
-          <span className="block text-base font-semibold text-text">
+          <h1 className="block text-base font-semibold text-text">
             PASSWORD RETRIEVAL
-          </span>
+          </h1>
           <span className="block text-sm text-text">Enter new password</span>
           <form onSubmit={resetHandle} className="space-y-8">
             <div>

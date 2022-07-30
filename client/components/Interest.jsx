@@ -135,19 +135,21 @@ const Interest = () => {
             </span>
           </div>
         </Link>
-        <div className="interestItem">
-          <div className="h-[88px] w-[88px] relative">
-            <Image
-              src="https://app2.jeoway.net/35/icon_catagory_mmz/ssd_icon.png"
-              layout="fill"
-              quality={100}
-              alt="Memoryzone interesting memory SSD "
-            />
+        <Link href="/category/ssd">
+          <div className="interestItem">
+            <div className="h-[88px] w-[88px] relative">
+              <Image
+                src="https://app2.jeoway.net/35/icon_catagory_mmz/ssd_icon.png"
+                layout="fill"
+                quality={100}
+                alt="Memoryzone interesting memory SSD "
+              />
+            </div>
+            <span className="text-primary text-center mt-2 block font-semibold">
+              SSD
+            </span>
           </div>
-          <span className="text-primary text-center mt-2 block font-semibold">
-            SSD
-          </span>
-        </div>
+        </Link>
         <div className="interestItem">
           <div className="h-[88px] w-[88px] relative">
             <Image
@@ -174,7 +176,7 @@ const Interest = () => {
             Accessory
           </span>
         </div>
-        <Link href="/category/ssd">
+        <Link href="#">
           <div className="interestItem">
             <div className="h-[88px] w-[88px] relative">
               <Image

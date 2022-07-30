@@ -10,9 +10,9 @@ const Sell = ({ products, title, index }) => {
       {/*Sell header*/}
       <section>
         <div className="border-b-2 border-primary rounded-l-sm flex items-center justify-between">
-          <span className="shadow-2xl block text-white bg-primary text-lg font-bold py-2 px-6 rounded-sm">
+          <h2 className="shadow-2xl block text-white bg-primary text-lg font-bold py-2 px-6 rounded-sm">
             {title}
-          </span>
+          </h2>
 
           <div className="space-x-1  flex items-center">
             <span className="text-primary md:hidden text-3xl font-bold -translate-y-1/4 cursor-pointer">

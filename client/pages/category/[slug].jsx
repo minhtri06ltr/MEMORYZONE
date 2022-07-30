@@ -178,7 +178,7 @@ const SearchCategoryPages = ({ productList }) => {
                 />
               ))}
             </div>
-            <div className="space-x-1.5 flex items-center justify-end text-sm text-text">
+            {/* <div className="space-x-1.5 flex items-center justify-end text-sm text-text">
               <button className="rounded-sm h-[40px] w-[40px] ease-linear transition bg-[#f2f2f2] hover:bg-primary  hover:text-white">
                 1
               </button>
@@ -191,7 +191,7 @@ const SearchCategoryPages = ({ productList }) => {
               <button className="rounded-sm px-5 h-[40px] min-w-[40px] ease-linear transition bg-[#f2f2f2] hover:bg-primary  hover:text-white">
                 Next
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

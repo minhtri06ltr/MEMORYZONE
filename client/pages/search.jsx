@@ -81,9 +81,9 @@ const SearchProductNamePage = ({ path, productList }) => {
           )}
 
           <div className="my-12">
-            <span className="block cursor-pointer text-[#575454] hover:text-primary text-2xl">
+            <h2 className="block cursor-pointer text-[#575454] hover:text-primary text-2xl">
               Enter keywords to search for products
-            </span>
+            </h2>
             <div className="mt-4">
               <form className="flex items-center">
                 <input
@@ -125,7 +125,7 @@ const SearchProductNamePage = ({ path, productList }) => {
                   />
                 ))}
               </div>
-              <div className="space-x-1.5 mt-16 flex items-center justify-center text-sm text-text">
+              {/* <div className="space-x-1.5 mt-16 flex items-center justify-center text-sm text-text">
                 <button className="rounded-sm h-[40px] w-[40px] ease-linear transition bg-[#f2f2f2] hover:bg-primary  hover:text-white">
                   1
                 </button>
@@ -138,7 +138,7 @@ const SearchProductNamePage = ({ path, productList }) => {
                 <button className="rounded-sm px-5 h-[40px] min-w-[40px] ease-linear transition bg-[#f2f2f2] hover:bg-primary  hover:text-white">
                   Next
                 </button>
-              </div>
+              </div> */}
             </div>
           )}
         </div>
