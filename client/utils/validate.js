@@ -1,5 +1,3 @@
-import { VNPaySigned } from "./generateToken";
-
 export const isNumber = (n) => {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
@@ -52,19 +50,6 @@ export const validateOrder = (
     return "Can't find any product in your order";
 };
 
-export const validateVNPayHash = (
-  params,
-  hash,
-) => {
-  var signData = params.split("?")[1];
-
-  var signed = VNPaySigned(signData);
-  if (signed === hash) {
-    console.log("ok");
-  } else {
-    console.log("false");
-  }
-};
 export const validateAddress = (
   lastName,
   firstName,

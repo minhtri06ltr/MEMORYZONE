@@ -1,5 +1,3 @@
-import { VNPaySigned } from "./generateToken";
-
 export const numberWithCommas = (x) => {
   return x
     .toString()
@@ -154,45 +152,6 @@ export const formatOrderList = (orderList) => {
   });
 };
 
-export const VNPayURL = (
-  price,
-  ipAddress,
-  orderId,
-) => {
-  if (!ipAddress) {
-    alert(
-      "Missing IP Address please contact to Admin for this problem",
-    );
-    return;
-  }
-  const amount = price * 23315 * 100;
-  const transactionTime =
-    new Date().getFullYear() +
-    ("0" + (new Date().getMonth() + 1)).slice(
-      -2,
-    ) +
-    ("0" + new Date().getDate()).slice(-2) +
-    ("0" + new Date().getHours()).slice(-2) +
-    ("0" + new Date().getMinutes()).slice(-2) +
-    ("0" + new Date().getSeconds()).slice(-2);
-
-  var tnx = transactionTime.substr(
-    transactionTime.length - 6,
-  );
-  var returnURL = `${process.env.NEXT_PUBLIC_CLIENT_URL}/checkout/${orderId}`;
-  var orderDescription = `Payment+order+ID+${orderId}`;
-
-  const params = `vnp_Amount=${amount}&vnp_Command=pay&vnp_CreateDate=${transactionTime}&vnp_CurrCode=VND&vnp_IpAddr=${ipAddress}&vnp_Locale=en&vnp_OrderInfo=${encodeURIComponent(
-    orderDescription,
-  )}&vnp_ReturnUrl=${encodeURIComponent(
-    returnURL,
-  )}&vnp_TmnCode=${
-    process.env.NEXT_PUBLIC_VNP_TMN_CODE
-  }&vnp_TxnRef=${tnx}&vnp_Version=2.1.0`;
-  const signed = VNPaySigned(params);
-  const url = `${process.env.NEXT_PUBLIC_VNP_URL}?${params}&vnp_SecureHash=${signed}`;
-  return url;
-};
 export const formatTagToSlug = (tag) => {
   const navigate = tag.split(":")[0];
   switch (navigate) {
@@ -295,8 +254,21 @@ export const detect = (ratingList) => {
     min,
   };
 };
-console.log(
-  `${new Date().getFullYear()}-${
-    new Date().getMonth() + 1
-  }-${new Date().getDate()}`,
-);
+
+export const sortObject = (obj) => {
+  var sorted = {};
+  var str = [];
+  var key;
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      str.push(encodeURIComponent(key));
+    }
+  }
+  str.sort();
+  for (key = 0; key < str.length; key++) {
+    sorted[str[key]] = encodeURIComponent(
+      obj[str[key]],
+    ).replace(/%20/g, "+");
+  }
+  return sorted;
+};

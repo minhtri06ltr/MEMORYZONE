@@ -4,6 +4,7 @@ export const productSold = async (
   productId,
   quantity,
 ) => {
+  console.log(quantity);
   await client
     .patch(productId)
     .inc({

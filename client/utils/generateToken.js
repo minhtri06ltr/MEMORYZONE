@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import crypto from "crypto";
 
 export const createAccessToken = (data) => {
   return jwt.sign(
@@ -27,14 +26,4 @@ export const createActiveToken = (data) => {
       expiresIn: "10m",
     },
   );
-};
-export const VNPaySigned = (params) => {
-  var hmac = crypto.createHmac(
-    "sha512",
-    process.env.NEXT_PUBLIC_VNP_SECRET,
-  );
-  var signed = hmac
-    .update(new Buffer(params, "utf-8"))
-    .digest("hex");
-  return signed;
 };

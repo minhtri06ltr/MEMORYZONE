@@ -21,7 +21,7 @@ const orderPayment = async (req, res) => {
       }) // Shallow merge
 
       .commit(); // Perform the patch and return a promise
-
+    console.log(returnOrder.orderList);
     return res.status(200).json({
       success: true,
       message: "Payment success",

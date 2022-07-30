@@ -62,7 +62,7 @@ page to continue shopping."
 
   return (
     <Layout
-      title="Thank you for your purchase at Memoryzone | Memoryzone - Professional in technology"
+      title="Thanks for your purchase | Memoryzone - Professional in technology"
       description="Thanks for your purchase at Memoryzone we hope can see you again"
       removeLayout={true}
     >
@@ -289,7 +289,7 @@ page to continue shopping."
                 </div>
               );
             }}
-            documentTitle="Memoryzone - Thank for your purchase"
+            documentTitle="Thanks for your purchase | Memoryzone - Professional in technology"
             content={() => {
               setDatetime(new Date());
               return componentRef.current;
