@@ -341,7 +341,7 @@ page to continue shopping."
                 <p className="text-sm text-[#545454]">
                   {orderDetail.user
                     ? orderDetail.user.email
-                    : orderDetail.guestName}
+                    : orderDetail.guestEmail}
                 </p>
                 <p className="text-sm text-[#545454]">
                   {
@@ -381,7 +381,7 @@ page to continue shopping."
                 </p>
               </div>
             </div>
-            <div className="hidden lg:block">
+            <div className="hidden order-7 lg:block">
               <Term />
             </div>
           </div>
@@ -545,7 +545,7 @@ export const getServerSideProps = async (
     const orderDetail = await client.fetch(
       `*[_type=="order" && _id==$orderId && isPaid==false][0]
       {
-       totalPrice,orderList,_id,paymentMethod,shippingPrice,orderStatus,user,shippingAddress,   "user": *[_type=='user' && _id == ^.user._ref ][0]{
+       totalPrice,orderList,_id,paymentMethod,shippingPrice,orderStatus,user,shippingAddress,  guestEmail, "user": *[_type=='user' && _id == ^.user._ref ][0]{
         email },
         "productImage": 
       orderList[]{
