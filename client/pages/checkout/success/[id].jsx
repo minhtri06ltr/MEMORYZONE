@@ -8,6 +8,8 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   CheckCircleIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
   PrinterIcon,
 } from "@heroicons/react/outline";
 import ReactToPrint from "react-to-print";
@@ -18,10 +20,7 @@ import {
   client,
   urlFor,
 } from "../../../lib/client";
-import {
-  getData,
-  postData,
-} from "../../../utils/requestMethod";
+import { postData } from "../../../utils/requestMethod";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
@@ -29,6 +28,7 @@ const OrderSuccessPage = ({ orderDetail }) => {
   console.log(orderDetail);
   const componentRef = useRef();
   const [datetime, setDatetime] = useState(null);
+  const [toggle, setToggle] = useState(false);
   const router = useRouter();
   const token = useSelector(
     (state) => state.account.accessToken,
@@ -62,28 +62,30 @@ page to continue shopping."
 
   return (
     <Layout
-      title="Thanks for your purchase | Memoryzone - Professional in technology"
+      title="Memoryzone - Professional in technology | Thanks"
       description="Thanks for your purchase at Memoryzone we hope can see you again"
       removeLayout={true}
     >
-      <div className="bg-[#f4f4f4] px-10 py-8 min-h-screen">
+      <div className="bg-[#f4f4f4] px-4 lg:px-6 py-8 min-h-screen">
         <div>
           <Link href="/">
             <a>
-              <div className="relative w-[225px] cursor-pointer h-[60px]">
+              <div className="grid mx-auto w-[225px] cursor-pointer h-[60px]">
                 <Image
                   alt="Memoryzone logo"
                   priority={true}
-                  layout="fill"
+                  layout="responsive"
+                  width="100%"
+                  height="100%"
                   src="https://bizweb.sapocdn.net/100/329/122/themes/835213/assets/checkout_logo.png?1656064578646"
                 />
               </div>
             </a>
           </Link>
         </div>
-        <div className="flex space-x-6">
-          <div className="w-[60%]">
-            <div className="flex items-center my-6 space-x-2">
+        <div className="flex flex-col mt-8 lg:mt-0 lg:flex-row lg:space-x-6">
+          <div className="w-full lg:w-[60%]">
+            <div className="flex flex-col lg:flex-row items-center mb-6 lg:my-6 space-x-2">
               <div>
                 <CheckCircleIcon
                   width={100}
@@ -91,9 +93,9 @@ page to continue shopping."
                   color="#8ec343"
                 />
               </div>
-              <div className="space-y-4">
+              <div className="space-y-4 text-center lg:text-left">
                 <h1 className="block text-lg text-[#000000]  font-semibold">
-                  Thank you for your order
+                  Thanks for your order
                 </h1>
                 <div className="text-sm text-[#595959]">
                   <span className="block ">
@@ -111,8 +113,8 @@ page to continue shopping."
                 </button>
               </div>
             </div>
-            <div className="grid ml-16 mt-10 grid-cols-2 grid-rows-2 gap-y-6 gap-x-8">
-              <div className="flex flex-col text-sm space-y-4 text-[#595959]">
+            <div className="grid lg:ml-16 mb-10 lg:mb-0 mt-10 lg:grid-cols-2 grid-cols-1 grid-rows-2 gap-y-6 gap-x-8">
+              <div className="paymentIfoItem">
                 <h2 className="text-xl text-[#000000]">
                   Purchase information
                 </h2>
@@ -133,7 +135,7 @@ page to continue shopping."
                   }
                 </span>
               </div>
-              <div className="flex flex-col text-sm space-y-4 text-[#595959]">
+              <div className="paymentIfoItem">
                 <h2 className="text-xl text-[#000000]">
                   Delivery address
                 </h2>
@@ -170,7 +172,7 @@ page to continue shopping."
                   }
                 </span>
               </div>
-              <div className="flex flex-col text-sm space-y-4 text-[#595959]">
+              <div className="paymentIfoItem">
                 <h2 className="text-xl text-[#000000]">
                   Payment methods
                 </h2>
@@ -178,7 +180,7 @@ page to continue shopping."
                   {orderDetail.paymentMethod}
                 </span>
               </div>
-              <div className="flex flex-col text-sm space-y-4 text-[#595959]">
+              <div className="paymentIfoItem">
                 <h2 className="text-xl text-[#000000]">
                   Shipping method
                 </h2>
@@ -190,11 +192,37 @@ page to continue shopping."
           </div>
           <div className="flex-1">
             <div className="border border-[#e1e1e1] bg-[#fafafa] divide-y divide-[#e1e1e1]">
-              <h2 className="px-4  text-[#000000] text-sm font-semibold block my-2">
-                Order [{orderDetail._id}] (
-                {orderDetail.orderList.length})
-              </h2>
-              <div className="max-h-[calc(100vh-480px)] scroll-smooth  overflow-y-auto p-4 ">
+              <div className="px-4 flex items-center justify-between my-2">
+                <h2 className="  text-[#000000] text-sm font-semibold block ">
+                  Order (
+                  {orderDetail.orderList.length})
+                </h2>
+                <div
+                  onClick={() =>
+                    setToggle(!toggle)
+                  }
+                  className="text-primary flex lg:hidden hover:text-[#006533] space-x-1 cursor-pointer text-sm  items-center"
+                >
+                  <span>See details</span>
+                  {toggle ? (
+                    <ChevronUpIcon
+                      width={15}
+                      height={15}
+                    />
+                  ) : (
+                    <ChevronDownIcon
+                      width={15}
+                      height={15}
+                    />
+                  )}
+                </div>
+              </div>
+
+              <div
+                className={`lg:block max-h-[calc(100vh-480px)] scroll-smooth overflow-y-auto p-4 ${
+                  toggle ? "block" : "hidden"
+                }`}
+              >
                 <table>
                   <tbody className="space-y-2">
                     {orderDetail.orderList.map(
@@ -266,9 +294,9 @@ page to continue shopping."
             </div>
           </div>
         </div>
-        <div className="flex items-center space-x-8 justify-center my-6">
+        <div className="flex items-center flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8 justify-center my-6">
           <Link href="/">
-            <button className="bg-primary hover:bg-[#006533] text-lg text-white px-8 py-3 rounded-md">
+            <button className="bg-primary w-full sm:w-auto hover:bg-[#006533] text-lg text-white px-8 py-3 rounded-md">
               Continue shopping
             </button>
           </Link>

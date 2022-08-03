@@ -2,22 +2,30 @@ import Link from "next/link";
 import { Layout, Path } from "../../components";
 import { postData } from "../../utils/requestMethod";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from "react-redux";
 import Cookies from "js-cookie";
 import { loginSuccess } from "../../redux/accountSlice";
 import { useRouter } from "next/router";
 import { validateEmail } from "../../utils/validate";
+import { structure1 } from "../../utils/schemaStructures";
 
 const LoginPage = () => {
   const router = useRouter();
-  const user = useSelector((state) => state.account.user);
+  const user = useSelector(
+    (state) => state.account.user,
+  );
   const dispatch = useDispatch();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] =
+    useState("");
   const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
   });
-  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotEmail, setForgotEmail] =
+    useState("");
 
   const forgotEmailHandle = async (e) => {
     e.preventDefault();
@@ -29,7 +37,10 @@ const LoginPage = () => {
       alert("Invalid email");
       return;
     }
-    const res = await postData("account/forgotPassword", forgotEmail);
+    const res = await postData(
+      "account/forgotPassword",
+      forgotEmail,
+    );
     if (!res.success) {
       alert(res.error);
       return;
@@ -38,7 +49,10 @@ const LoginPage = () => {
   };
   const loginHandler = async (e) => {
     e.preventDefault();
-    if (loginForm.email === "" || loginForm.password === "") {
+    if (
+      loginForm.email === "" ||
+      loginForm.password === ""
+    ) {
       alert("Please fill all required fields");
       return;
     }
@@ -46,19 +60,26 @@ const LoginPage = () => {
       alert("Invalid email");
       return;
     }
-    const res = await postData("account/login", loginForm);
+    const res = await postData(
+      "account/login",
+      loginForm,
+    );
     if (!res.success) {
       setErrorMessage(res.error);
     } else {
-      Cookies.set("refreshToken", res.refreshToken, {
-        expires: 7,
-        path: "/api/account/accessToken",
-      });
+      Cookies.set(
+        "refreshToken",
+        res.refreshToken,
+        {
+          expires: 7,
+          path: "/api/account/accessToken",
+        },
+      );
       dispatch(
         loginSuccess({
           accessToken: res.accessToken,
           user: res.user,
-        })
+        }),
       );
       localStorage.setItem("isLogin", true);
     }
@@ -72,7 +93,9 @@ const LoginPage = () => {
   };
   useEffect(() => {
     if (
-      JSON.parse(localStorage.getItem("isLogin")) &&
+      JSON.parse(
+        localStorage.getItem("isLogin"),
+      ) &&
       Object.keys(user).length !== 0
     ) {
       if (router.query?.return === "checkout") {
@@ -80,20 +103,6 @@ const LoginPage = () => {
       } else router.push("/");
     }
   }, [Object.keys(user).length, router, user]);
-  const structure1 = {
-    "@context": "http://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        item: {
-          "@id": "https://memoryzone.vercel.app",
-          name: "Home page",
-        },
-      },
-    ],
-  };
 
   return (
     <Layout
@@ -114,16 +123,24 @@ const LoginPage = () => {
         ]}
       />
       <div className="my-10 limitScreen">
-        <h1 className="text-text  text-lg block">LOG IN TO ACCOUNT</h1>
+        <h1 className="text-text  text-lg block">
+          LOG IN TO ACCOUNT
+        </h1>
         <div className="my-1 space-y-8 lg:space-y-0 flex flex-col xl:flex-row xl:space-x-8">
           <div className="w-full xl:w-1/2">
             <h2 className="text-text text-sm pb-4 block">
-              If you already have an account, log in here.
+              If you already have an account, log
+              in here.
             </h2>
             {errorMessage && (
-              <span className="text-text block text-sm">{errorMessage}</span>
+              <span className="text-text block text-sm">
+                {errorMessage}
+              </span>
             )}
-            <form onSubmit={loginHandler} className="my-4">
+            <form
+              onSubmit={loginHandler}
+              className="my-4"
+            >
               <div className="mb-6">
                 <label
                   htmlFor="email"
@@ -138,7 +155,9 @@ const LoginPage = () => {
                   name="email"
                   id="email"
                   value={loginForm.email}
-                  onChange={(e) => loginFormHandler(e)}
+                  onChange={(e) =>
+                    loginFormHandler(e)
+                  }
                   required
                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                 />
@@ -159,7 +178,9 @@ const LoginPage = () => {
                   value={loginForm.password}
                   minLength={6}
                   required
-                  onChange={(e) => loginFormHandler(e)}
+                  onChange={(e) =>
+                    loginFormHandler(e)
+                  }
                 />
               </div>
               <div className="flex mt-10 space-x-6 items-center">
@@ -179,10 +200,14 @@ const LoginPage = () => {
           </div>
           <div className="w-full xl:w-1/2">
             <h2 className="text-text text-sm  block">
-              Forgot your password? Enter your email address to retrieve your
+              Forgot your password? Enter your
+              email address to retrieve your
               password via email.
             </h2>
-            <form onSubmit={forgotEmailHandle} className="my-8">
+            <form
+              onSubmit={forgotEmailHandle}
+              className="my-8"
+            >
               <div className="mb-6">
                 <label
                   htmlFor="forgotEmail"
@@ -199,10 +224,14 @@ const LoginPage = () => {
                   placeholder="Email"
                   name="forgotEmail"
                   value={forgotEmail}
-                  onChange={(e) => setForgotEmail(e.target.value)}
+                  onChange={(e) =>
+                    setForgotEmail(e.target.value)
+                  }
                 />
               </div>
-              <label className="invisible mb-2.5 block  text-sm">*</label>
+              <label className="invisible mb-2.5 block  text-sm">
+                *
+              </label>
               <div>
                 <button
                   type="submit"

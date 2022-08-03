@@ -11,7 +11,7 @@ const getSubject = (template) => {
     case "activate":
       return "🚀 Activate your Memoryzone account 🚀";
       break;
-      default:
+    default:
       break;
   }
 };
@@ -23,8 +23,8 @@ const getTemplate = (template, url) => {
     case "activate":
       return activateTemplate(url);
       break;
-      default:
-        break;
+    default:
+      break;
   }
 };
 export const sendEmailHandle = async (
@@ -52,6 +52,7 @@ export const sendEmailHandle = async (
     const accessToken =
       await oauth2Client.getAccessToken();
 
+    console.log(accessToken.token);
     const transporter =
       nodemailer.createTransport({
         service: "gmail",
@@ -59,6 +60,7 @@ export const sendEmailHandle = async (
           type: "OAuth2",
           user: process.env
             .NEXT_PUBLIC_SENDER_EMAIL,
+
           clientId:
             process.env
               .NEXT_PUBLIC_GOOGLE_CLIENT_ID,

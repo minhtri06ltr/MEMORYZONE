@@ -1,6 +1,6 @@
 const Term = () => {
   return (
-    <div className="limitScreen border-t border-[#ddd]">
+    <div className=" border-t border-[#ddd]">
       <span className="cursor-pointer text-sm text-right text-primary block hover:text-[#006533] py-3">
         Terms of use
       </span>

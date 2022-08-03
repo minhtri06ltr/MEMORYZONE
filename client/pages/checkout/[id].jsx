@@ -6,14 +6,18 @@ import {
   Term,
 } from "../../components";
 import { useSelector } from "react-redux";
-import { ShieldCheckIcon } from "@heroicons/react/outline";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  ShieldCheckIcon,
+} from "@heroicons/react/outline";
 import Link from "next/link";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { client, urlFor } from "../../lib/client";
 import { useDispatch } from "react-redux";
 
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { updateOrder } from "../../redux/orderSlice";
 import { productSold } from "../../middlewares/product";
 import { postData } from "../../utils/requestMethod";
@@ -29,7 +33,8 @@ const OrderDetailsPage = ({
   const token = useSelector(
     (state) => state.account.accessToken,
   );
-
+  console.log(orderDetail);
+  const [toggle, setToggle] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -203,11 +208,11 @@ page to continue shopping."
       title="Order Detail | Memoryzone - Professional in technology"
       description="Keep on track your order with Memoryzone"
     >
-      <div className="bg-[#f4f4f4] min-h-screen flex pl-36 ">
-        <div className=" space-x-16 flex flex-1">
-          <div className="flex flex-col  pt-6 w-[48%]  ">
+      <div className="bg-[#f4f4f4] min-h-screen flex px-4 lg:px-0 lg:pl-36 ">
+        <div className=" lg:space-x-16 flex flex-col lg:flex-row flex-1">
+          <div className="flex flex-col  pt-6 w-full lg:w-[48%]  ">
             <Link href="/">
-              <a>
+              <a className="block order-1 mx-auto">
                 <div className="relative w-[225px] cursor-pointer h-[60px]">
                   <Image
                     priority={true}
@@ -220,17 +225,12 @@ page to continue shopping."
             </Link>
             <div
               className={` ${
-                (router.query
-                  .vnp_TransactionStatus ===
-                  "02" &&
-                  router.query
-                    .vnp_TransactionStatus) ||
                 orderDetail.totalPrice !==
                   totalPrice ||
                 orderDetail.orderStatus === 5
                   ? "visible"
-                  : "invisible"
-              } relative  text-[#000000] 
+                  : " invisible"
+              } relative hidden lg:block order-2  text-[#000000] 
             `}
             >
               <div className="absolute top-[10%] left-0 -translate-x-[120%]">
@@ -250,16 +250,7 @@ page to continue shopping."
                 are no longer available to order.
                 We apologize for this
                 inconvenience.`}
-                {router.query
-                  .vnp_TransactionStatus ===
-                  "02" && (
-                  <span>
-                    Cancel the payment!
-                    <br />
-                    Comeback and pay whenever you
-                    like, have a good day
-                  </span>
-                )}
+
                 {orderDetail.orderStatus ===
                   5 && (
                   <span>
@@ -271,11 +262,11 @@ page to continue shopping."
                 )}
               </span>
             </div>
-            <div className="text-sm text-[#000000] flex justify-between items-center my-4">
+            <div className="text-sm text-[#000000] order-4 flex justify-between items-center my-4">
               <span>Product</span>
               <span>Quantity</span>
             </div>
-            <div className="border-y border-[#ddd]  divide-y divide-[#ddd]">
+            <div className="border-y order-5 border-[#ddd]  divide-y divide-[#ddd]">
               {orderList.map((item, index) => (
                 <div
                   className="flex items-center space-x-6 py-4 justify-between"
@@ -308,7 +299,7 @@ page to continue shopping."
                 </div>
               ))}
             </div>
-            <div className="flex items-center justify-between my-6 ">
+            <div className="flex items-center order-6 justify-between my-6 ">
               <Link href="/cart">
                 <div className="text-primary    hover:text-[#006533]  cursor-pointer flex items-center">
                   <div className="hover:first:-translate-x-2 after:bg-transparent after:absolute after:h-full after:w-24 after:top-0 after:content-[''] relative  mt-0.5 transition ease-linear ">
@@ -324,6 +315,7 @@ page to continue shopping."
                   </div>
                 </div>
               </Link>
+
               <Link href="/cart">
                 <button
                   className={`rounded-md bg-primary text-white px-6 py-3 text-sm hover:bg-[#006533] ${
@@ -335,15 +327,107 @@ page to continue shopping."
                 </button>
               </Link>
             </div>
-            <Term />
+            <div className="rounded-sm border order-3 my-6  border-[#ddd] divide-y divide-[#ddd] text-base text-[#9b9b9b] bg-white px-4">
+              <div className="py-4">
+                <h2 className="mb-2">
+                  Delivery information
+                </h2>
+                <p className="text-sm text-[#545454]">
+                  {
+                    orderDetail.shippingAddress
+                      .address
+                  }
+                </p>
+                <p className="text-sm text-[#545454]">
+                  {orderDetail.user
+                    ? orderDetail.user.email
+                    : orderDetail.guestName}
+                </p>
+                <p className="text-sm text-[#545454]">
+                  {
+                    orderDetail.shippingAddress
+                      .phoneNumber
+                  }
+                </p>
+                <p className="text-sm text-[#545454]">
+                  {`${
+                    orderDetail.shippingAddress
+                      .address
+                  }, ${
+                    orderDetail.shippingAddress.ward.split(
+                      "|",
+                    )[1]
+                  }, ${
+                    orderDetail.shippingAddress.district.split(
+                      "|",
+                    )[1]
+                  }, ${
+                    orderDetail.shippingAddress.province.split(
+                      "|",
+                    )[1]
+                  }`}
+                </p>
+              </div>
+              <div className="py-4">
+                <h2 className="mb-2">
+                  Shipping method
+                </h2>
+                <p className="text-sm text-[#545454]">
+                  Economical delivery (Standard){" "}
+                  <strong>
+                    • {orderDetail.shippingPrice}{" "}
+                    USD
+                  </strong>
+                </p>
+              </div>
+            </div>
+            <div className="hidden lg:block">
+              <Term />
+            </div>
           </div>
           <div
-            className={`flex-1 pl-6 pr-28 bg-[#f8f8f8] border-l border-[#ddd] ${
+            className={`flex-1  lg:pl-6 lg:pr-28 bg-[#f8f8f8] lg:border-l border-[#ddd] ${
               totalPrice === 0 &&
               "opacity-70 pointer-events-none"
             }`}
           >
-            <div className="max-h-[calc(100vh-480px)] scroll-smooth  overflow-y-auto py-4 ">
+            <div className="flex justify-between py-4 border-y border-[#ddd]">
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() => setToggle(!toggle)}
+              >
+                <h2 className="font-semibold text-[#333333] text-md">
+                  {`Order (${orderList.length} ${
+                    orderList.length > 1
+                      ? "products"
+                      : "product"
+                  })`}
+                </h2>
+                {toggle ? (
+                  <ChevronUpIcon
+                    width={25}
+                    height={25}
+                    color="#333333"
+                    className="lg:hidden cursor-pointer"
+                  />
+                ) : (
+                  <ChevronDownIcon
+                    width={25}
+                    height={25}
+                    color="#333333"
+                    className="lg:hidden cursor-pointer"
+                  />
+                )}
+              </div>
+              <span className="text-primary lg:hidden font-semibold text-base">
+                {totalPrice}$
+              </span>
+            </div>
+            <div
+              className={`max-h-[calc(100vh-480px)] lg:block scroll-smooth px-2 lg:px-0 overflow-y-auto py-4 ${
+                toggle ? "block" : "hidden"
+              }`}
+            >
               <table>
                 <tbody className="space-y-2">
                   {orderList.map(
@@ -394,7 +478,11 @@ page to continue shopping."
                 </tbody>
               </table>
             </div>
-            <div className="border-y border-[#ddd] py-6 space-y-4">
+            <div
+              className={`border-y px-2 lg:px-0 border-[#ddd] py-6 space-y-4 ${
+                toggle ? "block" : "hidden"
+              }`}
+            >
               <div className="flex justify-between items-center">
                 <span className="text-[#717171] text-sm block">
                   Provisional
@@ -417,7 +505,11 @@ page to continue shopping."
                 </span>
               </div>
             </div>
-            <div className="flex justify-between items-center my-4">
+            <div
+              className={`flex justify-between items-center my-4 px-2 lg:px-0 ${
+                toggle ? "block" : "hidden"
+              }`}
+            >
               <span className="text-[16px] text-[#717171] font-light">
                 Total
               </span>
@@ -433,6 +525,9 @@ page to continue shopping."
                 />
               )}
             </div>
+          </div>
+          <div className="lg:hidden mt-6">
+            <Term />
           </div>
         </div>
       </div>
@@ -450,7 +545,8 @@ export const getServerSideProps = async (
     const orderDetail = await client.fetch(
       `*[_type=="order" && _id==$orderId && isPaid==false][0]
       {
-       totalPrice,orderList,_id,paymentMethod,shippingPrice,orderStatus,user,
+       totalPrice,orderList,_id,paymentMethod,shippingPrice,orderStatus,user,shippingAddress,   "user": *[_type=='user' && _id == ^.user._ref ][0]{
+        email },
         "productImage": 
       orderList[]{
         "image": *[_type=='product' && slug.current == ^.slug][0]{image[0]}

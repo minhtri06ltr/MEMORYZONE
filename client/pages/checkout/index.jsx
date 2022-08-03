@@ -5,13 +5,20 @@ import {
   UserCircleIcon,
   ChevronLeftIcon,
   ChevronDownIcon,
+  ChevronUpIcon,
   CreditCardIcon,
   TruckIcon,
   IdentificationIcon,
 } from "@heroicons/react/solid";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from "react-redux";
 import { client, urlFor } from "../../lib/client";
-import { formatOrderList, numberWithCommas } from "../../utils/format";
+import {
+  formatOrderList,
+  numberWithCommas,
+} from "../../utils/format";
 import { useEffect, useState } from "react";
 
 import { LogoutIcon } from "@heroicons/react/outline";
@@ -27,25 +34,32 @@ import { loadingNotify } from "../../redux/notifySlice";
 
 const CheckoutPage = ({ provinceList }) => {
   const router = useRouter();
-  const [shippingPrice, setShippingPrice] = useState(null);
+  const [shippingPrice, setShippingPrice] =
+    useState(null);
   const cart = useSelector((state) => state.cart);
-  const addressList = useSelector((state) => state.address.addressList);
+  const addressList = useSelector(
+    (state) => state.address.addressList,
+  );
   const [toggle, setToggle] = useState(false);
   const [allow, setAllow] = useState(true);
-  const account = useSelector((state) => state.account);
+  const account = useSelector(
+    (state) => state.account,
+  );
   const dispatch = useDispatch();
-  const [districtList, setDistrictList] = useState([]);
+  const [districtList, setDistrictList] =
+    useState([]);
   const [wardList, setWardList] = useState([]);
-  const [checkoutForm, setCheckoutForm] = useState({
-    province: "",
-    district: "",
-    ward: "",
-    email: "",
-    fullName: "",
-    address: "",
-    phoneNumber: "",
-    paymentMethod: "",
-  });
+  const [checkoutForm, setCheckoutForm] =
+    useState({
+      province: "",
+      district: "",
+      ward: "",
+      email: "",
+      fullName: "",
+      address: "",
+      phoneNumber: "",
+      paymentMethod: "",
+    });
   console.log(checkoutForm);
   useEffect(() => {
     try {
@@ -57,12 +71,17 @@ const CheckoutPage = ({ provinceList }) => {
 
             headers: {
               "Content-Type": "application/json",
-              token: process.env.NEXT_PUBLIC_GHN_API,
+              token:
+                process.env.NEXT_PUBLIC_GHN_API,
             },
             body: JSON.stringify({
-              province_id: parseInt(checkoutForm.province.split(" | ")[0]),
+              province_id: parseInt(
+                checkoutForm.province.split(
+                  " | ",
+                )[0],
+              ),
             }),
-          }
+          },
         );
         const formatRes = await res.json();
         console.log(formatRes);
@@ -89,12 +108,17 @@ const CheckoutPage = ({ provinceList }) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              token: process.env.NEXT_PUBLIC_GHN_API,
+              token:
+                process.env.NEXT_PUBLIC_GHN_API,
             },
             body: JSON.stringify({
-              district_id: parseInt(checkoutForm.district.split(" | ")[0]),
+              district_id: parseInt(
+                checkoutForm.district.split(
+                  " | ",
+                )[0],
+              ),
             }),
-          }
+          },
         );
         const formatRes = await res.json();
 
@@ -118,30 +142,40 @@ const CheckoutPage = ({ provinceList }) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              token: process.env.NEXT_PUBLIC_GHN_API,
-              shop_id: process.env.NEXT_PUBLIC_SHOP_ID,
+              token:
+                process.env.NEXT_PUBLIC_GHN_API,
+              shop_id:
+                process.env.NEXT_PUBLIC_SHOP_ID,
             },
             body: JSON.stringify({
               service_type_id: 2,
               insurance_value: cart.total,
               coupon: null,
               from_district_id: 1459,
-              to_district_id: parseInt(checkoutForm.district.split(" | ")[0]),
-              to_ward_code: checkoutForm.ward.split(" | ")[0],
+              to_district_id: parseInt(
+                checkoutForm.district.split(
+                  " | ",
+                )[0],
+              ),
+              to_ward_code:
+                checkoutForm.ward.split(" | ")[0],
 
               height: 50,
               length: 20,
               weight: 1000,
               width: 20,
             }),
-          }
+          },
         );
         const formatRes = await res.json();
         console.log(formatRes);
-        setShippingPrice(Math.round(formatRes.data.total / 5000));
+        setShippingPrice(
+          Math.round(formatRes.data.total / 5000),
+        );
         dispatch(loadingNotify(false));
       };
-      if (checkoutForm.ward !== "") getShippingPrice();
+      if (checkoutForm.ward !== "")
+        getShippingPrice();
     } catch (error) {
       alert(error.message);
     }
@@ -167,14 +201,18 @@ const CheckoutPage = ({ provinceList }) => {
       return;
     }
     if (cart.products.length === 0) {
-      alert("Can't find any product in your order");
+      alert(
+        "Can't find any product in your order",
+      );
       return;
     }
     if (!validateEmail(checkoutForm.email)) {
       alert("Invalid email");
       return;
     }
-    const cartLocal = JSON.parse(localStorage.getItem("__memoryzone__cart"));
+    const cartLocal = JSON.parse(
+      localStorage.getItem("__memoryzone__cart"),
+    );
     updateCartHandle(dispatch, cartLocal);
 
     if (
@@ -193,24 +231,29 @@ const CheckoutPage = ({ provinceList }) => {
             shippingPrice: shippingPrice,
             orderAt: new Date(),
           },
-          account.accessToken
+          account.accessToken,
         );
         if (!res.success) {
           console.log(res.error);
           alert(res.error);
         } else {
-          router.push(`/checkout/${res.returnOrder._id}`);
+          router.push(
+            `/checkout/${res.returnOrder._id}`,
+          );
           dispatch(clearCart());
 
           dispatch(
             addOrder({
               _id: res.returnOrder._id,
               orderAt: res.returnOrder.orderAt,
-              orderStatus: res.returnOrder.orderStatus,
-              shippingAddress: res.returnOrder.shippingAddress,
-              totalPrice: res.returnOrder.totalPrice,
+              orderStatus:
+                res.returnOrder.orderStatus,
+              shippingAddress:
+                res.returnOrder.shippingAddress,
+              totalPrice:
+                res.returnOrder.totalPrice,
               isPaid: res.returnOrder.isPaid,
-            })
+            }),
           );
         }
       } catch (error) {
@@ -234,12 +277,15 @@ const CheckoutPage = ({ provinceList }) => {
             note: checkoutForm.note,
           },
           orderStatus: 0,
-          paymentMethod: checkoutForm.paymentMethod,
+          paymentMethod:
+            checkoutForm.paymentMethod,
           orderAt: new Date(),
           totalPrice: cart.total + shippingPrice,
           isPaid: false,
           shippingPrice: shippingPrice,
-          orderList: formatOrderList(cart.products),
+          orderList: formatOrderList(
+            cart.products,
+          ),
         })
         .then((res) => {
           router.push(`/checkout/${res._id}`);
@@ -260,7 +306,10 @@ const CheckoutPage = ({ provinceList }) => {
       });
       setAllow(false);
     }
-  }, [Object.keys(account.user).length, account.user]);
+  }, [
+    Object.keys(account.user).length,
+    account.user,
+  ]);
   const handleAddressList = (e) => {
     console.log(e.target.value);
     if (e.target.value === "addNewAddress") {
@@ -282,11 +331,13 @@ const CheckoutPage = ({ provinceList }) => {
     }
     setCheckoutForm({
       ...checkoutForm,
-      fullName: `${addressList[e.target.value].firstName} ${
-        addressList[e.target.value].lastName
-      }`,
-      phoneNumber: addressList[e.target.value].phoneNumber,
-      address: addressList[e.target.value].address,
+      fullName: `${
+        addressList[e.target.value].firstName
+      } ${addressList[e.target.value].lastName}`,
+      phoneNumber:
+        addressList[e.target.value].phoneNumber,
+      address:
+        addressList[e.target.value].address,
     });
   };
   return (
@@ -298,12 +349,13 @@ const CheckoutPage = ({ provinceList }) => {
       {cart.quantity === 0 ? (
         <Link href="/">
           <h1 className="mt-12 cursor-pointer hover:text-primary block text-center text-text text-md ">
-            You don&apos;t have any product in cart yet! Please choose at least
-            one product at shop
+            You don&apos;t have any product in
+            cart yet! Please choose at least one
+            product at shop
           </h1>
         </Link>
       ) : (
-        <div className="flex lg:flex-row limitScreen lg:px-4 px-0 flex-col-reverse min-h-screen">
+        <div className="flex lg:flex-row   lg:px-6 px-4 flex-col-reverse min-h-screen">
           <div className="bg-[#f4f4f4]  w-full  lg:w-[66%]">
             <div className=" lg:px-8 py-1.5">
               <div className="hidden lg:block mt-6 cursor-pointer ">
@@ -341,9 +393,11 @@ const CheckoutPage = ({ provinceList }) => {
                         {allow ? (
                           <Link
                             href={{
-                              pathname: "/account/login",
+                              pathname:
+                                "/account/login",
                               query: {
-                                return: "checkout",
+                                return:
+                                  "checkout",
                               },
                             }}
                           >
@@ -363,7 +417,10 @@ const CheckoutPage = ({ provinceList }) => {
                             onClick={() => {
                               dispatch(logout());
                               setAllow(true);
-                              localStorage.setItem("isLogin", false);
+                              localStorage.setItem(
+                                "isLogin",
+                                false,
+                              );
                             }}
                             className="flex cursor-pointer items-center"
                           >
@@ -381,7 +438,8 @@ const CheckoutPage = ({ provinceList }) => {
                     </div>
 
                     <div className="flex flex-col space-y-3 ">
-                      {Object.keys(account.user).length !== 0 && (
+                      {Object.keys(account.user)
+                        .length !== 0 && (
                         <div className="checkoutInput  checkoutSelectWrapper">
                           <label
                             htmlFor="province"
@@ -394,19 +452,37 @@ const CheckoutPage = ({ provinceList }) => {
                             id="addressList"
                             className="checkoutSelect"
                             defaultValue="clearInfo"
-                            onChange={handleAddressList}
+                            onChange={
+                              handleAddressList
+                            }
                           >
-                            <option value="clearInfo">Other address...</option>
+                            <option value="clearInfo">
+                              Other address...
+                            </option>
                             {addressList ? (
-                              addressList.map((item, index) => (
-                                <option key={index} value={index}>
-                                  {item.firstName}, {item.lastName},{" "}
-                                  {item.address}
-                                </option>
-                              ))
+                              addressList.map(
+                                (item, index) => (
+                                  <option
+                                    key={index}
+                                    value={index}
+                                  >
+                                    {
+                                      item.firstName
+                                    }
+                                    ,{" "}
+                                    {
+                                      item.lastName
+                                    }
+                                    ,{" "}
+                                    {item.address}
+                                  </option>
+                                ),
+                              )
                             ) : (
                               <option value="addNewAddress">
-                                (+) Add new address to your profile
+                                (+) Add new
+                                address to your
+                                profile
                               </option>
                             )}
                           </select>
@@ -414,7 +490,9 @@ const CheckoutPage = ({ provinceList }) => {
                       )}
 
                       <input
-                        onChange={checkoutFormHandle}
+                        onChange={
+                          checkoutFormHandle
+                        }
                         name="email"
                         required
                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
@@ -423,36 +501,52 @@ const CheckoutPage = ({ provinceList }) => {
                         placeholder="Email"
                         disabled={!allow && true}
                         className={`checkoutInput ${
-                          !allow && "cursor-not-allowed bg-[#eee]"
+                          !allow &&
+                          "cursor-not-allowed bg-[#eee]"
                         }`}
                       />
                       <input
                         required
                         type={`${
-                          account.user.length === 0 ? "hidden" : "text"
+                          account.user.length ===
+                          0
+                            ? "hidden"
+                            : "text"
                         }`}
-                        onChange={checkoutFormHandle}
+                        onChange={
+                          checkoutFormHandle
+                        }
                         name="fullName"
                         placeholder="Full Name"
-                        value={checkoutForm.fullName}
+                        value={
+                          checkoutForm.fullName
+                        }
                         className="checkoutInput"
                       />
                       <input
                         type="tel"
-                        onChange={checkoutFormHandle}
+                        onChange={
+                          checkoutFormHandle
+                        }
                         name="phoneNumber"
                         placeholder="Phone Number"
                         className="checkoutInput"
                         pattern="(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b"
-                        value={checkoutForm.phoneNumber}
+                        value={
+                          checkoutForm.phoneNumber
+                        }
                         required
                       />
                       <input
-                        onChange={checkoutFormHandle}
+                        onChange={
+                          checkoutFormHandle
+                        }
                         name="address"
                         type="text"
                         required
-                        value={checkoutForm.address}
+                        value={
+                          checkoutForm.address
+                        }
                         placeholder="Address"
                         className="checkoutInput"
                       />
@@ -465,30 +559,43 @@ const CheckoutPage = ({ provinceList }) => {
                         </label>
                         <select
                           required
-                          value={checkoutForm.province}
+                          value={
+                            checkoutForm.province
+                          }
                           name="province"
                           id="province"
                           className="checkoutSelect required"
-                          onChange={checkoutFormHandle}
+                          onChange={
+                            checkoutFormHandle
+                          }
                         >
-                          {checkoutForm.province === "" && (
-                            <option value="" disabled>
+                          {checkoutForm.province ===
+                            "" && (
+                            <option
+                              value=""
+                              disabled
+                            >
                               ---
                             </option>
                           )}
-                          {provinceList.data.map((item, index) => (
-                            <option
-                              key={index}
-                              value={`${item.ProvinceID} | ${item.ProvinceName}`}
-                            >
-                              {item.ProvinceName}
-                            </option>
-                          ))}
+                          {provinceList.data.map(
+                            (item, index) => (
+                              <option
+                                key={index}
+                                value={`${item.ProvinceID} | ${item.ProvinceName}`}
+                              >
+                                {
+                                  item.ProvinceName
+                                }
+                              </option>
+                            ),
+                          )}
                         </select>
                       </div>
                       <div
                         className={`checkoutInput checkoutSelectWrapper ${
-                          checkoutForm.province === "" && "bg-[#eee]"
+                          checkoutForm.province ===
+                            "" && "bg-[#eee]"
                         }`}
                       >
                         <label
@@ -498,53 +605,80 @@ const CheckoutPage = ({ provinceList }) => {
                           District
                         </label>
                         <select
-                          value={checkoutForm.district}
-                          disabled={checkoutForm.province === "" && true}
+                          value={
+                            checkoutForm.district
+                          }
+                          disabled={
+                            checkoutForm.province ===
+                              "" && true
+                          }
                           className="checkoutSelect  bg-inherit required"
                           name="district"
                           id="district"
-                          onChange={checkoutFormHandle}
+                          onChange={
+                            checkoutFormHandle
+                          }
                         >
-                          {checkoutForm.district === "" && (
-                            <option value="">---</option>
-                          )}
-                          {districtList.map((item, index) => (
-                            <option
-                              key={index}
-                              value={`${item.DistrictID} | ${item.DistrictName}`}
-                            >
-                              {item.DistrictName}
+                          {checkoutForm.district ===
+                            "" && (
+                            <option value="">
+                              ---
                             </option>
-                          ))}
+                          )}
+                          {districtList.map(
+                            (item, index) => (
+                              <option
+                                key={index}
+                                value={`${item.DistrictID} | ${item.DistrictName}`}
+                              >
+                                {
+                                  item.DistrictName
+                                }
+                              </option>
+                            ),
+                          )}
                         </select>
                       </div>
                       <div
                         className={`checkoutInput  checkoutSelectWrapper ${
-                          checkoutForm.district === "" && "bg-[#eee]"
+                          checkoutForm.district ===
+                            "" && "bg-[#eee]"
                         }`}
                       >
                         <label className="absolute z-10 text-xs top-1 text-[#999999]">
                           Wards
                         </label>
                         <select
-                          value={checkoutForm.ward}
-                          disabled={checkoutForm.district === "" && true}
+                          value={
+                            checkoutForm.ward
+                          }
+                          disabled={
+                            checkoutForm.district ===
+                              "" && true
+                          }
                           className="checkoutSelect bg-inherit"
                           id="ward"
                           name="ward"
-                          onChange={checkoutFormHandle}
+                          onChange={
+                            checkoutFormHandle
+                          }
                         >
-                          {checkoutForm.ward === "" && (
-                            <option value="">---</option>
-                          )}
-                          {wardList.map((item, index) => (
-                            <option
-                              key={index}
-                              value={`${item.WardCode} | ${item.WardName}`}
-                            >
-                              {item.WardName}
+                          {checkoutForm.ward ===
+                            "" && (
+                            <option value="">
+                              ---
                             </option>
-                          ))}
+                          )}
+                          {wardList.map(
+                            (item, index) => (
+                              <option
+                                key={index}
+                                value={`${item.WardCode} | ${item.WardName}`}
+                              >
+                                {item.WardName}
+                              </option>
+                            ),
+                          )}
                         </select>
                       </div>
                       <textarea
@@ -576,14 +710,21 @@ const CheckoutPage = ({ provinceList }) => {
                       {shippingPrice ? (
                         <div className="text-sm flex justify-between items-center text-[#545454]">
                           <div>
-                            <span className="block">Economical delivery</span>
-                            <span className="block">(Standard)</span>
+                            <span className="block">
+                              Economical delivery
+                            </span>
+                            <span className="block">
+                              (Standard)
+                            </span>
                           </div>
-                          <span>{shippingPrice}$</span>
+                          <span>
+                            {shippingPrice}$
+                          </span>
                         </div>
                       ) : (
                         <span className="text-sm text-primary">
-                          Please enter shipping information
+                          Please enter shipping
+                          information
                         </span>
                       )}
                     </div>
@@ -608,14 +749,19 @@ const CheckoutPage = ({ provinceList }) => {
                               name="paymentMethod"
                               required
                               value="Paypal"
-                              onChange={checkoutFormHandle}
+                              onChange={
+                                checkoutFormHandle
+                              }
                             />
+
                             <span className="text-sm text-[#545454]">
-                              Pay using Paypal (Fast, easy and secure)
+                              Pay using Paypal
+                              (Fast, easy and
+                              secure)
                             </span>
                           </div>
                           <Image
-                            alt="Memoryzone  Pay using Paypal
+                            alt="Memoryzone Pay using Paypal
                             (Fast, easy and
                             secure)"
                             src="https://thumbs.dreamstime.com/b/paypal-logo-printed-paper-chisinau-moldova-september-internet-based-digital-money-transfer-service-128373487.jpg"
@@ -624,38 +770,81 @@ const CheckoutPage = ({ provinceList }) => {
                             objectFit="contain"
                           />
                         </div>
-                        <div className="checkoutInfo">
-                          <div className="space-x-3 flex items-center">
+                        <div className="checkoutInfo w-full p-0">
+                          <div
+                            className="space-x-3  w-full flex items-center"
+                            style={{
+                              flexFlow:
+                                "row wrap",
+                            }}
+                          >
                             <input
                               type="radio"
-                              className=" block "
+                              className=" block ml-4  peer"
                               name="paymentMethod"
-                              onChange={checkoutFormHandle}
+                              onChange={
+                                checkoutFormHandle
+                              }
                               value="COD"
                             />
-                            <span className="text-sm text-[#545454]">
-                              Payment on Delivery (COD)
+
+                            <span className="text-sm  text-[#545454]">
+                              Payment on Delivery
+                              (COD)
                             </span>
+                            <div className="!ml-0 flex-1 !mr-4  my-4 flex justify-end">
+                              <Image
+                                alt="Memoryzone  Payment on Delivery (COD)"
+                                src="https://bizweb.dktcdn.net/100/329/122/files/02icon-cod.png?v=1639559673947"
+                                width={48}
+                                height={32}
+                                objectFit="contain"
+                              />
+                            </div>
+                            <div className="w-full"></div>
+                            <div className="peer-checked:block hidden !mr-0 !ml-0 bg-[#f4f4f4] px-4 pt-6 pb-10 w-full   space-y-3  text-sm text-[#545454] ">
+                              <p>
+                                Ho Chi Minh City:
+                                Priority for
+                                contactless
+                                delivery.
+                              </p>
+                              <p className="text-[#5897fb] font-semibold">
+                                Support COD with
+                                order value &lt;
+                                100 USD.
+                              </p>
+                              <p className="text-[#5897fb] font-semibold">
+                                Order &gt;= 100
+                                USD or have
+                                Laptop, PC,
+                                Monitor, Chair,
+                                please choose
+                                transfer.
+                              </p>
+                              <p>
+                                Note: Memoryzone
+                                is free of charge
+                                for customers.
+                              </p>
+                            </div>
                           </div>
-                          <Image
-                            alt="Memoryzone  Payment on Delivery (COD)"
-                            src="https://bizweb.dktcdn.net/100/329/122/files/02icon-cod.png?v=1639559673947"
-                            width={48}
-                            height={32}
-                            objectFit="contain"
-                          />
                         </div>
+
                         <div className="checkoutInfo">
                           <div className="space-x-3 flex items-center">
                             <input
                               type="radio"
                               className=" block "
                               name="paymentMethod"
-                              onChange={checkoutFormHandle}
+                              onChange={
+                                checkoutFormHandle
+                              }
                               value="VNPay"
                             />
                             <span className="text-sm text-[#545454]">
-                              VNPay Family wallet (Make life simpler)
+                              VNPay Family wallet
+                              (Make life simpler)
                             </span>
                           </div>
                           <Image
@@ -674,7 +863,10 @@ const CheckoutPage = ({ provinceList }) => {
                           <div className="flex-1">
                             <div className="text-primary    hover:text-[#006533]  cursor-pointer flex items-center">
                               <div className="hover:first:-translate-x-2 after:bg-transparent after:absolute after:h-full after:w-24 after:top-0 after:content-[''] relative  mt-0.5 transition ease-linear ">
-                                <ChevronLeftIcon width={16} height={16} />
+                                <ChevronLeftIcon
+                                  width={16}
+                                  height={16}
+                                />
                               </div>
                               <div className=" hover:first:-translate-x-2 transition ease-linear  ">
                                 <span className="text-sm text-inherit  ">
@@ -713,19 +905,33 @@ const CheckoutPage = ({ provinceList }) => {
                 />
               </div>
             </Link>
-            <div className="px-4 lg:px-6 bg-white lg:bg-inherit flex py-4 items-center justify-between border-b border-t lg:border-t-0 border-[#e1e1e1]">
-              <div className="flex items-center">
-                <h2 className="font-semibold text-[#000000] text-md">
+            <div className="p-4 lg:px-6 bg-white lg:bg-inherit flex  items-center justify-between border-b border-t lg:border-t-0 border-[#e1e1e1]">
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() => setToggle(!toggle)}
+              >
+                <h2 className="font-semibold text-[#333333] text-md">
                   {`Order (${cart.quantity} ${
-                    cart.quantity > 1 ? "products" : "product"
+                    cart.quantity > 1
+                      ? "products"
+                      : "product"
                   })`}
                 </h2>
-                <ChevronDownIcon
-                  width={25}
-                  height={25}
-                  className="lg:hidden cursor-pointer"
-                  onClick={() => setToggle(!toggle)}
-                />
+                {toggle ? (
+                  <ChevronUpIcon
+                    width={25}
+                    height={25}
+                    color="#333333"
+                    className="lg:hidden cursor-pointer"
+                  />
+                ) : (
+                  <ChevronDownIcon
+                    width={25}
+                    height={25}
+                    color="#333333"
+                    className="lg:hidden cursor-pointer"
+                  />
+                )}
               </div>
               <span className="text-primary lg:hidden font-semibold text-base">
                 {cart.total}$
@@ -739,35 +945,42 @@ const CheckoutPage = ({ provinceList }) => {
               >
                 <table>
                   <tbody className="space-y-2">
-                    {cart.products.map((item, index) => (
-                      <tr key={index} className="flex items-center">
-                        <td>
-                          <div className="relative">
-                            <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md  border border-[#e5e5e5]">
-                              <Image
-                                src={urlFor(item.img).url()}
-                                layout="fill"
-                                quality={100}
-                                alt={`Memoryzone order's products ${item.name}`}
-                              />
+                    {cart.products.map(
+                      (item, index) => (
+                        <tr
+                          key={index}
+                          className="flex items-center"
+                        >
+                          <td>
+                            <div className="relative">
+                              <div className=" w-[50px] h-[50px] relative overflow-hidden rounded-md  border border-[#e5e5e5]">
+                                <Image
+                                  src={urlFor(
+                                    item.img,
+                                  ).url()}
+                                  layout="fill"
+                                  quality={100}
+                                  alt={`Memoryzone order's products ${item.name}`}
+                                />
+                              </div>
+                              <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
+                                {item.quantity}
+                              </span>
                             </div>
-                            <span className="bg-primary font-semibold z-10 rounded-full -right-[0.9em] -top-[0.55em] text-xs px-1.5 py-0.5  text-white absolute">
-                              {item.quantity}
+                          </td>
+                          <td>
+                            <h3 className="text-[#333333] text-sm text-left flex-1 block pl-4">
+                              {item.name}
+                            </h3>
+                          </td>
+                          <td>
+                            <span className="text-[#717171] text-sm text-right flex-1 pl-4">
+                              {item.price}$
                             </span>
-                          </div>
-                        </td>
-                        <td>
-                          <h3 className="text-[#333333] text-sm text-left flex-1 block pl-4">
-                            {item.name}
-                          </h3>
-                        </td>
-                        <td>
-                          <span className="text-[#717171] text-sm text-right flex-1 pl-4">
-                            {item.price}$
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
+                          </td>
+                        </tr>
+                      ),
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -782,26 +995,45 @@ const CheckoutPage = ({ provinceList }) => {
                 </button>
               </div>
               <div
-                className={` border-b border-[#e1e1e1] py-5 space-y-4 lg:block ${
+                className={`lg:block border-b border-[#e1e1e1]  py-5 space-y-4 ${
                   toggle ? "block" : "hidden"
                 }`}
               >
                 <div className="text-[#717171] text-sm flex items-center justify-between">
                   <span>Provisional</span>
-                  <span>{numberWithCommas(cart.total)}$</span>
+                  <span>
+                    {numberWithCommas(cart.total)}
+                    $
+                  </span>
                 </div>
                 <div className="text-[#717171] text-sm flex items-center justify-between">
                   <span>Transport fee</span>
-                  <span>{shippingPrice ? shippingPrice : "0"}$</span>
+                  <span>
+                    {shippingPrice
+                      ? shippingPrice
+                      : "0"}
+                    $
+                  </span>
                 </div>
               </div>
-              <div className={`py-4 ${toggle ? "block" : "hidden"} lg:block`}>
+              <div
+                className={`py-4 ${
+                  toggle ? "block" : "hidden"
+                } lg:block`}
+              >
                 <div className=" flex items-center justify-between">
-                  <span className="text-base text-[#717171]">Total</span>
+                  <span className="text-base text-[#717171]">
+                    Total
+                  </span>
                   <span className="text-xl text-primary">
                     {shippingPrice
-                      ? numberWithCommas(cart.total + shippingPrice)
-                      : numberWithCommas(cart.total)}
+                      ? numberWithCommas(
+                          cart.total +
+                            shippingPrice,
+                        )
+                      : numberWithCommas(
+                          cart.total,
+                        )}
                     $
                   </span>
                 </div>
@@ -810,7 +1042,10 @@ const CheckoutPage = ({ provinceList }) => {
                     <div>
                       <div className="text-primary    hover:text-[#006533]  cursor-pointer flex items-center">
                         <div className="hover:first:-translate-x-2 after:bg-transparent after:absolute after:h-full after:w-24 after:top-0 after:content-[''] relative  mt-0.5 transition ease-linear ">
-                          <ChevronLeftIcon width={16} height={16} />
+                          <ChevronLeftIcon
+                            width={16}
+                            height={16}
+                          />
                         </div>
                         <div className=" hover:first:-translate-x-2 transition ease-linear  ">
                           <span className="text-sm text-inherit  ">
@@ -849,7 +1084,7 @@ export async function getStaticProps() {
         headers: {
           token: process.env.NEXT_PUBLIC_GHN_API,
         },
-      }
+      },
     );
     const provinceList = await resProvince.json();
     return {

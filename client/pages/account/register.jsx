@@ -2,24 +2,32 @@ import Link from "next/link";
 import { Layout, Path } from "../../components";
 import { useState, useEffect } from "react";
 import { validRegister } from "../../utils/validate";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from "react-redux";
 import { postData } from "../../utils/requestMethod";
 import { useRouter } from "next/router";
 import { loadingNotify } from "../../redux/notifySlice";
+import { structure1 } from "../../utils/schemaStructures";
 
 const RegisterPage = () => {
-  const account = useSelector((state) => state.account);
+  const account = useSelector(
+    (state) => state.account,
+  );
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [errorMessage, setErrorMessage] = useState("");
-  const [registerForm, setRegisterForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    isAdmin: false,
-  });
+  const [errorMessage, setErrorMessage] =
+    useState("");
+  const [registerForm, setRegisterForm] =
+    useState({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      isAdmin: false,
+    });
 
   const registerFormHandler = (e) => {
     setRegisterForm({
@@ -33,14 +41,17 @@ const RegisterPage = () => {
       registerForm.firstName,
       registerForm.lastName,
       registerForm.email,
-      registerForm.password
+      registerForm.password,
     );
     if (errorMessage) {
       alert(`${errorMessage}`);
       return;
     }
     dispatch(loadingNotify(true));
-    const res = await postData("account/register", registerForm);
+    const res = await postData(
+      "account/register",
+      registerForm,
+    );
     if (!res.success) {
       setErrorMessage(res.error);
     } else {
@@ -55,21 +66,12 @@ const RegisterPage = () => {
     ) {
       router.push("/");
     }
-  }, [Object.keys(account.user).length, router, account.user]);
-  const structure1 = {
-    "@context": "http://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        item: {
-          "@id": "https://memoryzone.vercel.app",
-          name: "Home page",
-        },
-      },
-    ],
-  };
+  }, [
+    Object.keys(account.user).length,
+    router,
+    account.user,
+  ]);
+
   return (
     <Layout
       structures={[structure1]}
@@ -90,7 +92,9 @@ const RegisterPage = () => {
       />
 
       <div className="my-10 limitScreen">
-        <h1 className="text-text font- text-lg block">REGISTER AN ACCOUNT</h1>
+        <h1 className="text-text font- text-lg block">
+          REGISTER AN ACCOUNT
+        </h1>
         <div>
           <form
             onSubmit={registerHandler}
@@ -98,10 +102,13 @@ const RegisterPage = () => {
           >
             <div className="w-full ">
               <h2 className="text-text text-sm pb-4  block">
-                If you don&apos;t have an account, please register here
+                If you don&apos;t have an account,
+                please register here
               </h2>
               {errorMessage && (
-                <span className="text-text text-sm block ">{errorMessage}</span>
+                <span className="text-text text-sm block ">
+                  {errorMessage}
+                </span>
               )}
               <div className="my-4">
                 <div className="flex xl:items-center w-full flex-col xl:flex-row xl:space-x-6">
@@ -113,14 +120,18 @@ const RegisterPage = () => {
                       First name *
                     </label>
                     <input
-                      onChange={registerFormHandler}
+                      onChange={
+                        registerFormHandler
+                      }
                       required
                       type="text"
                       className="w-full border outline-none rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                       placeholder="First name"
                       name="firstName"
                       id="firstName"
-                      value={registerForm.firstName}
+                      value={
+                        registerForm.firstName
+                      }
                     />
                   </div>
                   <div className="mb-6 flex-1">
@@ -132,13 +143,17 @@ const RegisterPage = () => {
                     </label>
                     <input
                       id="lastName"
-                      onChange={registerFormHandler}
+                      onChange={
+                        registerFormHandler
+                      }
                       required={true}
                       type="text"
                       className="w-full border outline-none rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                       placeholder="Last name"
                       name="lastName"
-                      value={registerForm.lastName}
+                      value={
+                        registerForm.lastName
+                      }
                     />
                   </div>
                 </div>
@@ -151,7 +166,9 @@ const RegisterPage = () => {
                       Email *
                     </label>
                     <input
-                      onChange={registerFormHandler}
+                      onChange={
+                        registerFormHandler
+                      }
                       required
                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                       name="email"
@@ -172,13 +189,17 @@ const RegisterPage = () => {
                     </label>
                     <input
                       id="password"
-                      onChange={registerFormHandler}
+                      onChange={
+                        registerFormHandler
+                      }
                       required={true}
                       type="password"
                       className="w-full border outline-none rounded-sm border-[#e5e5e5] text-sm px-6 py-2 "
                       placeholder="Password"
                       name="password"
-                      value={registerForm.password}
+                      value={
+                        registerForm.password
+                      }
                       minLength={6}
                     />
                   </div>

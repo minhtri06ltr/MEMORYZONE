@@ -46,8 +46,8 @@ const AddressItem = ({ data, token }) => {
     }
   };
   return (
-    <div className="border-t border-[#ebebeb] py-8 flex space-x-6">
-      <div className="flex-1 space-y-6">
+    <div className="border-t border-[#ebebeb] py-8 flex flex-col md:flex-row md:space-x-6">
+      <div className="flex-1  space-y-6">
         <span className="text-sm block text-text">
           <b>Account Name:</b>{" "}
           {`${data.firstName} ${data.lastName}`}
@@ -75,7 +75,7 @@ const AddressItem = ({ data, token }) => {
         </button>
       </div>
       {openEditForm && (
-        <div className="flex-1">
+        <div className="flex-1 mt-8 md:mt-0">
           <form
             className="space-y-6"
             onSubmit={editAddressHandle}

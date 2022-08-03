@@ -146,7 +146,7 @@ export const formatOrderList = (orderList) => {
       _key: item.id,
       productName: item.productName ?? item.name,
       price: item.price,
-      slug: item.slug,
+      slug: item.slug.current,
       quantity: item.quantity,
     };
   });

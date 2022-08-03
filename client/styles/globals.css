@@ -102,6 +102,9 @@ a {
   .limitScreen {
     @apply max-w-[1200px] mx-auto px-4;
   }
+  .paymentIfoItem {
+    @apply flex flex-col text-sm space-y-4 text-[#595959];
+  }
 }
 @layer utilities {
   .limit-1-line {

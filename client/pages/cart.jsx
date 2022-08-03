@@ -129,7 +129,7 @@ const CartPage = () => {
                       </td>
                       <td className="text-left space-y-1 cartRow">
                         <h3>{item.name}</h3>
-                        <span className="block text-gray ">
+                        <span className="block md:hidden text-gray ">
                           Price:{" "}
                           <span className="text-primary">
                             {numberWithCommas(
@@ -145,7 +145,7 @@ const CartPage = () => {
                         )}
                         $
                       </td>
-                      <td className=" cartRow">
+                      <td className=" cartRow space-y-2 md:space-y-0">
                         <div className=" mx-auto flex items-center border border-[#ccc] w-fit">
                           <button
                             onClick={() => {
@@ -274,6 +274,18 @@ const CartPage = () => {
                             +
                           </button>
                         </div>
+                        <span
+                          onClick={() => {
+                            dispatch(
+                              deleteProduct(
+                                item.id,
+                              ),
+                            );
+                          }}
+                          className="block cursor-pointer text-center hover:text-[#c92b26] md:hidden"
+                        >
+                          Delete
+                        </span>
                       </td>
                       <td className=" hidden md:table-cell cartPrice cartRow">
                         {numberWithCommas(
