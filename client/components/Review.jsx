@@ -134,6 +134,7 @@ const Review = ({
 
   const dispatch = useDispatch();
   const { images } = reviewForm;
+
   const [openReviewForm, setOpenReviewForm] =
     useState(false);
   const reviewFormHandle = async (e) => {
@@ -607,7 +608,7 @@ const Review = ({
                       src={`https://ui-avatars.com/api/?rounded=true&size=32&name=${item.fullName.replace(
                         " ",
                         "+",
-                      )}&font-size=0.42&color=ffffff&background=666&bold=true`}
+                      )}&font-size=0.42&color=ffffff&background=666&bold=true.jpg`}
                       width={32}
                       height={32}
                       alt={`Memoryzone review: ${item.fullName} avatar`}
