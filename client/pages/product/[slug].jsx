@@ -205,7 +205,7 @@ const ProductDetailsPage = ({
     },
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: statisticalReviews.average,
+      ratingValue: 5,
       bestRating: detect(
         statisticalReviews.ratingList,
       ).max,
@@ -260,8 +260,8 @@ const ProductDetailsPage = ({
           reviewRating: {
             "@type": "Rating",
             ratingValue: item.rating,
-            bestRating: 1,
-            worstRating: 5,
+            bestRating: 5,
+            worstRating: 1,
           },
         };
       }),
